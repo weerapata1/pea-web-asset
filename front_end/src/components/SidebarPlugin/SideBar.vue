@@ -7,7 +7,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo__container">
             <div class="logo-img">
-                <img src="img/vue-logo.png" alt="">
+                <img src="img/pea-logo.png" alt="pea-logo" width="70px">
             </div>
           {{title}}
         </a>
@@ -27,15 +27,11 @@
           </sidebar-link>
         </slot>
       </ul>
-      <ul class="nav nav-bottom" v-if="$slots['bottom-links']">
-        <slot name="bottom-links"></slot>
-      </ul>
     </div>
   </div>
 </template>
 <script>
   import SidebarLink from './SidebarLink.vue'
-
   export default {
     components: {
       SidebarLink
@@ -43,11 +39,11 @@
     props: {
       title: {
         type: String,
-        default: 'Vue LBD'
+        default: 'PEA-AMS'
       },
       backgroundColor: {
         type: String,
-        default: 'black',
+        default: 'purple',
         validator: (value) => {
           let acceptedValues = ['', 'blue', 'azure', 'green', 'orange', 'red', 'purple', 'black']
           return acceptedValues.indexOf(value) !== -1
@@ -87,7 +83,6 @@
       }
     }
   }
-
 </script>
 <style>
   .sidebar .sidebar-wrapper {
@@ -98,6 +93,7 @@
    flex: 1;
  }
  .sidebar .sidebar-wrapper .logo .logo__container {
-   padding-left: 10px;
+   padding-left: 5px;
  }
+
 </style>

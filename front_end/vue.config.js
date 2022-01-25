@@ -6,6 +6,14 @@ function resolveSrc(_path) {
 }
 
 module.exports = {
+ chainWebpack: config => {
+        config
+            .plugin('html')
+            .tap(args => {
+                args[0].favicon = "public/img/favicon.ico";
+                return args;
+            })
+    },
   lintOnSave: false,
   configureWebpack: {
     // Set up all the aliases we use in our app.
@@ -22,7 +30,7 @@ module.exports = {
     ]
   },
   pwa: {
-    name: 'Vue Light Bootstrap Dashboard',
+    name: 'Assets Management System',
     themeColor: '#344675',
     msTileColor: '#344675',
     appleMobileWebAppCapable: 'yes',
