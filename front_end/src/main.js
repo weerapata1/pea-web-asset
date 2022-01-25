@@ -19,7 +19,7 @@ import App from './App.vue'
 import 'core-js'
 
 // LightBootstrap plugin
-import LightBootstrap from './light-bootstrap-main'
+import LightBootstrap from './pea-web-asset'
 
 // router setup
 import routes from './routes/routes'

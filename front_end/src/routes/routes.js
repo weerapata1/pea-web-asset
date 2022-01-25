@@ -11,6 +11,10 @@ import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
 import Notifications from 'src/pages/Notifications.vue'
 import Upgrade from 'src/pages/Upgrade.vue'
+import DataTable from 'src/pages/DataTable/index.vue'
+import Conveyancing from 'src/pages/Conveyancing/index.vue'
+import AssetTracking from 'src/pages/AssetTracking/index.vue'
+import Repairing from 'src/pages/Repairing/index.vue'
 
 const routes = [
   {
@@ -18,6 +22,7 @@ const routes = [
     component: DashboardLayout,
     redirect: '/admin/overview'
   },
+
   {
     path: '/admin',
     component: DashboardLayout,
@@ -27,6 +32,26 @@ const routes = [
         path: 'overview',
         name: 'Overview',
         component: Overview
+      },
+      {
+        path: 'conv',
+        name: 'Conveyancing',
+        component: Conveyancing
+      },
+      {
+        path: 'dataTable',
+        name: 'DataTable',
+        component: DataTable
+      },
+      {
+        path: 'assetTracking',
+        name: 'AssetTracking',
+        component: AssetTracking
+      },
+      {
+        path: 'repair',
+        name: 'Repairing',
+        component: Repairing
       },
       {
         path: 'user',
@@ -58,11 +83,7 @@ const routes = [
         name: 'Notifications',
         component: Notifications
       },
-      {
-        path: 'upgrade',
-        name: 'Upgrade to PRO',
-        component: Upgrade
-      }
+
     ]
   },
   { path: '*', component: NotFound }

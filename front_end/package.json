@@ -1,9 +1,9 @@
 {
-    "name": "vue-light-bootstrap-dashboard",
-    "version": "2.0.0",
+    "name": "PEA-AMS ",
+    "version": "0.1.0",
     "private": true,
-    "description": "Vue light bootstrap dashboard",
-    "author": "cristijora <joracristi@gmail.com>",
+    "description": "Assets Management System",
+    "author": "Taweesak_W. <weerapat.taw@pea.ac.th>",
     "scripts": {
         "serve": "vue-cli-service serve --port 8000",
         "build": "vue-cli-service build",
@@ -19,7 +19,8 @@
         "google-maps": "^4.3.3",
         "register-service-worker": "^1.7.2",
         "v-tooltip": "^2.1.3",
-        "vue": "^2.6.6",
+        "vue": "^2.6.11",
+        "vue-generate-component": "^3.0.1",
         "vue-router": "^3.5.2",
         "vue2-google-maps": "^0.10.4"
     },
