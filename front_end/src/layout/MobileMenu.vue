@@ -1,5 +1,5 @@
 <template>
-  <ul class="nav nav-mobile-menu">
+<!--  <ul class="nav nav-mobile-menu">
     <base-dropdown>
       <template slot="title">
         <i class="fa fa-globe"></i>
@@ -32,7 +32,7 @@
         <span class="no-icon">Log out</span>
       </a>
     </li>
-  </ul>
+  </ul> -->
 </template>
 <script>
   export default {
