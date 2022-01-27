@@ -20,13 +20,13 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/overview'
+    redirect: '/admin/assetChk'
   },
 
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/overview',
+    redirect: '/admin/assetChk',
     children: [
       {
         path: 'overview',
@@ -39,7 +39,7 @@ const routes = [
         component: Conveyancing
       },
       {
-        path: 'dataTable',
+        path: 'assetChk',
         name: 'DataTable',
         component: DataTable
       },
