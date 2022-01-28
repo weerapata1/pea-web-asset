@@ -26,6 +26,8 @@ import routes from './routes/routes'
 
 import './registerServiceWorker'
 // plugin setup
+
+
 Vue.use(VueRouter)
 Vue.use(LightBootstrap)
 
@@ -41,6 +43,7 @@ const router = new VueRouter({
         }
     }
 })
+console.log(Vue.version)
 
 /* eslint-disable no-new */
 new Vue({

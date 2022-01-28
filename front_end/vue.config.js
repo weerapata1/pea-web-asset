@@ -6,13 +6,21 @@ function resolveSrc(_path) {
 }
 
 module.exports = {
+
  chainWebpack: config => {
         config
             .plugin('html')
             .tap(args => {
                 args[0].favicon = "public/img/favicon.ico";
                 return args;
-            })
+            }),
+        config.resolve.alias.set(
+              'vue$',
+              // If using the runtime only build
+              path.resolve(__dirname, 'node_modules/vue/dist/vue.runtime.esm.js')
+              // Or if using full build of Vue (runtime + compiler)
+              // path.resolve(__dirname, 'node_modules/vue/dist/vue.esm.js')
+        )
     },
   lintOnSave: false,
   configureWebpack: {
