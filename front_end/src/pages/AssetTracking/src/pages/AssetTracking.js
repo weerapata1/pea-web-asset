@@ -1,13 +1,13 @@
 
 export default {
+
+
   name: 'src-pages-asset-tracking',
   components: {},
   props: [],
-  data () {
-    return {
-
-    }
-  },
+   data() {
+      return { }
+   },
   computed: {
 
   },

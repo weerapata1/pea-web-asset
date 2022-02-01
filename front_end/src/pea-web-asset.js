@@ -15,6 +15,8 @@ import './assets/css/demo.css'
 
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 /**
  * This is the main Light Bootstrap Dashboard Vue plugin where dashboard related plugins are registerd.
  */
@@ -27,5 +29,8 @@ export default {
     Vue.use(VTooltip)
     Vue.use(BootstrapVue)
     Vue.use(IconsPlugin)
+    Vue.use(ElementUI)
+
   }
+
 }
