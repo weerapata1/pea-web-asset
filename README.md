@@ -15,7 +15,7 @@ ec.
 # use vdc for genterate component 
 ec.
 
-    vdc src/pages/<conponentName>
+    vgc src/pages/<conponentName>
 
 # NOTE FOR K
 	element.eleme.io  >> ui
