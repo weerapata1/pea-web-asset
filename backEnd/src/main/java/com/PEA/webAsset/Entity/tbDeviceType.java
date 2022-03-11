@@ -21,9 +21,9 @@ public class tbDeviceType {
     @Column(name = "dt_name")
     private String device_type_name;
 
-    //   Join tbDevice.class------------------------------
-    @OneToMany(mappedBy = "tbDeviceType")
-    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
+//    //   Join tbDevice.class------------------------------
+//    @OneToMany(mappedBy = "tbDeviceType")
+//    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
 
 }

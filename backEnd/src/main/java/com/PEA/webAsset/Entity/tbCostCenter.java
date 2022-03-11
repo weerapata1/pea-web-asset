@@ -13,23 +13,23 @@ import java.util.List;
 @EqualsAndHashCode
 public class tbCostCenter {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "host_id")
-    @SequenceGenerator(name = "cc_id", sequenceName = "host_id")
-    @Column(name = "cc_id")
-    private Long cc_id; //
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cc_seq")
+    @SequenceGenerator(name = "cc_seq", sequenceName = "cc_seq")
+    @Column(name = "id")
+    private Long id; //
 
-    private String cc_long_id; //
+    private String cc_long_code; //
 
-    private String cc_short_id; //
+    private String cc_short_code; //
 
     private String cc_short_name; //
 
     private String cc_full_name; //
 
-    private String cc_mother_name; // ชื่อสังกัด
+    private String cc_subjection_name; // ชื่อสังกัด
 
     //   Join tbDevice.class------------------------------
-    @OneToMany(mappedBy = "tbCostCenter")
-    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
+//    @OneToMany(mappedBy = "tbCostCenter")
+//    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
 }

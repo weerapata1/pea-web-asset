@@ -12,7 +12,7 @@ import java.util.List;
 @Entity(name = "tb_contract")
 @NoArgsConstructor
 @EqualsAndHashCode
-public class tbContract {
+public class tbCommitment {
     @Id
     @GeneratedValue(generator = "cont_id",strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "cont_id", sequenceName = "cont_id")
@@ -23,16 +23,15 @@ public class tbContract {
     private Integer contract_quantity;  // จำนวนชุดในสัญญา
     private String contract_details; // รายละเอียดของสัญญา
     private LocalDateTime date_pickedUp;  // วันที่รับของ
-    private Long emp_id; // หมายเลขประจำตัวผู้รับเครื่อง @@JoinTable
     private String emp_signature;  // เก็บลายเซ็นผู้รับเครื่อง
-    private String install_at; // สถานที่ติดตั้ง
     private String contract_note; // ช่องหมายเหตุ
 
 //    -------------------------------------------------------------- joinTable;
 
-    //   Join tbDevice.class------------------------------
-    @OneToMany(mappedBy = "tbContract")
-    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
+//    //   Join tbDevice.class------------------------------
+//    @OneToMany(mappedBy = "tbCommitment")
+//    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
+
 
 
 

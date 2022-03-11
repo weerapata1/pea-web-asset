@@ -9,13 +9,14 @@ import javax.persistence.*;
 
 @Data @Getter @Setter
 @EqualsAndHashCode
-@Table(name = "device_brand")
-@Entity(name = "device_brand")
+@Table(name = "tb_device_brand")
+@Entity(name = "tb_device_brand")
 public class tbDeviceBrand {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "brand_id")
-    @SequenceGenerator(name = "brand_id", sequenceName = "brand_id")
-    private Long brand_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id_seq")
+    @SequenceGenerator(name = "id_seq", sequenceName = "id_seq")
+    @Column(name = "id")
+    private Long id;
 
     private String brand_name;
 

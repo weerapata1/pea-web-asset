@@ -1,28 +1,30 @@
-package com.PEA.webAsset.controller;
+package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbEmployee;
 import com.PEA.webAsset.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping()
-//@CrossOrigin(origins = "*")
-public class employeeController {
+@RequestMapping
+public class EmployeeController {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    EmployeeRepository employeeRepository;
 
-    @GetMapping("/Emps")
-    public List<tbEmployee> EmpTest(){
+    @GetMapping("/getEmpAll")
+    public List<tbEmployee> getEmpAll() {
         return employeeRepository.findAll();
     }
 
-    @GetMapping("/Emp")
-    public String getEmpTest(){
-        return "Test";
+    @GetMapping("/getByEmpId/{id}")
+    public tbEmployee getEmpByEmpId(@PathVariable("id") String id){
+        return employeeRepository.findEmployeeByEmpId(id);
     }
+
 }
