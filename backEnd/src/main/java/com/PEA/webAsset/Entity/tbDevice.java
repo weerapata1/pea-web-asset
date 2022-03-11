@@ -24,24 +24,24 @@ public class tbDevice {
 
     private String dev_note;
 
-    //   Join tbContract.class------------------------------
-    @ManyToOne(targetEntity = tbContract.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cont_id", insertable = true)
-    private tbContract tbContract;
+    // //   Join tbContract.class------------------------------
+    // @ManyToOne(targetEntity = tbContract.class, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "cont_id", insertable = true)
+    // private tbContract tbContract;
 
-    //   Join tbCostCenter.class------------------------------
-    @ManyToOne(targetEntity = tbContract.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cc_id", insertable = true)
-    private tbCostCenter tbCostCenter;
+    // //   Join tbCostCenter.class------------------------------
+    // @ManyToOne(targetEntity = tbContract.class, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "cc_id", insertable = true)
+    // private tbCostCenter tbCostCenter;
 
-    //   Join tbDeviceType.class------------------------------
-    @ManyToOne(targetEntity = tbContract.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "device_type_id", insertable = true)
-    private tbDeviceType tbDeviceType;
+    // //   Join tbDeviceType.class------------------------------
+    // @ManyToOne(targetEntity = tbContract.class, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "device_type_id", insertable = true)
+    // private tbDeviceType tbDeviceType;
 
-    //   Join tbDeviceType.class------------------------------
-    @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "emp_id", insertable = true)
-    private tbEmployee tbEmployee;
+    // //   Join tbDeviceType.class------------------------------
+    // @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "emp_id", insertable = true)
+    // private tbEmployee tbEmployee;
 
 }

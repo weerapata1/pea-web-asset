@@ -29,7 +29,7 @@ public class tbCostCenter {
     private String cc_mother_name; // ชื่อสังกัด
 
     //   Join tbDevice.class------------------------------
-    @OneToMany(mappedBy = "tbCostCenter")
-    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
+    // @OneToMany(mappedBy = "tbCostCenter")
+    // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
 }

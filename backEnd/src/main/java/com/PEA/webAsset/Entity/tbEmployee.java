@@ -28,7 +28,7 @@ public class tbEmployee {
     private String emp_office;
 
     //   Join tbDevice.class------------------------------
-    @OneToMany(mappedBy = "tbEmployee")
-    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
+    // @OneToMany(mappedBy = "tbEmployee")
+    // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
 }

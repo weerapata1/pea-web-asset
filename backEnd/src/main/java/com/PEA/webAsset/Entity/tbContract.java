@@ -31,8 +31,8 @@ public class tbContract {
 //    -------------------------------------------------------------- joinTable;
 
     //   Join tbDevice.class------------------------------
-    @OneToMany(mappedBy = "tbContract")
-    private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
+    // @OneToMany(mappedBy = "tbContract")
+    // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
 
 
