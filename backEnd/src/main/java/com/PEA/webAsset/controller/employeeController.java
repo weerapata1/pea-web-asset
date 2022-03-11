@@ -18,7 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping()
 //@CrossOrigin(origins = "*")
-public class employeeController {
+public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
