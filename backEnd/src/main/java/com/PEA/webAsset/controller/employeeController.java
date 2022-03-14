@@ -1,42 +1,58 @@
-package com.PEA.webAsset.controller;
+package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbEmployee;
 import com.PEA.webAsset.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
-@RequestMapping()
-//@CrossOrigin(origins = "*")
+@RequestMapping
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @GetMapping("/Emps")
-    public List<tbEmployee> EmpTest(){
+    @GetMapping("/getEmp")
+    public List<tbEmployee> getEmpAll() {
         return employeeRepository.findAll();
     }
 
-    @GetMapping("/Emp")
-    public String getEmpTest(){
-        //return "Test";
-        //return "{\"success\":1}";
-        return "{\"total\": 200}";
+    @GetMapping("/getEmp/{id}")
+    public tbEmployee getEmpId(@PathVariable("id") String id) {
+        return employeeRepository.findByEmpId(id);
     }
 
-    @RequestMapping(value = "/getString", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map getString() {
-        return Collections.singletonMap("response", "Hello World");
+//    @GetMapping("/getEmpSor")
+//    public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
+//                                                         @RequestParam(defaultValue = "3") int size){
+//        try {
+//            List<tbEmployee> employee = new ArrayList<tbEmployee>();
+//            Pageable paging = PageRequest.of(page, size);
+//
+//            Page<tbEmployee> pageTuts = employeeRepository.findAll(paging);
+//            employee = pageTuts.getContent();
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("currentPage", pageTuts.getNumber());
+//            response.put("totalItems", pageTuts.getTotalElements());
+//            response.put("totalPages", pageTuts.getTotalPages());
+//            response.put("data", employee);
+//            System.out.println(">> "+ page);
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        }
+//        catch (Exception e){
+//            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+    @GetMapping("/getEmpSor")
+    @ResponseBody
+    public String getEmpSor(@RequestParam(name = "page",required = false) String page
+                         ){
+        return "page : " + page;
     }
-
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Entity(name = "tb_contract")
 @NoArgsConstructor
 @EqualsAndHashCode
-public class tbContract {
+public class tbCommitment {
     @Id
     @GeneratedValue(generator = "cont_id",strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "cont_id", sequenceName = "cont_id")
@@ -31,7 +31,7 @@ public class tbContract {
 //    -------------------------------------------------------------- joinTable;
 
     //   Join tbDevice.class------------------------------
-    // @OneToMany(mappedBy = "tbContract")
+    // @OneToMany(mappedBy = "tbCommitment")
     // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
 

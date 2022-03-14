@@ -1,4 +1,4 @@
-package com.PEA.webAsset.controller;
+package com.PEA.webAsset.Controller;
 
 import java.util.List;
 
