@@ -77,9 +77,9 @@
               <v-row>
                 <!-- <v-btn elevation="3">Serach</v-btn> -->
                 <v-select
-                  v-model="selectedFruits"
-                  :items="fruits"
-                  label="การไฟฟ้าในสังกัด กฟฉ.2"
+                  v-model="selectedTypeSearch"
+                  :items="typeSearch"
+                  label="ประเภทข้อมูลที่ค้นหา"
                   multiple
                 >
                   <template v-slot:prepend-item>
@@ -87,7 +87,7 @@
                       <v-list-item-action>
                         <v-icon
                           :color="
-                            selectedFruits.length > 0 ? 'indigo darken-4' : ''
+                            selectedTypeSearch.length > 0 ? 'indigo darken-4' : ''
                           "
                         >
                           {{ icon }}
@@ -115,7 +115,7 @@
                       <v-list-item-content v-else-if="likesSomeFruit">
                         <v-list-item-title> Fruit Count </v-list-item-title>
                         <v-list-item-subtitle>
-                          {{ selectedFruits.length }}
+                          {{ selectedTypeSearch.length }}
                         </v-list-item-subtitle>
                       </v-list-item-content>
 
