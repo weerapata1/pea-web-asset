@@ -5,9 +5,6 @@ import javax.validation.constraints.NotNull;
 
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity(name = "tb_employees")
 @Data
 @Getter
@@ -19,16 +16,18 @@ import java.util.List;
 @ToString
 public class tbEmployee {
     @Id
-    @Column(name = "empId", unique = true,nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "emp_seq")
+    @SequenceGenerator(name = "emp_seq",sequenceName = "emp_seq")
+    @Column(name = "id", unique = true,nullable = false)
     @NotNull
-    private Long empId;
+    private Long id;
 
-    private String emp_name;
+    private String empId;
 
-    private String emp_office;
+    private String empName;
 
-    //   Join tbDevice.class------------------------------
-    // @OneToMany(mappedBy = "tbEmployee")
-    // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
-
+    public tbEmployee(String empId, String empName){
+        this.empId = empId;
+        this.empName = empName;
+    }
 }

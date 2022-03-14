@@ -13,7 +13,7 @@ public class WebAssetApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WebAssetApplication.class, args);
 
-		System.out.println("\t\t\t---------------------------------");
+		System.out.println("\t\t\t----------------\tstarted\t-----------------");
 	}
 	@Bean
 	CharacterEncodingFilter characterEncodingFilter() {

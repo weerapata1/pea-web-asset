@@ -27,7 +27,7 @@ public class tbDatatable {
     private LocalDateTime updated_at;
     private Integer age;
 
-        // //   Join tbContract.class------------------------------
+        // //   Join tbCommitment.class------------------------------
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private tbDatatable_group group;
