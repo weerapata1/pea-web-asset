@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 @CrossOrigin(origins = "*")
-public class DataController {
+public class dataController {
     @Autowired
     private DataRepo DataRepo;
 
