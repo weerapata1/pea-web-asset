@@ -20,9 +20,11 @@ public class tbRepair {
     @Column(name = "repair_Id")
     private Long repair_Id;
 
-    private LocalDateTime recivedIn; //รับเรื่อวซ่อม
+    private LocalDateTime recivedIn; //รับเรื่องซ่อม
 
     private String damageDetail;    //อาการที่เสีย
+
+    private LocalDateTime returnDate; //วันส่งคืน
 
     // อก.รท
     @Column(name = "manager_status")
@@ -57,7 +59,4 @@ public class tbRepair {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id",referencedColumnName = "id")
     private tbDevice device;
-
-
-
 }
