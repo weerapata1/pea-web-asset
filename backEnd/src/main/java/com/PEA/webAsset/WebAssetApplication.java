@@ -22,4 +22,5 @@ public class WebAssetApplication {
 		filter.setForceEncoding(true);
 		return filter;
 	}
+
 }

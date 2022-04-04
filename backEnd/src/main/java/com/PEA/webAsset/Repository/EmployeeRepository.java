@@ -18,5 +18,6 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
     @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)
     Collection<Object[]> findAllUsersWithPagination();
 
-    Page<tbEmployee> findAllByEmpId(String empId, Pageable pageable);
+
+
 }
