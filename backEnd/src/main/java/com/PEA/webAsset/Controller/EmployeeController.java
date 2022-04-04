@@ -14,7 +14,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping
-public class employeeController {
+public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
