@@ -28,31 +28,24 @@ public class EmployeeController {
         return employeeRepository.findByEmpId(id);
     }
 
-//    @GetMapping("/getEmpSor")
-//    public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
-//                                                         @RequestParam(defaultValue = "3") int size){
-//        try {
-//            List<tbEmployee> employee = new ArrayList<tbEmployee>();
-//            Pageable paging = PageRequest.of(page, size);
-//
-//            Page<tbEmployee> pageTuts = employeeRepository.findAll(paging);
-//            employee = pageTuts.getContent();
-//            Map<String, Object> response = new HashMap<>();
-//            response.put("currentPage", pageTuts.getNumber());
-//            response.put("totalItems", pageTuts.getTotalElements());
-//            response.put("totalPages", pageTuts.getTotalPages());
-//            response.put("data", employee);
-//            System.out.println(">> "+ page);
-//            return new ResponseEntity<>(response, HttpStatus.OK);
-//        }
-//        catch (Exception e){
-//            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
     @GetMapping("/getEmpSor")
-    @ResponseBody
-    public String getEmpSor(@RequestParam(name = "page",required = false) String page
-                         ){
-        return "page : " + page;
+    public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "3") int size){
+        try {
+            List<tbEmployee> employee = new ArrayList<tbEmployee>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<tbEmployee> pageTuts = employeeRepository.findAll(paging);
+            employee = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            response.put("data", employee);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
