@@ -24,20 +24,21 @@ public class tbDevice {
     private Long id;
 
 
-    private String dev_peaNo;
+    private String devPeaNo;
 
     @Column(name ="dev_serialNo", unique = true)
-    private String dev_serialNo;
+    private String devSerialNo;
 
-    private String dev_note;
 
-    private String dev_description;
+    private String devNote;
+
+    private String devDescription;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dev_update;
+    private LocalDateTime devUpdate;
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDate dev_received;
+    private LocalDate devReceived;
 
     //   Join tbCommitment.class------------------------------
 //    @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)

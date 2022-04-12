@@ -34,12 +34,12 @@ public class DeviceService {
         try {
             tbDevice newDevice = new tbDevice();
 
-            newDevice.setDev_peaNo(dev_peaNo);
-            newDevice.setDev_serialNo(dev_serialNo);
-            newDevice.setDev_note(dev_note);
-            newDevice.setDev_description(dev_description);
-            newDevice.setDev_update(dateTime);
-            newDevice.setDev_received(date);
+            newDevice.setDevPeaNo(dev_peaNo);
+            newDevice.setDevSerialNo(dev_serialNo);
+            newDevice.setDevNote(dev_note);
+            newDevice.setDevDescription(dev_description);
+            newDevice.setDevUpdate(dateTime);
+            newDevice.setDevReceived(date);
 
             newDevice.setTbCostCenter(costCenterRepository.findByCcLongCode(tbCostCenter));
 

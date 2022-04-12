@@ -86,10 +86,10 @@ public class ExcelService {
                     String ccId =  row.getCell(4).getStringCellValue();
 
 //                    device.setId(id);
-                    device.setDev_peaNo(serialNo);
-                    device.setDev_serialNo(peaNo);
-                    device.setDev_description(description);
-                    device.setDev_received(dateReceived);
+                    device.setDevPeaNo(serialNo);
+                    device.setDevSerialNo(peaNo);
+                    device.setDevDescription(description);
+                    device.setDevReceived(dateReceived);
                     device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccId));
 
                     deviceList.add(device);
