@@ -59,6 +59,30 @@ public class DeviceController {
         }
     }
 
+    @GetMapping("/getAllByPattern")
+    public ResponseEntity<Map<String ,Object>> getAllByPattern(@RequestParam(defaultValue = "0")int page,
+                                                       @RequestParam(defaultValue = "3")int size,
+                                                       @RequestParam("test1") String test1
+    ) {
+        System.out.println("test : ");
+        try {
+            List<tbDevice> device = new ArrayList<tbDevice>();
+            Pageable paging = PageRequest.of(page, size);
+
+            System.out.println("paging : " + paging);
+            Page<tbDevice> pageTuts = deviceRepository.findAllByPattern(test1, paging);
+            device = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            response.put("data1", device);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/getByCCCode")
     public Collection<tbDevice> getByCCCode() {
         return deviceRepository.findByCCCode();
