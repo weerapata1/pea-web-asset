@@ -28,6 +28,10 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
     );
 //    Page<tbDevice> findByDevSerialNo(String dev_serialNo,Pageable pageable);
 
-    @Query(value = "SELECT * FROM tb_device t WHERE t.dev_serial_no like %:test1%",nativeQuery = true)
-    Page<tbDevice> findAllByPattern(@Param("test1") String test1,Pageable pageable);
+    @Query(value = "SELECT d.* ,c.cc_short_name ,c.cc_long_code from tb_device AS d " +
+            "INNER JOIN tb_cost_center c ON d.cc_id = c.id " +
+            "WHERE (c.cc_long_code like :test1%)" +
+            "OR (c.cc_long_code like :test2%)"
+            , nativeQuery = true)
+    Page<tbDevice> findAllByPattern(@Param("test1") String test1, @Param("test2") String test2, Pageable pageable);
 }

@@ -40,31 +40,32 @@ public class tbDevice {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate devReceived;
 
-    //   Join tbCommitment.class------------------------------
-//    @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "cont_id", insertable = true)
-//    private tbCommitment tbCommitment;
+//       Join tbCommitment.class------------------------------
+    @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cont_id", insertable = true)
+    private tbCommitment tbCommitment;
 
     //       Join tbCostCenter.class------------------------------
     @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_id", insertable = true)
     private tbCostCenter tbCostCenter;
 //
-//    //   Join tbDeviceType.class------------------------------
-//    @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "device_type_id", insertable = true)
-//    private tbDeviceType tbDeviceType;
+    //   Join tbDeviceType.class------------------------------
+    @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "device_type_id", insertable = true)
+    private tbDeviceType tbDeviceType;
 //
-//    //   Join tbEmployee.class------------------------------
-//    @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "emp_id", insertable = true)
-//    private tbEmployee tbEmployee;
+    //   Join tbEmployee.class------------------------------
+    @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "emp_id", insertable = true)
+    private tbEmployee tbEmployee;
 //
 //    @ManyToOne(targetEntity = tbDeviceBrand.class, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "brand_id", insertable = true,referencedColumnName = "id")
 //    private tbDeviceBrand tbDeviceBrand;
 //
-//    @OneToOne(mappedBy = "device")
-//    private tbRepair tbRepair;
+    @ManyToOne (targetEntity = tbRepair.class , fetch = FetchType.EAGER)
+    @JoinColumn(name = "repairId", insertable = true,referencedColumnName = "repairId")
+    private tbRepair tbRepair;
 
 }
