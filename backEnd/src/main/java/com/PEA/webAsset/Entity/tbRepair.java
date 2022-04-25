@@ -17,8 +17,8 @@ public class tbRepair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rep_seq")
     @SequenceGenerator(name = "rep_seq", sequenceName = "rep_seq")
-    @Column(name = "repair_Id")
-    private Long repair_Id;
+    @Column(name = "repairId")
+    private Long repairId;
 
     private LocalDateTime recivedIn; //รับเรื่องซ่อม
 
@@ -46,7 +46,7 @@ public class tbRepair {
     @Column(name = "op_lead_sig")
     private String operationLeadSig;
 
-    // พนักงงานคนรับเรื่อง
+//     พนักงงานคนรับเรื่อง
     @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "empId",insertable = true)
     @JsonBackReference

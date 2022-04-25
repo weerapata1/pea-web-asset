@@ -39,6 +39,7 @@ public class DeviceController {
     @Autowired
     DeviceService deviceService;
 
+
     @GetMapping("/getAllDevice")
     public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
                                                          @RequestParam(defaultValue = "3") int size) {
@@ -62,21 +63,23 @@ public class DeviceController {
     @GetMapping("/getAllByPattern")
     public ResponseEntity<Map<String ,Object>> getAllByPattern(@RequestParam(defaultValue = "0")int page,
                                                        @RequestParam(defaultValue = "3")int size,
-                                                       @RequestParam("test1") String test1
+                                                       @RequestParam("test1") String test1[]
     ) {
-        System.out.println("test : ");
+
+        System.out.println("test : " + test1[0]);
         try {
             List<tbDevice> device = new ArrayList<tbDevice>();
             Pageable paging = PageRequest.of(page, size);
 
             System.out.println("paging : " + paging);
-            Page<tbDevice> pageTuts = deviceRepository.findAllByPattern(test1, paging);
+            Page<tbDevice> pageTuts = deviceRepository.findAllByPattern(test1[0],test1[1] , paging);
             device = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
             response.put("data1", device);
+            response.put("test1",test1[0]);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
