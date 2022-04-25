@@ -23,7 +23,7 @@ public class tbCommitment {
     private Integer contract_quantity;  // จำนวนชุดในสัญญา
     private String contract_details; // รายละเอียดของสัญญา
     private LocalDateTime date_pickedUp;  // วันที่รับของ
-    private Long emp_id; // หมายเลขประจำตัวผู้รับเครื่อง @@JoinTable
+//    private Long emp_id; // หมายเลขประจำตัวผู้รับเครื่อง @@JoinTable
     private String emp_signature;  // เก็บลายเซ็นผู้รับเครื่อง
     private String install_at; // สถานที่ติดตั้ง
     private String contract_note; // ช่องหมายเหตุ
