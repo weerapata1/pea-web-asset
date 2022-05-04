@@ -19,14 +19,14 @@ public class tbCostCenter {
     @Column(name = "id")
     private Long id; //
 
-    private String cc_long_code; //
+    private String ccLongCode; //
 
-    private String cc_short_code; //
+    private String ccShortCode; //
 
-    private String cc_agency_name;// ชื่อสังกัด
+    private String ccAgencyName;// ชื่อสังกัด
 
-    private String cc_short_name; //
+    private String ccShortName; //
 
-    private String cc_full_name; //
+    private String ccFullName; //
 
 }

@@ -12,11 +12,12 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
-    tbEmployee findByEmpId(String empId);
+    Collection<tbEmployee> findByEmpId(String empId);
 
 //    test
     @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)
     Collection<Object[]> findAllUsersWithPagination();
 
-    Page<tbEmployee> findAllByEmpId(String empId, Pageable pageable);
+
+
 }

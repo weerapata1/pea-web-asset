@@ -17,12 +17,14 @@ public class tbRepair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rep_seq")
     @SequenceGenerator(name = "rep_seq", sequenceName = "rep_seq")
-    @Column(name = "repair_Id")
-    private Long repair_Id;
+    @Column(name = "repairId")
+    private Long repairId;
 
-    private LocalDateTime recivedIn; //รับเรื่อวซ่อม
+    private LocalDateTime recivedIn; //รับเรื่องซ่อม
 
     private String damageDetail;    //อาการที่เสีย
+
+    private LocalDateTime returnDate; //วันส่งคืน
 
     // อก.รท
     @Column(name = "manager_status")
@@ -44,10 +46,10 @@ public class tbRepair {
     @Column(name = "op_lead_sig")
     private String operationLeadSig;
 
-    // พนักงงานคนรับเรื่อง
+//     พนักงงานคนรับเรื่อง
     @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "empId",insertable = true)
-    @JsonBackReference
+    @JoinColumn(name = "empId",insertable = true,referencedColumnName = "empId")
+//    @JsonBackReference
     private tbEmployee employee;
 
     @ManyToOne(targetEntity = tbRepairStatus.class,fetch = FetchType.EAGER)
@@ -55,9 +57,6 @@ public class tbRepair {
     private tbRepairStatus tbRepairStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id",referencedColumnName = "id")
+    @JoinColumn(name = "device_id",insertable=true, referencedColumnName = "id")
     private tbDevice device;
-
-
-
 }
