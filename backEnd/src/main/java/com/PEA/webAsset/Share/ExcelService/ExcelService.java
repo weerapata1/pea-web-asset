@@ -27,49 +27,5 @@ public class ExcelService {
 
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yy");
 
-    public List<tbDevice> saveDevice(MultipartFile file) throws IOException {
 
-        LocalDate dateNow = LocalDate.now();
-        String dateNowFormat = dateNow.format(dateFormat);
-        LocalDate dateReceived = LocalDate.parse(dateNowFormat, dateFormat);
-
-        try {
-            List<tbDevice> deviceList = new ArrayList<tbDevice>();
-
-            XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
-            XSSFSheet worksheet = workbook.getSheetAt(0);
-
-            for (int index = 0; index < worksheet.getPhysicalNumberOfRows(); index++) {
-                if (index > 0) {
-                    tbDevice device = new tbDevice();
-
-                    XSSFRow row = worksheet.getRow(index);
-                    Long id = (long) row.getCell(0).getNumericCellValue();
-                    String serialNo = row.getCell(1).getStringCellValue();
-                    String peaNo = row.getCell(2).getStringCellValue();
-                    String description = row.getCell(3).getStringCellValue();
-                    String ccId = row.getCell(4).getStringCellValue();
-
-                    System.out.println("id >"+id);
-                    System.out.println("serialNo >"+serialNo);
-                    System.out.println("peaNo >"+peaNo);
-                    System.out.println("description >"+description);
-                    System.out.println("ccId >"+ccId);
-
-//                    device.setId(id);
-                    device.setDevPeaNo(serialNo);
-                    device.setDevSerialNo(peaNo);
-                    device.setDevDescription(description);
-                    device.setDevReceived(dateReceived);
-                    device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccId));
-
-                    deviceList.add(device);
-                }
-            }
-            workbook.close();
-            return deviceList;
-        } catch (IOException e) {
-            throw new RuntimeException("fail to store excel data: " + e.getMessage());
-        }
-    }
 }
