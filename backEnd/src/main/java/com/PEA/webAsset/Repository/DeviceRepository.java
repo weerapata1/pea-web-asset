@@ -34,10 +34,9 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
     @Query(value = "SELECT * from tb_device d " +
             "INNER JOIN tb_cost_center c ON d.cc_id = c.id " +
             "INNER JOIN tb_employees e ON d.emp_id = e.emp_id " +
-            "WHERE (c.cc_long_code like :costCenter) " +
-            "OR (e.emp_id = :empId) " +
+            "WHERE (e.emp_id = :empId)  " +
             "OR (e.emp_name = :empName)"
             , nativeQuery = true)
-    Page<tbDevice> findDeviceByCcLessOneOrEmpIdOrEmpName(@Param("costCenter") String costCenter, @Param("empId") String empId
+    Page<tbDevice> findDeviceByEmpIdOrEmpName(@Param("empId") String empId
             , @Param("empName") String empName, Pageable pageable);
 }

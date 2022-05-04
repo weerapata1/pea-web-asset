@@ -6,7 +6,6 @@ import com.PEA.webAsset.Share.DeviceService.DeviceService;
 import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 import com.PEA.webAsset.Share.ExcelService.ExcelService;
 import com.PEA.webAsset.Share.ResponseMessage;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,7 +74,7 @@ public class DeviceController {
             Page<tbDevice> pageTuts = null;
             System.out.println("paging : " + paging);
             if(ccLongCode.length()<=0){
-                pageTuts = deviceRepository.findDeviceByCcLessOneOrEmpIdOrEmpName(ccLongCode, empId, empName, paging);
+                pageTuts = deviceRepository.findDeviceByEmpIdOrEmpName(empId, empName, paging);
 
             }
             else{
