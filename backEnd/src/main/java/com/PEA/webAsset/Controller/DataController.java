@@ -1,5 +1,6 @@
 package com.PEA.webAsset.Controller;
 
+import java.io.Console;
 import java.util.List;
 
 import com.PEA.webAsset.Entity.tbData;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8000/")
 public class DataController {
     @Autowired
     private DataRepo DataRepo;
@@ -21,7 +22,10 @@ public class DataController {
     @GetMapping("/data")
     public List<tbData> DatatableTest(){
         System.out.println(">>>"+DataRepo.findAll());
+        
         return DataRepo.findAll();
     }
+
+    
     
 }

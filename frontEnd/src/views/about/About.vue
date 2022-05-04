@@ -70,6 +70,7 @@
             <v-container fluid>
               <v-row>
                 <v-text-field
+                  v-model="textSearch"
                   label="pea_no-serial-description-user-cost_center-price"
                 ></v-text-field>
               </v-row>
@@ -156,7 +157,7 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="events"
+      :items="searchResult"
       :items-per-page="20"
       multi-sort
       class="elevation-1"

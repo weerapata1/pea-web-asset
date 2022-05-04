@@ -13,7 +13,7 @@ public class tbData {
     @GeneratedValue(generator = "data_id",strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "data_id", sequenceName = "data_id")
     @Column(name = "data_id", nullable = false)
-    private Long data_id;
+    private Integer data_id;
 
         private String name;
         private Float calories;

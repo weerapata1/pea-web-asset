@@ -23,31 +23,31 @@ export default {
       ],
       select: [],
       fruits: [
-        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "1" },
-        { id: "2", name: "กฟจ.อบ.", value: "2" },
-        { id: "3", name: "กฟจ.ศก.", value: "3" },
-        { id: "4", name: "กฟจ.ยส.", value: "4" },
-        { id: "5", name: "กฟจ.มค.", value: "5" },
-        { id: "6", name: "กฟจ.กส.", value: "6" },
-        { id: "7", name: "กฟจ.รอ.", value: "7" },
-        { id: "8", name: "กฟจ.มห.", value: "8" },
-        { id: "9", name: "กฟจ.อจ.", value: "9" },
-        { id: "10", name: "กฟอ.สล.", value: "10" },
-        { id: "11", name: "กฟอ.สดจ.", value: "11" },
-        { id: "12", name: "กฟอ.กล.", value: "12" },
-        { id: "13", name: "กฟอ.ดอ.", value: "13" },
-        { id: "14", name: "กฟอ.วรช.", value: "14" },
-        { id: "15", name: "กฟอ.ตผ.", value: "15" },
+        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
+        { id: "2", name: "กฟจ.อบ.", value: "E3011" },
+        { id: "3", name: "กฟจ.ศก.", value: "E302" },
+        { id: "4", name: "กฟจ.ยส.", value: "E303" },
+        { id: "5", name: "กฟจ.มค.", value: "E304" },
+        { id: "6", name: "กฟจ.กส.", value: "E305" },
+        { id: "7", name: "กฟจ.รอ.", value: "E306" },
+        { id: "8", name: "กฟจ.มห.", value: "E307" },
+        { id: "9", name: "กฟจ.อจ.", value: "E308" },
+        { id: "10", name: "กฟอ.สล.", value: "E309" },
+        { id: "11", name: "กฟอ.สดจ.", value: "E310" },
+        { id: "12", name: "กฟอ.กล.", value: "E311" },
+        { id: "13", name: "กฟอ.ดอ.", value: "E312" },
+        { id: "14", name: "กฟอ.วรช.", value: "E313" },
+        { id: "15", name: "กฟอ.ตผ.", value: "E314" },
       ],
       typeSearch: [
-        { id: "1", name: "เลขทรัพย์สิน", value: "1" },
-        { id: "2", name: "คำอธิบายของสินทรัพย์", value: "2" },
-        { id: "3", name: "หมายเลขผลิตภัณฑ์", value: "3" },
-        { id: "4", name: "วันที่โอนเข้าเป็นทุน", value: "4" },
-        { id: "5", name: "มูลค่าการได้มา", value: "5" },
-        { id: "6", name: "มูลค่าตามบัญชี", value: "6" },
-        { id: "7", name: "รหัสพนักงานผู้ครอบครอง", value: "7" },
-        { id: "8", name: "ศูนย์ต้นทุน", value: "8" },
+        { id: "1", name: "เลขทรัพย์สิน", value: "pea_no" },
+        { id: "2", name: "คำอธิบายของสินทรัพย์", value: "description" },
+        { id: "3", name: "หมายเลขผลิตภัณฑ์", value: "serial" },
+        { id: "4", name: "วันที่โอนเข้าเป็นทุน", value: "recieve_date" },
+        { id: "5", name: "มูลค่าการได้มา", value: "price_recieve" },
+        { id: "6", name: "มูลค่าตามบัญชี", value: "price_left" },
+        { id: "7", name: "รหัสพนักงานผู้ครอบครอง", value: "user_id" },
+        { id: "8", name: "ศูนย์ต้นทุน", value: "cost_center" },
       ],
       selectedFruits: [],
       selectedTypeSearch: [],
@@ -55,8 +55,37 @@ export default {
       appendType: [],
       appendText: [],
       jsonObj: [],
-      jsonStrBranch: '{"branch":["all"]}',
-      jsonStrType: '{"type":["all"]}',
+      jsonStrBranch: '{"branch":["*"]}',
+      jsonStrType: '{"type":["*"]}',
+      jsonTextSearch: '{"text":["*"]}',
+      appendSearch: [],
+      textSearch: "",
+      searchResult: [
+        {
+          pea_no: "531009537-0",
+          description: "ระบบสายสัญญาณ (FIBER OPTIC)",
+          serial: "",
+          user_id: "430962",
+          user_name: "นาง มนัสนันท์ พรรักษมณีรัฐ",
+          cc_short_name: "ผบห.กฟฉ.2-บห.",
+          received_date: "2551.6.18",
+          price_recieve: "108130.85",
+          price_left: "1",
+          cost_center: "E301000010",
+        },
+        {
+          pea_no: "531011277-0",
+          description: "ระบบเครือข่าย Switch HUB 1 ตัว",
+          serial: "",
+          user_id: "505338",
+          user_name: "นาย นนทธรรม นนทเตรียมกิจ",
+          cc_short_name: "กบห.กบล.-บห.",
+          received_date: "2553.7.30",
+          price_recieve: "32700",
+          price_left: "1",
+          cost_center: "E301011000",
+        }
+      ],
     };
   },
 
@@ -84,7 +113,7 @@ export default {
           this.selectedFruits = this.fruits.slice();
           this.jsonObj = JSON.parse(this.jsonStrBranch);
           this.jsonObj["branch"] = [];
-          this.jsonObj["branch"].push("all");
+          this.jsonObj["branch"].push("*");
           this.appendBranch = JSON.stringify(this.jsonObj);
           console.log("b- " + this.appendBranch);
           // console.log("fruits" + this.fruits[0]["name"]);
@@ -108,7 +137,7 @@ export default {
           this.selectedTypeSearch = this.typeSearch.slice();
           this.jsonObj = JSON.parse(this.jsonStrType);
           this.jsonObj["type"] = [];
-          this.jsonObj["type"].push("all");
+          this.jsonObj["type"].push("*");
           this.appendType = JSON.stringify(this.jsonObj);
           console.log("t-" + this.appendType);
           // console.log("fruits" + this.fruits[0]["name"]);
@@ -124,13 +153,38 @@ export default {
     },
 
     searchFunction() {
+      //console.log(this.textSearch);
       this.appendText = JSON.parse(
-        '{"data":[{"branch":["all"]},{"type":["all"]}]}'
+        '{"data":[{"branch":["*"]},{"type":["*"]},{"text":["*"]}]}'
       );
+      this.jsonObj = JSON.parse(this.jsonTextSearch);
+      this.jsonObj["text"] = [];
+      this.jsonObj["text"] = this.textSearch;
+      this.appendSearch = JSON.stringify(this.jsonObj);
+
       this.appendText["data"][0] = JSON.parse(this.appendBranch);
       this.appendText["data"][1] = JSON.parse(this.appendType);
+      this.appendText["data"][2] = JSON.parse(this.appendSearch);
       console.log("start");
       console.log(JSON.stringify(this.appendText["data"]));
+      //DataService.getSearch(this.appendText["data"]);
+      // this.searchResult = JSON.parse(
+      //   '{"pea_no": "531009537-0","description": "ระบบสายสัญญาณ (FIBER OPTIC)","serial": "","user_id": "430962","user_name": "นาง มนัสนันท์ พรรักษมณีรัฐ","cc_short_name": "ผบห.กฟฉ.2-บห.","received_date": "2551.6.18","price_recieve": "108130.85","price_left": "1","cost_center": "E301000010"}'
+      //   );
+      this.searchResult = [        {
+        pea_no: "531009537-0",
+        description: "ระบบสายสัญญาณ (FIBER OPTIC)",
+        serial: "",
+        user_id: "430962",
+        user_name: "นาง มนัสนันท์ พรรักษมณีรัฐ",
+        cc_short_name: "ผบห.กฟฉ.2-บห.",
+        received_date: "2551.6.18",
+        price_recieve: "108130.85",
+        price_left: "1",
+        cost_center: "E301000010",
+      }];
+
+      
     },
   },
 
