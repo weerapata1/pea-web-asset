@@ -26,7 +26,7 @@ public class tbDevice {
 
     private String devPeaNo;
 
-    @Column(name ="dev_serialNo", unique = true)
+//    @Column(name ="dev_serialNo", unique = true)
     private String devSerialNo;
 
 
