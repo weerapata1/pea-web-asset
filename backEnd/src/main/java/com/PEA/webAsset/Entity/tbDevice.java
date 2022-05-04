@@ -47,7 +47,7 @@ public class tbDevice {
 
     //       Join tbCostCenter.class------------------------------
     @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cc_id", insertable = true)
+    @JoinColumn(name = "cc_id", insertable = true ,referencedColumnName = "cc_id")
     private tbCostCenter tbCostCenter;
 //
     //   Join tbDeviceType.class------------------------------
