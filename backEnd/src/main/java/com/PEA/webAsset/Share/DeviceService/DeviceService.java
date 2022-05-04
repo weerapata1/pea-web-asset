@@ -120,15 +120,15 @@ public class DeviceService {
                     String description = row.getCell(3).getStringCellValue();
                     String ccId = row.getCell(4).getStringCellValue();
 
-//                    System.out.println("id >" + id);
-//                    System.out.println("serialNo >" + serialNo);
-//                    System.out.println("peaNo >" + peaNo);
-//                    System.out.println("description >" + description);
-//                    System.out.println("ccId >" + ccId);
+                    System.out.println("id >" + id);
+                    System.out.println("serialNo >" + serialNo);
+                    System.out.println("peaNo >" + peaNo);
+                    System.out.println("description >" + description);
+                    System.out.println("ccId >" + ccId);
 
 //                    device.setId(id);
-                    device.setDevPeaNo(serialNo);
-                    device.setDevSerialNo(peaNo);
+                    device.setDevPeaNo(peaNo);
+                    device.setDevSerialNo(serialNo);
                     device.setDevDescription(description);
                     device.setDevReceived(dateReceived);
                     device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccId));
