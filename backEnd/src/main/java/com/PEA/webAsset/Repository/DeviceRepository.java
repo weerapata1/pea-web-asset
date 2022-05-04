@@ -24,7 +24,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
     @Query(value = "SELECT * from tb_device d " +
             "INNER JOIN tb_employees e ON d.emp_id = e.emp_id " +
             "WHERE (d.cc_id like CONCAT(:costCenter,'%')) " +
-            "(e.emp_id = :empId)  " +
+            "OR (e.emp_id = :empId)  " +
             "OR (e.emp_name = :empName)"
             , nativeQuery = true)
     Page<tbDevice> findDeviceByCcMoreOneOrEmpIdOrEmpName(@Param("costCenter") String costCenter, @Param("empId") String empId
