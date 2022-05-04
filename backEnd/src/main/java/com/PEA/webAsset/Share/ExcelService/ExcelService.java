@@ -20,6 +20,7 @@ import java.util.List;
 
 @Service
 public class ExcelService {
+<<<<<<< Updated upstream
     @Autowired
     DeviceTypeRepository deviceTypeRepository;
     @Autowired
@@ -62,6 +63,14 @@ public class ExcelService {
 //        }
 //    }
 
+=======
+    @Autowired DeviceTypeRepository deviceTypeRepository;
+    @Autowired DeviceRepository deviceRepository;
+    @Autowired CostCenterRepository costCenterRepository;
+
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yy");
+
+>>>>>>> Stashed changes
     public List<tbDevice> saveDevice(MultipartFile file) throws IOException {
 
         LocalDate dateNow = LocalDate.now();
