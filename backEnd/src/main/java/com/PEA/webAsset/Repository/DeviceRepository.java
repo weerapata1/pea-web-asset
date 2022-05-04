@@ -21,17 +21,23 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
     Collection<tbDevice> findAllByCCId(
             @Param("cc_id") String cc_id);
 
-    @Query(value = "SELECT d FROM tb_device d"
-            , nativeQuery = false)
-    Collection<tbDevice> findByCCCode(
-//            @Param("cc_code")String cc_code
-    );
-//    Page<tbDevice> findByDevSerialNo(String dev_serialNo,Pageable pageable);
-
-    @Query(value = "SELECT d.* ,c.cc_short_name ,c.cc_long_code from tb_device AS d " +
+    @Query(value = "SELECT * from tb_device d " +
             "INNER JOIN tb_cost_center c ON d.cc_id = c.id " +
-            "WHERE (c.cc_long_code like :test1%)" +
-            "OR (c.cc_long_code like :test2%)"
+            "INNER JOIN tb_employees e ON d.emp_id = e.emp_id " +
+            "WHERE (c.cc_long_code like CONCAT(:costCenter,'%')) " +
+            "OR (e.emp_id = :empId) " +
+            "OR (e.emp_name = :empName)"
             , nativeQuery = true)
-    Page<tbDevice> findAllByPattern(@Param("test1") String test1, @Param("test2") String test2, Pageable pageable);
+    Page<tbDevice> findDeviceByCcMoreOneOrEmpIdOrEmpName(@Param("costCenter") String costCenter, @Param("empId") String empId
+            , @Param("empName") String empName, Pageable pageable);
+
+    @Query(value = "SELECT * from tb_device d " +
+            "INNER JOIN tb_cost_center c ON d.cc_id = c.id " +
+            "INNER JOIN tb_employees e ON d.emp_id = e.emp_id " +
+            "WHERE (c.cc_long_code like :costCenter) " +
+            "OR (e.emp_id = :empId) " +
+            "OR (e.emp_name = :empName)"
+            , nativeQuery = true)
+    Page<tbDevice> findDeviceByCcLessOneOrEmpIdOrEmpName(@Param("costCenter") String costCenter, @Param("empId") String empId
+            , @Param("empName") String empName, Pageable pageable);
 }

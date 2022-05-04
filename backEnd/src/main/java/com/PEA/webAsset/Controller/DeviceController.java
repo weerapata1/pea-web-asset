@@ -10,19 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
-@CrossOrigin("http://localhost:8081")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/dev")
 public class DeviceController {
@@ -61,34 +58,44 @@ public class DeviceController {
     }
 
     @GetMapping("/getAllByPattern")
-    public ResponseEntity<Map<String ,Object>> getAllByPattern(@RequestParam(defaultValue = "0")int page,
-                                                       @RequestParam(defaultValue = "3")int size,
-                                                       @RequestParam("test1") String test1[]
+    public ResponseEntity<Map<String, Object>> getAllByPattern(@RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "3") int size,
+                                                               @RequestParam("test1") String test1[]
     ) {
 
-        System.out.println("test : " + test1[0]);
+        String ccLongCode = test1[0];
+        String empId = test1[1];
+        String empName = test1[2];
+
+        System.out.println("test : " + test1[0].length());
         try {
             List<tbDevice> device = new ArrayList<tbDevice>();
             Pageable paging = PageRequest.of(page, size);
-
+            Page<tbDevice> pageTuts = null;
             System.out.println("paging : " + paging);
-            Page<tbDevice> pageTuts = deviceRepository.findAllByPattern(test1[0],test1[1] , paging);
+            if(ccLongCode.length()<=0){
+                pageTuts = deviceRepository.findDeviceByCcLessOneOrEmpIdOrEmpName(ccLongCode, empId, empName, paging);
+
+            }
+            else{
+                 pageTuts = deviceRepository.findDeviceByCcMoreOneOrEmpIdOrEmpName(ccLongCode, empId, empName, paging);
+            }
             device = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
             response.put("data1", device);
-            response.put("test1",test1[0]);
+            response.put("test1", test1[0]);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/getByCCCode")
-    public Collection<tbDevice> getByCCCode() {
-        return deviceRepository.findByCCCode();
+    @GetMapping("/getAll")
+    public Collection<tbDevice> getAll() {
+        return deviceRepository.findAll().stream().collect(Collectors.toList());
     }
 
     @PostMapping("/upload")
@@ -118,8 +125,6 @@ public class DeviceController {
                                                 @RequestParam("dev_peaNo") String dev_peaNo,
                                                 @RequestParam("tbCostCenter") String tbCostCenter
     ) {
-
-
         String message;
         try {
             deviceService.postDevice(dev_serialNo, dev_note, dev_description, dev_peaNo, tbCostCenter);
@@ -130,8 +135,6 @@ public class DeviceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         }
     }
-
-
 
 
 }
