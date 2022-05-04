@@ -63,7 +63,7 @@ public class DeviceController {
                                                                @RequestParam("test1") String test1[]
     ) {
 
-        String ccLongCode = test1[0];
+        String peaNo = test1[0];
         String empId = test1[1];
         String empName = test1[2];
 
@@ -73,12 +73,11 @@ public class DeviceController {
             Pageable paging = PageRequest.of(page, size);
             Page<tbDevice> pageTuts = null;
             System.out.println("paging : " + paging);
-            if(ccLongCode.length()<=0){
+            if(peaNo.length()<=0){
                 pageTuts = deviceRepository.findDeviceByEmpIdOrEmpName(empId, empName, paging);
-
             }
             else{
-                 pageTuts = deviceRepository.findDeviceByCcMoreOneOrEmpIdOrEmpName(ccLongCode, empId, empName, paging);
+                 pageTuts = deviceRepository.findDeviceByCcMoreOneOrEmpIdOrEmpName(peaNo, empId, empName, paging);
             }
             device = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
