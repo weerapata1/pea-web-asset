@@ -14,8 +14,9 @@
                   item-text="name"
                   label="การไฟฟ้าในสังกัด กฟฉ.2"
                   @change="toggleBranch2"
-                  multiple
+                  
                 >
+                <!-- multiple -->
                   <template v-slot:prepend-item>
                     <v-list-item ripple @mousedown.prevent @click="toggleBranch">
                       <v-list-item-action>
@@ -34,7 +35,7 @@
                     <v-divider class="mt-2"></v-divider>
                   </template>
 
-                  <template v-slot:append-item>
+                  <!-- <template v-slot:append-item>
                     <v-divider class="mb-2"></v-divider>
                     <v-list-item disabled>
                       <v-list-item-avatar color="grey lighten-3">
@@ -60,7 +61,8 @@
                         </v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
-                  </template>
+                  </template> -->
+
                 </v-select>
               </v-row>
             </v-container>
@@ -71,16 +73,16 @@
               <v-row>
                 <v-text-field
                   v-model="textSearch"
-                  label="pea_no-serial-description-user-cost_center-price"
+                  label="ค้นหา"
                 ></v-text-field>
               </v-row>
             </v-container>
           </v-col>
 
-          <v-col cols="12" sm="6" md="3">
+          <!-- <v-col cols="12" sm="6" md="3">
             <v-container>
               <v-row>
-                <!-- <v-btn elevation="3">Serach</v-btn> -->
+                
                 <v-select
                   v-model="selectedTypeSearch"
                   :items="typeSearch"
@@ -143,7 +145,7 @@
                 </v-select>
               </v-row>
             </v-container>
-          </v-col>
+          </v-col> -->
 
           <v-col cols="12" sm="6" md="2">
             <v-container>

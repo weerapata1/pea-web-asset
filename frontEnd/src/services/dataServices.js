@@ -2,7 +2,7 @@ import axios from "axios"
 
 export default {
     async getEvents() {
-      let res = await axios.get("http://localhost:8081/data");
+      let res = await axios.get("http://localhost:8081/api/dev/getAllDevice");
       return res.data;
     },
     async getEventSingle(eventId) {
@@ -11,11 +11,12 @@ export default {
     },
 
     async getSearch(jdata){
-      console.log("555 "+JSON.stringify(jdata[0]));
-      let res = await axios.get("http://localhost:8081/getSearch/", {
+      console.log("555 "+JSON.stringify(jdata[0])+JSON.stringify(jdata[1]));
+      let res = await axios.get("http://localhost:8081/api/dev/getAllByPattern", {
         params: {
-          brach: JSON.stringify(jdata[0]),
-          type: JSON.stringify(jdata[1])
+          page: 1,
+          size: 10,
+          test1: [JSON.stringify(jdata[1]),JSON.stringify(jdata[1]), JSON.stringify(jdata[1]),JSON.stringify(jdata[0])]
         }
       }).catch(function (error) {
         console.log(error.response.status);

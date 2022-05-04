@@ -113,7 +113,7 @@ export default {
           this.selectedFruits = this.fruits.slice();
           this.jsonObj = JSON.parse(this.jsonStrBranch);
           this.jsonObj["branch"] = [];
-          this.jsonObj["branch"].push("*");
+          this.jsonObj["branch"].push("E3");
           this.appendBranch = JSON.stringify(this.jsonObj);
           console.log("b- " + this.appendBranch);
           // console.log("fruits" + this.fruits[0]["name"]);
@@ -153,25 +153,34 @@ export default {
     },
 
     searchFunction() {
-      //console.log(this.textSearch);
+      // console.log(this.textSearch);
       this.appendText = JSON.parse(
-        '{"data":[{"branch":["*"]},{"type":["*"]},{"text":["*"]}]}'
+        // '{"data":[{"branch":["*"]},{"type":["*"]},{"text":["*"]}]}'
+        '{"data":[{"branch":["E3"]},{"text":["*"]}]}'
       );
       this.jsonObj = JSON.parse(this.jsonTextSearch);
       this.jsonObj["text"] = [];
       this.jsonObj["text"] = this.textSearch;
       this.appendSearch = JSON.stringify(this.jsonObj);
 
-      this.appendText["data"][0] = JSON.parse(this.appendBranch);
-      this.appendText["data"][1] = JSON.parse(this.appendType);
-      this.appendText["data"][2] = JSON.parse(this.appendSearch);
+      console.log(this.appendBranch);
+
+      if(this.appendBranch != ''){
+        this.appendText["data"][0] = JSON.parse(this.appendBranch);
+      }
+      else{
+        this.appendText["data"][0] = JSON.parse('{"branch":["E3"]}');
+      }
+      
+      // this.appendText["data"][1] = JSON.parse(this.appendType);
+      this.appendText["data"][1] = JSON.parse(this.appendSearch);
       console.log("start");
       console.log(JSON.stringify(this.appendText["data"]));
-      //DataService.getSearch(this.appendText["data"]);
+      DataService.getSearch(this.appendText["data"]);
       // this.searchResult = JSON.parse(
       //   '{"pea_no": "531009537-0","description": "ระบบสายสัญญาณ (FIBER OPTIC)","serial": "","user_id": "430962","user_name": "นาง มนัสนันท์ พรรักษมณีรัฐ","cc_short_name": "ผบห.กฟฉ.2-บห.","received_date": "2551.6.18","price_recieve": "108130.85","price_left": "1","cost_center": "E301000010"}'
       //   );
-      this.searchResult = [        {
+      this.searchResult = [{
         pea_no: "531009537-0",
         description: "ระบบสายสัญญาณ (FIBER OPTIC)",
         serial: "",
