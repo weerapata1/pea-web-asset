@@ -48,8 +48,8 @@ public class tbRepair {
 
 //     พนักงงานคนรับเรื่อง
     @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "empId",insertable = true)
-    @JsonBackReference
+    @JoinColumn(name = "empId",insertable = true,referencedColumnName = "empId")
+//    @JsonBackReference
     private tbEmployee employee;
 
     @ManyToOne(targetEntity = tbRepairStatus.class,fetch = FetchType.EAGER)
@@ -57,6 +57,6 @@ public class tbRepair {
     private tbRepairStatus tbRepairStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "device_id",referencedColumnName = "id")
+    @JoinColumn(name = "device_id",insertable=true, referencedColumnName = "id")
     private tbDevice device;
 }
