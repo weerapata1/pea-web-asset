@@ -82,10 +82,10 @@ public class DeviceController {
             Page<tbDevice> pageTuts = null;
             System.out.println("paging : " + paging);
 
-            if(peaNo.length() <= 0 && ccLong.length() > 0){
+            if(peaNo.length() <= 0 ){
                 pageTuts = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC(empId, empName, ccLong, paging);
             }
-            else if(peaNo.length() >= 0 && ccLong.length() > 0){
+            else if(peaNo.length() >= 0 ){
                  pageTuts = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC(peaNo, empId, empName, ccLong, paging);
             }
 
