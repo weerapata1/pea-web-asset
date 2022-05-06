@@ -3,8 +3,6 @@ package com.PEA.webAsset.Entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data @Getter @Setter
 @Table(name = "tb_device_type")
