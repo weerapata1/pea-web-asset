@@ -13,6 +13,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
     @Query(value = "SELECT * from tb_device d " +
             "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
+
             "WHERE ((d.dev_pea_no like CONCAT('%',:peaNo,'%')) " +
             "OR (e.emp_id = :empId)  " +
             "OR (e.emp_name = :empName)) " +
