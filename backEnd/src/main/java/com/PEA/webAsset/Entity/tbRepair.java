@@ -1,7 +1,5 @@
 package com.PEA.webAsset.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
 import lombok.*;
 
 import javax.persistence.*;
