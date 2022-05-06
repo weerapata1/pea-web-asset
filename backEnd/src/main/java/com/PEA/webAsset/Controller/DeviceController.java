@@ -70,7 +70,6 @@ public class DeviceController {
                                                                @RequestParam(defaultValue = "30") int size,
                                                                @RequestParam("test1") String test1[]
     ) {
-
         String peaNo = test1[0];
         String empId = test1[1];
         String empName = test1[2];
