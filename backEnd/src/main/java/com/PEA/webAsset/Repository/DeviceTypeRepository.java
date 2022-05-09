@@ -4,8 +4,6 @@ import com.PEA.webAsset.Entity.tbDeviceType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.Optional;
-
 @RepositoryRestResource
 public interface DeviceTypeRepository extends JpaRepository<tbDeviceType, Long> {
     tbDeviceType findByDtId(Long dtId);

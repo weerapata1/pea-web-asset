@@ -1,9 +1,9 @@
 package com.PEA.webAsset.Entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-import lombok.*;
 
 @Entity(name = "tb_employees")
 @Data
