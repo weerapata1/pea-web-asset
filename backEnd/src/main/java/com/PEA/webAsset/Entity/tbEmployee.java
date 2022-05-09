@@ -24,8 +24,8 @@ public class tbEmployee {
 
     private String empName;
 
-    public tbEmployee(String empId, String empName){
-        this.empId = empId;
-        this.empName = empName;
-    }
+    // public tbEmployee(String empId, String empName){
+    //     this.empId = empId;
+    //     this.empName = empName;
+    // }
 }
