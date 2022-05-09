@@ -101,6 +101,50 @@ public class DeviceController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @CrossOrigin
+    @GetMapping("/getAllByPattern2")
+    public ResponseEntity<Map<String, Object>> getAllByPattern(
+                                                                @RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "30") int size,
+                                                               //@RequestParam("test1") String test1[]
+                                                               @RequestParam() String region
+    ) {
+        // String peaNo = test1[0];
+        // String empId = test1[1];
+        // String empName = test1[2];
+        String ccLong = region;
+
+        try {
+            List<tbDevice> device = new ArrayList<tbDevice>();
+            Pageable paging = PageRequest.of(page, size);
+            Page<tbDevice> pageTuts = null;
+            System.out.println("paging : " + paging);
+
+            if(ccLong.length() <= 0 ){
+                pageTuts = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC2(
+                    // empId, empName, 
+                    ccLong, paging);
+            }
+            else if(ccLong.length() >= 0 ){
+                 pageTuts = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC2(
+                    //  peaNo, empId, empName, 
+                     ccLong, paging);
+            }
+
+            device = pageTuts.getContent();
+            Map<String, Object> response = new HashMap<>();
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            response.put("data1", device);
+            // response.put("test1", test1[0]);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> importExcelFile(@RequestParam("file") MultipartFile files) throws IOException {
         String message = "";

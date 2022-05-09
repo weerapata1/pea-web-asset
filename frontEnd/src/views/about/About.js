@@ -210,10 +210,14 @@ export default {
       //   price_left: "1",
       //   'tbCostCenter.ccLongCode': "E301000010",
       // }];
-      const params = new URLSearchParams([['page', 1],['size', 20],['legion', this.legion]]);
-      axios.get('http://localhost:8081/api/dev/getAllByPattern',{headers: {'Access-Control-Allow-Origin': '*'}},
-        {params},
-        {data: {legion: this.legion}}
+      // const params = new URLSearchParams([['page', 1],['size', 20],['region', this.region]]);
+      axios.get('http://localhost:8081/api/dev/getAllByPattern2',{headers: {'Access-Control-Allow-Origin': '*'}},
+        {    params: {
+          page: 1,
+          size: 20,
+          region: this.region
+        }}
+        //{data:{},{}, {region: this.region}}
       )
       .then((resp) => {
         this.getAllResult = resp.data.data1;
