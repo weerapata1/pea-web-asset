@@ -1,3 +1,4 @@
+import axios from "axios";
 import DataService from "../../services/dataServices.js"; // NEW
 
 export default {
@@ -11,15 +12,15 @@ export default {
           text: "เลขทรัพย์สิน",
           align: "start",
           sortable: false,
-          value: "pea_no",
+          value: "devPeaNo",
         },
-        { text: "คำอธิบายของสินทรัพย์", value: "description" },
-        { text: "หมายเลขผลิตภัณฑ์", value: "serial" },
-        { text: "วันที่โอนเข้าเป็นทุน", value: "recieve_date" },
+        { text: "คำอธิบายของสินทรัพย์", value: "devDescription" },
+        { text: "หมายเลขผลิตภัณฑ์", value: "devSerialNo" },
+        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceived" },
         { text: "มูลค่าการได้มา", value: "price_recieve" },
         { text: "มูลค่าตามบัญชี", value: "price_left" },
-        { text: "รหัสพนักงานผู้ครอบครอง", value: "user_id" },
-        { text: "ศูนย์ต้นทุน", value: "cost_center" },
+        { text: "รหัสพนักงานผู้ครอบครอง", value: "tbEmployee.empName" },
+        { text: "ศูนย์ต้นทุน", value: "tbCostCenter.ccLongCode" },
       ],
       select: [],
       fruits: [
@@ -86,7 +87,20 @@ export default {
           cost_center: "E301011000",
         }
       ],
+      getAllResult: [],
     };
+  },
+
+  mounted(){
+    axios.get('http://localhost:8081/api/dev/getAllDevice/')
+    .then((resp) => {
+      this.getAllResult = resp.data.data1;
+      console.log(this.getAllResult);
+    })
+    .catch((error) => {
+      console.log(error.resp);
+    })
+
   },
 
   created() {
@@ -163,7 +177,7 @@ export default {
       this.jsonObj["text"] = this.textSearch;
       this.appendSearch = JSON.stringify(this.jsonObj);
 
-      console.log(this.appendBranch);
+      //console.log(this.appendBranch);
 
       if(this.appendBranch != ''){
         this.appendText["data"][0] = JSON.parse(this.appendBranch);
@@ -174,24 +188,40 @@ export default {
       
       // this.appendText["data"][1] = JSON.parse(this.appendType);
       this.appendText["data"][1] = JSON.parse(this.appendSearch);
-      console.log("start");
-      console.log(JSON.stringify(this.appendText["data"]));
-      DataService.getSearch(this.appendText["data"]);
+      
+      let legion = JSON.stringify(this.appendText["data"][0]['branch']);
+      console.log("searchFunction "+ legion );
+      // DataService.getSearch(JSON.stringify(this.appendText["data"]));
       // this.searchResult = JSON.parse(
       //   '{"pea_no": "531009537-0","description": "ระบบสายสัญญาณ (FIBER OPTIC)","serial": "","user_id": "430962","user_name": "นาง มนัสนันท์ พรรักษมณีรัฐ","cc_short_name": "ผบห.กฟฉ.2-บห.","received_date": "2551.6.18","price_recieve": "108130.85","price_left": "1","cost_center": "E301000010"}'
       //   );
-      this.searchResult = [{
-        pea_no: "531009537-0",
-        description: "ระบบสายสัญญาณ (FIBER OPTIC)",
-        serial: "",
-        user_id: "430962",
-        user_name: "นาง มนัสนันท์ พรรักษมณีรัฐ",
-        cc_short_name: "ผบห.กฟฉ.2-บห.",
-        received_date: "2551.6.18",
-        price_recieve: "108130.85",
-        price_left: "1",
-        cost_center: "E301000010",
-      }];
+      // this.getAllResult= response.data.getAllResult;
+      // console.log("getAllResult ",this.getAllResult);
+
+      // this.getAllResult = [{
+      //   devPeaNo: "531009537-0",
+      //   devDescription: "ระบบสายสัญญาณ (FIBER OPTIC)",
+      //   devSerialNo: "",
+      //   'tbEmployee.empId': "430962",
+      //   'tbEmployee.empName': "นาง มนัสนันท์ พรรักษมณีรัฐ",
+      //   'tbCostCenter.ccShortName': "ผบห.กฟฉ.2-บห.",
+      //   devReceived: "2551.6.18",
+      //   price_recieve: "108130.85",
+      //   price_left: "1",
+      //   'tbCostCenter.ccLongCode': "E301000010",
+      // }];
+      const params = new URLSearchParams([['page', 1],['size', 20],['legion', this.legion]]);
+      axios.get('http://localhost:8081/api/dev/getAllByPattern',{headers: {'Access-Control-Allow-Origin': '*'}},
+        {params},
+        {data: {legion: this.legion}}
+      )
+      .then((resp) => {
+        this.getAllResult = resp.data.data1;
+        console.log(this.getAllResult);
+      })
+      .catch((error) => {
+        console.log(error.resp);
+      })
 
       
     },
@@ -221,4 +251,5 @@ export default {
       return "mdi-checkbox-blank-outline";
     },
   },
+
 };

@@ -7,6 +7,7 @@ import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 import com.PEA.webAsset.Share.ExcelService.ExcelService;
 import com.PEA.webAsset.Share.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +20,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin("*")
 @RestController
+@CrossOrigin(origins ="*")
 @RequestMapping("/api/dev")
 public class DeviceController {
     @Autowired
@@ -36,10 +37,10 @@ public class DeviceController {
     @Autowired
     DeviceService deviceService;
 
-
+    @CrossOrigin
     @GetMapping("/getAllDevice")
     public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "3") int size) {
+                                                         @RequestParam(defaultValue = "100") int size) {
         try {
             List<tbDevice> device = new ArrayList<tbDevice>();
             Pageable paging = PageRequest.of(page, size);
@@ -56,28 +57,33 @@ public class DeviceController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @CrossOrigin
     @GetMapping("/getAllByPattern")
     public ResponseEntity<Map<String, Object>> getAllByPattern(@RequestParam(defaultValue = "0") int page,
-                                                               @RequestParam(defaultValue = "3") int size,
-                                                               @RequestParam("test1") String test1[]
+                                                               @RequestParam(defaultValue = "20") int size,
+                                                               @RequestParam() String legion
     ) {
 
-        String peaNo = test1[0];
-        String empId = test1[1];
-        String empName = test1[2];
-
-        System.out.println("test : " + test1[0].length());
+        // String peaNo = test1[0];
+        // String empId = test1[1];
+        // String empName = test1[2];
+        // String legion = test1[0];
+        
+        System.out.println("getAllByPattern : " + legion);
         try {
             List<tbDevice> device = new ArrayList<tbDevice>();
             Pageable paging = PageRequest.of(page, size);
             Page<tbDevice> pageTuts = null;
             System.out.println("paging : " + paging);
-            if(peaNo.length()<=0){
-                pageTuts = deviceRepository.findDeviceByEmpIdOrEmpName(empId, empName, paging);
+            if(legion.length()<=0){
+                pageTuts = deviceRepository.findDeviceByEmpIdOrEmpName(
+                    // empId, empName, 
+                    paging);
             }
             else{
-                 pageTuts = deviceRepository.findDeviceByCcMoreOneOrEmpIdOrEmpName(peaNo, empId, empName, paging);
+                 pageTuts = deviceRepository.findDeviceByCcMoreOneOrEmpIdOrEmpName(
+                    //  peaNo, empId, empName, 
+                 legion, paging);
             }
             device = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
@@ -85,18 +91,18 @@ public class DeviceController {
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
             response.put("data1", device);
-            response.put("test1", test1[0]);
+            // response.put("test1", test1[0]);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @CrossOrigin
     @GetMapping("/getAll")
     public Collection<tbDevice> getAll() {
         return deviceRepository.findAll().stream().collect(Collectors.toList());
     }
-
+    @CrossOrigin
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> importExcelFile(@RequestParam("file") MultipartFile files) throws IOException {
         String message = "";
@@ -116,7 +122,7 @@ public class DeviceController {
         message = "Please upload an excel file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
     }
-
+    @CrossOrigin
     @PostMapping("/posT")
     public ResponseEntity<ResponseMessage> posT(@RequestParam("dev_serialNo") String dev_serialNo,
                                                 @RequestParam("dev_note") String dev_note,

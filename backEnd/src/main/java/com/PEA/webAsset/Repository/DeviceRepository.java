@@ -23,19 +23,23 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
     @Query(value = "SELECT * from tb_device d " +
             "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-            "WHERE (d.dev_pea_no like CONCAT(:peaNo,'%')) " +
-            "OR (e.emp_id = :empId)  " +
-            "OR (e.emp_name = :empName)"
+        //     "WHERE ((d.dev_pea_no like CONCAT('%',:peaNo,'%')) " +
+        //     "OR (e.emp_id = :empId)  " +
+        //     "OR (e.emp_name = :empName))" +
+            "WHERE d.cc_id like CONCAT(:legion,'%')"
             , nativeQuery = true)
-    Page<tbDevice> findDeviceByCcMoreOneOrEmpIdOrEmpName(@Param("peaNo") String peaNo, @Param("empId") String empId
-            , @Param("empName") String empName, Pageable pageable);
+    Page<tbDevice> findDeviceByCcMoreOneOrEmpIdOrEmpName(
+        //     @Param("peaNo") String peaNo, @Param("empId") String empId
+//             , @Param("empName") String empName, 
+            @Param("legion") String legion, Pageable pageable);
 
     @Query(value = "SELECT * from tb_device d " +
-            "INNER JOIN tb_cost_center c ON d.cc_id = c.id " +
-            "INNER JOIN tb_employees e ON d.emp_id = e.emp_id " +
+            "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
             "WHERE (e.emp_id = :empId)  " +
             "OR (e.emp_name = :empName)"
             , nativeQuery = true)
-    Page<tbDevice> findDeviceByEmpIdOrEmpName(@Param("empId") String empId
-            , @Param("empName") String empName, Pageable pageable);
+    Page<tbDevice> findDeviceByEmpIdOrEmpName(
+        //     @Param("empId") String empId
+        //     , @Param("empName") String empName, 
+            Pageable pageable);
 }

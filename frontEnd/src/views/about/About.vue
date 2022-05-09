@@ -159,7 +159,7 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="searchResult"
+      :items="getAllResult"
       :items-per-page="20"
       multi-sort
       class="elevation-1"
