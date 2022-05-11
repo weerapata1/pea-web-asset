@@ -169,7 +169,7 @@ export default {
       let params = {
         page : '0',
         size : '40',
-        region : '',
+        region : 'E3010',
 
       }
       console.log(params);
