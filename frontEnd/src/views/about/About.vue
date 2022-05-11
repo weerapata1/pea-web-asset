@@ -6,14 +6,19 @@
           <v-col cols="12" sm="6" md="3">
             <v-container fluid>
               <v-row>
+                <!-- item-value="fruits.name" -->
                 <v-select
                   v-model="selectedFruits"
-                  :items="fruits"
+                  :items=fruits
+                  item-value="value"
+                  item-text="name"
                   label="การไฟฟ้าในสังกัด กฟฉ.2"
-                  multiple
+                  @change="toggleBranch2"
+
                 >
+                <!-- multiple -->
                   <template v-slot:prepend-item>
-                    <v-list-item ripple @mousedown.prevent @click="toggle">
+                    <v-list-item ripple @mousedown.prevent @click="toggleBranch">
                       <v-list-item-action>
                         <v-icon
                           :color="
@@ -29,26 +34,24 @@
                     </v-list-item>
                     <v-divider class="mt-2"></v-divider>
                   </template>
-                  <template v-slot:append-item>
+
+                  <!-- <template v-slot:append-item>
                     <v-divider class="mb-2"></v-divider>
                     <v-list-item disabled>
                       <v-list-item-avatar color="grey lighten-3">
                         <v-icon> mdi-food-apple </v-icon>
                       </v-list-item-avatar>
-
                       <v-list-item-content v-if="likesAllFruit">
                         <v-list-item-title>
                           Holy smokes, someone call the fruit police!
                         </v-list-item-title>
                       </v-list-item-content>
-
                       <v-list-item-content v-else-if="likesSomeFruit">
                         <v-list-item-title> Fruit Count </v-list-item-title>
                         <v-list-item-subtitle>
                           {{ selectedFruits.length }}
                         </v-list-item-subtitle>
                       </v-list-item-content>
-
                       <v-list-item-content v-else>
                         <v-list-item-title>
                           How could you not like fruit?
@@ -58,39 +61,48 @@
                         </v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
-                  </template>
+                  </template> -->
+
                 </v-select>
               </v-row>
             </v-container>
           </v-col>
+
           <v-col cols="12" sm="6" md="3">
             <v-container fluid>
               <v-row>
                 <v-text-field
-                  label="pea_no-serial-description-user-cost_center-price"
+                  v-model="textSearch"
+                  label="ค้นหา"
                 ></v-text-field>
               </v-row>
             </v-container>
           </v-col>
-          <v-col cols="12" sm="6" md="3">
+
+          <!-- <v-col cols="12" sm="6" md="3">
             <v-container>
               <v-row>
-                <!-- <v-btn elevation="3">Serach</v-btn> -->
+
                 <v-select
                   v-model="selectedTypeSearch"
                   :items="typeSearch"
                   label="ประเภทข้อมูลที่ค้นหา"
                   multiple
+                  item-value="value"
+                  item-text="name"
+                  @change="toggleType2"
                 >
                   <template v-slot:prepend-item>
-                    <v-list-item ripple @mousedown.prevent @click="toggle">
+                    <v-list-item ripple @mousedown.prevent @click="toggleType">
                       <v-list-item-action>
                         <v-icon
                           :color="
-                            selectedTypeSearch.length > 0 ? 'indigo darken-4' : ''
+                            selectedTypeSearch.length > 0
+                              ? 'indigo darken-4'
+                              : ''
                           "
                         >
-                          {{ icon }}
+                          {{ icon2 }}
                         </v-icon>
                       </v-list-item-action>
                       <v-list-item-content>
@@ -99,26 +111,24 @@
                     </v-list-item>
                     <v-divider class="mt-2"></v-divider>
                   </template>
+
                   <template v-slot:append-item>
                     <v-divider class="mb-2"></v-divider>
                     <v-list-item disabled>
                       <v-list-item-avatar color="grey lighten-3">
                         <v-icon> mdi-food-apple </v-icon>
                       </v-list-item-avatar>
-
                       <v-list-item-content v-if="likesAllFruit">
                         <v-list-item-title>
                           Holy smokes, someone call the fruit police!
                         </v-list-item-title>
                       </v-list-item-content>
-
                       <v-list-item-content v-else-if="likesSomeFruit">
                         <v-list-item-title> Fruit Count </v-list-item-title>
                         <v-list-item-subtitle>
                           {{ selectedTypeSearch.length }}
                         </v-list-item-subtitle>
                       </v-list-item-content>
-
                       <v-list-item-content v-else>
                         <v-list-item-title>
                           How could you not like fruit?
@@ -132,7 +142,8 @@
                 </v-select>
               </v-row>
             </v-container>
-          </v-col>
+          </v-col> -->
+
           <v-col cols="12" sm="6" md="2">
             <v-container>
               <v-row>
@@ -143,10 +154,9 @@
         </v-row>
       </v-form>
     </div>
-
     <v-data-table
       :headers="headers"
-      :items="events"
+      :items="getAllResult"
       :items-per-page="20"
       multi-sort
       class="elevation-1"
@@ -154,6 +164,4 @@
   </div>
 </template>
 
-<script src="./About.js">
-
-</script>
+<script src="./About.js"></script>

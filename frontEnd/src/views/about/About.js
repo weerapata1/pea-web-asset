@@ -92,10 +92,10 @@ export default {
   },
 
   mounted(){
-    axios.get('http://localhost:8081/api/dev/getAllDevice/')
+    axios.get('http://localhost:8080/api/dev/getAllDevice/')
     .then((resp) => {
       this.getAllResult = resp.data.data1;
-      console.log(this.getAllResult);
+//      console.log(this.getAllResult);
     })
     .catch((error) => {
       console.log(error.resp);
