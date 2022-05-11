@@ -1,7 +1,8 @@
+import axios from "axios";
 import DataService from "../../services/dataServices.js"; // NEW
+
 export default {
   name: "EventsList",
-
   data() {
     return {
       event: {},
@@ -11,36 +12,19 @@ export default {
           text: "เลขทรัพย์สิน",
           align: "start",
           sortable: false,
-          value: "pea_no",
+          value: "devPeaNo",
         },
-        { text: "คำอธิบายของสินทรัพย์", value: "description" },
-        { text: "หมายเลขผลิตภัณฑ์", value: "serial" },
-        { text: "วันที่โอนเข้าเป็นทุน", value: "recieve_date" },
+        { text: "คำอธิบายของสินทรัพย์", value: "devDescription" },
+        { text: "หมายเลขผลิตภัณฑ์", value: "devSerialNo" },
+        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceived" },
         { text: "มูลค่าการได้มา", value: "price_recieve" },
         { text: "มูลค่าตามบัญชี", value: "price_left" },
-        { text: "รหัสพนักงานผู้ครอบครอง", value: "user_id" },
-        { text: "ศูนย์ต้นทุน", value: "cost_center" },
+        { text: "รหัสพนักงานผู้ครอบครอง", value: "tbEmployee.empName" },
+        { text: "ศูนย์ต้นทุน", value: "tbCostCenter.ccLongCode" },
       ],
       select: [],
       fruits: [
-<<<<<<< Updated upstream
-        "เฉพาะในเขต กฟฉ.2",
-        "กฟจ.อบ.",
-        "กฟจ.ศก.",
-        "กฟจ.ยส.",
-        "กฟจ.มค.",
-        "กฟจ.กส.",
-        "กฟจ.รอ.",
-        "กฟจ.มห.",
-        "กฟจ.อจ.",
-        "กฟอ.สล.",
-        "กฟอ.สดจ.",
-        "กฟอ.กล.",
-        "กฟอ.ดอ.",
-        "กฟอ.วรช.",
-        "กฟอ.ตผ.",
-=======
-        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: 'E3010' },
+        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
         { id: "2", name: "กฟจ.อบ.", value: "E3011" },
         { id: "3", name: "กฟจ.ศก.", value: "E302" },
         { id: "4", name: "กฟจ.ยส.", value: "E303" },
@@ -55,24 +39,19 @@ export default {
         { id: "13", name: "กฟอ.ดอ.", value: "E312" },
         { id: "14", name: "กฟอ.วรช.", value: "E313" },
         { id: "15", name: "กฟอ.ตผ.", value: "E314" },
->>>>>>> Stashed changes
       ],
       typeSearch: [
-        "เลขทรัพย์สิน",
-        "คำอธิบายของสินทรัพย์",
-        "หมายเลขผลิตภัณฑ์",
-        "วันที่โอนเข้าเป็นทุน",
-        "มูลค่าการได้มา",
-        "มูลค่าตามบัญชี",
-        "รหัสพนักงานผู้ครอบครอง",
-        "ศูนย์ต้นทุน",
+        { id: "1", name: "เลขทรัพย์สิน", value: "pea_no" },
+        { id: "2", name: "คำอธิบายของสินทรัพย์", value: "description" },
+        { id: "3", name: "หมายเลขผลิตภัณฑ์", value: "serial" },
+        { id: "4", name: "วันที่โอนเข้าเป็นทุน", value: "recieve_date" },
+        { id: "5", name: "มูลค่าการได้มา", value: "price_recieve" },
+        { id: "6", name: "มูลค่าตามบัญชี", value: "price_left" },
+        { id: "7", name: "รหัสพนักงานผู้ครอบครอง", value: "user_id" },
+        { id: "8", name: "ศูนย์ต้นทุน", value: "cost_center" },
       ],
       selectedFruits: [],
       selectedTypeSearch: [],
-<<<<<<< Updated upstream
-    };
-  },
-=======
       appendBranch: [],
       appendType: [],
       appendText: [],
@@ -109,15 +88,14 @@ export default {
         }
       ],
       getAllResult: [],
-      oatTest : [],
     };
   },
 
   mounted(){
-    axios.get('http://localhost:8080/api/dev/getAllDevice/')
+    axios.get('http://localhost:8081/api/dev/getAllDevice/')
     .then((resp) => {
       this.getAllResult = resp.data.data1;
-//      console.log(this.getAllResult);
+      console.log(this.getAllResult);
     })
     .catch((error) => {
       console.log(error.resp);
@@ -125,11 +103,11 @@ export default {
 
   },
 
->>>>>>> Stashed changes
   created() {
     this.getEventsData(); // NEW - call getEventData() when the instance is created
   },
   // NEW
+
   methods: {
     async getEventsData() {
       // NEW - Use the eventService to call the getEvents() method
@@ -139,19 +117,19 @@ export default {
         }).bind(this)
       );
     },
-    toggle() {
+    toggleBranch() {
       this.$nextTick(() => {
         if (this.likesAllFruit) {
           this.selectedFruits = [];
+          this.appendBranch = [];
+          console.log("b-");
         } else {
           this.selectedFruits = this.fruits.slice();
-<<<<<<< Updated upstream
-=======
           this.jsonObj = JSON.parse(this.jsonStrBranch);
           this.jsonObj["branch"] = [];
           this.jsonObj["branch"].push("E3");
           this.appendBranch = JSON.stringify(this.jsonObj);
-          console.log("b--:  " + this.appendBranch);
+          console.log("b- " + this.appendBranch);
           // console.log("fruits" + this.fruits[0]["name"]);
         }
       });
@@ -177,15 +155,17 @@ export default {
           this.appendType = JSON.stringify(this.jsonObj);
           console.log("t-" + this.appendType);
           // console.log("fruits" + this.fruits[0]["name"]);
->>>>>>> Stashed changes
         }
       });
     },
+    toggleType2(TypeSearch) {
+      this.jsonObj = JSON.parse(this.jsonStrType);
+      this.jsonObj["type"] = [];
+      this.jsonObj["type"] = TypeSearch;
+      this.appendType = JSON.stringify(this.jsonObj);
+      console.log("t-" + this.appendType);
+    },
     searchFunction() {
-<<<<<<< Updated upstream
-      console.log("start");
-      alert("start");
-=======
       let params = {
         page : '0',
         size : '40',
@@ -203,21 +183,31 @@ export default {
                         console.log(error.resp);
                       })
 
->>>>>>> Stashed changes
     },
   },
-
   computed: {
-    likesAllFruit() {
-      return this.selectedFruits.length === this.fruits.length;
+      likesAllFruit() {
+        return this.selectedFruits.length === this.fruits.length;
+      },
+      likesSomeFruit() {
+        return this.selectedFruits.length > 0 && !this.likesAllFruit;
+      },
+      icon() {
+        if (this.likesAllFruit) return "mdi-close-box";
+        if (this.likesSomeFruit) return "mdi-minus-box";
+        return "mdi-checkbox-blank-outline";
+      },
+      likesAllTypeSearch() {
+        return this.selectedTypeSearch.length === this.typeSearch.length;
+      },
+      likesSomeTypeSearch() {
+        return this.selectedTypeSearch.length > 0 && !this.likesAllTypeSearch;
+      },
+      icon2() {
+        if (this.likesAllTypeSearch) return "mdi-close-box";
+        if (this.likesSomeTypeSearch) return "mdi-minus-box";
+        return "mdi-checkbox-blank-outline";
+      },
     },
-    likesSomeFruit() {
-      return this.selectedFruits.length > 0 && !this.likesAllFruit;
-    },
-    icon() {
-      if (this.likesAllFruit) return "mdi-close-box";
-      if (this.likesSomeFruit) return "mdi-minus-box";
-      return "mdi-checkbox-blank-outline";
-    },
-  },
-};
+
+  };

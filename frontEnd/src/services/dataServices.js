@@ -2,15 +2,6 @@ import axios from "axios"
 
 export default {
     async getEvents() {
-<<<<<<< Updated upstream
-      let res = await axios.get("http://localhost:8081/data");
-      return res.data;
-    },
-    async getEventSingle(eventId) {
-      let res = await axios.get("http://localhost:8081/data/" + eventId);
-      return res.data;
-    }
-=======
       let res = await axios.get("http://localhost:8080/api/dev/getAllDevice",{headers: {'Access-Control-Allow-Origin': '*'}});
       return res.data;
     },
@@ -42,5 +33,5 @@ export default {
 //      return res.data;
 //
 //    }
->>>>>>> Stashed changes
+
   }
