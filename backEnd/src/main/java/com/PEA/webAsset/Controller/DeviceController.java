@@ -10,7 +10,6 @@ import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 import com.PEA.webAsset.Share.ExcelService.ExcelService;
 import com.PEA.webAsset.Share.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +23,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@CrossOrigin("*")
 @RestController
-@CrossOrigin(origins ="*")
 @RequestMapping("/api/dev")
 public class DeviceController {
     @Autowired
@@ -55,6 +54,7 @@ public class DeviceController {
 
             Page<tbDevice> pageTuts = deviceRepository.findAll(paging);
             device = pageTuts.getContent();
+
             Map<String, Object> response = new HashMap<>();
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
@@ -65,12 +65,40 @@ public class DeviceController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @CrossOrigin
+
+    @GetMapping("/getAllByPattern2")
+    public ResponseEntity<Map<String, Object>> Pattern2(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "30") int size,
+                                                        @RequestParam("region") String region) {
+        try {
+            List<tbDevice> device = new ArrayList<tbDevice>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<tbDevice> pageTuts = (region.length() > 0) ? deviceRepository.findDeviceByCcId(region, paging) : null;
+
+            device = pageTuts.getContent();
+            System.out.println(pageTuts);
+
+            System.out.println(device);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            response.put("data1", device);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/getAllByPattern")
     public ResponseEntity<Map<String, Object>> getAllByPattern(@RequestParam(defaultValue = "0") int page,
                                                                @RequestParam(defaultValue = "30") int size,
                                                                @RequestParam("test1") String test1[]
     ) {
+
         String peaNo = test1[0];
         String empId = test1[1];
         String empName = test1[2];
@@ -79,15 +107,12 @@ public class DeviceController {
         try {
             List<tbDevice> device = new ArrayList<tbDevice>();
             Pageable paging = PageRequest.of(page, size);
-            Page<tbDevice> pageTuts = null;
-            System.out.println("paging : " + paging);
 
-            if(peaNo.length() <= 0 ){
-                pageTuts = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC(empId, empName, ccLong, paging);
-            }
-            else if(peaNo.length() >= 0 ){
-                 pageTuts = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC(peaNo, empId, empName, ccLong, paging);
-            }
+            Page<tbDevice> XX = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC(peaNo, empId, empName, ccLong, paging);
+            Page<tbDevice> YY = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC(empId, empName, ccLong, paging);
+            Page<tbDevice> pageTuts = (peaNo.length() > 0) ? XX : YY;
+
+            System.out.println("paging : " + paging);
 
             device = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
@@ -95,50 +120,6 @@ public class DeviceController {
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
             response.put("data1", device);
-            // response.put("test1", test1[0]);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @CrossOrigin
-    @GetMapping("/getAllByPattern2")
-    public ResponseEntity<Map<String, Object>> getAllByPattern(
-                                                                @RequestParam(defaultValue = "0") int page,
-                                                               @RequestParam(defaultValue = "30") int size,
-                                                               //@RequestParam("test1") String test1[]
-                                                               @RequestParam() String region
-    ) {
-        // String peaNo = test1[0];
-        // String empId = test1[1];
-        // String empName = test1[2];
-        String ccLong = region;
-
-        try {
-            List<tbDevice> device = new ArrayList<tbDevice>();
-            Pageable paging = PageRequest.of(page, size);
-            Page<tbDevice> pageTuts = null;
-            System.out.println("paging : " + paging);
-
-            if(ccLong.length() <= 0 ){
-                pageTuts = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC2(
-                    // empId, empName, 
-                    ccLong, paging);
-            }
-            else if(ccLong.length() >= 0 ){
-                 pageTuts = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC2(
-                    //  peaNo, empId, empName, 
-                     ccLong, paging);
-            }
-
-            device = pageTuts.getContent();
-            Map<String, Object> response = new HashMap<>();
-            response.put("currentPage", pageTuts.getNumber());
-            response.put("totalItems", pageTuts.getTotalElements());
-            response.put("totalPages", pageTuts.getTotalPages());
-            response.put("data1", device);
-            // response.put("test1", test1[0]);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -157,14 +138,14 @@ public class DeviceController {
                 message = "Uploaded the file successfully: " + files.getOriginalFilename() + "\n";
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
             } catch (Exception e) {
-                message = "Could not upload the file: " + files.getOriginalFilename() +" " + e.getMessage();
+                message = "Could not upload the file: " + files.getOriginalFilename() + " " + e.getMessage();
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
             }
         }
         message = "Please upload an excel file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
     }
-    @CrossOrigin
+
     @PostMapping("/posT")
     public ResponseEntity<ResponseMessage> posT(@RequestParam("dev_serialNo") String dev_serialNo,
                                                 @RequestParam("dev_note") String dev_note,
@@ -182,9 +163,10 @@ public class DeviceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
         }
     }
+
     @PutMapping("/updateDevice")
-    public ResponseEntity<ResponseMessage> updateDevice(@RequestParam("id")long id
-                                                        )throws Exception {
+    public ResponseEntity<ResponseMessage> updateDevice(@RequestParam("id") long id
+    ) throws Exception {
 
         String message = "";
         try {
@@ -196,7 +178,7 @@ public class DeviceController {
             final tbDevice updateDevice = deviceRepository.save(device);
             message = "update is OK";
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        }catch (ResourceNotFoundException e){
+        } catch (ResourceNotFoundException e) {
             message = "Not found ";
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage(message));
         }

@@ -14,7 +14,7 @@
                   item-text="name"
                   label="การไฟฟ้าในสังกัด กฟฉ.2"
                   @change="toggleBranch2"
-                  
+
                 >
                 <!-- multiple -->
                   <template v-slot:prepend-item>
@@ -82,7 +82,7 @@
           <!-- <v-col cols="12" sm="6" md="3">
             <v-container>
               <v-row>
-                
+
                 <v-select
                   v-model="selectedTypeSearch"
                   :items="typeSearch"
@@ -111,27 +111,24 @@
                     </v-list-item>
                     <v-divider class="mt-2"></v-divider>
                   </template>
-                  
+
                   <template v-slot:append-item>
                     <v-divider class="mb-2"></v-divider>
                     <v-list-item disabled>
                       <v-list-item-avatar color="grey lighten-3">
                         <v-icon> mdi-food-apple </v-icon>
                       </v-list-item-avatar>
-
                       <v-list-item-content v-if="likesAllFruit">
                         <v-list-item-title>
                           Holy smokes, someone call the fruit police!
                         </v-list-item-title>
                       </v-list-item-content>
-
                       <v-list-item-content v-else-if="likesSomeFruit">
                         <v-list-item-title> Fruit Count </v-list-item-title>
                         <v-list-item-subtitle>
                           {{ selectedTypeSearch.length }}
                         </v-list-item-subtitle>
                       </v-list-item-content>
-
                       <v-list-item-content v-else>
                         <v-list-item-title>
                           How could you not like fruit?
@@ -168,4 +165,3 @@
 </template>
 
 <script src="./About.js"></script>
-
