@@ -143,6 +143,7 @@
         </v-row>
       </v-form>
     </div>
+
     <v-data-table
       :headers="headers"
       :items="events"
