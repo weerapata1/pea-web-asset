@@ -156,8 +156,9 @@
     </div>
     <v-data-table
       :headers="headers"
-      :items="getAllResult"
-      :items-per-page="20"
+      :items="data1"
+      :items-per-page="itemsPerPage"
+      :server-items-length="getAllResult.data.totalItems"
       multi-sort
       class="elevation-1"
     ></v-data-table>
