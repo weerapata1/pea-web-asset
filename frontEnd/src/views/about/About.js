@@ -92,10 +92,10 @@ export default {
   },
 
   mounted(){
-    axios.get('http://localhost:8081/api/dev/getAllDevice/')
+    axios.get('http://localhost:8080/api/dev/getAllDevice/')
     .then((resp) => {
       this.getAllResult = resp.data.data1;
-      console.log(this.getAllResult);
+//      console.log(this.getAllResult);
     })
     .catch((error) => {
       console.log(error.resp);
@@ -165,95 +165,49 @@ export default {
       this.appendType = JSON.stringify(this.jsonObj);
       console.log("t-" + this.appendType);
     },
-
     searchFunction() {
-      // console.log(this.textSearch);
-      this.appendText = JSON.parse(
-        // '{"data":[{"branch":["*"]},{"type":["*"]},{"text":["*"]}]}'
-        '{"data":[{"branch":["E3"]},{"text":["*"]}]}'
-      );
-      this.jsonObj = JSON.parse(this.jsonTextSearch);
-      this.jsonObj["text"] = [];
-      this.jsonObj["text"] = this.textSearch;
-      this.appendSearch = JSON.stringify(this.jsonObj);
+      let params = {
+        page : '0',
+        size : '40',
+        region : 'E3010',
 
-      //console.log(this.appendBranch);
-
-      if(this.appendBranch != ''){
-        this.appendText["data"][0] = JSON.parse(this.appendBranch);
       }
-      else{
-        this.appendText["data"][0] = JSON.parse('{"branch":["E3"]}');
-      }
-      
-      // this.appendText["data"][1] = JSON.parse(this.appendType);
-      this.appendText["data"][1] = JSON.parse(this.appendSearch);
-      
-      let legion = JSON.stringify(this.appendText["data"][0]['branch']);
-      console.log("searchFunction "+ legion );
-      // DataService.getSearch(JSON.stringify(this.appendText["data"]));
-      // this.searchResult = JSON.parse(
-      //   '{"pea_no": "531009537-0","description": "ระบบสายสัญญาณ (FIBER OPTIC)","serial": "","user_id": "430962","user_name": "นาง มนัสนันท์ พรรักษมณีรัฐ","cc_short_name": "ผบห.กฟฉ.2-บห.","received_date": "2551.6.18","price_recieve": "108130.85","price_left": "1","cost_center": "E301000010"}'
-      //   );
-      // this.getAllResult= response.data.getAllResult;
-      // console.log("getAllResult ",this.getAllResult);
+      console.log(params);
 
-      // this.getAllResult = [{
-      //   devPeaNo: "531009537-0",
-      //   devDescription: "ระบบสายสัญญาณ (FIBER OPTIC)",
-      //   devSerialNo: "",
-      //   'tbEmployee.empId': "430962",
-      //   'tbEmployee.empName': "นาง มนัสนันท์ พรรักษมณีรัฐ",
-      //   'tbCostCenter.ccShortName': "ผบห.กฟฉ.2-บห.",
-      //   devReceived: "2551.6.18",
-      //   price_recieve: "108130.85",
-      //   price_left: "1",
-      //   'tbCostCenter.ccLongCode': "E301000010",
-      // }];
-      // const params = new URLSearchParams([['page', 1],['size', 20],['region', this.region]]);
-      axios.get('http://localhost:8081/api/dev/getAllByPattern2',{headers: {'Access-Control-Allow-Origin': '*'}},
-        {    params: {
-          page: 1,
-          size: 20,
-          region: this.region
-        }}
-        //{data:{},{}, {region: this.region}}
-      )
-      .then((resp) => {
-        this.getAllResult = resp.data.data1;
-        console.log(this.getAllResult);
-      })
-      .catch((error) => {
-        console.log(error.resp);
-      })
+      axios.get('http://localhost:8080/api/dev/getAllByPattern2',
+       { params }).then((resp) => {
+                        this.getAllResult = resp.data.data1;
+                        console.log(this.getAllResult);
+                      })
+                      .catch((error) => {
+                        console.log(error.resp);
+                      })
 
-      
     },
   },
-
   computed: {
-    likesAllFruit() {
-      return this.selectedFruits.length === this.fruits.length;
+      likesAllFruit() {
+        return this.selectedFruits.length === this.fruits.length;
+      },
+      likesSomeFruit() {
+        return this.selectedFruits.length > 0 && !this.likesAllFruit;
+      },
+      icon() {
+        if (this.likesAllFruit) return "mdi-close-box";
+        if (this.likesSomeFruit) return "mdi-minus-box";
+        return "mdi-checkbox-blank-outline";
+      },
+      likesAllTypeSearch() {
+        return this.selectedTypeSearch.length === this.typeSearch.length;
+      },
+      likesSomeTypeSearch() {
+        return this.selectedTypeSearch.length > 0 && !this.likesAllTypeSearch;
+      },
+      icon2() {
+        if (this.likesAllTypeSearch) return "mdi-close-box";
+        if (this.likesSomeTypeSearch) return "mdi-minus-box";
+        return "mdi-checkbox-blank-outline";
+      },
     },
-    likesSomeFruit() {
-      return this.selectedFruits.length > 0 && !this.likesAllFruit;
-    },
-    icon() {
-      if (this.likesAllFruit) return "mdi-close-box";
-      if (this.likesSomeFruit) return "mdi-minus-box";
-      return "mdi-checkbox-blank-outline";
-    },
-    likesAllTypeSearch() {
-      return this.selectedTypeSearch.length === this.typeSearch.length;
-    },
-    likesSomeTypeSearch() {
-      return this.selectedTypeSearch.length > 0 && !this.likesAllTypeSearch;
-    },
-    icon2() {
-      if (this.likesAllTypeSearch) return "mdi-close-box";
-      if (this.likesSomeTypeSearch) return "mdi-minus-box";
-      return "mdi-checkbox-blank-outline";
-    },
-  },
 
-};
+  };
