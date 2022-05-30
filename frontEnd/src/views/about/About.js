@@ -88,14 +88,18 @@ export default {
         }
       ],
       getAllResult: [],
+      data1:[],
+      itemsPerPage:0,
     };
   },
 
   mounted(){
     axios.get('http://localhost:8080/api/dev/getAllDevice/')
     .then((resp) => {
-      this.getAllResult = resp.data.data1;
-//      console.log(this.getAllResult);
+      this.getAllResult = (resp);
+      this.data1 = (resp.data.data1);
+      this.itemsPerPage = resp.data.itemsPerPage;
+     console.log("at mounted ",(this.getAllResult.data.totalItems));
     })
     .catch((error) => {
       console.log(error.resp);
@@ -104,6 +108,7 @@ export default {
   },
 
   created() {
+    console.log("at created");
     this.getEventsData(); // NEW - call getEventData() when the instance is created
   },
   // NEW
@@ -114,6 +119,7 @@ export default {
       DataService.getEvents().then(
         ((events) => {
           this.$set(this, "events", events);
+          console.log("inside method dataservice", JSON.stringify(events));
         }).bind(this)
       );
     },
@@ -165,11 +171,12 @@ export default {
       this.appendType = JSON.stringify(this.jsonObj);
       console.log("t-" + this.appendType);
     },
+
     searchFunction() {
       let params = {
         page : '0',
         size : '40',
-        region : 'E3010',
+        region : 'E3011',
 
       }
       console.log(params);
@@ -177,7 +184,7 @@ export default {
       axios.get('http://localhost:8080/api/dev/getAllByPattern2',
        { params }).then((resp) => {
                         this.getAllResult = resp.data.data1;
-                        console.log(this.getAllResult);
+                        console.log("getAllResult", this.getAllResult);
                       })
                       .catch((error) => {
                         console.log(error.resp);

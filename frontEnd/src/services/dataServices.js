@@ -4,6 +4,7 @@ import axios from "axios"
 export default {
     async getEvents() {
       let res = await axios.get("http://localhost:8080/api/dev/getAllDevice",{headers: {'Access-Control-Allow-Origin': '*'}});
+      console.log("export default", res.data);
       return res.data;
     },
     async getEventSingle(eventId) {
