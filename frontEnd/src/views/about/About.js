@@ -90,6 +90,7 @@ export default {
       getAllResult: [],
       data1:[],
       itemsPerPage:0,
+      totalItems:0,
     };
   },
 
@@ -99,6 +100,7 @@ export default {
       this.getAllResult = (resp);
       this.data1 = (resp.data.data1);
       this.itemsPerPage = resp.data.itemsPerPage;
+      this.totalItems = resp.data.totalItems;
      console.log("at mounted ",(this.getAllResult.data.totalItems));
     })
     .catch((error) => {
@@ -118,8 +120,8 @@ export default {
       // NEW - Use the eventService to call the getEvents() method
       DataService.getEvents().then(
         ((events) => {
-          this.$set(this, "events", events);
           console.log("inside method dataservice", JSON.stringify(events));
+          this.$set(this, "events", events);
         }).bind(this)
       );
     },
@@ -173,23 +175,26 @@ export default {
     },
 
     searchFunction() {
+      let selectedBranch = JSON.parse(this.appendBranch);
       let params = {
-        page : '0',
-        size : '40',
-        region : 'E3011',
-
+        page : 0,
+        size : this.itemsPerPage,
+        region : selectedBranch.branch,
       }
-      console.log(params);
+      console.log("searchFunction ",params);
 
       axios.get('http://localhost:8080/api/dev/getAllByPattern2',
        { params }).then((resp) => {
-                        this.getAllResult = resp.data.data1;
-                        console.log("getAllResult", this.getAllResult);
+                        this.getAllResult = resp.data;
+                        console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
+
+                        this.data1 = (resp.data.data1);
+                        this.itemsPerPage = resp.data.itemsPerPage;
+                        this.totalItems = resp.data.totalItems;
                       })
                       .catch((error) => {
                         console.log(error.resp);
                       })
-
     },
   },
   computed: {
