@@ -158,7 +158,7 @@
       :headers="headers"
       :items="data1"
       :items-per-page="itemsPerPage"
-      :server-items-length="getAllResult.data.totalItems"
+      :server-items-length="totalItems"
       multi-sort
       class="elevation-1"
     ></v-data-table>
