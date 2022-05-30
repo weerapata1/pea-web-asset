@@ -91,6 +91,8 @@ export default {
       data1: [],
       itemsPerPage: 0,
       totalItems: 0,
+
+      alert: false,
     };
   },
 
@@ -107,6 +109,10 @@ export default {
       .catch((error) => {
         console.log(error.resp);
       });
+
+    if (alert) {
+      this.hide_alert();
+    }
   },
 
   created() {
@@ -124,6 +130,10 @@ export default {
           this.$set(this, "events", events);
         }).bind(this)
       );
+    },
+    hide_alert: function () {
+      console.log("Hide");
+      // `event` is the native DOM event
     },
     toggleBranch() {
       this.$nextTick(() => {
@@ -175,68 +185,67 @@ export default {
     },
 
     searchFunction() {
-      let selectedBranch = JSON.parse(this.appendBranch);
-      // console.log("textSearch ",this.textSearch, " | length: ", this.textSearch.length);
-      let params = [];
-      if (this.textSearch.length == 0) {
-        params = {
-          page: 0,
-          size: this.itemsPerPage,
-          region: selectedBranch.branch,
-        };
-        console.log("searchFunction ", params);
-        
-        axios
-        .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
-        .then((resp) => {
-          this.getAllResult = resp.data;
-          console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
+      if (this.appendBranch == "") {
+        this.alert = true;
+        window.setInterval(() => {
+          this.alert = false;
+          console.log("hide alert after 3 seconds");
+        }, 3000);
+      } else {
+        let selectedBranch = JSON.parse(this.appendBranch);
+        // console.log("textSearch ",this.textSearch, " | length: ", this.textSearch.length);
+        let params = [];
+        if (this.textSearch.length == 0) {
+          params = {
+            page: 0,
+            size: this.itemsPerPage,
+            region: selectedBranch.branch,
+          };
+          console.log("searchFunction ", params);
 
-          this.data1 = resp.data.data1;
-          this.itemsPerPage = resp.data.itemsPerPage;
-          this.totalItems = resp.data.totalItems;
-        })
-        .catch((error) => {
-          console.log(error.resp);
-        });
-      }else{
-        params = {
-          page: 0,
-          size: this.itemsPerPage,
-          region: selectedBranch.branch,
-          textSearch: this.textSearch,
-        };
-        console.log("searchFunction ", params);
+          axios
+            .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
+            .then((resp) => {
+              this.getAllResult = resp.data;
+              console.log(
+                "getAllByPattern2",
+                JSON.stringify(this.getAllResult)
+              );
 
-        axios
-        .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
-        .then((resp) => {
-          this.getAllResult = resp.data;
-          console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
+              this.data1 = resp.data.data1;
+              this.itemsPerPage = resp.data.itemsPerPage;
+              this.totalItems = resp.data.totalItems;
+            })
+            .catch((error) => {
+              console.log(error.resp);
+            });
+        } else {
+          params = {
+            page: 0,
+            size: this.itemsPerPage,
+            region: selectedBranch.branch,
+            textSearch: this.textSearch,
+          };
+          console.log("searchFunction ", params);
 
-          this.data1 = resp.data.data1;
-          this.itemsPerPage = resp.data.itemsPerPage;
-          this.totalItems = resp.data.totalItems;
-        })
-        .catch((error) => {
-          console.log(error.resp);
-        });
+          axios
+            .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
+            .then((resp) => {
+              this.getAllResult = resp.data;
+              console.log(
+                "getAllByPattern2",
+                JSON.stringify(this.getAllResult)
+              );
+
+              this.data1 = resp.data.data1;
+              this.itemsPerPage = resp.data.itemsPerPage;
+              this.totalItems = resp.data.totalItems;
+            })
+            .catch((error) => {
+              console.log(error.resp);
+            });
+        }
       }
-      // console.log("searchFunction ", params);
-
-      // axios
-      //   .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
-      //   .then((resp) => {
-      //     this.getAllResult = resp.data;
-      //     console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
-
-      //     this.data1 = resp.data.data1;
-      //     this.itemsPerPage = resp.data.itemsPerPage;
-      //     this.totalItems = resp.data.totalItems;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.resp);
-      //   });
     },
   },
   computed: {

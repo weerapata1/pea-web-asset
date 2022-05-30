@@ -1,6 +1,18 @@
 <template>
   <div class="content">
     <div>
+      <div>
+        <v-alert
+               :value="alert"
+               color="red"
+               dark
+               border="top"
+               icon="mdi-home"
+               transition="slide-y-transition"
+               >
+        กรุณาเลือกขอบเขตการไฟฟ้าที่ต้องการค้นหา
+      </v-alert>
+      </div>
       <v-form>
         <v-row>
           <v-col cols="12" sm="6" md="3">
@@ -147,7 +159,7 @@
           <v-col cols="12" sm="6" md="2">
             <v-container>
               <v-row>
-                <v-btn elevation="3" @click="searchFunction">Serach</v-btn>
+                <v-btn elevation="3" @click="searchFunction" id="searchButton">Serach</v-btn>
               </v-row>
             </v-container>
           </v-col>
