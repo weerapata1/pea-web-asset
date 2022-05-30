@@ -94,6 +94,35 @@ public class DeviceController {
         }
     }
 
+    @GetMapping("/getAllByPattern1")
+    public ResponseEntity<Map<String, Object>> Pattern1(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "30") int size,
+                                                        @RequestParam("region") String region,
+                                                        @RequestParam("textSearch") String textSearch)
+                                                        {
+        try {
+            List<tbDevice> device = new ArrayList<tbDevice>();
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<tbDevice> pageTuts = (region.length() > 0) ? deviceRepository.findDeviceByCcIdAndTextSearch(region, textSearch, paging) : null;
+
+            device = pageTuts.getContent();
+            System.out.println(pageTuts);
+
+            System.out.println(device);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            response.put("data1", device);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/getAllByPattern")
     public ResponseEntity<Map<String, Object>> getAllByPattern(@RequestParam(defaultValue = "0") int page,
                                                                @RequestParam(defaultValue = "30") int size,

@@ -85,28 +85,28 @@ export default {
           price_recieve: "32700",
           price_left: "1",
           cost_center: "E301011000",
-        }
+        },
       ],
       getAllResult: [],
-      data1:[],
-      itemsPerPage:0,
-      totalItems:0,
+      data1: [],
+      itemsPerPage: 0,
+      totalItems: 0,
     };
   },
 
-  mounted(){
-    axios.get('http://localhost:8080/api/dev/getAllDevice/')
-    .then((resp) => {
-      this.getAllResult = (resp);
-      this.data1 = (resp.data.data1);
-      this.itemsPerPage = resp.data.itemsPerPage;
-      this.totalItems = resp.data.totalItems;
-     console.log("at mounted ",(this.getAllResult.data.totalItems));
-    })
-    .catch((error) => {
-      console.log(error.resp);
-    })
-
+  mounted() {
+    axios
+      .get("http://localhost:8080/api/dev/getAllDevice/")
+      .then((resp) => {
+        this.getAllResult = resp;
+        this.data1 = resp.data.data1;
+        this.itemsPerPage = resp.data.itemsPerPage;
+        this.totalItems = resp.data.totalItems;
+        console.log("at mounted ", this.getAllResult.data.totalItems);
+      })
+      .catch((error) => {
+        console.log(error.resp);
+      });
   },
 
   created() {
@@ -134,8 +134,8 @@ export default {
         } else {
           this.selectedFruits = this.fruits.slice();
           this.jsonObj = JSON.parse(this.jsonStrBranch);
-          this.jsonObj["branch"] = [];
-          this.jsonObj["branch"].push("E3");
+          this.jsonObj["branch"] = "E3";
+          // this.jsonObj["branch"].push("E3");
           this.appendBranch = JSON.stringify(this.jsonObj);
           console.log("b- " + this.appendBranch);
           // console.log("fruits" + this.fruits[0]["name"]);
@@ -176,50 +176,91 @@ export default {
 
     searchFunction() {
       let selectedBranch = JSON.parse(this.appendBranch);
-      let params = {
-        page : 0,
-        size : this.itemsPerPage,
-        region : selectedBranch.branch,
+      // console.log("textSearch ",this.textSearch, " | length: ", this.textSearch.length);
+      let params = [];
+      if (this.textSearch.length == 0) {
+        params = {
+          page: 0,
+          size: this.itemsPerPage,
+          region: selectedBranch.branch,
+        };
+        console.log("searchFunction ", params);
+        
+        axios
+        .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
+        .then((resp) => {
+          this.getAllResult = resp.data;
+          console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
+
+          this.data1 = resp.data.data1;
+          this.itemsPerPage = resp.data.itemsPerPage;
+          this.totalItems = resp.data.totalItems;
+        })
+        .catch((error) => {
+          console.log(error.resp);
+        });
+      }else{
+        params = {
+          page: 0,
+          size: this.itemsPerPage,
+          region: selectedBranch.branch,
+          textSearch: this.textSearch,
+        };
+        console.log("searchFunction ", params);
+
+        axios
+        .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
+        .then((resp) => {
+          this.getAllResult = resp.data;
+          console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
+
+          this.data1 = resp.data.data1;
+          this.itemsPerPage = resp.data.itemsPerPage;
+          this.totalItems = resp.data.totalItems;
+        })
+        .catch((error) => {
+          console.log(error.resp);
+        });
       }
-      console.log("searchFunction ",params);
+      // console.log("searchFunction ", params);
 
-      axios.get('http://localhost:8080/api/dev/getAllByPattern2',
-       { params }).then((resp) => {
-                        this.getAllResult = resp.data;
-                        console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
+      // axios
+      //   .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
+      //   .then((resp) => {
+      //     this.getAllResult = resp.data;
+      //     console.log("getAllByPattern2", JSON.stringify(this.getAllResult));
 
-                        this.data1 = (resp.data.data1);
-                        this.itemsPerPage = resp.data.itemsPerPage;
-                        this.totalItems = resp.data.totalItems;
-                      })
-                      .catch((error) => {
-                        console.log(error.resp);
-                      })
+      //     this.data1 = resp.data.data1;
+      //     this.itemsPerPage = resp.data.itemsPerPage;
+      //     this.totalItems = resp.data.totalItems;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.resp);
+      //   });
     },
   },
   computed: {
-      likesAllFruit() {
-        return this.selectedFruits.length === this.fruits.length;
-      },
-      likesSomeFruit() {
-        return this.selectedFruits.length > 0 && !this.likesAllFruit;
-      },
-      icon() {
-        if (this.likesAllFruit) return "mdi-close-box";
-        if (this.likesSomeFruit) return "mdi-minus-box";
-        return "mdi-checkbox-blank-outline";
-      },
-      likesAllTypeSearch() {
-        return this.selectedTypeSearch.length === this.typeSearch.length;
-      },
-      likesSomeTypeSearch() {
-        return this.selectedTypeSearch.length > 0 && !this.likesAllTypeSearch;
-      },
-      icon2() {
-        if (this.likesAllTypeSearch) return "mdi-close-box";
-        if (this.likesSomeTypeSearch) return "mdi-minus-box";
-        return "mdi-checkbox-blank-outline";
-      },
+    likesAllFruit() {
+      return this.selectedFruits.length === this.fruits.length;
     },
-
-  };
+    likesSomeFruit() {
+      return this.selectedFruits.length > 0 && !this.likesAllFruit;
+    },
+    icon() {
+      if (this.likesAllFruit) return "mdi-close-box";
+      if (this.likesSomeFruit) return "mdi-minus-box";
+      return "mdi-checkbox-blank-outline";
+    },
+    likesAllTypeSearch() {
+      return this.selectedTypeSearch.length === this.typeSearch.length;
+    },
+    likesSomeTypeSearch() {
+      return this.selectedTypeSearch.length > 0 && !this.likesAllTypeSearch;
+    },
+    icon2() {
+      if (this.likesAllTypeSearch) return "mdi-close-box";
+      if (this.likesSomeTypeSearch) return "mdi-minus-box";
+      return "mdi-checkbox-blank-outline";
+    },
+  },
+};
