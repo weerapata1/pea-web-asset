@@ -11,6 +11,11 @@ export default {
       let res = await axios.get("http://localhost:8080/data/" + eventId,{headers: {'Access-Control-Allow-Origin': '*'}});
       return res.data;
     },
+    async getCC(){
+      let res = axios.get("http://localhost:8080/cc/getAllCC");
+      console.log("cc ", res.data );
+      return res.data
+    }
 
 //    async getSearch(jdata){
 //      var obj = JSON.parse(jdata);
