@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.SneakyThrows;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -214,15 +216,15 @@ public class DeviceController {
         }
     }
 
-//    @SneakyThrows
-//    @PostMapping("/upload")
-//    public ResponseEntity<ResponseMessage> importExcelFile(@RequestParam("file") MultipartFile files) throws IOException {
-//        String message = "";
-//        if (ExcelHelper.hasExcelFormat(files)) {
-//            deviceService.chkCellType(files);
-//        }
-//        message = "Please upload an excel file!";
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
-//    }
+   @SneakyThrows
+   @PostMapping("/upload2")
+   public ResponseEntity<ResponseMessage> importExcelFile2(@RequestParam("file") MultipartFile files) throws IOException {
+       String message = "";
+       if (ExcelHelper.hasExcelFormat(files)) {
+           deviceService.chkCellType(files);
+       }
+       message = "Please upload an excel file!";
+       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+   }
 
 }

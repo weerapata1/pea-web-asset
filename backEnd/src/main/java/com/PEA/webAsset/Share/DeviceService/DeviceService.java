@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,20 +46,18 @@ public class DeviceService {
         try {
             tbDevice newDevice = new tbDevice();
 
-            newDevice.setDevPeaNo(dev_peaNo);
-            newDevice.setDevSerialNo(dev_serialNo);
-            newDevice.setDevNote(dev_note);
-            newDevice.setDevDescription(dev_description);
-            newDevice.setDevUpdate(dateTime);
-            newDevice.setDevReceived(date);
-
-            newDevice.setTbCostCenter(costCenterRepository.findByCcLongCode(tbCostCenter));
+            // newDevice.setDevPeaNo(dev_peaNo);
+            // newDevice.setDevSerialNo(dev_serialNo);
+            // newDevice.setDevNote(dev_note);
+            // newDevice.setDevDescription(dev_description);
+            // newDevice.setDevUpdate(dateTime);
+            
+            // newDevice.setTbCostCenter(costCenterRepository.findByCcLongCode(tbCostCenter));
 
             deviceRepository.save(newDevice);
         } catch (Exception e) {
             throw new RuntimeException("POST Fail : " + e.getMessage());
         }
-
     }
 
     public void chkCellType(MultipartFile file) throws Exception {
@@ -106,18 +105,23 @@ public class DeviceService {
             XSSFSheet worksheet = workbook.getSheetAt(0);
 
             for (int index = 0; index < worksheet.getPhysicalNumberOfRows(); index++) {
+                tbDevice device = new tbDevice();
+                XSSFRow row = worksheet.getRow(index);
+
+                Double recievedPrice = (double) row.getCell(10).getNumericCellValue();
+                if(recievedPrice >= 1){
+
+                }
                 if (index > 0) {
-                    tbDevice device = new tbDevice();
-
-                    XSSFRow row = worksheet.getRow(index);
-
-                    Long id = (long) row.getCell(0).getNumericCellValue();
-                    String serialNo = row.getCell(1).getStringCellValue();
+                    // Long id = (long) row.getCell(0).getNumericCellValue();
                     String peaNo = row.getCell(2).getStringCellValue();
-                    String description = row.getCell(3).getStringCellValue();
-                    String ccId = row.getCell(4).getStringCellValue();
+                    String description = row.getCell(4).getStringCellValue();
+                    String serialNo = row.getCell(5).getStringCellValue();
+                    Date recievedDate = row.getCell(9).getDateCellValue();
+                    Double leftPrice = (double) row.getCell(11).getNumericCellValue();
+                    String ccId = row.getCell(12).getStringCellValue();
 
-                    System.out.println("id >" + id);
+                    // System.out.println("id >" + id);
                     System.out.println("serialNo >" + serialNo);
                     System.out.println("peaNo >" + peaNo);
                     System.out.println("description >" + description);
@@ -125,9 +129,10 @@ public class DeviceService {
 
 //                    device.setId(id);
                     device.setDevPeaNo(peaNo);
-                    device.setDevSerialNo(serialNo);
                     device.setDevDescription(description);
-                    device.setDevReceived(dateReceived);
+                    device.setDevSerialNo(serialNo);
+                    device.setDevReceivedDate(recievedDate);
+                    device.setDevLeftPrice(leftPrice);
                     device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccId));
 
                     deviceList.add(device);
