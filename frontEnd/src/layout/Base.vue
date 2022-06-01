@@ -16,9 +16,13 @@
                   <i class="nc-icon nc-square-pin"></i>
                   <p>ระบบติดตามทรัพย์สิน</p>
                 </sidebar-link>
-                <sidebar-link to="">
+                <sidebar-link to="/repair">
                   <i class="nc-icon nc-settings-90"></i>
                   <p>ระบบแจ้งซ่อม</p>
+                </sidebar-link>
+                <sidebar-link to="/tracking">
+                  <i class="nc-icon nc-settings-90"></i>
+                  <p>ติดตามการซ่อม</p>
                 </sidebar-link>
             </side-bar>
         </div>

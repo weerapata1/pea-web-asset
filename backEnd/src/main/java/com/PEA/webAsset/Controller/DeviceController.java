@@ -9,6 +9,7 @@ import com.PEA.webAsset.Share.DeviceService.DeviceService;
 import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 import com.PEA.webAsset.Share.ExcelService.ExcelService;
 import com.PEA.webAsset.Share.ResponseMessage;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -214,15 +215,15 @@ public class DeviceController {
         }
     }
 
-//    @SneakyThrows
-//    @PostMapping("/upload")
-//    public ResponseEntity<ResponseMessage> importExcelFile(@RequestParam("file") MultipartFile files) throws IOException {
-//        String message = "";
-//        if (ExcelHelper.hasExcelFormat(files)) {
-//            deviceService.chkCellType(files);
-//        }
-//        message = "Please upload an excel file!";
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
-//    }
+    @SneakyThrows
+    @PostMapping("/uploads")
+    public ResponseEntity<ResponseMessage> importExcelFiles(@RequestParam("file") MultipartFile files) throws IOException {
+        String message = "";
+        if (ExcelHelper.hasExcelFormat(files)) {
+            deviceService.chkCellType(files);
+        }
+        message = "Please upload an excel file!";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+    }
 
 }

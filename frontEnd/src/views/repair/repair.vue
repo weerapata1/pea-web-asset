@@ -1,0 +1,31 @@
+<template >
+  <v-card class="outside-card" color="purple lighten-1" dark>
+    <v-toolbar flat color="purple">
+      <v-icon>mdi-database-search</v-icon>
+      <v-toolbar-title class="font-weight-light">
+        ค้นหา
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-card-text>
+      <v-text-field  color="white" label="หมายเลขเครื่อง"></v-text-field>
+      <v-autocomplete  :items="states" :filter="customFilter" color="white" item-text="name"
+        label="การไฟฟ้า"></v-autocomplete>
+    </v-card-text>
+    <v-divider></v-divider>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn  color="success" @click="save">
+        ค้นหา
+      </v-btn>
+    </v-card-actions>
+    <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom left>
+      Your profile has been updated
+    </v-snackbar>
+  </v-card>
+</template>
+
+<script src="./repair.js"></script>
+
+<style src="./repair.css">
+</style>
