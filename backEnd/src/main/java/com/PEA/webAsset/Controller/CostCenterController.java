@@ -1,6 +1,6 @@
 package com.PEA.webAsset.Controller;
 
-import com.PEA.webAsset.Entity.tbCostCenter;
+import com.PEA.webAsset.Entity.tbCostCenterTest;
 import com.PEA.webAsset.Repository.CostCenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +19,7 @@ public class CostCenterController {
     CostCenterRepository costCenterRepository;
 
     @GetMapping("/getAllCC")
-    public Collection<tbCostCenter> getAllCC(){
+    public Collection<tbCostCenterTest> getAllCC(){
         return costCenterRepository.findAll().stream().collect(Collectors.toList());
     }
 

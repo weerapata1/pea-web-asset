@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Console;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,7 +36,7 @@ public class DeviceService {
     DeviceRepository deviceRepository;
 
     public void postDevice(String dev_serialNo, String dev_note, String dev_description
-            , String dev_peaNo, String tbCostCenter
+            , String dev_peaNo, String tbCostCenterTest
 //                           ,String dateTimeNow ,String dateNow
     ) {
         String dateTimeTemp = now.format(dateTimeFormat);
@@ -97,29 +98,83 @@ public class DeviceService {
         LocalDate dateNow = LocalDate.now();
         String dateNowFormat = dateNow.format(dateFormat);
         LocalDate dateReceived = LocalDate.parse(dateNowFormat, dateFormat);
-
+        int index = 0;
         try {
             List<tbDevice> deviceList = new ArrayList<tbDevice>();
 
             XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
             XSSFSheet worksheet = workbook.getSheetAt(0);
-
-            for (int index = 0; index < worksheet.getPhysicalNumberOfRows(); index++) {
+            
+            for (index++; index < worksheet.getPhysicalNumberOfRows(); index++) {
                 tbDevice device = new tbDevice();
                 XSSFRow row = worksheet.getRow(index);
-
-                Double recievedPrice = (double) row.getCell(10).getNumericCellValue();
-                if(recievedPrice >= 1){
+                Double receivedPrice;
+                Cell c10 = row.getCell(10);
+                if (c10 == null || c10.getCellType() == CellType.BLANK) {
+                    receivedPrice = (double) 0;
+                }else{
+                    receivedPrice = (double) row.getCell(10).getNumericCellValue();
+                }
+                
+                if(receivedPrice >= 1){
 
                 }
                 if (index > 0) {
+                    String peaNo;
+                    String description;
+                    String serialNo;
+                    String recievedDate;
+                    Double leftPrice;
+                    String ccId;
                     // Long id = (long) row.getCell(0).getNumericCellValue();
-                    String peaNo = row.getCell(2).getStringCellValue();
-                    String description = row.getCell(4).getStringCellValue();
-                    String serialNo = row.getCell(5).getStringCellValue();
-                    Date recievedDate = row.getCell(9).getDateCellValue();
-                    Double leftPrice = (double) row.getCell(11).getNumericCellValue();
-                    String ccId = row.getCell(12).getStringCellValue();
+                    Cell c2 = row.getCell(2);
+                    if (c2 == null || c2.getCellType() == CellType.BLANK) {
+                        peaNo = "";
+                        System.out.println("peaNo is BLANK at " + index);
+                    }else{
+                        peaNo = row.getCell(2).getStringCellValue();
+                    }
+                    Cell c4 = row.getCell(4);
+                    if (c4 == null || c4.getCellType() == CellType.BLANK) {
+                        description = "";
+                        System.out.println("description is BLANK at " + index);
+                    }else{
+                        description = row.getCell(4).getStringCellValue();
+                    }
+                    Cell c5 = row.getCell(5);
+                    if (c5 == null || c5.getCellType() == CellType.BLANK) {
+                        serialNo = "";
+                        System.out.println("serialNo is BLANK at " + index);
+                    }else{
+                        serialNo = row.getCell(5).getStringCellValue();
+                    }
+                    Cell c9 = row.getCell(9);
+                    if (c9 == null || c9.getCellType() == CellType.BLANK) {
+                        recievedDate = "";
+                        System.out.println("recievedDate is BLANK at " + index);
+                    }else{
+                        recievedDate = row.getCell(9).getStringCellValue();
+                    }
+                    Cell c11 = row.getCell(11);
+                    if (c11 == null || c11.getCellType() == CellType.BLANK) {
+                        leftPrice = (double) 1;
+                        System.out.println("leftPrice is BLANK at " + index);
+                    }else{
+                        leftPrice = (double) row.getCell(11).getNumericCellValue();
+                    }
+                    Cell c12 = row.getCell(12);
+                    if (c11 == null || c11.getCellType() == CellType.BLANK) {
+                        ccId = "";
+                        System.out.println("ccId is BLANK at " + index);
+                    }else{
+                        ccId = row.getCell(12).getStringCellValue();
+                    }
+                    // String peaNo = row.getCell(2).getStringCellValue();
+                    // String description = row.getCell(4).getStringCellValue();
+                    // String serialNo = row.getCell(5).getStringCellValue();
+                    // String recievedDate = row.getCell(9).getStringCellValue();
+                    // Double leftPrice = (double) row.getCell(11).getNumericCellValue();
+                    // String ccId = row.getCell(12).getStringCellValue();
 
                     // System.out.println("id >" + id);
                     System.out.println("serialNo >" + serialNo);
@@ -132,8 +187,9 @@ public class DeviceService {
                     device.setDevDescription(description);
                     device.setDevSerialNo(serialNo);
                     device.setDevReceivedDate(recievedDate);
+                    device.setDevReceivedPrice(receivedPrice);
                     device.setDevLeftPrice(leftPrice);
-                    device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccId));
+                    device.setTbCostCenterTest(costCenterRepository.findByCcLongCode(ccId));
 
                     deviceList.add(device);
                 }
@@ -141,7 +197,7 @@ public class DeviceService {
             workbook.close();
             return deviceList;
         } catch (IOException e) {
-            throw new RuntimeException("fail to store excel data: " + e.getMessage());
+            throw new RuntimeException("Line: " + index + "fail to store excel data: " + e.getMessage());
         }
     }
 

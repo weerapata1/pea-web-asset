@@ -5,9 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data @Setter @Getter
 @NoArgsConstructor
@@ -26,9 +24,10 @@ public class tbDevice {
     private String devPeaNo;
     //
     //   Join tbEmployee.class------------------------------
-    @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "emp_id", insertable = true)
-    private tbEmployee tbEmployee;
+    // @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "emp_id", insertable = true)
+    // private tbEmployee tbEmployee;
+    private String tbEmployee;
 //
     private String devDescription;
 //    @Column(name ="dev_serialNo", unique = true)
@@ -37,7 +36,7 @@ public class tbDevice {
     private String devNote;
 
     // @JsonFormat(pattern="yyyy-MM-dd")
-    private Date devReceivedDate;
+    private String devReceivedDate;
 
     private Double devReceivedPrice;
 
@@ -49,9 +48,9 @@ public class tbDevice {
     // private tbCommitment tbCommitment;
 
     //       Join tbCostCenter.class------------------------------
-    @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = tbCostCenterTest.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_id", insertable = true ,referencedColumnName = "cc_id")
-    private tbCostCenter tbCostCenter;
+    private tbCostCenterTest tbCostCenterTest;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime devUpdate;
