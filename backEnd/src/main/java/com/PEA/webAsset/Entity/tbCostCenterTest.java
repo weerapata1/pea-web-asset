@@ -8,13 +8,13 @@ import javax.persistence.*;
 @Data
 @Getter
 @Setter
-@Table(name = "tb_cost_center")
-@Entity(name = "tb_cost_center")
+@Table(name = "tb_cost_center_test")
+@Entity(name = "tb_cost_center_test")
 // @Table(name = "tb_cost_center_test")
 // @Entity(name = "tb_cost_center_test")
 @NoArgsConstructor
 @EqualsAndHashCode
-public class tbCostCenter {
+public class tbCostCenterTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cc_seq")
     @SequenceGenerator(name = "cc_seq", sequenceName = "cc_seq")

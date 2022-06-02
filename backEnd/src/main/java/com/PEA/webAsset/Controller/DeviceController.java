@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.SneakyThrows;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -169,7 +171,7 @@ public class DeviceController {
                 message = "Uploaded the file successfully: " + files.getOriginalFilename() + "\n";
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
             } catch (Exception e) {
-                message = "Could not upload the file: " + files.getOriginalFilename() + " " + e.getMessage();
+                message = "Could not upload the file: " + files.getOriginalFilename() +e.getMessage();
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
             }
         }
@@ -215,15 +217,15 @@ public class DeviceController {
         }
     }
 
-    @SneakyThrows
-    @PostMapping("/uploads")
-    public ResponseEntity<ResponseMessage> importExcelFiles(@RequestParam("file") MultipartFile files) throws IOException {
-        String message = "";
-        if (ExcelHelper.hasExcelFormat(files)) {
-            deviceService.chkCellType(files);
-        }
-        message = "Please upload an excel file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
-    }
+   @SneakyThrows
+   @PostMapping("/upload2")
+   public ResponseEntity<ResponseMessage> importExcelFile2(@RequestParam("file") MultipartFile files) throws IOException {
+       String message = "";
+       if (ExcelHelper.hasExcelFormat(files)) {
+           deviceService.chkCellType(files);
+       }
+       message = "Please upload an excel file!";
+       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+   }
 
 }
