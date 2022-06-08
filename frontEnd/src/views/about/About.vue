@@ -172,6 +172,8 @@
       :items-per-page="itemsPerPage"
       :server-items-length="totalItems"
       multi-sort
+      :loading="myloadingvariable"
+      loading-text="Loading... Please wait"
       class="elevation-1"
     ></v-data-table>
   </div>

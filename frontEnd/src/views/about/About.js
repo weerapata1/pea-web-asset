@@ -16,11 +16,11 @@ export default {
         },
         { text: "คำอธิบายของสินทรัพย์", value: "devDescription" },
         { text: "หมายเลขผลิตภัณฑ์", value: "devSerialNo" },
-        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceived" },
-        { text: "มูลค่าการได้มา", value: "price_recieve" },
-        { text: "มูลค่าตามบัญชี", value: "price_left" },
+        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceivedDate" },
+        { text: "มูลค่าการได้มา", value: "devReceivedPrice" },
+        { text: "มูลค่าตามบัญชี", value: "devLeftPrice" },
         { text: "รหัสพนักงานผู้ครอบครอง", value: "tbEmployee.empName" },
-        { text: "ศูนย์ต้นทุน", value: "tbCostCenter.ccLongCode" },
+        { text: "ศูนย์ต้นทุน", value: "tbCostCenterTest.ccLongCode" },
       ],
       select: [],
       fruits: [
@@ -93,10 +93,12 @@ export default {
       totalItems: 0,
 
       alert: false,
+      myloadingvariable: false,
     };
   },
 
   mounted() {
+    this.myloadingvariable = true;
     axios
       .get("http://localhost:8080/api/dev/getAllDevice/")
       .then((resp) => {
@@ -105,6 +107,7 @@ export default {
         this.itemsPerPage = resp.data.itemsPerPage;
         this.totalItems = resp.data.totalItems;
         console.log("at mounted ", this.getAllResult.data.totalItems);
+        this.myloadingvariable = false;
       })
       .catch((error) => {
         console.log(error.resp);
@@ -116,8 +119,10 @@ export default {
   },
 
   created() {
+    //this.myloadingvariable = true;
     console.log("at created");
     this.getEventsData(); // NEW - call getEventData() when the instance is created
+    //this.myloadingvariable = false;
   },
   // NEW
 
@@ -129,10 +134,11 @@ export default {
           console.log("inside method dataservice", JSON.stringify(events));
           this.$set(this, "events", events);
         }).bind(this)
+        
       );
     },
     hide_alert: function () {
-      console.log("Hide");
+      console.log("at getEventsData");
       // `event` is the native DOM event
     },
     toggleBranch() {
@@ -192,6 +198,7 @@ export default {
           console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
+        this.myloadingvariable = true;
         let selectedBranch = JSON.parse(this.appendBranch);
         // console.log("textSearch ",this.textSearch, " | length: ", this.textSearch.length);
         let params = [];
@@ -215,6 +222,7 @@ export default {
               this.data1 = resp.data.data1;
               this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
+              this.myloadingvariable = false;
             })
             .catch((error) => {
               console.log(error.resp);
@@ -246,6 +254,7 @@ export default {
             });
         }
       }
+      this.myloadingvariable = false;
     },
   },
   computed: {
