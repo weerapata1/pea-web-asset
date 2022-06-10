@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
 import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
+import repairForm from '../views/repairForm/repairForm.vue'
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/repairForm',
+    name: 'repairForm',
+    component: repairForm
   },
   {
     path: '/repair',
