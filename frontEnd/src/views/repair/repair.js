@@ -1,17 +1,12 @@
 import axios from "axios";
 
-const defTemp = {
-  subject: "ขอให้จัดซ่อมคอมพิวเตอร์ และอุปกรณ์ประกอบ",
-  substance: "ขอแจ้งเครื่องชำรุจเพื่อส่งซ่อมตามรายการดังนี้"
 
-}
 
 export default {
 
   name: "Repair",
   data() {
     return {
-      defTemp,
       hasSaved: false,
       model: null,
       states: [
