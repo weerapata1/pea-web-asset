@@ -100,7 +100,7 @@ export default {
   mounted() {
     this.myloadingvariable = true;
     axios
-      .get("http://localhost:8080/api/dev/getAllDevice/")
+      .get("http://localhost:8080/api/dev/getAllDevice53/")
       .then((resp) => {
         this.getAllResult = resp;
         this.data1 = resp.data.data1;

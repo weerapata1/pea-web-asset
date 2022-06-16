@@ -36,12 +36,12 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         Page<tbDevice> findDeviceByCcId(@Param("ccLong") String ccLong, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
-                        "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
+                        // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR e.emp_id LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR e.emp_name LIKE CONCAT('%',:textSearch,'%')) " +
+                        "OR dev_serial_no LIKE CONCAT('%',:textSearch,'%')) " +
+                        // "OR e.emp_id LIKE CONCAT('%',:textSearch,'%') " +
+                        // "OR e.emp_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_id LIKE CONCAT(:ccLong,'%'))", nativeQuery = true)
         Page<tbDevice> findDeviceByCcIdAndTextSearch(@Param("ccLong") String ccLong,@Param("textSearch") String textSearch, Pageable pageable);
 
@@ -54,4 +54,9 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         Page<tbDevice> findDeviceByEmpIdOrEmpNameAndCC2(
                         // @Param("empId") String empId, @Param("empName") String empName,
                         @Param("ccLong") String ccLong, Pageable pageable);
+
+        @Query(value = "SELECT * from tb_device d " +
+                        // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
+                        "WHERE (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+        Page<tbDevice> findAll53(Pageable pageable);
 }
