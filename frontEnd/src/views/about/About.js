@@ -1,5 +1,8 @@
+import Vue from "vue";
 import axios from "axios";
-import DataService from "../../services/dataServices.js"; // NEW
+// import DataService from "../../services/dataServices.js"; // NEW
+import JsonExcel from "vue-json-excel";
+Vue.component("downloadExcel", JsonExcel);
 
 export default {
   name: "EventsList",
@@ -11,7 +14,6 @@ export default {
         {
           text: "เลขทรัพย์สิน",
           align: "start",
-          sortable: false,
           value: "devPeaNo",
         },
         { text: "คำอธิบายของสินทรัพย์", value: "devDescription" },
@@ -94,11 +96,22 @@ export default {
 
       alert: false,
       myloadingvariable: false,
+
+      assetType:[
+        { id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
+        { id: "2", name: "2.ทรัพย์สินคอมพิวเตอร์ มูลค่าคงเหลือ 1 บาท", value: "153" },
+        { id: "3", name: "3.ทรัพย์สินทุกประเภท", value: "all" },
+        { id: "3", name: "4.ทรัพย์สินทุกประเภท มูลค่าคงเหลือ 1 บาท", value: "1all" },
+      ],
+      selectedAssetType:{ id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
+      setAssetType:[],
+      jsonStrAssetType: '{"assetType":["53"]}',
     };
   },
 
   mounted() {
     this.myloadingvariable = true;
+    this.setAssetType = JSON.stringify({assetType:53});
     axios
       .get("http://localhost:8080/api/dev/getAllDevice53/")
       .then((resp) => {
@@ -109,10 +122,10 @@ export default {
         console.log("at mounted ", this.getAllResult.data.totalItems);
         this.myloadingvariable = false;
       })
+      
       .catch((error) => {
         console.log(error.resp);
       });
-
     if (alert) {
       this.hide_alert();
     }
@@ -120,25 +133,25 @@ export default {
 
   created() {
     //this.myloadingvariable = true;
-    console.log("at created");
-    this.getEventsData(); // NEW - call getEventData() when the instance is created
+    // console.log("at created");
+    // this.getEventsData(); // NEW - call getEventData() when the instance is created
     //this.myloadingvariable = false;
   },
   // NEW
 
   methods: {
-    async getEventsData() {
-      // NEW - Use the eventService to call the getEvents() method
-      DataService.getEvents().then(
-        ((events) => {
-          console.log("inside method dataservice", JSON.stringify(events));
-          this.$set(this, "events", events);
-        }).bind(this)
+    // async getEventsData() {
+    //   // NEW - Use the eventService to call the getEvents() method
+    //   DataService.getEvents().then(
+    //     ((events) => {
+    //       console.log("inside method dataservice", JSON.stringify(events));
+    //       this.$set(this, "events", events);
+    //     }).bind(this)
         
-      );
-    },
+    //   );
+    // },
     hide_alert: function () {
-      console.log("at getEventsData");
+      console.log("at hide_alert");
       // `event` is the native DOM event
     },
     toggleBranch() {
@@ -165,29 +178,36 @@ export default {
       this.appendBranch = JSON.stringify(this.jsonObj);
       console.log("b-" + this.appendBranch);
     },
-    toggleType() {
-      this.$nextTick(() => {
-        if (this.likesAllTypeSearch) {
-          this.selectedTypeSearch = [];
-          this.appendType = [];
-          console.log("t-");
-        } else {
-          this.selectedTypeSearch = this.typeSearch.slice();
-          this.jsonObj = JSON.parse(this.jsonStrType);
-          this.jsonObj["type"] = [];
-          this.jsonObj["type"].push("*");
-          this.appendType = JSON.stringify(this.jsonObj);
-          console.log("t-" + this.appendType);
-          // console.log("fruits" + this.fruits[0]["name"]);
-        }
-      });
-    },
-    toggleType2(TypeSearch) {
-      this.jsonObj = JSON.parse(this.jsonStrType);
-      this.jsonObj["type"] = [];
-      this.jsonObj["type"] = TypeSearch;
-      this.appendType = JSON.stringify(this.jsonObj);
-      console.log("t-" + this.appendType);
+    // toggleType() {
+    //   this.$nextTick(() => {
+    //     if (this.likesAllTypeSearch) {
+    //       this.selectedTypeSearch = [];
+    //       this.appendType = [];
+    //       console.log("t-");
+    //     } else {
+    //       this.selectedTypeSearch = this.typeSearch.slice();
+    //       this.jsonObj = JSON.parse(this.jsonStrType);
+    //       this.jsonObj["type"] = [];
+    //       this.jsonObj["type"].push("*");
+    //       this.appendType = JSON.stringify(this.jsonObj);
+    //       console.log("t-" + this.appendType);
+    //       // console.log("fruits" + this.fruits[0]["name"]);
+    //     }
+    //   });
+    // },
+    // toggleType2(TypeSearch) {
+    //   this.jsonObj = JSON.parse(this.jsonStrType);
+    //   this.jsonObj["type"] = [];
+    //   this.jsonObj["type"] = TypeSearch;
+    //   this.appendType = JSON.stringify(this.jsonObj);
+    //   console.log("t-" + this.appendType);
+    // },
+    toggleAssetType(assetType){
+        this.jsonObj = JSON.parse(this.jsonStrAssetType);
+        this.jsonObj["assetType"] = [];
+        this.jsonObj["assetType"] = assetType;
+        this.setAssetType = JSON.stringify(this.jsonObj);
+        console.log("assetType-" + JSON.stringify(this.jsonObj));
     },
 
     searchFunction() {
@@ -200,13 +220,15 @@ export default {
       } else {
         this.myloadingvariable = true;
         let selectedBranch = JSON.parse(this.appendBranch);
-        // console.log("textSearch ",this.textSearch, " | length: ", this.textSearch.length);
+        let setAssetType = JSON.parse(this.setAssetType);
+        // console.log("setAssetType ",this.setAssetType);
         let params = [];
         if (this.textSearch.length == 0) {
           params = {
             page: 0,
             size: this.itemsPerPage,
             region: selectedBranch.branch,
+            setAssetType: setAssetType.assetType
           };
           console.log("searchFunction ", params);
 

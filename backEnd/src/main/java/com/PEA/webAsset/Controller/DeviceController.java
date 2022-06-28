@@ -20,8 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.SneakyThrows;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -71,7 +69,7 @@ public class DeviceController {
     }
 
     @GetMapping("/getAllDevice53")
-    public ResponseEntity<Map<String, Object>> Device53(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Map<String, Object>> Device53(@RequestParam(defaultValue = "0")  int page,
                                                          @RequestParam(defaultValue = "30") int size) {
         try {
             List<tbDevice> device = new ArrayList<tbDevice>();
@@ -95,12 +93,13 @@ public class DeviceController {
     @GetMapping("/getAllByPattern2")
     public ResponseEntity<Map<String, Object>> Pattern2(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "30") int size,
-                                                        @RequestParam("region") String region) {
+                                                        @RequestParam("region") String region,
+                                                        @RequestParam("setAssetType") String setAssetType) {
         try {
             List<tbDevice> device = new ArrayList<tbDevice>();
             Pageable paging = PageRequest.of(page, size);
 
-            Page<tbDevice> pageTuts = (region.length() > 0) ? deviceRepository.findDeviceByCcId(region, paging) : null;
+            Page<tbDevice> pageTuts = (region.length() > 0) ? deviceRepository.findDeviceByCcId(region, paging, setAssetType) : null;
 
             device = pageTuts.getContent();
             System.out.println(pageTuts);

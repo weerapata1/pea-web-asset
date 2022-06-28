@@ -32,8 +32,8 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
                         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                        "WHERE (d.cc_id LIKE CONCAT(:ccLong,'%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId(@Param("ccLong") String ccLong, Pageable pageable);
+                        "WHERE (d.cc_id LIKE CONCAT(:ccLong,'%')) AND d.dev_pea_no LIKE CONCAT(:setAssetType,'%')", nativeQuery = true)
+        Page<tbDevice> findDeviceByCcId(@Param("ccLong") String ccLong, Pageable pageable, @Param("setAssetType") String setAssetType);
 
         @Query(value = "SELECT * from tb_device d " +
                         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
