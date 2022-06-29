@@ -24,6 +24,32 @@ export default {
         { text: "รหัสพนักงานผู้ครอบครอง", value: "tbEmployee.empName" },
         { text: "ศูนย์ต้นทุน", value: "tbCostCenterTest.ccLongCode" },
       ],
+      excelHeaders: {
+        "เลขทรัพย์สิน": "devPeaNo",
+        "คำอธิบายของสินทรัพย์": "devDescription",
+        "หมายเลขผลิตภัณฑ์": "devSerialNo",
+        "วันที่โอนเข้าเป็นทุน":"devReceivedDate",
+        "มูลค่าการได้มา":"devReceivedPrice",
+        "มูลค่าตามบัญชี":"devLeftPrice",
+        "รหัสพนักงานผู้ครอบครอง":{
+          field: "tbEmployee.empName",
+          callback: (value) => {
+            return `${value}`;
+          },
+        },
+        "ศูนย์ต้นทุน":{
+          field: "tbCostCenterTest.ccLongCode",
+          callback: (value) => {
+            return `${value}`;
+          },
+        },
+        // "Telephone 2": {
+        //   field: "phone.landline",
+        //   callback: (value) => {
+        //     return `Landline Phone - ${value}`;
+        //   },
+        // },
+      },
       select: [],
       fruits: [
         { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
@@ -97,21 +123,34 @@ export default {
       alert: false,
       myloadingvariable: false,
 
-      assetType:[
+      assetType: [
         { id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
-        { id: "2", name: "2.ทรัพย์สินคอมพิวเตอร์ มูลค่าคงเหลือ 1 บาท", value: "153" },
+        {
+          id: "2",
+          name: "2.ทรัพย์สินคอมพิวเตอร์ มูลค่าคงเหลือ 1 บาท",
+          value: "153",
+        },
         { id: "3", name: "3.ทรัพย์สินทุกประเภท", value: "all" },
-        { id: "3", name: "4.ทรัพย์สินทุกประเภท มูลค่าคงเหลือ 1 บาท", value: "1all" },
+        {
+          id: "3",
+          name: "4.ทรัพย์สินทุกประเภท มูลค่าคงเหลือ 1 บาท",
+          value: "1all",
+        },
       ],
-      selectedAssetType:{ id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
-      setAssetType:[],
+      selectedAssetType: {
+        id: "1",
+        name: "1.ทรัพย์สินคอมพิวเตอร์",
+        value: "53",
+      },
+      setAssetType: [],
       jsonStrAssetType: '{"assetType":["53"]}',
+      dataExcel: [],
     };
   },
 
   mounted() {
     this.myloadingvariable = true;
-    this.setAssetType = JSON.stringify({assetType:53});
+    // this.setAssetType = JSON.stringify({assetType:53});
     axios
       .get("http://localhost:8080/api/dev/getAllDevice53/")
       .then((resp) => {
@@ -122,7 +161,7 @@ export default {
         console.log("at mounted ", this.getAllResult.data.totalItems);
         this.myloadingvariable = false;
       })
-      
+
       .catch((error) => {
         console.log(error.resp);
       });
@@ -147,7 +186,7 @@ export default {
     //       console.log("inside method dataservice", JSON.stringify(events));
     //       this.$set(this, "events", events);
     //     }).bind(this)
-        
+
     //   );
     // },
     hide_alert: function () {
@@ -202,12 +241,12 @@ export default {
     //   this.appendType = JSON.stringify(this.jsonObj);
     //   console.log("t-" + this.appendType);
     // },
-    toggleAssetType(assetType){
-        this.jsonObj = JSON.parse(this.jsonStrAssetType);
-        this.jsonObj["assetType"] = [];
-        this.jsonObj["assetType"] = assetType;
-        this.setAssetType = JSON.stringify(this.jsonObj);
-        console.log("assetType-" + JSON.stringify(this.jsonObj));
+    toggleAssetType(assetType) {
+      this.jsonObj = JSON.parse(this.jsonStrAssetType);
+      this.jsonObj["assetType"] = [];
+      this.jsonObj["assetType"] = assetType;
+      this.setAssetType = JSON.stringify(this.jsonObj);
+      console.log("assetType-" + JSON.stringify(this.jsonObj));
     },
 
     searchFunction() {
@@ -215,23 +254,26 @@ export default {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
-          console.log("hide alert after 3 seconds");
+          // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
+        if (this.setAssetType.length == 0) {
+          this.setAssetType = JSON.stringify({ assetType: 53 });
+        }
         this.myloadingvariable = true;
         let selectedBranch = JSON.parse(this.appendBranch);
         let setAssetType = JSON.parse(this.setAssetType);
         // console.log("setAssetType ",this.setAssetType);
         let params = [];
+        //ถ้าไม่ใส่คำค้น
         if (this.textSearch.length == 0) {
           params = {
             page: 0,
             size: this.itemsPerPage,
             region: selectedBranch.branch,
-            setAssetType: setAssetType.assetType
+            setAssetType: setAssetType.assetType,
           };
-          console.log("searchFunction ", params);
-
+          // console.log("Pattern2 ", params);
           axios
             .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
             .then((resp) => {
@@ -249,12 +291,15 @@ export default {
             .catch((error) => {
               console.log(error.resp);
             });
-        } else {
+        }
+        //ถ้าใส่คำค้น
+        else {
           params = {
             page: 0,
             size: this.itemsPerPage,
             region: selectedBranch.branch,
             textSearch: this.textSearch,
+            setAssetType: setAssetType.assetType,
           };
           console.log("searchFunction ", params);
 
@@ -277,6 +322,128 @@ export default {
         }
       }
       this.myloadingvariable = false;
+    },
+
+    async fetchData2(){
+      if (this.setAssetType.length == 0) {
+        this.setAssetType = JSON.stringify({ assetType: 53 });
+      }
+      this.myloadingvariable = true;
+      let selectedBranch = JSON.parse(this.appendBranch);
+      let setAssetType = JSON.parse(this.setAssetType);
+      // console.log("setAssetType ",this.setAssetType);
+      let params = [];
+      params = {
+        region: selectedBranch.branch,
+        setAssetType: setAssetType.assetType,
+      };
+      let response = await axios
+      .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
+      .then((resp) => {
+        this.getAllResult = resp.data;
+        console.log(
+          "getAllByPattern2unpage",
+          JSON.stringify(this.getAllResult)
+        );
+
+        this.dataExcel = resp.data.dataExcel;
+        this.itemsPerPage = resp.data.itemsPerPage;
+        this.totalItems = resp.data.totalItems;
+        this.myloadingvariable = false;
+        return this.dataExcel;
+      })
+      .catch((error) => {
+        console.log(error.resp);
+      });
+      console.log("response: ", response);
+      return response;
+      
+    },
+    async fetchData() {
+      // console.log("excelFunction");
+      if (this.appendBranch == "") {
+        this.alert = true;
+        window.setInterval(() => {
+          this.alert = false;
+          // console.log("hide alert after 3 seconds");
+        }, 3000);
+      } else {
+        if (this.setAssetType.length == 0) {
+          this.setAssetType = JSON.stringify({ assetType: 53 });
+        }
+        this.myloadingvariable = true;
+        let selectedBranch = JSON.parse(this.appendBranch);
+        let setAssetType = JSON.parse(this.setAssetType);
+        // console.log("setAssetType ",this.setAssetType);
+        let params = [];
+        //ถ้าไม่ใส่คำค้น
+        if (this.textSearch.length == 0) {
+          params = {
+            // page: 0,
+            // size: this.itemsPerPage,
+            region: selectedBranch.branch,
+            setAssetType: setAssetType.assetType,
+          };
+          // console.log("Pattern2 ", params);
+          axios
+            .get("http://localhost:8080/api/dev/getExcelData2", { params })
+            .then((resp) => {
+              this.getAllResult = resp.data;
+              console.log("getExcelData2", JSON.stringify(this.getAllResult));
+
+              this.dataExcel = resp.data.dataExcel;
+              // this.itemsPerPage = resp.data.itemsPerPage;
+              // this.totalItems = resp.data.totalItems;
+              this.myloadingvariable = false;
+              // console.log("getExcelData2", this.dataExcel);
+              return this.dataExcel
+            })
+            .catch((error) => {
+              console.log(error.resp);
+            });
+        }
+        //ถ้าใส่คำค้น
+        else {
+          params = {
+            // page: 0,
+            // size: this.itemsPerPage,
+            region: selectedBranch.branch,
+            textSearch: this.textSearch,
+            setAssetType: setAssetType.assetType,
+          };
+          // console.log("excelFunction", params);
+
+          axios
+            .get("http://localhost:8080/api/dev/getExcelData2search", {
+              params,
+            })
+            .then((resp) => {
+              this.getAllResult = resp.data;
+              // console.log(
+              //   "getExcelData2search",
+              //   JSON.stringify(this.getAllResult)
+              // );
+
+              this.dataExcel = (resp.data.dataExcel);
+              // this.itemsPerPage = resp.data.itemsPerPage;
+              // this.totalItems = resp.data.totalItems;
+              console.log("getExcelData2search", this.dataExcel);
+              return this.dataExcel
+            })
+            .catch((error) => {
+              console.log(error.resp);
+            });
+        }
+      }
+      this.myloadingvariable = false;
+      return this.dataExcel
+    },
+
+    startDownload() {
+      alert('show loading');
+    },
+    finishDownload() {
+      alert('hide loading');
     },
   },
   computed: {

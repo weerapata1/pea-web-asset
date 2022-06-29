@@ -113,8 +113,9 @@
               <v-row>
                 <v-btn>
                   <download-excel
-                    :data="data1"
-                    :fields="headers.text"
+                    :fetch= "fetchData2"
+                    :data="dataExcel"
+                    :fields="excelHeaders"
                     worksheet="My Worksheet"
                     name="filename.xls"
                   >
