@@ -23,6 +23,7 @@ export default {
         { text: "มูลค่าตามบัญชี", value: "devLeftPrice" },
         { text: "รหัสพนักงานผู้ครอบครอง", value: "tbEmployee.empName" },
         { text: "ศูนย์ต้นทุน", value: "tbCostCenterTest.ccLongCode" },
+        { text: "Action"}
       ],
       excelHeaders: {
         "เลขทรัพย์สิน": "devPeaNo",
