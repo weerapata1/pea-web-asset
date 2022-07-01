@@ -4,6 +4,14 @@ import axios from "axios";
 import JsonExcel from "vue-json-excel";
 Vue.component("downloadExcel", JsonExcel);
 
+import QrcodeVue from "qrcode.vue";
+Vue.component("qrcode-vue", QrcodeVue);
+
+import { mdiQrcodeScan } from "@mdi/js";
+Vue.component("mdiQrcode-Scan", mdiQrcodeScan);
+
+import router from "../../router";
+
 export default {
   name: "EventsList",
   data() {
@@ -23,22 +31,22 @@ export default {
         { text: "มูลค่าตามบัญชี", value: "devLeftPrice" },
         { text: "รหัสพนักงานผู้ครอบครอง", value: "tbEmployee.empName" },
         { text: "ศูนย์ต้นทุน", value: "tbCostCenterTest.ccLongCode" },
-        { text: "Action"}
+        { text: "Action", value: "actions" , sortable: false },
       ],
       excelHeaders: {
-        "เลขทรัพย์สิน": "devPeaNo",
-        "คำอธิบายของสินทรัพย์": "devDescription",
-        "หมายเลขผลิตภัณฑ์": "devSerialNo",
-        "วันที่โอนเข้าเป็นทุน":"devReceivedDate",
-        "มูลค่าการได้มา":"devReceivedPrice",
-        "มูลค่าตามบัญชี":"devLeftPrice",
-        "รหัสพนักงานผู้ครอบครอง":{
+        เลขทรัพย์สิน: "devPeaNo",
+        คำอธิบายของสินทรัพย์: "devDescription",
+        หมายเลขผลิตภัณฑ์: "devSerialNo",
+        วันที่โอนเข้าเป็นทุน: "devReceivedDate",
+        มูลค่าการได้มา: "devReceivedPrice",
+        มูลค่าตามบัญชี: "devLeftPrice",
+        รหัสพนักงานผู้ครอบครอง: {
           field: "tbEmployee.empName",
           callback: (value) => {
             return `${value}`;
           },
         },
-        "ศูนย์ต้นทุน":{
+        ศูนย์ต้นทุน: {
           field: "tbCostCenterTest.ccLongCode",
           callback: (value) => {
             return `${value}`;
@@ -146,7 +154,51 @@ export default {
       setAssetType: [],
       jsonStrAssetType: '{"assetType":["53"]}',
       dataExcel: [],
+
+      qrcode_value: 
+      // JSON.parse([
+        JSON.stringify({
+          pea_no: "531009537-0",
+          description: "ระบบสายสัญญาณ (FIBER OPTIC)",
+          serial: "",
+          user_id: "430962",
+          user_name: "นาง มนัสนันท์ พรรักษมณีรัฐ",
+          cc_short_name: "ผบห.กฟฉ.2-บห.",
+          received_date: "2551.6.18",
+          price_recieve: "108130.85",
+          price_left: "1",
+          cost_center: "E301000010",
+        }),
+      // ]),
+      qrcode_size: 256,
+      dialog: false,
+      dialogDelete: false,
+
+      editedIndex: -1,
+      editedItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+      defaultItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
     };
+  },
+
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
   },
 
   mounted() {
@@ -325,7 +377,7 @@ export default {
       this.myloadingvariable = false;
     },
 
-    async fetchData2(){
+    async fetchData2() {
       if (this.setAssetType.length == 0) {
         this.setAssetType = JSON.stringify({ assetType: 53 });
       }
@@ -339,26 +391,25 @@ export default {
         setAssetType: setAssetType.assetType,
       };
       let response = await axios
-      .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
-      .then((resp) => {
-        this.getAllResult = resp.data;
-        console.log(
-          "getAllByPattern2unpage",
-          JSON.stringify(this.getAllResult)
-        );
+        .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
+        .then((resp) => {
+          this.getAllResult = resp.data;
+          console.log(
+            "getAllByPattern2unpage",
+            JSON.stringify(this.getAllResult)
+          );
 
-        this.dataExcel = resp.data.dataExcel;
-        this.itemsPerPage = resp.data.itemsPerPage;
-        this.totalItems = resp.data.totalItems;
-        this.myloadingvariable = false;
-        return this.dataExcel;
-      })
-      .catch((error) => {
-        console.log(error.resp);
-      });
+          this.dataExcel = resp.data.dataExcel;
+          this.itemsPerPage = resp.data.itemsPerPage;
+          this.totalItems = resp.data.totalItems;
+          this.myloadingvariable = false;
+          return this.dataExcel;
+        })
+        .catch((error) => {
+          console.log(error.resp);
+        });
       console.log("response: ", response);
       return response;
-      
     },
     async fetchData() {
       // console.log("excelFunction");
@@ -397,7 +448,7 @@ export default {
               // this.totalItems = resp.data.totalItems;
               this.myloadingvariable = false;
               // console.log("getExcelData2", this.dataExcel);
-              return this.dataExcel
+              return this.dataExcel;
             })
             .catch((error) => {
               console.log(error.resp);
@@ -425,11 +476,11 @@ export default {
               //   JSON.stringify(this.getAllResult)
               // );
 
-              this.dataExcel = (resp.data.dataExcel);
+              this.dataExcel = resp.data.dataExcel;
               // this.itemsPerPage = resp.data.itemsPerPage;
               // this.totalItems = resp.data.totalItems;
               console.log("getExcelData2search", this.dataExcel);
-              return this.dataExcel
+              return this.dataExcel;
             })
             .catch((error) => {
               console.log(error.resp);
@@ -437,14 +488,71 @@ export default {
         }
       }
       this.myloadingvariable = false;
-      return this.dataExcel
+      return this.dataExcel;
     },
 
     startDownload() {
-      alert('show loading');
+      alert("show loading");
     },
     finishDownload() {
-      alert('hide loading');
+      alert("hide loading");
+    },
+
+    editItem (item) {
+      this.editedIndex = this.data1.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      console.log(this.editedItem)
+      this.qrcode_value =
+      // JSON.parse([
+        JSON.stringify({
+          pea_no: this.editedItem['devPeaNo'],
+          description: this.editedItem['devDescription'],
+          serial: this.editedItem['devSerialNo'],
+          user_id: this.editedItem['tbEmployee']['empId'],
+          user_name: this.editedItem['tbEmployee']['empName'],
+          received_date: this.editedItem['devReceivedDate'],
+          price_recieve: this.editedItem['devReceivedPrice'],
+          price_left:this.editedItem['devLeftPrice'],
+          cc_short_name: this.editedItem['tbCostCenterTest']['ccShortName'],
+          cost_center: this.editedItem['tbCostCenterTest']['ccLongCode'],
+        }),
+      this.dialog = true
+    },
+
+    deleteItem (item) {
+      this.editedIndex = this.data1.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
+
+    deleteItemConfirm () {
+      router.push('/repair')
+      this.closeDelete()
+    },
+
+    close () {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    closeDelete () {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+      } else {
+        this.desserts.push(this.editedItem)
+      }
+      this.close()
     },
   },
   computed: {
@@ -469,6 +577,12 @@ export default {
       if (this.likesAllTypeSearch) return "mdi-close-box";
       if (this.likesSomeTypeSearch) return "mdi-minus-box";
       return "mdi-checkbox-blank-outline";
+    },
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Item' : 'QR Code'
+    },
+    formDevPeaNo () {
+      return this.editedIndex === -1 ? 'New Item' : this.editedItem['devPeaNo']
     },
   },
 };

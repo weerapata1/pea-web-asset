@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@mdi/js": "^6.9.96",
+    "@mdi/react": "^1.6.0",
     "axios": "^0.26.0",
     "bootstrap": "^5.1.3",
     "bootstrap-vue": "^2.21.2",
@@ -25,7 +27,7 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@mdi/font": "^6.7.96",
+    "@mdi/font": "^6.9.96",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "^4.5.15",
