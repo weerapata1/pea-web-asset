@@ -25,7 +25,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/getEmp/{id}")
-    public Collection<tbEmployee> getEmpId(@PathVariable("id")String id){
+    public tbEmployee getEmpId(@PathVariable("id")String id){
         return employeeRepository.findByEmpId(id);
     }
 

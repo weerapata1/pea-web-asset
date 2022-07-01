@@ -9,11 +9,11 @@ import java.util.Collection;
 
 @RepositoryRestResource
 public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
-    Collection<tbEmployee> findByEmpId(String empId);
+    tbEmployee findByEmpId(String empId);
 
 //    test
-    @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)
-    Collection<Object[]> findAllUsersWithPagination();
+//    @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)
+//    Collection<Object[]> findAllUsersWithPagination();
 
 
 

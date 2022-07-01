@@ -25,36 +25,37 @@ public class tbRepair {
     private LocalDateTime returnDate; //วันส่งคืน
 
     // อก.รท
-    @Column(name = "manager_status")
-    private Boolean managerApproveStatus;
-    @Column(name = "manager_status_detail")
-    private String  managerDetail;
-    @Column(name = "manager_date")
-    private LocalDateTime managerApproveDate;
-    @Column(name = "manager_sig")
-    private String managerSig;
+//    @Column(name = "manager_status")
+//    private Boolean managerApproveStatus;
+//    @Column(name = "manager_status_detail")
+//    private String  managerDetail;
+//    @Column(name = "manager_date")
+//    private LocalDateTime managerApproveDate;
+//    @Column(name = "manager_sig")
+//    private String managerSig;
 
     // หัวหน้า ผปค.
-    @Column(name = "op_lead_status")
-    private Boolean operationLeadApproveStatus;
-    @Column(name = "op_lead_detail")
-    private String operationLeadDetail;
-    @Column(name = "op_lead_date")
-    private LocalDateTime operationLeadApproveDate;
-    @Column(name = "op_lead_sig")
-    private String operationLeadSig;
+//    @Column(name = "op_lead_status")
+//    private Boolean operationLeadApproveStatus;
+//    @Column(name = "op_lead_detail")
+//    private String operationLeadDetail;
+//    @Column(name = "op_lead_date")
+//    private LocalDateTime operationLeadApproveDate;
+//    @Column(name = "op_lead_sig")
+//    private String operationLeadSig;
 
 //     พนักงงานคนรับเรื่อง
-    @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "empId",insertable = true,referencedColumnName = "empId")
-//    @JsonBackReference
-    private tbEmployee employee;
+//    @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
+//    @JoinColumn(name = "empId",insertable = true,referencedColumnName = "empId")
+////    @JsonBackReference
+//    private tbEmployee employee;
 
     @ManyToOne(targetEntity = tbRepairStatus.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id",insertable = true,referencedColumnName="id")
     private tbRepairStatus tbRepairStatus;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = tbDevice.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "device_id",insertable=true, referencedColumnName = "id")
     private tbDevice device;
+
 }

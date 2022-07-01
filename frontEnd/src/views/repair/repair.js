@@ -9,18 +9,18 @@ export default {
     return {
       hasSaved: false,
       model: null,
-      states: [
-        
-        ],
+      states: [],
+      device : [],
     }
   },
   mounted() {
     axios
       .get('http://localhost:8080/cc/getAllCC')
-      .then(response => {this.states = response.data;
-        // this.states = JSON.parse(response.data)
-        console.log(this.states)
+      .then(response => {
+         this.states = response.data;  
+  
       })
+
   },
 
   methods: {

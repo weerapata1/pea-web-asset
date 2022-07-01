@@ -16,7 +16,7 @@ public class tbRepairStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rps_id")
     @SequenceGenerator(name = "rps_id", sequenceName = "rps_id")
     @Column(name = "id", unique = true,nullable = false)
-    private Boolean id;
+    private Integer id;
 
     private String StatusName;
 }
