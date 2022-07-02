@@ -18,7 +18,18 @@ public interface RepairRepository extends JpaRepository<tbRepair ,Long> {
     @Query(value = "SELECT * FROM tb_repair r " +
             "JOIN tb_device d ON r.device_id = d.id " +
             "WHERE d.cc_id = :location" ,nativeQuery = true)
-    Collection<tbRepair> findByLocation(@Param("location")String location);
+    Collection<tbRepair> findDeviceRepairByLocation(@Param("location")String location);
+
+    @Query(value = "SELECT * FROM tb_repair r " +
+            "WHERE r.status_id = :status" ,nativeQuery = true)
+    Collection<tbRepair> findDeviceRepairByStatusId(@Param("status")int status);
+
+    @Query(value = "SELECT * FROM tb_repair r " +
+            "JOIN tb_device d ON r.device_id = d.id " +
+            "WHERE d.cc_id = :location AND r.status_id = :status" ,nativeQuery = true)
+    Collection<tbRepair> findDeviceRepairByLocationAndState(@Param("location")String location ,@Param("status")int status);
+
+
 
 
 }

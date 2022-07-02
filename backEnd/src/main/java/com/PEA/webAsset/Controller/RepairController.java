@@ -1,13 +1,10 @@
 package com.PEA.webAsset.Controller;
 
-import com.PEA.webAsset.Entity.tbCostCenterTest;
 import com.PEA.webAsset.Entity.tbRepair;
 import com.PEA.webAsset.Repository.CostCenterRepository;
 import com.PEA.webAsset.Repository.EmployeeRepository;
 import com.PEA.webAsset.Repository.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -31,7 +28,16 @@ public class RepairController {
 
     @GetMapping("/getByLocation")
     public Collection<tbRepair> getByLocation(@RequestParam("location")String location){
-        return repairRepository.findByLocation(location);
+        return repairRepository.findDeviceRepairByLocation(location);
+    }
+    @GetMapping("/getByStatusId")
+    public Collection<tbRepair> getByStatusId(@RequestParam("status")int status){
+        return repairRepository.findDeviceRepairByStatusId(status);
+    }
+
+    @GetMapping("/getByLocAndSta")
+    public Collection<tbRepair> getByLocationAndState(@RequestParam("location")String location,@RequestParam("status")int status){
+        return repairRepository.findDeviceRepairByLocationAndState(location,status);
     }
 
 }

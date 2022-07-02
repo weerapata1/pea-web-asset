@@ -13,7 +13,7 @@
             </v-row>
         </v-container>
 
-        <v-data-table :headers="headers" :items="data1" :items-per-page="10" class="elevation-1">
+        <v-data-table :headers="headers" :items="data1" :items-per-page="10" class="elevation-2">
             <template v-slot:item.recivedIn="{item}">
                 <span>{{new Date(item.recivedIn).toLocaleString() }}</span>
             </template>

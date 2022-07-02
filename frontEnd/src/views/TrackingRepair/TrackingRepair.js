@@ -2,14 +2,15 @@ import axios from "axios";
 
 export default {
 
-    name: "mainRepair",
+    name: "TrackingRepair",
     data: () => ({
         checkbox: true,
         items: [],
         value: null,
         headers: [
             { text: 'เลขทรัพย์สิน', align: 'start', sortable: false, value: 'device.devPeaNo', },
-            { text: 'การไฟฟ้า', value: 'device.tbCostCenterTest.ccFullName' },
+            { text: 'การไฟฟ้า', value: 'device.tbCostCenterTest.ccShortName' },
+            { text: 'คำอธิบายทรัพย์สิน', value: 'device.devDescription' },
             // { text: 'เลขที่สัญญา', value: 'damageDetail' },
             { text: 'หมายเลขผลิตภัณฑ์', value: 'device.devSerialNo' },
             { text: 'วันที่ส่งซ่อม', value: 'recivedIn' },
