@@ -534,7 +534,7 @@ export default {
     },
 
     deleteItemConfirm () {
-      router.push('/repair')
+      router.push('/repairForm')
       this.closeDelete()
     },
 
