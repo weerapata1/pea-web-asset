@@ -408,9 +408,17 @@ export default {
         .catch((error) => {
           console.log(error.resp);
         });
+
+
+        
       console.log("response: ", response);
       return response;
     },
+
+
+
+
+
     async fetchData() {
       // console.log("excelFunction");
       if (this.appendBranch == "") {

@@ -7,11 +7,11 @@ export default {
       console.log("export default", res.data);
       return res.data;
     },
-    async getAllDevice53() {
-      let res = await axios.get("http://localhost:8080/api/dev/getAllDevice53",{headers: {'Access-Control-Allow-Origin': '*'}});
-      console.log("export default", res.data);
-      return res.data;
-    },
+    // async getAllDevice53() {
+    //   let res = await axios.get("http://localhost:8080/api/dev/getAllDevice53",{headers: {'Access-Control-Allow-Origin': '*'}});
+    //   console.log("export default", res.data);
+    //   return res.data;
+    // },
     async getEventSingle(eventId) {
       let res = await axios.get("http://localhost:8080/data/" + eventId,{headers: {'Access-Control-Allow-Origin': '*'}});
       return res.data;
