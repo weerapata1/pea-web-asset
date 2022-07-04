@@ -7,15 +7,21 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
+
     <v-card-text>
-      <v-text-field  color="white" label="หมายเลขเครื่อง"></v-text-field>
-      <v-autocomplete  :items="states" :filter="customFilter" color="white" item-text="name"
-        label="การไฟฟ้า"></v-autocomplete>
+      <v-form v-model="valid">
+        <v-autocomplete v-model="model" :items="states" :filter="customFilter" color="white" item-text="ccFullName"
+          label="การไฟฟ้า">
+        </v-autocomplete>
+        <v-text-field color="white" label="เลขทรัพย์สิน"></v-text-field>
+        <v-text-field color="white" label="เลขที่สัญญา"></v-text-field>
+        <v-text-field color="white" label="อาการเสีย"></v-text-field>
+      </v-form>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn  color="success" @click="save">
+      <v-btn color="success" @click="save" to="/repairForm">
         ค้นหา
       </v-btn>
     </v-card-actions>

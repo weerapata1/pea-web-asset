@@ -176,7 +176,7 @@ public class DeviceController {
             if (setAssetType.equals("53")) {
                 System.out.println("Pattern2-53");
                 pageTuts = (region.length() > 0)
-                        ? deviceRepository.findDeviceByCcId53(region, paging)
+                        ? deviceRepository.findDeviceByCcId53(region, paging
                         : null;
             } else if (setAssetType.equals("153")) {
                 System.out.println("Pattern2-153");

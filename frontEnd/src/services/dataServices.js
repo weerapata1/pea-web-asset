@@ -20,7 +20,8 @@ export default {
       let res = axios.get("http://localhost:8080/cc/getAllCC");
       console.log("cc ", res.data );
       return res.data
-    }
+    },
+
 
 //    async getSearch(jdata){
 //      var obj = JSON.parse(jdata);
