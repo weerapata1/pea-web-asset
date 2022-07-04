@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@mdi/js": "^6.9.96",
+    "@mdi/react": "^1.6.0",
     "axios": "^0.26.0",
     "bootstrap": "^5.1.3",
     "bootstrap-vue": "^2.21.2",
@@ -17,16 +19,18 @@
     "jspdf": "^2.5.1",
     "material-design-icons": "^3.0.1",
     "node-sass": "^6.0.1",
+    "qrcode.vue": "^1.7.0",
     "pdfmake": "^0.2.5",
     "register-service-worker": "^1.7.2",
     "v-tooltip": "^2.1.3",
     "vue": "^2.6.11",
+    "vue-json-excel": "^0.3.0",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@mdi/font": "^6.7.96",
+    "@mdi/font": "^6.9.96",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "^4.5.15",

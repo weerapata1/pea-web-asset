@@ -30,14 +30,7 @@ export default {
       const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
       return date;
     },
-    customFilter(item, queryText) {
-      const textOne = item.name.toLowerCase()
-      const textTwo = item.abbr.toLowerCase()
-      const searchText = queryText.toLowerCase()
-
-      return textOne.indexOf(searchText) > -1 ||
-        textTwo.indexOf(searchText) > -1
-    },
+    
     save() {
       this.isEditing = !this.isEditing
       this.hasSaved = true
