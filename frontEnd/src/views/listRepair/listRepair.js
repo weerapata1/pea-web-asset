@@ -23,43 +23,43 @@ export default {
         }
     },
     mounted() {
-        axios.get(url+"/cc/getAllCC").then((res => {
+        axios.get(url + "/cc/getAllCC").then((res => {
             this.items = res.data;
         })).catch(error => {
             console.log(error);
         });
 
-        axios.get(url+"/repair/getAllRepair").then((res => {
+        axios.get(url + "/repair/getAllRepair").then((res => {
             this.data1 = res.data;
         })).catch(error => {
             console.log(error);
         });
     },
     methods: {
-        lookFor(value){
-            if(this.state == 1){
-                this.find(value , 1);
+        lookFor(value) {
+            if (this.state == 1) {
+                this.find(value, 1);
             }
-            else if(this.state == 2){
-                this.find(value , 2);
+            else if (this.state == 2) {
+                this.find(value, 2);
             }
-            else if(this.state == 3){
-                this.find(value , 3);
+            else if (this.state == 3) {
+                this.find(value, 3);
             }
         },
-        find(value,state) {
+        find(value, state) {
             let yy = value.ccLongCode
-            axios.get(url+"/repair/getByLocAndSta", { params: { location: yy ,status : state} }).then((res => {
+            axios.get(url + "/repair/getByLocAndSta", { params: { location: yy, status: state } }).then((res => {
                 this.data1 = res.data;
             })).catch(error => {
                 console.log(error);
             });
-            console.log(yy +" "+ state)
+            console.log(yy + " " + state)
         },
 
         reseveInState() {
             this.state = 1;
-            axios.get(url+"/repair/getByStatusId",{params : {status : this.state}}).then((res =>{
+            axios.get(url + "/repair/getByStatusId", { params: { status: this.state } }).then((res => {
                 this.data1 = res.data;
             })).catch(error => {
                 console.log(error);
@@ -68,7 +68,7 @@ export default {
         },
         inProgressState() {
             this.state = 2;
-            axios.get(url+"/repair/getByStatusId",{params : {status : this.state}}).then((res =>{
+            axios.get(url + "/repair/getByStatusId", { params: { status: this.state } }).then((res => {
                 this.data1 = res.data;
             })).catch(error => {
                 console.log(error);
@@ -77,12 +77,18 @@ export default {
         },
         doneState() {
             this.state = 3;
-            axios.get(url+"/repair/getByStatusId",{params : {status : this.state}}).then((res =>{
+            axios.get(url + "/repair/getByStatusId", { params: { status: this.state } }).then((res => {
                 this.data1 = res.data;
             })).catch(error => {
                 console.log(error);
             });
             console.log("done", this.state)
         },
+        recived(item) {
+            console.log(item.repairId);
+        },
+        inProgress(item) { console.log(item.repairId); },
+        done(item) { console.log(item.repairId); },
+
     }
 }
