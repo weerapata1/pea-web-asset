@@ -3,6 +3,7 @@ package com.PEA.webAsset.Share.DeviceService;
 import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Repository.CostCenterRepository;
 import com.PEA.webAsset.Repository.DeviceRepository;
+import com.PEA.webAsset.Repository.EmployeeRepository;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -34,6 +35,8 @@ public class DeviceService {
     CostCenterRepository costCenterRepository;
     @Autowired
     DeviceRepository deviceRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     public void postDevice(String dev_serialNo, String dev_note, String dev_description
             , String dev_peaNo, String tbCostCenterTest

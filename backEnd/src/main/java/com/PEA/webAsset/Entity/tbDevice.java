@@ -24,10 +24,9 @@ public class tbDevice {
     private String devPeaNo;
     //
     //   Join tbEmployee.class------------------------------
-    // @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "emp_id", insertable = true)
-    // private tbEmployee tbEmployee;
-    private String tbEmployee;
+     @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
+     @JoinColumn(name = "emp_id", insertable = true)
+     private tbEmployee tbEmployee;
 //
     private String devDescription;
 //    @Column(name ="dev_serialNo", unique = true)

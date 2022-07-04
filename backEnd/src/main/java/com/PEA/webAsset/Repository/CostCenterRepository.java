@@ -7,4 +7,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface CostCenterRepository extends JpaRepository<tbCostCenterTest, Long> {
     tbCostCenterTest findByCcLongCode(String ccLongCode);
+
+    tbCostCenterTest findCcIdByCcFullName(String ccFullName);
 }
