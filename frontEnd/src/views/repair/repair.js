@@ -9,7 +9,8 @@ export default {
     return {
       hasSaved: false,
       model: null,
-      states: [],
+      valid : null, 
+      items: [],
       device : [],
     }
   },
@@ -17,7 +18,7 @@ export default {
     axios
       .get('http://localhost:8080/cc/getAllCC')
       .then(response => {
-         this.states = response.data;  
+         this.items = response.data;  
   
       })
 

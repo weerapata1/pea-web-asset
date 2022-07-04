@@ -10,7 +10,7 @@
 
     <v-card-text>
       <v-form v-model="valid">
-        <v-autocomplete v-model="model" :items="states" color="white" item-text="ccFullName"
+        <v-autocomplete v-model="model" :items="items" color="white" item-text="ccFullName"
           label="การไฟฟ้า">
         </v-autocomplete>
         <v-text-field color="white" label="เลขทรัพย์สิน"></v-text-field>
