@@ -20,12 +20,17 @@ public class tbEmployee {
     @SequenceGenerator(name = "emp_seq",sequenceName = "emp_seq")
     @Column(name = "empId", unique = true,nullable = false)
     @NotNull
-    private String empId;
+    private String empId; // รหัสพนักงาน
 
-    private String empName;
+    private String empName; // ชื่อพนักงาน
 
-    // public tbEmployee(String empId, String empName){
-    //     this.empId = empId;
-    //     this.empName = empName;
-    // }
+
+    private String empRole;  //ตำแหน่ง
+
+    private String empDepFull; // ชื่อแผนก
+
+    private String empCcId;  //
+
+    private String empCcShortName; //
+    
 }
