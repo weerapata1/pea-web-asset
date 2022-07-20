@@ -13,14 +13,11 @@
             </v-row>
         </v-container>
 
-        <v-data-table :headers="headers" :items="data1" :items-per-page="10" class="elevation-2">
-            <template v-slot:item.recivedIn="{item}">
-                <span>{{new Date(item.recivedIn).toLocaleString() }}</span>
-            </template>
+        <v-data-table :headers="headers" :items="data1" :items-per-page="10" :sort-by="['sendDate']" :sort-desc="[true]">
+            
         </v-data-table>
     </v-card>
 
 </template>
 <script src="./TrackingRepair.js"></script>
-<style src="./TrackingRepair.css">
-</style>
+<style src="./TrackingRepair.css" scoped></style>

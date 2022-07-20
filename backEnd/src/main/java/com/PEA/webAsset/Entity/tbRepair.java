@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Data
 @Getter @Setter
@@ -18,12 +19,24 @@ public class tbRepair {
     @Column(name = "repairId")
     private Long repairId;
 
-    private LocalDateTime recivedIn; //รับเรื่องซ่อม
-
+    private LocalDateTime SendDate; //ส่งเรื่องซ่อม
     private String damageDetail;    //อาการที่เสีย
+    @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
+    @JoinColumn(name = "empSend",insertable = true,referencedColumnName = "empId")
+//    @JsonBackReference
+    private tbEmployee empSend; // คนนำเครื่องมาส่ง
 
+    private LocalDateTime admitDate; //รับเรื่องซ่อม
+    private String examineDamage; // อาการเบื้องต้น
+    @ManyToOne(targetEntity = tbEmpAdmin.class,fetch = FetchType.EAGER)
+    @JoinColumn(name = "adminReceive",insertable = true,referencedColumnName = "id")
+    private tbEmpAdmin adminReceive; //คนรับเครื่องเข้าระบบ
+
+    private String treatment; // วิธีการซ่อม
+    private LocalDateTime treatComplete; // วันที่ซ่อมเสร็จ
+
+    private String returnEmp; //คนมารับเครื่อง
     private LocalDateTime returnDate; //วันส่งคืน
-
     // อก.รท
 //    @Column(name = "manager_status")
 //    private Boolean managerApproveStatus;
@@ -44,18 +57,13 @@ public class tbRepair {
 //    @Column(name = "op_lead_sig")
 //    private String operationLeadSig;
 
-//     พนักงงานคนรับเรื่อง
-//    @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
-//    @JoinColumn(name = "empId",insertable = true,referencedColumnName = "empId")
-////    @JsonBackReference
-//    private tbEmployee employee;
+
 
     @ManyToOne(targetEntity = tbRepairStatus.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id",insertable = true,referencedColumnName="id")
-    private tbRepairStatus tbRepairStatus;
+    private tbRepairStatus repairStatus; //สถานะการส่งซ่อม
 
     @ManyToOne(targetEntity = tbDevice.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "device_id",insertable=true, referencedColumnName = "id")
-    private tbDevice device;
-
+    private tbDevice device; //เครื่องที่ส่งซ่อม
 }

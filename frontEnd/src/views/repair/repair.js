@@ -21,7 +21,6 @@ export default {
          this.items = response.data;  
   
       })
-
   },
 
   methods: {
