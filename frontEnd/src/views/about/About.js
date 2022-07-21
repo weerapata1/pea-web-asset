@@ -22,18 +22,22 @@ export default {
         {
           text: "เลขทรัพย์สิน",
           align: "start",
-          value: "devPeaNo", 
-          width: '3%'
+          value: "devPeaNo",
+          width: "4%",
         },
-        { text: "คำอธิบายของสินทรัพย์", value: "devDescription", width: '5%' },
-        { text: "หมายเลขผลิตภัณฑ์", value: "devSerialNo", width: '2%' },
-        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceivedDate", width: '4%' },
-        { text: "มูลค่าการได้มา", value: "devReceivedPrice", width: '2%' },
-        { text: "มูลค่าตามบัญชี", value: "devLeftPrice", width: '2%' },
-        { text: "ชื่อผู้ครอบครอง", value: "tbEmployee.empName", width: '7%' },
-        { text: "รหัสพนักงาน", value: "tbEmployee.empId", width: '3%' },
-        { text: "ศูนย์ต้นทุน", value: "tbCostCenterTest.ccLongCode", width: '5%' },
-        { text: "Action", value: "actions" , sortable: false , width: '2%'},
+        { text: "คำอธิบายของสินทรัพย์", value: "devDescription", width: "6%" },
+        { text: "หมายเลขผลิตภัณฑ์", value: "devSerialNo", width: "3%" },
+        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceivedDate", width: "7%" },
+        { text: "มูลค่าการได้มา", value: "devReceivedPrice", width: "3%" },
+        { text: "มูลค่าตามบัญชี", value: "devLeftPrice", width: "3%" },
+        { text: "ชื่อผู้ครอบครอง", value: "tbEmployee.empName", width: "7%" },
+        { text: "รหัสพนักงาน", value: "tbEmployee.empId", width: "3%" },
+        {
+          text: "ศูนย์ต้นทุน",
+          value: "tbCostCenterTest.ccLongCode",
+          width: "5%",
+        },
+        { text: "Action", value: "actions", sortable: false, width: "3%" },
       ],
       excelHeaders: {
         เลขทรัพย์สิน: "devPeaNo",
@@ -42,8 +46,14 @@ export default {
         วันที่โอนเข้าเป็นทุน: "devReceivedDate",
         มูลค่าการได้มา: "devReceivedPrice",
         มูลค่าตามบัญชี: "devLeftPrice",
-        รหัสพนักงานผู้ครอบครอง: {
+        ชื่อผู้ครอบครอง: {
           field: "tbEmployee.empName",
+          callback: (value) => {
+            return `${value}`;
+          },
+        },
+        รหัสพนักงาน: {
+          field: "tbEmployee.empId",
           callback: (value) => {
             return `${value}`;
           },
@@ -130,7 +140,11 @@ export default {
       data1: [],
       itemsPerPage: 0,
       totalItems: 0,
-      footerProps: {'items-per-page-options': [30, 50, 100, -1],'page':0, showFirstLastPage: true,},
+      footerProps: {
+        "items-per-page-options": [30, 50, 100, -1],
+        page: 0,
+        showFirstLastPage: true,
+      },
       alert: false,
       myloadingvariable: false,
 
@@ -157,8 +171,8 @@ export default {
       jsonStrAssetType: '{"assetType":["53"]}',
       dataExcel: [],
 
-      qrcode_value: 
-      // JSON.parse([
+      qrcode_value:
+        // JSON.parse([
         JSON.stringify({
           pea_no: "531009537-0",
           description: "ระบบสายสัญญาณ (FIBER OPTIC)",
@@ -178,14 +192,14 @@ export default {
 
       editedIndex: -1,
       editedItem: {
-        name: '',
+        name: "",
         calories: 0,
         fat: 0,
         carbs: 0,
         protein: 0,
       },
       defaultItem: {
-        name: '',
+        name: "",
         calories: 0,
         fat: 0,
         carbs: 0,
@@ -195,11 +209,11 @@ export default {
   },
 
   watch: {
-    dialog (val) {
-      val || this.close()
+    dialog(val) {
+      val || this.close();
     },
-    dialogDelete (val) {
-      val || this.closeDelete()
+    dialogDelete(val) {
+      val || this.closeDelete();
     },
   },
 
@@ -320,19 +334,25 @@ export default {
         if (this.setAssetType.length == 0) {
           this.setAssetType = JSON.stringify({ assetType: 53 });
         }
+        // this.setAssetType.length === 0
+        //   ? (this.setAssetType2 = JSON.stringify({ assetType: 53 }))
+        //   : (this.setAssetType2 = JSON.parse(this.setAssetType));
+
         this.myloadingvariable = true;
         let selectedBranch = JSON.parse(this.appendBranch);
-        let setAssetType = JSON.parse(this.setAssetType);
+
+        let setAssetType2 = JSON.parse(this.setAssetType);
         // console.log("setAssetType ",this.setAssetType);
         let params = [];
+        console.log("itemsPerPage" , this.itemsPerPage);
         //ถ้าไม่ใส่คำค้น
         if (this.textSearch.length == 0) {
-          if(this.itemsPerPage > 0){
+          if (this.itemsPerPage > 0) {
             params = {
               page: 0,
               size: this.itemsPerPage,
               region: selectedBranch.branch,
-              setAssetType: setAssetType.assetType,
+              setAssetType: setAssetType2.assetType,
             };
             // console.log("Pattern2 ", params);
             axios
@@ -341,9 +361,11 @@ export default {
                 this.getAllResult = resp.data;
                 console.log(
                   "getAllByPattern2",
-                  JSON.stringify(this.getAllResult)
+                  JSON.stringify(this.getAllResult),
+                  " resp.data.itemsPerPage ",
+                  resp.data.itemsPerPage
                 );
-  
+
                 this.data1 = resp.data.data1;
                 this.itemsPerPage = resp.data.itemsPerPage;
                 this.totalItems = resp.data.totalItems;
@@ -352,21 +374,23 @@ export default {
               .catch((error) => {
                 console.log(error.resp);
               });
-          }else if(this.itemsPerPage == -1){
+          } else if (this.itemsPerPage == -1) {
             params = {
               region: selectedBranch.branch,
-              setAssetType: setAssetType.assetType,
+              setAssetType: setAssetType2.assetType,
             };
             // console.log("Pattern2 ", params);
             axios
-              .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
+              .get("http://localhost:8080/api/dev/getAllByPattern2unpage", {
+                params,
+              })
               .then((resp) => {
                 this.getAllResult = resp.data;
                 console.log(
                   "getAllByPattern2unpage",
                   JSON.stringify(this.getAllResult)
                 );
-  
+
                 this.data1 = resp.data.dataExcel;
                 this.itemsPerPage = resp.data.itemsPerPage;
                 this.totalItems = resp.data.totalItems;
@@ -384,7 +408,7 @@ export default {
             size: this.itemsPerPage,
             region: selectedBranch.branch,
             textSearch: this.textSearch,
-            setAssetType: setAssetType.assetType,
+            setAssetType: setAssetType2.assetType,
           };
           console.log("searchFunction ", params);
 
@@ -441,91 +465,9 @@ export default {
           console.log(error.resp);
         });
 
-
-        
       console.log("response: ", response);
       return response;
     },
-
-    // async fetchData() {
-    //   // console.log("excelFunction");
-    //   if (this.appendBranch == "") {
-    //     this.alert = true;
-    //     window.setInterval(() => {
-    //       this.alert = false;
-    //       // console.log("hide alert after 3 seconds");
-    //     }, 3000);
-    //   } else {
-    //     if (this.setAssetType.length == 0) {
-    //       this.setAssetType = JSON.stringify({ assetType: 53 });
-    //     }
-    //     this.myloadingvariable = true;
-    //     let selectedBranch = JSON.parse(this.appendBranch);
-    //     let setAssetType = JSON.parse(this.setAssetType);
-    //     // console.log("setAssetType ",this.setAssetType);
-    //     let params = [];
-    //     //ถ้าไม่ใส่คำค้น
-    //     if (this.textSearch.length == 0) {
-    //       params = {
-    //         // page: 0,
-    //         // size: this.itemsPerPage,
-    //         region: selectedBranch.branch,
-    //         setAssetType: setAssetType.assetType,
-    //       };
-    //       // console.log("Pattern2 ", params);
-    //       axios
-    //         .get("http://localhost:8080/api/dev/getExcelData2", { params })
-    //         .then((resp) => {
-    //           this.getAllResult = resp.data;
-    //           console.log("getExcelData2", JSON.stringify(this.getAllResult));
-
-    //           this.dataExcel = resp.data.dataExcel;
-    //           // this.itemsPerPage = resp.data.itemsPerPage;
-    //           // this.totalItems = resp.data.totalItems;
-    //           this.myloadingvariable = false;
-    //           // console.log("getExcelData2", this.dataExcel);
-    //           return this.dataExcel;
-    //         })
-    //         .catch((error) => {
-    //           console.log(error.resp);
-    //         });
-    //     }
-    //     //ถ้าใส่คำค้น
-    //     else {
-    //       params = {
-    //         // page: 0,
-    //         // size: this.itemsPerPage,
-    //         region: selectedBranch.branch,
-    //         textSearch: this.textSearch,
-    //         setAssetType: setAssetType.assetType,
-    //       };
-    //       // console.log("excelFunction", params);
-
-    //       axios
-    //         .get("http://localhost:8080/api/dev/getExcelData2search", {
-    //           params,
-    //         })
-    //         .then((resp) => {
-    //           this.getAllResult = resp.data;
-    //           // console.log(
-    //           //   "getExcelData2search",
-    //           //   JSON.stringify(this.getAllResult)
-    //           // );
-
-    //           this.dataExcel = resp.data.dataExcel;
-    //           // this.itemsPerPage = resp.data.itemsPerPage;
-    //           // this.totalItems = resp.data.totalItems;
-    //           console.log("getExcelData2search", this.dataExcel);
-    //           return this.dataExcel;
-    //         })
-    //         .catch((error) => {
-    //           console.log(error.resp);
-    //         });
-    //     }
-    //   }
-    //   this.myloadingvariable = false;
-    //   return this.dataExcel;
-    // },
 
     startDownload() {
       alert("show loading");
@@ -534,61 +476,61 @@ export default {
       alert("hide loading");
     },
 
-    editItem (item) {
-      this.editedIndex = this.data1.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      console.log(this.editedItem)
-      this.qrcode_value =
-      // JSON.parse([
+    editItem(item) {
+      this.editedIndex = this.data1.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      console.log(this.editedItem);
+      (this.qrcode_value =
+        // JSON.parse([
         JSON.stringify({
-          pea_no: this.editedItem['devPeaNo'],
-          description: this.editedItem['devDescription'],
-          serial: this.editedItem['devSerialNo'],
-          user_id: this.editedItem['tbEmployee']['empId'],
-          user_name: this.editedItem['tbEmployee']['empName'],
-          received_date: this.editedItem['devReceivedDate'],
-          price_recieve: this.editedItem['devReceivedPrice'],
-          price_left:this.editedItem['devLeftPrice'],
-          cc_short_name: this.editedItem['tbCostCenterTest']['ccShortName'],
-          cost_center: this.editedItem['tbCostCenterTest']['ccLongCode'],
-        }),
-      this.dialog = true
+          pea_no: this.editedItem["devPeaNo"],
+          description: this.editedItem["devDescription"],
+          serial: this.editedItem["devSerialNo"],
+          user_id: this.editedItem["tbEmployee"]["empId"],
+          user_name: this.editedItem["tbEmployee"]["empName"],
+          received_date: this.editedItem["devReceivedDate"],
+          price_recieve: this.editedItem["devReceivedPrice"],
+          price_left: this.editedItem["devLeftPrice"],
+          cc_short_name: this.editedItem["tbCostCenterTest"]["ccShortName"],
+          cost_center: this.editedItem["tbCostCenterTest"]["ccLongCode"],
+        })),
+        (this.dialog = true);
     },
 
-    deleteItem (item) {
-      this.editedIndex = this.data1.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
+    deleteItem(item) {
+      this.editedIndex = this.data1.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
     },
 
-    deleteItemConfirm () {
-      router.push('/repairForm')
-      this.closeDelete()
+    deleteItemConfirm() {
+      router.push("/repairForm");
+      this.closeDelete();
     },
 
-    close () {
-      this.dialog = false
+    close() {
+      this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
 
-    closeDelete () {
-      this.dialogDelete = false
+    closeDelete() {
+      this.dialogDelete = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
 
-    save () {
+    save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        Object.assign(this.desserts[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem)
+        this.desserts.push(this.editedItem);
       }
-      this.close()
+      this.close();
     },
   },
   computed: {
@@ -614,11 +556,11 @@ export default {
       if (this.likesSomeTypeSearch) return "mdi-minus-box";
       return "mdi-checkbox-blank-outline";
     },
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'QR Code'
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "QR Code";
     },
-    formDevPeaNo () {
-      return this.editedIndex === -1 ? 'New Item' : this.editedItem['devPeaNo']
+    formDevPeaNo() {
+      return this.editedIndex === -1 ? "New Item" : this.editedItem["devPeaNo"];
     },
   },
 };
