@@ -132,14 +132,15 @@
     <v-data-table
       :headers="headers"
       :items="data1"
-      :items-per-page="itemsPerPage"
-      :footer-props="{ 'items-per-page-options': [30, 50, 100] }"
+      :footer-props="footerProps"
+      @update:items-per-page="getItemPerPage"
       :server-items-length="totalItems"
       multi-sort
       :loading="myloadingvariable"
       loading-text="Loading... Please wait"
       class="elevation-1"
     >
+     <!-- :footer-props="{ 'items-per-page-options': [30, 50, 100] }" -->
       <template v-slot:top>
         <v-toolbar flat>
           <!-- <v-toolbar-title>My CRUD</v-toolbar-title>
