@@ -139,6 +139,9 @@
       :loading="myloadingvariable"
       loading-text="Loading... Please wait"
       class="elevation-1"
+      v-model="selected"
+      show-select
+      @input="enterSelect()"
     >
      <!-- :footer-props="{ 'items-per-page-options': [30, 50, 100] }" -->
       <template v-slot:top>
