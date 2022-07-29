@@ -32,5 +32,5 @@ public class tbEmployee {
     private String empCcId;  //
 
     private String empCcShortName; //
-    
+
 }

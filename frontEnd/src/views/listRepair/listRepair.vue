@@ -49,44 +49,12 @@
 
                     <td>
                         <div v-if="row.item.repairStatus.id == 1">
-                            <v-dialog v-model="diaRec" persistent width="700">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn block color="#fdcd26" v-bind="attrs" v-on="on" @click="recived(row.item)">
-                                        รับเครื่อง
-                                    </v-btn>
-                                </template>
-                                <v-card>
-                                    <v-card-title>
-                                        <span class="text-h5">User Profile</span>
-                                    </v-card-title>
-                                    <v-card-text>
-                                        <v-container>
-                                            <v-row>
-                                                <!-- <v-col cols="12" sm="6">
-                                                    <v-select v-model="adNameSelect"  item-text="adName" label="ผู้รับเรื่อง"
-                                                        required><option>:value="adName"</option></v-select>
-                                                </v-col> -->
-                                                
-                                                <v-col cols="12" sm="6">
-                                                    <v-select
-                                                        v-model="examineSelect" :items="examines" item-text="name"
-                                                        label="อาการเสียเบื้องต้น" required></v-select>
-                                                </v-col>
-                                            </v-row>
-                                        </v-container>
-                                        <small>*indicates required field</small>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn color="blue-darken-1" text @click="diaRec = false">
-                                            Close
-                                        </v-btn>
-                                        <v-btn color="blue-darken-1" text @click="RecSave(adNameSelect,examineSelect)">
-                                            Save
-                                        </v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
+
+
+                            <v-btn block color="#fdcd26" @click="diaRec = true ; recived(row.item)">
+                                รับเครื่อง
+                            </v-btn>
+
                         </div>
 
 
@@ -141,6 +109,38 @@
                 </tr>
             </template>
         </v-data-table>
+        <v-dialog v-model="diaRec" persistent width="700">
+            <v-card>
+                <v-card-title>
+                    <span class="text-h5">User Profile</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container>
+                        <v-row>
+                            <!-- <v-col cols="12" sm="6">
+                                                    <v-select v-model="adNameSelect"  item-text="adName" label="ผู้รับเรื่อง"
+                                                        required><option>:value="adName"</option></v-select>
+                                                </v-col> -->
+
+                            <v-col cols="12" sm="6">
+                                <v-select v-model="examineSelect" :items="examines" item-text="name"
+                                    label="อาการเสียเบื้องต้น" required></v-select>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                    <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue-darken-1" text @click="diaRec = false">
+                        Close
+                    </v-btn>
+                    <v-btn color="blue-darken-1" text @click="RecSave(adNameSelect, examineSelect)">
+                        Save
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-card>
 
 </template>
