@@ -74,25 +74,7 @@
                   label="ประเภททรัพย์สิน"
                   @change="toggleAssetType"
                 >
-                  <!-- multiple -->
-                  <!-- <template v-slot:prepend-item>
-                    <v-list-item
-                      ripple
-                      @mousedown.prevent
-                      @click="toggleBranch"
-                    >
-                      <v-list-item-action>
-                        <v-icon
-                          :color="
-                            selectedFruits.length > 0 ? 'indigo darken-4' : ''
-                          "
-                        >
-                          {{ icon }}
-                        </v-icon>
-                      </v-list-item-action>
-                    </v-list-item>
-                   
-                  </template> -->
+
                 </v-select>
               </v-row>
             </v-container>
@@ -146,26 +128,9 @@
      <!-- :footer-props="{ 'items-per-page-options': [30, 50, 100] }" -->
       <template v-slot:top>
         <v-toolbar flat>
-          <!-- <v-toolbar-title>My CRUD</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-spacer></v-spacer> -->
-          <v-dialog v-model="dialog" max-width="500px">
-            <!-- <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              New Item
-            </v-btn>
-          </template> -->
 
+          <v-dialog v-model="dialog" max-width="500px">
+           
             <v-card>
               <v-card-title>
                 <span class="text-h5">{{ formTitle }}</span>
@@ -174,56 +139,7 @@
               <v-card-text>
                 <v-container>
                   <v-row>
-                    <!-- <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.name"
-                      label="Dessert name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
-                  </v-col> -->
+                    
                     <qrcode-vue
                       :value="qrcode_value"
                       :size="qrcode_size"
@@ -271,14 +187,7 @@
           mdi-folder-wrench-outline
         </v-icon>
       </template>
-      <!-- <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template> -->
+
     </v-data-table>
   </div>
 </template>

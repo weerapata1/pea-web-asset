@@ -24,8 +24,13 @@ public class tbEmployee {
 
     private String empName;
 
-    // public tbEmployee(String empId, String empName){
-    //     this.empId = empId;
-    //     this.empName = empName;
-    // }
+
+    private String empRole;  //ตำแหน่ง
+
+    private String empDepFull; // ชื่อแผนก
+
+    private String empCcId;  //
+
+    private String empCcShortName; //
+    
 }
