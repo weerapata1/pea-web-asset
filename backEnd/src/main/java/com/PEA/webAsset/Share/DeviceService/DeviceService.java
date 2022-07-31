@@ -160,7 +160,7 @@ public class DeviceService {
                             serialNo = "";
                             System.out.println("serialNo is BLANK at " + index);
                         } else {
-                            serialNo = row.getCell(5).getStringCellValue();
+                            serialNo = (String) row.getCell(5).getStringCellValue();
                         }
                         Cell c9 = row.getCell(9);
                         if (c9 == null || c9.getCellType() == CellType.BLANK) {

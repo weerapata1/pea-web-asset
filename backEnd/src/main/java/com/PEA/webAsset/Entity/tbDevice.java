@@ -59,9 +59,9 @@ public class tbDevice {
     private LocalDateTime devUpdate;
     //
     // Join tbDeviceType.class------------------------------
-    // @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "device_type_id", insertable = true)
-    // private tbDeviceType tbDeviceType;
+    @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "dt_id", insertable = true, referencedColumnName = "dt_id", nullable = true)
+    private tbDeviceType tbDeviceType;
 
     // @ManyToOne(targetEntity = tbDeviceBrand.class, fetch = FetchType.EAGER)
     // @JoinColumn(name = "brand_id", insertable = true,referencedColumnName = "id")
