@@ -12,6 +12,9 @@ Vue.component("mdiQrcode-Scan", mdiQrcodeScan);
 
 import router from "../../router";
 
+import VueHtml2pdf from "vue-html2pdf";
+Vue.component("VueHtml2pdf", VueHtml2pdf);
+
 export default {
     name: "EventsList",
     data() {
@@ -170,7 +173,7 @@ export default {
                 cost_center: "E301000010",
             }),
             // ]),
-            qrcode_size: 256,
+            qrcode_size: 224,
             dialog: false,
             dialogDelete: false,
 
@@ -189,6 +192,9 @@ export default {
                 carbs: 0,
                 protein: 0,
             },
+      groupSelected: [],
+      qrcode_value2:[],
+
             selected: [],
         };
     },
