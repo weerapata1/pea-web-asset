@@ -12,6 +12,9 @@ Vue.component("mdiQrcode-Scan", mdiQrcodeScan);
 
 import router from "../../router";
 
+import VueHtml2pdf from "vue-html2pdf";
+Vue.component("VueHtml2pdf", VueHtml2pdf);
+
 export default {
   name: "EventsList",
   data() {
@@ -19,25 +22,64 @@ export default {
       event: {},
       events: [],
       headers: [
+        // {
+        //   align: "start",
+        //   value: "",
+        //   width: "1%",
+        //   text:"select-all"
+        // },
         {
           text: "เลขทรัพย์สิน",
           align: "start",
           value: "devPeaNo",
-          width: "4%",
+          width: "10%",
         },
-        { text: "คำอธิบายของสินทรัพย์", value: "devDescription", width: "6%" },
-        { text: "หมายเลขผลิตภัณฑ์", value: "devSerialNo", width: "3%" },
-        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceivedDate", width: "7%" },
-        { text: "มูลค่าการได้มา", value: "devReceivedPrice", width: "3%" },
-        { text: "มูลค่าตามบัญชี", value: "devLeftPrice", width: "3%" },
-        { text: "ชื่อผู้ครอบครอง", value: "tbEmployee.empName", width: "7%" },
-        { text: "รหัสพนักงาน", value: "tbEmployee.empId", width: "3%" },
+        {
+          text: "คำอธิบายของสินทรัพย์",
+          value: "devDescription",
+          // width: "6%"
+        },
+        {
+          text: "หมายเลขผลิตภัณฑ์",
+          value: "devSerialNo",
+          //  width: "3%"
+        },
+        {
+          text: "วันที่โอนเข้าเป็นทุน",
+          value: "devReceivedDate",
+          // width: "7%"
+        },
+        {
+          text: "มูลค่าการได้มา",
+          value: "devReceivedPrice",
+          //  width: "3%"
+        },
+        {
+          text: "มูลค่าตามบัญชี",
+          value: "devLeftPrice",
+          // width: "3%"
+        },
+        {
+          text: "ชื่อผู้ครอบครอง",
+          value: "tbEmployee.empName",
+          width: "15%"
+        },
+        {
+          text: "รหัสพนักงาน",
+          value: "tbEmployee.empId",
+          // width: "3%"
+        },
         {
           text: "ศูนย์ต้นทุน",
           value: "tbCostCenterTest.ccLongCode",
-          width: "5%",
+          // width: "5%",
         },
-        { text: "Action", value: "actions", sortable: false, width: "3%" },
+        {
+          text: "Action",
+          value: "actions",
+          sortable: false,
+          // width: "3%"
+        },
       ],
       excelHeaders: {
         เลขทรัพย์สิน: "devPeaNo",
@@ -146,6 +188,7 @@ export default {
         showFirstLastPage: true,
       },
       alert: false,
+      alert2: false,
       myloadingvariable: false,
 
       assetType: [
@@ -186,7 +229,7 @@ export default {
           cost_center: "E301000010",
         }),
       // ]),
-      qrcode_size: 256,
+      qrcode_size: 224,
       dialog: false,
       dialogDelete: false,
 
@@ -205,6 +248,9 @@ export default {
         carbs: 0,
         protein: 0,
       },
+      groupSelected: [],
+      qrcode_value2:[],
+
     };
   },
 
@@ -234,9 +280,9 @@ export default {
       .catch((error) => {
         console.log(error.resp);
       });
-    if (alert) {
-      this.hide_alert();
-    }
+    // if (alert) {
+    //   this.hide_alert();
+    // }
   },
 
   created() {
@@ -263,10 +309,10 @@ export default {
       console.log(this.itemsPerPage);
       this.searchFunction();
     },
-    hide_alert: function () {
-      console.log("at hide_alert");
-      // `event` is the native DOM event
-    },
+    // hide_alert: function () {
+    //   console.log("at hide_alert");
+    //   // `event` is the native DOM event
+    // },
     toggleBranch() {
       this.$nextTick(() => {
         if (this.likesAllFruit) {
@@ -344,7 +390,7 @@ export default {
         let setAssetType2 = JSON.parse(this.setAssetType);
         // console.log("setAssetType ",this.setAssetType);
         let params = [];
-        console.log("itemsPerPage" , this.itemsPerPage);
+        console.log("itemsPerPage", this.itemsPerPage);
         //ถ้าไม่ใส่คำค้น
         if (this.textSearch.length == 0) {
           if (this.itemsPerPage > 0) {
@@ -531,6 +577,57 @@ export default {
         this.desserts.push(this.editedItem);
       }
       this.close();
+    },
+    enterSelect() {
+      let e = this.selected.map((e) => e);
+      // console.log(e.length); // logs all the selected items.
+      this.qrcode_value2=[];
+      this.groupSelected = e;
+      console.log(this.groupSelected.length);
+      // this.qrcode_value2 = JSON.stringify(this.groupSelected);
+      // user_id: this.editedItem["tbEmployee"]["empId"],
+      // user_name: this.editedItem["tbEmployee"]["empName"],
+      let i = 0;
+      let result = this.groupSelected.map(({devPeaNo}) => ({devPeaNo}));
+      // result.forEach((element) => {
+      //   element.empId = this.groupSelected.tbEmployee.empId;
+      // });
+      for(i = 0; i<this.groupSelected.length;i++){
+          result[i].empId = this.groupSelected[i].tbEmployee.empId;
+          result[i].empName = this.groupSelected[i].tbEmployee.empName;
+          result[i].costCenter = this.groupSelected[i].tbCostCenterTest.ccLongCode;
+      }
+          
+      for(i = 0; i< result.length;i++){
+        console.log(JSON.stringify(result[i]));
+        // this.qrcode_value2[i].push(JSON.stringify(this.groupSelected[i].devPeaNo));
+        this.qrcode_value2.push(JSON.stringify(result[i]));
+      }
+      if (this.selected.length == this.itemsPerPage) {
+        alert("selected all");
+      }
+    },
+
+    // genQR_Code() {},
+
+    generateReport() {
+      // var opt = {
+      //   margin:       [30, 0, 30, 0], //top, left, buttom, right
+      //   // filename:    name + '.pdf',
+      //   // image:        { type: 'jpeg', quality: 0.98 },
+      //   // html2canvas:  { dpi: 192, scale: 2, letterRendering: true},
+      //   // jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait'},
+      //   // pageBreak: { mode: 'css', after:'.break-page'}
+      //   };
+      if (this.groupSelected.length == 0) {
+        this.alert2 = true;
+        window.setInterval(() => {
+          this.alert2 = false;
+          // console.log("hide alert after 3 seconds");
+        }, 3000);
+      } else {
+        this.$refs.html2Pdf.generatePdf();
+      }
     },
   },
   computed: {
