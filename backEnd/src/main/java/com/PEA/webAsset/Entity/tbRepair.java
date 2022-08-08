@@ -23,11 +23,14 @@ public class tbRepair {
     private String damageDetail;    //อาการที่เสีย
     @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "empSend",insertable = true,referencedColumnName = "empId")
-//    @JsonBackReference
     private tbEmployee empSend; // คนนำเครื่องมาส่ง
 
     private LocalDateTime admitDate; //รับเรื่องซ่อม
-    private String examineDamage; // อาการเบื้องต้น
+
+    @ManyToOne(targetEntity = tbCause.class,fetch = FetchType.EAGER)
+    @JoinColumn(name = "cause",insertable = true,referencedColumnName = "id")
+    private tbCause cause; //อาการเบื้องต้น
+
     @ManyToOne(targetEntity = tbEmpAdmin.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "adminReceive",insertable = true,referencedColumnName = "id")
     private tbEmpAdmin adminReceive; //คนรับเครื่องเข้าระบบ
@@ -37,26 +40,6 @@ public class tbRepair {
 
     private String returnEmp; //คนมารับเครื่อง
     private LocalDateTime returnDate; //วันส่งคืน
-    // อก.รท
-//    @Column(name = "manager_status")
-//    private Boolean managerApproveStatus;
-//    @Column(name = "manager_status_detail")
-//    private String  managerDetail;
-//    @Column(name = "manager_date")
-//    private LocalDateTime managerApproveDate;
-//    @Column(name = "manager_sig")
-//    private String managerSig;
-
-    // หัวหน้า ผปค.
-//    @Column(name = "op_lead_status")
-//    private Boolean operationLeadApproveStatus;
-//    @Column(name = "op_lead_detail")
-//    private String operationLeadDetail;
-//    @Column(name = "op_lead_date")
-//    private LocalDateTime operationLeadApproveDate;
-//    @Column(name = "op_lead_sig")
-//    private String operationLeadSig;
-
 
 
     @ManyToOne(targetEntity = tbRepairStatus.class,fetch = FetchType.EAGER)

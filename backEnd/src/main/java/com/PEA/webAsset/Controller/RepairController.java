@@ -29,6 +29,8 @@ public class RepairController {
     private DeviceRepository deviceRepository;
     @Autowired
     private EmpAdminRepository empAdminRepository;
+    @Autowired
+    private CauseRepository causeRepository;
 
 
 
@@ -69,44 +71,48 @@ public class RepairController {
         return new ResponseEntity<>(repair, HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateStatusSec")
-    public ResponseEntity<tbRepair> updateStatusSec(@RequestParam("id") Long id, @RequestParam("adName") String adName
-            , @RequestParam("examine") String examine) {
+    @PutMapping("/updateStatusSec/{repairId}") //
+    public ResponseEntity<tbRepair> updateStatusSec(@PathVariable("repairId") Long repairId, @RequestParam String adminName,@RequestParam Long causeId) {
 
-        tbRepair updateRepair = repairRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This device is not found"));
+
+        tbRepair updateRepair = repairRepository.findById(repairId).orElseThrow(() -> new ResourceNotFoundException("This device is not found"));
 
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
+        System.out.println("adminName : " + adminName + " causeId : " + causeId);
+
         updateRepair.setRepairStatus(repairStatusRepository.findStatusById(2L));
-        updateRepair.setAdminReceive(empAdminRepository.findAllByAdName(adName));
-        updateRepair.setExamineDamage(examine);
+        updateRepair.setAdminReceive(empAdminRepository.findAllByAdName(adminName));
+        updateRepair.setCause(causeRepository.findCauseById(causeId));
         updateRepair.setAdmitDate(dateTimeNow);
 
         final tbRepair repair = repairRepository.save(updateRepair);
         return new ResponseEntity<>(repair, HttpStatus.OK);
     }
 
-    @PutMapping("/updateStatusThd")
-    public ResponseEntity<tbRepair> updateStatusThd(@RequestParam("id")Long id,@RequestParam("treat")String treat) {
-        tbRepair updateRepair = repairRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This device is not found"));
+    @PutMapping("/updateStatusThd/{repairId}") //
+    public ResponseEntity<tbRepair> updateStatusThd(@PathVariable("repairId")Long repairId,@RequestParam("treat")String treat) {
+        tbRepair updateRepair = repairRepository.findById(repairId).orElseThrow(() -> new ResourceNotFoundException("This device is not found"));
 
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
         updateRepair.setTreatment(treat);
         updateRepair.setTreatComplete(dateTimeNow);
         updateRepair.setRepairStatus(repairStatusRepository.findStatusById(3L));
+        System.out.println("treat : " + treat);
 
         final tbRepair repair = repairRepository.save(updateRepair);
         return new ResponseEntity<>(repair, HttpStatus.OK);
     }
 
-    @PutMapping("/updateStatusFur")
-    public ResponseEntity<tbRepair> updateStatusFur(@RequestParam("id")Long id,@RequestParam("emp") String emp) {
-        tbRepair updateRepair = repairRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This device is not found"));
+    @PutMapping("/updateStatusFur/{repairId}") //
+    public ResponseEntity<tbRepair> updateStatusFur(@PathVariable("repairId")Long repairId,@RequestParam("returnEmp") String returnEmp) {
+        tbRepair updateRepair = repairRepository.findById(repairId).orElseThrow(() -> new ResourceNotFoundException("This device is not found"));
 
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
-        updateRepair.setReturnEmp(emp);
+        System.out.println("returnEmp : " + returnEmp);
+        updateRepair.setReturnEmp(returnEmp);
         updateRepair.setReturnDate(dateTimeNow);
         updateRepair.setRepairStatus(repairStatusRepository.findStatusById(4L));
 

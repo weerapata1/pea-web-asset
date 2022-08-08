@@ -1,54 +1,105 @@
 import axios from "axios";
+import moment from "moment";
+let url = "http://localhost:8080";
+let urlRepair = "http://localhost:8080/repair";
+moment.locale("th");
 
 export default {
+  name: "TrackingRepair",
+  data: () => ({
+    checkbox: true,
+    items: [],
+    value: null,
+    DataTableHeaders: [
+      { text: "เลขทรัพย์สิน", value: "device.devPeaNo" },
+      { text: "การไฟฟ้า", value: "device.tbCostCenterTest.ccShortName" },
+      { text: "คำอธิบายทรัพย์สิน", value: "device.devDescription" },
+      { text: "หมายเลขผลิตภัณฑ์", value: "device.devSerialNo" },
+      { text: "วันที่ส่งซ่อม", value: "sendDate" },
+      { text: "ผู้ส่งซ่อม", value: "empSend.empName" },
+      { text: "สถานะ", value: "repairStatus.statusName" },
+      { text: "", value: "" },
 
-    name: "TrackingRepair",
-    data: () => ({
-        checkbox: true,
-        items: [],
-        value: null,
-        headers: [
-            { text: 'เลขทรัพย์สิน',          align: 'start', sortable: false, value: 'device.devPeaNo', },
-            { text: 'การไฟฟ้า',            align: 'start', sortable: false, value: 'device.tbCostCenterTest.ccShortName' },
-            { text: 'คำอธิบายทรัพย์สิน',     align: 'start', sortable: false, value: 'device.devDescription' },
-            // { text: 'เลขที่สัญญา', value: 'damageDetail' },
-            { text: 'หมายเลขผลิตภัณฑ์',    align: 'start', sortable: false, value: 'device.devSerialNo' },
-            { text: 'วันที่ส่งซ่อม',          align: 'start', sortable: false, value: 'sendDate' },
-            { text: 'ผู้ส่งซ่อม',           align: 'start', sortable: false, value: 'empSend.empName' },
-            { text: 'สถานะ',            align: 'start', sortable: false, value: 'repairStatus.statusName' },
+    ],
+    dataTableItems: [],
 
-        ],
-        data1: [],
-    }),
-    mounted() {
+    dialogInfo: false,
+    dialogInfoValue: [
+      {
+        peaNo: null,
+        location: null,
+        ccFull: null,
+        stage: null,
+        empOwnerName: null,
+        empOwnerId: null,
+        damage: null,
+        adminName: null,
+        admitDate: null,
+        empSendName: null,
+        empSendId: null,
+        adminID: null,
+        returnEmp: null,
+        returnDate: null,
+        treatment: null,
+        treatComplete: null,
+      },
+    ],
+  }),
+  mounted() {
+    axios
+      .get(url + "/cc/getAllCC")
+      .then((res) => {
+        this.items = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-        axios.get("http://localhost:8080/cc/getAllCC").then((res => {
-            this.items = res.data;
-        })).catch(error => {
-            console.log(error);
+    axios
+      .get(urlRepair + "/getAllRepair")
+      .then((res) => {
+        this.dataTableItems = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  computed: {},
+
+  methods: {
+    formatDate(value) {
+      return moment(value).format("DD MMMM YYYY HH:mm");
+    },
+    find(value) {
+      let yy = value.ccLongCode;
+      let xx = urlRepair + "/getByLocation";
+      axios
+        .get(xx, { params: { location: yy } })
+        .then((res) => {
+          this.dataTableItems = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
         });
-
-        axios.get("http://localhost:8080/repair/getAllRepair").then((res => {
-            console.log(res.data)
-            this.data1 = res.data;
-        })).catch(error => {
-            console.log(error);
-        });
     },
-
-    computed: {
-
+    openDialogInfo(item) {
+      this.dialogInfoValue.peaNo = item.device.devPeaNo;
+      this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
+      this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
+      this.dialogInfoValue.stage = item.repairStatus.statusName;
+      this.dialogInfoValue.empOwnerId = item.device.tbEmployee == null ? null : item.device.tbEmployee.empId;
+      this.dialogInfoValue.empOwnerName = item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
+      this.dialogInfoValue.damage = item.cause == null ? null : item.cause.causeName;
+      this.dialogInfoValue.admitDate = item.admitDate == null ? null : moment(String(item.admitDate), "YYYY-MM-DD HH:mm").format("DD MMMM YYYY HH:mm");
+      this.dialogInfoValue.adminName = item.adminReceive == null ? null : item.adminReceive.adName;
+      this.dialogInfoValue.adminID = item.adminReceive == null ? null : item.adminReceive.adEmp;
+      this.dialogInfoValue.empSendName = item.empSend == null ? null : item.empSend.empName;
+      this.dialogInfoValue.empSendId = item.empSend == null ? null : item.empSend.empId;
+      this.dialogInfoValue.returnEmp = item.returnEmp == null ? null : item.returnEmp;
+      this.dialogInfoValue.returnDate = item.returnDate == null ? null : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format("DD MMMM YYYY HH:mm");
+      this.dialogInfoValue.treatment = item.treatment == null ? null : item.treatment;
+      this.dialogInfoValue.treatComplete =item.treatComplete == null ? null: moment(String(item.treatComplete), "YYYY-MM-DD HH:mm").format("DD MMMM YYYY HH:mm");
     },
-    methods: {
-        find(value) {
-            let yy = value.ccLongCode
-            let xx = "http://localhost:8080/repair/getByLocation"
-            axios.get(xx, { params: { location: yy } }).then((res => {
-                this.data1 = res.data;
-            })).catch(error => {
-                console.log(error);
-            });
-
-        }
-    },
-}
+  },
+};
