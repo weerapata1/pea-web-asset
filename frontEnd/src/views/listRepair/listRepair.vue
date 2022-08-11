@@ -121,7 +121,7 @@
                         <v-btn color="blue-darken-1" text @click="dialog1 = false ; reset()">
                             Close
                         </v-btn>
-                        <v-btn color="success" text @click="dialog1 = false ; saveDialog1(dialog1Value)">
+                        <v-btn color="success" text @click="saveDialog1(dialog1Value)">
                             Save
                         </v-btn>
                     </v-card-actions>

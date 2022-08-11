@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // E3010 ในเขต
-var regx = "E3010";
+// var regx = "E3010(\\d{5})";
 export default {
   name: "Repair",
   data() {
