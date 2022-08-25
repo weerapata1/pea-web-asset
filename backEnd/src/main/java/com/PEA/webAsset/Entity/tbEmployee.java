@@ -32,6 +32,14 @@ public class tbEmployee {
 
     private String empCcShortName;
 
+    private String empRole;
+
+    private String empDepFull;
+
+    private String empCcId;
+
+    private String empCcShortName;
+
     // public tbEmployee(String empId, String empName){
     //     this.empId = empId;
     //     this.empName = empName;

@@ -172,13 +172,8 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         "AND (d.cc_id LIKE CONCAT(:ccLong,'%')) " +
                         "AND d.dev_left_price = 1 " +
                         "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
-//<<<<<<< HEAD
-//        List<tbDevice> findDeviceForExcel53search(@Param("ccLong") String ccLong, @Param("textSearch") String textSearch);
-//
-//        tbDevice findDeviceById(Long id);
-
-
         List<tbDevice> findDeviceForExcel53search(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch);
 
+        tbDevice findDeviceById(Long id);
 }
