@@ -24,13 +24,16 @@ public class tbEmployee {
 
     private String empName; // ชื่อพนักงาน
 
+    private String empRole;
 
-    private String empRole;  //ตำแหน่ง
+    private String empDepFull;
 
-    private String empDepFull; // ชื่อแผนก
+    private String empCcId;
 
-    private String empCcId;  //
+    private String empCcShortName;
 
-    private String empCcShortName; //
-
+    // public tbEmployee(String empId, String empName){
+    //     this.empId = empId;
+    //     this.empName = empName;
+    // }
 }

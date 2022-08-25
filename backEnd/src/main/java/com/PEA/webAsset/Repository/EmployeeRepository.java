@@ -14,8 +14,8 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
 //    Optional<tbEmployee> findByEmployeeId(String empId);
 
 //    test
-//    @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)
-//    Collection<Object[]> findAllUsersWithPagination();
+    // @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)
+    // Collection<Object[]> findAllUsersWithPagination();
 
 
 
