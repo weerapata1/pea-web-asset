@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Data
 @Getter @Setter
@@ -38,7 +37,9 @@ public class tbRepair {
     private String treatment; // วิธีการซ่อม
     private LocalDateTime treatComplete; // วันที่ซ่อมเสร็จ
 
-    private String returnEmp; //คนมารับเครื่อง
+    @ManyToOne(targetEntity = tbEmployee.class ,fetch = FetchType.EAGER)
+    @JoinColumn(name = "empReturn",insertable = true ,referencedColumnName = "empId")
+    private tbEmployee returnEmp; //คนมารับเครื่อง
     private LocalDateTime returnDate; //วันส่งคืน
 
 

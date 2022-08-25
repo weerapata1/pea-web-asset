@@ -13,9 +13,10 @@
         <v-autocomplete v-model="ccName" :items="items" color="white" item-text="ccFullName"
           label="การไฟฟ้า">
         </v-autocomplete>
-        <v-text-field color="white" label="เลขทรัพย์สิน"></v-text-field>
-        <v-text-field color="white" label="เลขที่สัญญา"></v-text-field>
-        <v-text-field color="white" label="อาการเสีย"></v-text-field>
+        <v-text-field v-model="devPeaNO" color="white" label="เลขทรัพย์สิน"></v-text-field>
+        <!-- <v-text-field v-model="peaNO" color="white" label="เลขที่สัญญา"></v-text-field> -->
+        <v-text-field v-model="damage" color="white" label="อาการเสีย"></v-text-field>
+        <v-text-field v-model="empsend" color="white" label="ผู้ส่ง"></v-text-field>
       </v-form>
     </v-card-text>
     <v-divider></v-divider>

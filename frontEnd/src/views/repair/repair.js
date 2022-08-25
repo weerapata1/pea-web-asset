@@ -6,9 +6,12 @@ export default {
   name: "Repair",
   data() {
     return {
+      valid : null,
       hasSaved: false,
       ccName: null,
-      valid: null,
+      devPeaNO: null,
+      damage : null,
+      empsend : null,
       items: [],
       device: [],
     };
@@ -25,5 +28,6 @@ export default {
       this.hasSaved = true;
       // if()
     },
+    
   },
 };

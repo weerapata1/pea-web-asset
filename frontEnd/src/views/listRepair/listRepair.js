@@ -246,7 +246,7 @@ export default {
     async saveDialog1(dialog1Value) {
       //dialogรับเครื่อง
       if (dialog1Value.adminName == null || dialog1Value.caues == null) {
-        this.errors.push('Product name is required.');
+        alert("โปรดกรอกข้อมูล");
       } else {
         await axios
           .put(urlRepair + "/updateStatusSec/" + this.rowIdValue, null, {
@@ -263,47 +263,56 @@ export default {
               console.log(error);
             })
           );
-          this.dialog1 = false;
+        window.location.reload();
+        this.dialog1 = false;
       }
-
-      this.$forceUpdate();
       (this.dialog1Value.adminName = null), (this.dialog1Value.caues = null);
     },
 
     async openDialog2(dialog2Value) {
-      await axios
-        .put(urlRepair + "/updateStatusThd/" + this.rowIdValue, null, {
-          params: {
-            treat: dialog2Value.treatment,
-          },
-        })
-        .then(
-          ((Response) => {
-            this.dataTableItems = Response.data;
-          },
-          (error) => {
-            console.log(error);
+      if (dialog2Value.treatment == null) {
+        alert("โปรดกรอกข้อมูล");
+      } else {
+        await axios
+          .put(urlRepair + "/updateStatusThd/" + this.rowIdValue, null, {
+            params: {
+              treat: dialog2Value.treatment,
+            },
           })
-        );
-      this.dialog2Value.treatment = null;
+          .then(
+            ((Response) => {
+              this.dataTableItems = Response.data;
+            },
+            (error) => {
+              console.log(error);
+            })
+          );
+        window.location.reload();
+        this.dialog2Value.treatment = null;
+      }
     },
 
     async openDialog3(dialog3Value) {
-      await axios
-        .put(urlRepair + "/updateStatusFur/" + this.rowIdValue, null, {
-          params: {
-            returnEmp: dialog3Value.returnEmp,
-          },
-        })
-        .then(
-          ((Response) => {
-            this.dataTableItems = Response.data;
-          },
-          (error) => {
-            console.log(error);
+      if (dialog3Value.returnEmp == null) {
+        alert("โปรดกรอกข้อมูล");
+      } else {
+        await axios
+          .put(urlRepair + "/updateStatusFur/" + this.rowIdValue, null, {
+            params: {
+              returnEmp: dialog3Value.returnEmp,
+            },
           })
-        );
-      this.dialog3Value.returnEmp = null;
+          .then(
+            ((Response) => {
+              this.dataTableItems = Response.data;
+            },
+            (error) => {
+              console.log(error);
+            })
+          );
+        this.$router.go();
+        this.dialog3Value.returnEmp = null;
+      }
     },
     openDialogInfo(item) {
       this.dialogInfoValue.peaNo = item.device.devPeaNo;

@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RepositoryRestResource
 public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
     tbEmployee findByEmpId(String empId);
+//    Optional<tbEmployee> findByEmployeeId(String empId);
 
 //    test
 //    @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)

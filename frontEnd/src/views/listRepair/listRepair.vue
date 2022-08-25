@@ -170,7 +170,7 @@
                     <v-card-text>
                         <v-container>
                             <v-row>
-                                <v-text-field label="ชื่อผู้รับเครื่อง" v-model="dialog3Value.returnEmp"
+                                <v-text-field label="รหัสพนักงานผู้รับเครื่อง" v-model="dialog3Value.returnEmp"
                                     :rules="returnEnpRules" hide-details="auto">
                                 </v-text-field>
                             </v-row>
