@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name = "tb_device")
-@Entity(name = "tb_device")
+@Table(name = "tb_device_old")
+@Entity(name = "tb_device_old")
 @ToString
-public class tbDevice {
+public class tbDeviceOld {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")
     @SequenceGenerator(name = "dev_seq", sequenceName = "dev_seq")
@@ -39,6 +39,9 @@ public class tbDevice {
     private Double devReceivedPrice;
 
     private Double devLeftPrice;
+
+    @Column(columnDefinition="tinyint(1) default 0")
+    private Boolean isDeleted;
 
     // Join tbCommitment.class------------------------------
     // @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)

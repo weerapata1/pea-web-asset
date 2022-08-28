@@ -153,30 +153,35 @@
           >
             <section slot="pdf-content">
               <!-- <table cellspacing="0" class="no-spacing"> -->
-                <b-table>
-              <tr
-                id="pdf_tr"
-                v-for="item in Math.ceil(qrcode_value2.length / 2)"
-                v-bind:key="item.devPeaNo"
-              >
-                <td
-                  
-                  style="text-align: center"
-                  class="pdf_td"
-                  v-for="item2 in qrcode_value2.slice((item - 1) * 2, item * 2)"
-                  v-bind:key="item2.devPeaNo"
-                  
-                >
-                  <qrcode-vue
-                    :value="item2"
-                    :size="qrcode_size"
-                    level="H"
-                  ></qrcode-vue>
+              <b-table>
+                
+                  <tr
+                    id="pdf_tr"
+                    v-for="item in Math.ceil(qrcode_value2.length / 2)"
+                    v-bind:key="item.devPeaNo"
+                  >
+                    <td
+                      style="text-align: center"
+                      class="pdf_td"
+                      v-for="item2 in qrcode_value2.slice(
+                        (item - 1) * 2,
+                        item * 2
+                      )"
+                      v-bind:key="item2.devPeaNo"
+                    >
+                      <qrcode-vue
+                        :value="item2"
+                        :size="qrcode_size"
+                        level="H"
+                      ></qrcode-vue>
 
-                  <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
-                  <!-- {{ item2 }} -->
-                </td>
-              </tr></b-table>
+                      <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
+                      <!-- {{ item2 }} -->
+                    </td>
+                  </tr>
+                  </b-table
+              >
+
               <!-- </table> -->
               <!-- <template>
                 <v-container class="grey lighten-5">

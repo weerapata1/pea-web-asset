@@ -26,6 +26,8 @@ public class tbDeviceCompare {
     @JoinColumn(name = "device_type", insertable = true, referencedColumnName = "dt_id")
     private tbDeviceType tbDeviceType;
 
+    private String devConcatPriceDate;
+
     //   Join tbDevice.class------------------------------
     // @OneToMany(mappedBy = "tbDeviceType")
     // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
