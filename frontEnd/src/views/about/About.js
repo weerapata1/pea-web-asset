@@ -15,9 +15,6 @@ import router from "../../router";
 import VueHtml2pdf from "vue-html2pdf";
 Vue.component("VueHtml2pdf", VueHtml2pdf);
 
-import VueHtml2pdf from "vue-html2pdf";
-Vue.component("VueHtml2pdf", VueHtml2pdf);
-
 export default {
   name: "EventsList",
   data() {
@@ -255,9 +252,6 @@ export default {
       qrcode_value2:[],
 
             selected: [],
-          groupSelected: [],
-      qrcode_value2:[],
-
     };
     },
 
