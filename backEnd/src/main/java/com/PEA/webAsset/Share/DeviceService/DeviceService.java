@@ -139,7 +139,7 @@ public class DeviceService {
                             peaNo = "";
                             System.out.println("peaNo is BLANK at " + index);
                         } else {
-                            peaNo = row.getCell(2).getStringCellValue();
+                            peaNo = formatter.formatCellValue(row.getCell(2));
                         }
                         Cell c3 = row.getCell(3);
                         if (c3 == null || c3.getCellType() == CellType.BLANK) {
@@ -153,21 +153,22 @@ public class DeviceService {
                             description = "";
                             System.out.println("description is BLANK at " + index);
                         } else {
-                            description = row.getCell(4).getStringCellValue();
+                            description = formatter.formatCellValue(row.getCell(4));
                         }
                         Cell c5 = row.getCell(5);
                         if (c5 == null || c5.getCellType() == CellType.BLANK) {
                             serialNo = "";
                             System.out.println("serialNo is BLANK at " + index);
                         } else {
-                            serialNo = (String) row.getCell(5).getStringCellValue();
+                            //serialNo = (String) row.getCell(5).getStringCellValue();
+                            serialNo = formatter.formatCellValue(row.getCell(5));
                         }
                         Cell c9 = row.getCell(9);
                         if (c9 == null || c9.getCellType() == CellType.BLANK) {
                             recievedDate = "";
                             System.out.println("recievedDate is BLANK at " + index);
                         } else {
-                            recievedDate = row.getCell(9).getStringCellValue();
+                            recievedDate = formatter.formatCellValue(row.getCell(9));
                         }
                         Cell c11 = row.getCell(11);
                         if (c11 == null || c11.getCellType() == CellType.BLANK) {
@@ -177,11 +178,11 @@ public class DeviceService {
                             leftPrice = (double) row.getCell(11).getNumericCellValue();
                         }
                         Cell c12 = row.getCell(12);
-                        if (c11 == null || c11.getCellType() == CellType.BLANK) {
+                        if (c12 == null || c11.getCellType() == CellType.BLANK) {
                             ccId = "";
                             System.out.println("ccId is BLANK at " + index);
                         } else {
-                            ccId = row.getCell(12).getStringCellValue();
+                            ccId = formatter.formatCellValue(row.getCell(12));
                         }
                         // String peaNo = row.getCell(2).getStringCellValue();
                         // String description = row.getCell(4).getStringCellValue();
