@@ -15,6 +15,9 @@ import router from "../../router";
 import VueHtml2pdf from "vue-html2pdf";
 Vue.component("VueHtml2pdf", VueHtml2pdf);
 
+import VueHtml2pdf from "vue-html2pdf";
+Vue.component("VueHtml2pdf", VueHtml2pdf);
+
 export default {
   name: "EventsList",
   data() {
@@ -191,28 +194,28 @@ export default {
       alert2: false,
       myloadingvariable: false,
 
-      assetType: [
-        { id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
-        {
-          id: "2",
-          name: "2.ทรัพย์สินคอมพิวเตอร์ มูลค่าคงเหลือ 1 บาท",
-          value: "153",
-        },
-        { id: "3", name: "3.ทรัพย์สินทุกประเภท", value: "all" },
-        {
-          id: "3",
-          name: "4.ทรัพย์สินทุกประเภท มูลค่าคงเหลือ 1 บาท",
-          value: "1all",
-        },
-      ],
-      selectedAssetType: {
-        id: "1",
-        name: "1.ทรัพย์สินคอมพิวเตอร์",
-        value: "53",
-      },
-      setAssetType: [],
-      jsonStrAssetType: '{"assetType":["53"]}',
-      dataExcel: [],
+            assetType: [
+                { id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
+                {
+                    id: "2",
+                    name: "2.ทรัพย์สินคอมพิวเตอร์ มูลค่าคงเหลือ 1 บาท",
+                    value: "153",
+                },
+                { id: "3", name: "3.ทรัพย์สินทุกประเภท", value: "all" },
+                {
+                    id: "3",
+                    name: "4.ทรัพย์สินทุกประเภท มูลค่าคงเหลือ 1 บาท",
+                    value: "1all",
+                },
+            ],
+            selectedAssetType: {
+                id: "1",
+                name: "1.ทรัพย์สินคอมพิวเตอร์",
+                value: "53",
+            },
+            setAssetType: [],
+            jsonStrAssetType: '{"assetType":["53"]}',
+            dataExcel: [],
 
       qrcode_value:
         // JSON.parse([
@@ -233,26 +236,30 @@ export default {
       dialog: false,
       dialogDelete: false,
 
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
+            editedIndex: -1,
+            editedItem: {
+                name: "",
+                calories: 0,
+                fat: 0,
+                carbs: 0,
+                protein: 0,
+            },
+            defaultItem: {
+                name: "",
+                calories: 0,
+                fat: 0,
+                carbs: 0,
+                protein: 0,
+            },
       groupSelected: [],
       qrcode_value2:[],
 
+            selected: [],
+          groupSelected: [],
+      qrcode_value2:[],
+
     };
-  },
+    },
 
   watch: {
     dialog(val) {
@@ -302,72 +309,72 @@ export default {
     //       this.$set(this, "events", events);
     //     }).bind(this)
 
-    //   );
-    // },
-    getItemPerPage(val) {
-      this.itemsPerPage = val;
-      console.log(this.itemsPerPage);
-      this.searchFunction();
-    },
-    // hide_alert: function () {
-    //   console.log("at hide_alert");
-    //   // `event` is the native DOM event
-    // },
-    toggleBranch() {
-      this.$nextTick(() => {
-        if (this.likesAllFruit) {
-          this.selectedFruits = [];
-          this.appendBranch = [];
-          console.log("b-");
-        } else {
-          this.selectedFruits = this.fruits.slice();
-          this.jsonObj = JSON.parse(this.jsonStrBranch);
-          this.jsonObj["branch"] = "E3";
-          // this.jsonObj["branch"].push("E3");
-          this.appendBranch = JSON.stringify(this.jsonObj);
-          console.log("b- " + this.appendBranch);
-          // console.log("fruits" + this.fruits[0]["name"]);
-        }
-      });
-    },
-    toggleBranch2(Fruits) {
-      this.jsonObj = JSON.parse(this.jsonStrBranch);
-      this.jsonObj["branch"] = [];
-      this.jsonObj["branch"] = Fruits;
-      this.appendBranch = JSON.stringify(this.jsonObj);
-      console.log("b-" + this.appendBranch);
-    },
-    // toggleType() {
-    //   this.$nextTick(() => {
-    //     if (this.likesAllTypeSearch) {
-    //       this.selectedTypeSearch = [];
-    //       this.appendType = [];
-    //       console.log("t-");
-    //     } else {
-    //       this.selectedTypeSearch = this.typeSearch.slice();
-    //       this.jsonObj = JSON.parse(this.jsonStrType);
-    //       this.jsonObj["type"] = [];
-    //       this.jsonObj["type"].push("*");
-    //       this.appendType = JSON.stringify(this.jsonObj);
-    //       console.log("t-" + this.appendType);
-    //       // console.log("fruits" + this.fruits[0]["name"]);
-    //     }
-    //   });
-    // },
-    // toggleType2(TypeSearch) {
-    //   this.jsonObj = JSON.parse(this.jsonStrType);
-    //   this.jsonObj["type"] = [];
-    //   this.jsonObj["type"] = TypeSearch;
-    //   this.appendType = JSON.stringify(this.jsonObj);
-    //   console.log("t-" + this.appendType);
-    // },
-    toggleAssetType(assetType) {
-      this.jsonObj = JSON.parse(this.jsonStrAssetType);
-      this.jsonObj["assetType"] = [];
-      this.jsonObj["assetType"] = assetType;
-      this.setAssetType = JSON.stringify(this.jsonObj);
-      console.log("assetType-" + JSON.stringify(this.jsonObj));
-    },
+        //   );
+        // },
+        getItemPerPage(val) {
+            this.itemsPerPage = val;
+            console.log(this.itemsPerPage);
+            this.searchFunction();
+        },
+        // hide_alert: function() {
+          //   console.log("at hide_alert");
+          //   // `event` is the native DOM event
+        // },
+        toggleBranch() {
+            this.$nextTick(() => {
+                if (this.likesAllFruit) {
+                    this.selectedFruits = [];
+                    this.appendBranch = [];
+                    console.log("b-");
+                } else {
+                    this.selectedFruits = this.fruits.slice();
+                    this.jsonObj = JSON.parse(this.jsonStrBranch);
+                    this.jsonObj["branch"] = "E3";
+                    // this.jsonObj["branch"].push("E3");
+                    this.appendBranch = JSON.stringify(this.jsonObj);
+                    console.log("b- " + this.appendBranch);
+                    // console.log("fruits" + this.fruits[0]["name"]);
+                }
+            });
+        },
+        toggleBranch2(Fruits) {
+            this.jsonObj = JSON.parse(this.jsonStrBranch);
+            this.jsonObj["branch"] = [];
+            this.jsonObj["branch"] = Fruits;
+            this.appendBranch = JSON.stringify(this.jsonObj);
+            console.log("b-" + this.appendBranch);
+        },
+        // toggleType() {
+        //   this.$nextTick(() => {
+        //     if (this.likesAllTypeSearch) {
+        //       this.selectedTypeSearch = [];
+        //       this.appendType = [];
+        //       console.log("t-");
+        //     } else {
+        //       this.selectedTypeSearch = this.typeSearch.slice();
+        //       this.jsonObj = JSON.parse(this.jsonStrType);
+        //       this.jsonObj["type"] = [];
+        //       this.jsonObj["type"].push("*");
+        //       this.appendType = JSON.stringify(this.jsonObj);
+        //       console.log("t-" + this.appendType);
+        //       // console.log("fruits" + this.fruits[0]["name"]);
+        //     }
+        //   });
+        // },
+        // toggleType2(TypeSearch) {
+        //   this.jsonObj = JSON.parse(this.jsonStrType);
+        //   this.jsonObj["type"] = [];
+        //   this.jsonObj["type"] = TypeSearch;
+        //   this.appendType = JSON.stringify(this.jsonObj);
+        //   console.log("t-" + this.appendType);
+        // },
+        toggleAssetType(assetType) {
+            this.jsonObj = JSON.parse(this.jsonStrAssetType);
+            this.jsonObj["assetType"] = [];
+            this.jsonObj["assetType"] = assetType;
+            this.setAssetType = JSON.stringify(this.jsonObj);
+            console.log("assetType-" + JSON.stringify(this.jsonObj));
+        },
 
     searchFunction() {
       if (this.appendBranch == "") {
@@ -458,58 +465,58 @@ export default {
           };
           console.log("searchFunction ", params);
 
-          axios
-            .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
-            .then((resp) => {
-              this.getAllResult = resp.data;
-              console.log(
-                "getAllByPattern1",
-                JSON.stringify(this.getAllResult)
-              );
+                    axios
+                        .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
+                        .then((resp) => {
+                            this.getAllResult = resp.data;
+                            console.log(
+                                "getAllByPattern1",
+                                JSON.stringify(this.getAllResult)
+                            );
 
-              this.data1 = resp.data.data1;
-              this.itemsPerPage = resp.data.itemsPerPage;
-              this.totalItems = resp.data.totalItems;
-            })
-            .catch((error) => {
-              console.log(error.resp);
-            });
-        }
-      }
-      this.myloadingvariable = false;
-    },
+                            this.data1 = resp.data.data1;
+                            this.itemsPerPage = resp.data.itemsPerPage;
+                            this.totalItems = resp.data.totalItems;
+                        })
+                        .catch((error) => {
+                            console.log(error.resp);
+                        });
+                }
+            }
+            this.myloadingvariable = false;
+        },
 
-    async fetchData2() {
-      if (this.setAssetType.length == 0) {
-        this.setAssetType = JSON.stringify({ assetType: 53 });
-      }
-      this.myloadingvariable = true;
-      let selectedBranch = JSON.parse(this.appendBranch);
-      let setAssetType = JSON.parse(this.setAssetType);
-      // console.log("setAssetType ",this.setAssetType);
-      let params = [];
-      params = {
-        region: selectedBranch.branch,
-        setAssetType: setAssetType.assetType,
-      };
-      let response = await axios
-        .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
-        .then((resp) => {
-          this.getAllResult = resp.data;
-          console.log(
-            "getAllByPattern2unpage",
-            JSON.stringify(this.getAllResult)
-          );
+        async fetchData2() {
+            if (this.setAssetType.length == 0) {
+                this.setAssetType = JSON.stringify({ assetType: 53 });
+            }
+            this.myloadingvariable = true;
+            let selectedBranch = JSON.parse(this.appendBranch);
+            let setAssetType = JSON.parse(this.setAssetType);
+            // console.log("setAssetType ",this.setAssetType);
+            let params = [];
+            params = {
+                region: selectedBranch.branch,
+                setAssetType: setAssetType.assetType,
+            };
+            let response = await axios
+                .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
+                .then((resp) => {
+                    this.getAllResult = resp.data;
+                    console.log(
+                        "getAllByPattern2unpage",
+                        JSON.stringify(this.getAllResult)
+                    );
 
-          this.dataExcel = resp.data.dataExcel;
-          this.itemsPerPage = resp.data.itemsPerPage;
-          this.totalItems = resp.data.totalItems;
-          this.myloadingvariable = false;
-          return this.dataExcel;
-        })
-        .catch((error) => {
-          console.log(error.resp);
-        });
+                    this.dataExcel = resp.data.dataExcel;
+                    this.itemsPerPage = resp.data.itemsPerPage;
+                    this.totalItems = resp.data.totalItems;
+                    this.myloadingvariable = false;
+                    return this.dataExcel;
+                })
+                .catch((error) => {
+                    console.log(error.resp);
+                });
 
       console.log("response: ", response);
       return response;

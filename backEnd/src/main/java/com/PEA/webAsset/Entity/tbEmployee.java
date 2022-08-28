@@ -29,7 +29,7 @@ public class tbEmployee {
 
     private String empDepFull; // ชื่อแผนก
 
-    private String empCcId;  //
+    private String empCcId;  //  //
 
     // private String empCcShortName; //
     
