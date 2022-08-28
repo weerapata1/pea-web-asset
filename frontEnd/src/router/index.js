@@ -6,6 +6,7 @@ import Repair from '../views/repair/repair.vue'
 import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
 import repairForm from '../views/repairForm/repairForm.vue'
 import ListRepair from '../views/listRepair/listRepair.vue'
+import checkQuota from '../views/checkQuota/checkQuota.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,7 +42,15 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: About
-  }
+  },
+  {
+    path: '/checkQuota',
+    name: 'checkQuota',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: checkQuota
+  },
 ]
 
 const router = new VueRouter({
