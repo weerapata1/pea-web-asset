@@ -12,6 +12,9 @@ Vue.component("mdiQrcode-Scan", mdiQrcodeScan);
 
 import router from "../../router";
 
+import VueHtml2pdf from "vue-html2pdf";
+Vue.component("VueHtml2pdf", VueHtml2pdf);
+
 export default {
   name: "EventsList",
   data() {
@@ -19,21 +22,64 @@ export default {
       event: {},
       events: [],
       headers: [
+        // {
+        //   align: "start",
+        //   value: "",
+        //   width: "1%",
+        //   text:"select-all"
+        // },
         {
           text: "เลขทรัพย์สิน",
           align: "start",
-          value: "devPeaNo", 
-          width: '3%'
+          value: "devPeaNo",
+          width: "10%",
         },
-        { text: "คำอธิบายของสินทรัพย์", value: "devDescription", width: '5%' },
-        { text: "หมายเลขผลิตภัณฑ์", value: "devSerialNo", width: '2%' },
-        { text: "วันที่โอนเข้าเป็นทุน", value: "devReceivedDate", width: '4%' },
-        { text: "มูลค่าการได้มา", value: "devReceivedPrice", width: '2%' },
-        { text: "มูลค่าตามบัญชี", value: "devLeftPrice", width: '2%' },
-        { text: "ชื่อผู้ครอบครอง", value: "tbEmployee.empName", width: '7%' },
-        { text: "รหัสพนักงาน", value: "tbEmployee.empId", width: '3%' },
-        { text: "ศูนย์ต้นทุน", value: "tbCostCenterTest.ccLongCode", width: '5%' },
-        { text: "Action", value: "actions" , sortable: false , width: '2%'},
+        {
+          text: "คำอธิบายของสินทรัพย์",
+          value: "devDescription",
+          // width: "6%"
+        },
+        {
+          text: "หมายเลขผลิตภัณฑ์",
+          value: "devSerialNo",
+          //  width: "3%"
+        },
+        {
+          text: "วันที่โอนเข้าเป็นทุน",
+          value: "devReceivedDate",
+          // width: "7%"
+        },
+        {
+          text: "มูลค่าการได้มา",
+          value: "devReceivedPrice",
+          //  width: "3%"
+        },
+        {
+          text: "มูลค่าตามบัญชี",
+          value: "devLeftPrice",
+          // width: "3%"
+        },
+        {
+          text: "ชื่อผู้ครอบครอง",
+          value: "tbEmployee.empName",
+          width: "15%"
+        },
+        {
+          text: "รหัสพนักงาน",
+          value: "tbEmployee.empId",
+          // width: "3%"
+        },
+        {
+          text: "ศูนย์ต้นทุน",
+          value: "tbCostCenterTest.ccLongCode",
+          // width: "5%",
+        },
+        {
+          text: "Action",
+          value: "actions",
+          sortable: false,
+          // width: "3%"
+        },
       ],
       excelHeaders: {
         เลขทรัพย์สิน: "devPeaNo",
@@ -42,8 +88,14 @@ export default {
         วันที่โอนเข้าเป็นทุน: "devReceivedDate",
         มูลค่าการได้มา: "devReceivedPrice",
         มูลค่าตามบัญชี: "devLeftPrice",
-        รหัสพนักงานผู้ครอบครอง: {
+        ชื่อผู้ครอบครอง: {
           field: "tbEmployee.empName",
+          callback: (value) => {
+            return `${value}`;
+          },
+        },
+        รหัสพนักงาน: {
+          field: "tbEmployee.empId",
           callback: (value) => {
             return `${value}`;
           },
@@ -130,35 +182,40 @@ export default {
       data1: [],
       itemsPerPage: 0,
       totalItems: 0,
-      footerProps: {'items-per-page-options': [30, 50, 100, -1],'page':0, showFirstLastPage: true,},
+      footerProps: {
+        "items-per-page-options": [30, 50, 100, -1],
+        page: 0,
+        showFirstLastPage: true,
+      },
       alert: false,
+      alert2: false,
       myloadingvariable: false,
 
-      assetType: [
-        { id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
-        {
-          id: "2",
-          name: "2.ทรัพย์สินคอมพิวเตอร์ มูลค่าคงเหลือ 1 บาท",
-          value: "153",
-        },
-        { id: "3", name: "3.ทรัพย์สินทุกประเภท", value: "all" },
-        {
-          id: "3",
-          name: "4.ทรัพย์สินทุกประเภท มูลค่าคงเหลือ 1 บาท",
-          value: "1all",
-        },
-      ],
-      selectedAssetType: {
-        id: "1",
-        name: "1.ทรัพย์สินคอมพิวเตอร์",
-        value: "53",
-      },
-      setAssetType: [],
-      jsonStrAssetType: '{"assetType":["53"]}',
-      dataExcel: [],
+            assetType: [
+                { id: "1", name: "1.ทรัพย์สินคอมพิวเตอร์", value: "53" },
+                {
+                    id: "2",
+                    name: "2.ทรัพย์สินคอมพิวเตอร์ มูลค่าคงเหลือ 1 บาท",
+                    value: "153",
+                },
+                { id: "3", name: "3.ทรัพย์สินทุกประเภท", value: "all" },
+                {
+                    id: "3",
+                    name: "4.ทรัพย์สินทุกประเภท มูลค่าคงเหลือ 1 บาท",
+                    value: "1all",
+                },
+            ],
+            selectedAssetType: {
+                id: "1",
+                name: "1.ทรัพย์สินคอมพิวเตอร์",
+                value: "53",
+            },
+            setAssetType: [],
+            jsonStrAssetType: '{"assetType":["53"]}',
+            dataExcel: [],
 
-      qrcode_value: 
-      // JSON.parse([
+      qrcode_value:
+        // JSON.parse([
         JSON.stringify({
           pea_no: "531009537-0",
           description: "ระบบสายสัญญาณ (FIBER OPTIC)",
@@ -172,34 +229,38 @@ export default {
           cost_center: "E301000010",
         }),
       // ]),
-      qrcode_size: 256,
+      qrcode_size: 230,
       dialog: false,
       dialogDelete: false,
 
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
+            editedIndex: -1,
+            editedItem: {
+                name: "",
+                calories: 0,
+                fat: 0,
+                carbs: 0,
+                protein: 0,
+            },
+            defaultItem: {
+                name: "",
+                calories: 0,
+                fat: 0,
+                carbs: 0,
+                protein: 0,
+            },
+      groupSelected: [],
+      qrcode_value2:[],
+
+            selected: [],
     };
-  },
+    },
 
   watch: {
-    dialog (val) {
-      val || this.close()
+    dialog(val) {
+      val || this.close();
     },
-    dialogDelete (val) {
-      val || this.closeDelete()
+    dialogDelete(val) {
+      val || this.closeDelete();
     },
   },
 
@@ -220,9 +281,9 @@ export default {
       .catch((error) => {
         console.log(error.resp);
       });
-    if (alert) {
-      this.hide_alert();
-    }
+    // if (alert) {
+    //   this.hide_alert();
+    // }
   },
 
   created() {
@@ -242,72 +303,72 @@ export default {
     //       this.$set(this, "events", events);
     //     }).bind(this)
 
-    //   );
-    // },
-    getItemPerPage(val) {
-      this.itemsPerPage = val;
-      console.log(this.itemsPerPage);
-      this.searchFunction();
-    },
-    hide_alert: function () {
-      console.log("at hide_alert");
-      // `event` is the native DOM event
-    },
-    toggleBranch() {
-      this.$nextTick(() => {
-        if (this.likesAllFruit) {
-          this.selectedFruits = [];
-          this.appendBranch = [];
-          console.log("b-");
-        } else {
-          this.selectedFruits = this.fruits.slice();
-          this.jsonObj = JSON.parse(this.jsonStrBranch);
-          this.jsonObj["branch"] = "E3";
-          // this.jsonObj["branch"].push("E3");
-          this.appendBranch = JSON.stringify(this.jsonObj);
-          console.log("b- " + this.appendBranch);
-          // console.log("fruits" + this.fruits[0]["name"]);
-        }
-      });
-    },
-    toggleBranch2(Fruits) {
-      this.jsonObj = JSON.parse(this.jsonStrBranch);
-      this.jsonObj["branch"] = [];
-      this.jsonObj["branch"] = Fruits;
-      this.appendBranch = JSON.stringify(this.jsonObj);
-      console.log("b-" + this.appendBranch);
-    },
-    // toggleType() {
-    //   this.$nextTick(() => {
-    //     if (this.likesAllTypeSearch) {
-    //       this.selectedTypeSearch = [];
-    //       this.appendType = [];
-    //       console.log("t-");
-    //     } else {
-    //       this.selectedTypeSearch = this.typeSearch.slice();
-    //       this.jsonObj = JSON.parse(this.jsonStrType);
-    //       this.jsonObj["type"] = [];
-    //       this.jsonObj["type"].push("*");
-    //       this.appendType = JSON.stringify(this.jsonObj);
-    //       console.log("t-" + this.appendType);
-    //       // console.log("fruits" + this.fruits[0]["name"]);
-    //     }
-    //   });
-    // },
-    // toggleType2(TypeSearch) {
-    //   this.jsonObj = JSON.parse(this.jsonStrType);
-    //   this.jsonObj["type"] = [];
-    //   this.jsonObj["type"] = TypeSearch;
-    //   this.appendType = JSON.stringify(this.jsonObj);
-    //   console.log("t-" + this.appendType);
-    // },
-    toggleAssetType(assetType) {
-      this.jsonObj = JSON.parse(this.jsonStrAssetType);
-      this.jsonObj["assetType"] = [];
-      this.jsonObj["assetType"] = assetType;
-      this.setAssetType = JSON.stringify(this.jsonObj);
-      console.log("assetType-" + JSON.stringify(this.jsonObj));
-    },
+        //   );
+        // },
+        getItemPerPage(val) {
+            this.itemsPerPage = val;
+            console.log(this.itemsPerPage);
+            this.searchFunction();
+        },
+        // hide_alert: function() {
+          //   console.log("at hide_alert");
+          //   // `event` is the native DOM event
+        // },
+        toggleBranch() {
+            this.$nextTick(() => {
+                if (this.likesAllFruit) {
+                    this.selectedFruits = [];
+                    this.appendBranch = [];
+                    console.log("b-");
+                } else {
+                    this.selectedFruits = this.fruits.slice();
+                    this.jsonObj = JSON.parse(this.jsonStrBranch);
+                    this.jsonObj["branch"] = "E3";
+                    // this.jsonObj["branch"].push("E3");
+                    this.appendBranch = JSON.stringify(this.jsonObj);
+                    console.log("b- " + this.appendBranch);
+                    // console.log("fruits" + this.fruits[0]["name"]);
+                }
+            });
+        },
+        toggleBranch2(Fruits) {
+            this.jsonObj = JSON.parse(this.jsonStrBranch);
+            this.jsonObj["branch"] = [];
+            this.jsonObj["branch"] = Fruits;
+            this.appendBranch = JSON.stringify(this.jsonObj);
+            console.log("b-" + this.appendBranch);
+        },
+        // toggleType() {
+        //   this.$nextTick(() => {
+        //     if (this.likesAllTypeSearch) {
+        //       this.selectedTypeSearch = [];
+        //       this.appendType = [];
+        //       console.log("t-");
+        //     } else {
+        //       this.selectedTypeSearch = this.typeSearch.slice();
+        //       this.jsonObj = JSON.parse(this.jsonStrType);
+        //       this.jsonObj["type"] = [];
+        //       this.jsonObj["type"].push("*");
+        //       this.appendType = JSON.stringify(this.jsonObj);
+        //       console.log("t-" + this.appendType);
+        //       // console.log("fruits" + this.fruits[0]["name"]);
+        //     }
+        //   });
+        // },
+        // toggleType2(TypeSearch) {
+        //   this.jsonObj = JSON.parse(this.jsonStrType);
+        //   this.jsonObj["type"] = [];
+        //   this.jsonObj["type"] = TypeSearch;
+        //   this.appendType = JSON.stringify(this.jsonObj);
+        //   console.log("t-" + this.appendType);
+        // },
+        toggleAssetType(assetType) {
+            this.jsonObj = JSON.parse(this.jsonStrAssetType);
+            this.jsonObj["assetType"] = [];
+            this.jsonObj["assetType"] = assetType;
+            this.setAssetType = JSON.stringify(this.jsonObj);
+            console.log("assetType-" + JSON.stringify(this.jsonObj));
+        },
 
     searchFunction() {
       if (this.appendBranch == "") {
@@ -320,19 +381,25 @@ export default {
         if (this.setAssetType.length == 0) {
           this.setAssetType = JSON.stringify({ assetType: 53 });
         }
+        // this.setAssetType.length === 0
+        //   ? (this.setAssetType2 = JSON.stringify({ assetType: 53 }))
+        //   : (this.setAssetType2 = JSON.parse(this.setAssetType));
+
         this.myloadingvariable = true;
         let selectedBranch = JSON.parse(this.appendBranch);
-        let setAssetType = JSON.parse(this.setAssetType);
+
+        let setAssetType2 = JSON.parse(this.setAssetType);
         // console.log("setAssetType ",this.setAssetType);
         let params = [];
+        console.log("itemsPerPage", this.itemsPerPage);
         //ถ้าไม่ใส่คำค้น
         if (this.textSearch.length == 0) {
-          if(this.itemsPerPage > 0){
+          if (this.itemsPerPage > 0) {
             params = {
               page: 0,
               size: this.itemsPerPage,
               region: selectedBranch.branch,
-              setAssetType: setAssetType.assetType,
+              setAssetType: setAssetType2.assetType,
             };
             // console.log("Pattern2 ", params);
             axios
@@ -341,9 +408,11 @@ export default {
                 this.getAllResult = resp.data;
                 console.log(
                   "getAllByPattern2",
-                  JSON.stringify(this.getAllResult)
+                  JSON.stringify(this.getAllResult),
+                  " resp.data.itemsPerPage ",
+                  resp.data.itemsPerPage
                 );
-  
+
                 this.data1 = resp.data.data1;
                 this.itemsPerPage = resp.data.itemsPerPage;
                 this.totalItems = resp.data.totalItems;
@@ -352,21 +421,23 @@ export default {
               .catch((error) => {
                 console.log(error.resp);
               });
-          }else if(this.itemsPerPage == -1){
+          } else if (this.itemsPerPage == -1) {
             params = {
               region: selectedBranch.branch,
-              setAssetType: setAssetType.assetType,
+              setAssetType: setAssetType2.assetType,
             };
             // console.log("Pattern2 ", params);
             axios
-              .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
+              .get("http://localhost:8080/api/dev/getAllByPattern2unpage", {
+                params,
+              })
               .then((resp) => {
                 this.getAllResult = resp.data;
                 console.log(
                   "getAllByPattern2unpage",
                   JSON.stringify(this.getAllResult)
                 );
-  
+
                 this.data1 = resp.data.dataExcel;
                 this.itemsPerPage = resp.data.itemsPerPage;
                 this.totalItems = resp.data.totalItems;
@@ -384,148 +455,66 @@ export default {
             size: this.itemsPerPage,
             region: selectedBranch.branch,
             textSearch: this.textSearch,
-            setAssetType: setAssetType.assetType,
+            setAssetType: setAssetType2.assetType,
           };
           console.log("searchFunction ", params);
 
-          axios
-            .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
-            .then((resp) => {
-              this.getAllResult = resp.data;
-              console.log(
-                "getAllByPattern1",
-                JSON.stringify(this.getAllResult)
-              );
+                    axios
+                        .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
+                        .then((resp) => {
+                            this.getAllResult = resp.data;
+                            console.log(
+                                "getAllByPattern1",
+                                JSON.stringify(this.getAllResult)
+                            );
 
-              this.data1 = resp.data.data1;
-              this.itemsPerPage = resp.data.itemsPerPage;
-              this.totalItems = resp.data.totalItems;
-            })
-            .catch((error) => {
-              console.log(error.resp);
-            });
-        }
-      }
-      this.myloadingvariable = false;
-    },
+                            this.data1 = resp.data.data1;
+                            this.itemsPerPage = resp.data.itemsPerPage;
+                            this.totalItems = resp.data.totalItems;
+                        })
+                        .catch((error) => {
+                            console.log(error.resp);
+                        });
+                }
+            }
+            this.myloadingvariable = false;
+        },
 
-    async fetchData2() {
-      if (this.setAssetType.length == 0) {
-        this.setAssetType = JSON.stringify({ assetType: 53 });
-      }
-      this.myloadingvariable = true;
-      let selectedBranch = JSON.parse(this.appendBranch);
-      let setAssetType = JSON.parse(this.setAssetType);
-      // console.log("setAssetType ",this.setAssetType);
-      let params = [];
-      params = {
-        region: selectedBranch.branch,
-        setAssetType: setAssetType.assetType,
-      };
-      let response = await axios
-        .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
-        .then((resp) => {
-          this.getAllResult = resp.data;
-          console.log(
-            "getAllByPattern2unpage",
-            JSON.stringify(this.getAllResult)
-          );
+        async fetchData2() {
+            if (this.setAssetType.length == 0) {
+                this.setAssetType = JSON.stringify({ assetType: 53 });
+            }
+            this.myloadingvariable = true;
+            let selectedBranch = JSON.parse(this.appendBranch);
+            let setAssetType = JSON.parse(this.setAssetType);
+            // console.log("setAssetType ",this.setAssetType);
+            let params = [];
+            params = {
+                region: selectedBranch.branch,
+                setAssetType: setAssetType.assetType,
+            };
+            let response = await axios
+                .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
+                .then((resp) => {
+                    this.getAllResult = resp.data;
+                    console.log(
+                        "getAllByPattern2unpage",
+                        JSON.stringify(this.getAllResult)
+                    );
 
-          this.dataExcel = resp.data.dataExcel;
-          this.itemsPerPage = resp.data.itemsPerPage;
-          this.totalItems = resp.data.totalItems;
-          this.myloadingvariable = false;
-          return this.dataExcel;
-        })
-        .catch((error) => {
-          console.log(error.resp);
-        });
+                    this.dataExcel = resp.data.dataExcel;
+                    this.itemsPerPage = resp.data.itemsPerPage;
+                    this.totalItems = resp.data.totalItems;
+                    this.myloadingvariable = false;
+                    return this.dataExcel;
+                })
+                .catch((error) => {
+                    console.log(error.resp);
+                });
 
-
-        
       console.log("response: ", response);
       return response;
     },
-
-    // async fetchData() {
-    //   // console.log("excelFunction");
-    //   if (this.appendBranch == "") {
-    //     this.alert = true;
-    //     window.setInterval(() => {
-    //       this.alert = false;
-    //       // console.log("hide alert after 3 seconds");
-    //     }, 3000);
-    //   } else {
-    //     if (this.setAssetType.length == 0) {
-    //       this.setAssetType = JSON.stringify({ assetType: 53 });
-    //     }
-    //     this.myloadingvariable = true;
-    //     let selectedBranch = JSON.parse(this.appendBranch);
-    //     let setAssetType = JSON.parse(this.setAssetType);
-    //     // console.log("setAssetType ",this.setAssetType);
-    //     let params = [];
-    //     //ถ้าไม่ใส่คำค้น
-    //     if (this.textSearch.length == 0) {
-    //       params = {
-    //         // page: 0,
-    //         // size: this.itemsPerPage,
-    //         region: selectedBranch.branch,
-    //         setAssetType: setAssetType.assetType,
-    //       };
-    //       // console.log("Pattern2 ", params);
-    //       axios
-    //         .get("http://localhost:8080/api/dev/getExcelData2", { params })
-    //         .then((resp) => {
-    //           this.getAllResult = resp.data;
-    //           console.log("getExcelData2", JSON.stringify(this.getAllResult));
-
-    //           this.dataExcel = resp.data.dataExcel;
-    //           // this.itemsPerPage = resp.data.itemsPerPage;
-    //           // this.totalItems = resp.data.totalItems;
-    //           this.myloadingvariable = false;
-    //           // console.log("getExcelData2", this.dataExcel);
-    //           return this.dataExcel;
-    //         })
-    //         .catch((error) => {
-    //           console.log(error.resp);
-    //         });
-    //     }
-    //     //ถ้าใส่คำค้น
-    //     else {
-    //       params = {
-    //         // page: 0,
-    //         // size: this.itemsPerPage,
-    //         region: selectedBranch.branch,
-    //         textSearch: this.textSearch,
-    //         setAssetType: setAssetType.assetType,
-    //       };
-    //       // console.log("excelFunction", params);
-
-    //       axios
-    //         .get("http://localhost:8080/api/dev/getExcelData2search", {
-    //           params,
-    //         })
-    //         .then((resp) => {
-    //           this.getAllResult = resp.data;
-    //           // console.log(
-    //           //   "getExcelData2search",
-    //           //   JSON.stringify(this.getAllResult)
-    //           // );
-
-    //           this.dataExcel = resp.data.dataExcel;
-    //           // this.itemsPerPage = resp.data.itemsPerPage;
-    //           // this.totalItems = resp.data.totalItems;
-    //           console.log("getExcelData2search", this.dataExcel);
-    //           return this.dataExcel;
-    //         })
-    //         .catch((error) => {
-    //           console.log(error.resp);
-    //         });
-    //     }
-    //   }
-    //   this.myloadingvariable = false;
-    //   return this.dataExcel;
-    // },
 
     startDownload() {
       alert("show loading");
@@ -534,61 +523,112 @@ export default {
       alert("hide loading");
     },
 
-    editItem (item) {
-      this.editedIndex = this.data1.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      console.log(this.editedItem)
-      this.qrcode_value =
-      // JSON.parse([
+    editItem(item) {
+      this.editedIndex = this.data1.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      console.log(this.editedItem);
+      (this.qrcode_value =
+        // JSON.parse([
         JSON.stringify({
-          pea_no: this.editedItem['devPeaNo'],
-          description: this.editedItem['devDescription'],
-          serial: this.editedItem['devSerialNo'],
-          user_id: this.editedItem['tbEmployee']['empId'],
-          user_name: this.editedItem['tbEmployee']['empName'],
-          received_date: this.editedItem['devReceivedDate'],
-          price_recieve: this.editedItem['devReceivedPrice'],
-          price_left:this.editedItem['devLeftPrice'],
-          cc_short_name: this.editedItem['tbCostCenterTest']['ccShortName'],
-          cost_center: this.editedItem['tbCostCenterTest']['ccLongCode'],
-        }),
-      this.dialog = true
+          pea_no: this.editedItem["devPeaNo"],
+          description: this.editedItem["devDescription"],
+          serial: this.editedItem["devSerialNo"],
+          user_id: this.editedItem["tbEmployee"]["empId"],
+          user_name: this.editedItem["tbEmployee"]["empName"],
+          received_date: this.editedItem["devReceivedDate"],
+          price_recieve: this.editedItem["devReceivedPrice"],
+          price_left: this.editedItem["devLeftPrice"],
+          cc_short_name: this.editedItem["tbCostCenterTest"]["ccShortName"],
+          cost_center: this.editedItem["tbCostCenterTest"]["ccLongCode"],
+        })),
+        (this.dialog = true);
     },
 
-    deleteItem (item) {
-      this.editedIndex = this.data1.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
+    deleteItem(item) {
+      this.editedIndex = this.data1.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
     },
 
-    deleteItemConfirm () {
-      router.push('/repairForm')
-      this.closeDelete()
+    deleteItemConfirm() {
+      router.push("/repairForm");
+      this.closeDelete();
     },
 
-    close () {
-      this.dialog = false
+    close() {
+      this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
 
-    closeDelete () {
-      this.dialogDelete = false
+    closeDelete() {
+      this.dialogDelete = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
     },
 
-    save () {
+    save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        Object.assign(this.desserts[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem)
+        this.desserts.push(this.editedItem);
       }
-      this.close()
+      this.close();
+    },
+    enterSelect() {
+      let e = this.selected.map((e) => e);
+      // console.log(e.length); // logs all the selected items.
+      this.qrcode_value2=[];
+      this.groupSelected = e;
+      console.log(this.groupSelected.length);
+      // this.qrcode_value2 = JSON.stringify(this.groupSelected);
+      // user_id: this.editedItem["tbEmployee"]["empId"],
+      // user_name: this.editedItem["tbEmployee"]["empName"],
+      let i = 0;
+      let result = this.groupSelected.map(({devPeaNo}) => ({devPeaNo}));
+      // result.forEach((element) => {
+      //   element.empId = this.groupSelected.tbEmployee.empId;
+      // });
+      for(i = 0; i<this.groupSelected.length;i++){
+          result[i].empId = this.groupSelected[i].tbEmployee.empId;
+          result[i].empName = this.groupSelected[i].tbEmployee.empName;
+          result[i].costCenter = this.groupSelected[i].tbCostCenterTest.ccLongCode;
+      }
+          
+      for(i = 0; i< result.length;i++){
+        console.log(JSON.stringify(result[i]));
+        // this.qrcode_value2[i].push(JSON.stringify(this.groupSelected[i].devPeaNo));
+        this.qrcode_value2.push(JSON.stringify(result[i]));
+      }
+      if (this.selected.length == this.itemsPerPage) {
+        alert("selected all");
+      }
+    },
+
+    // genQR_Code() {},
+
+    generateReport() {
+      // var opt = {
+      //   margin:       [30, 0, 30, 0], //top, left, buttom, right
+      //   // filename:    name + '.pdf',
+      //   // image:        { type: 'jpeg', quality: 0.98 },
+      //   // html2canvas:  { dpi: 192, scale: 2, letterRendering: true},
+      //   // jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait'},
+      //   // pageBreak: { mode: 'css', after:'.break-page'}
+      //   };
+      if (this.groupSelected.length == 0) {
+        this.alert2 = true;
+        window.setInterval(() => {
+          this.alert2 = false;
+          // console.log("hide alert after 3 seconds");
+        }, 3000);
+      } else {
+        this.$refs.html2Pdf.generatePdf();
+      }
     },
   },
   computed: {
@@ -614,11 +654,11 @@ export default {
       if (this.likesSomeTypeSearch) return "mdi-minus-box";
       return "mdi-checkbox-blank-outline";
     },
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Item' : 'QR Code'
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "QR Code";
     },
-    formDevPeaNo () {
-      return this.editedIndex === -1 ? 'New Item' : this.editedItem['devPeaNo']
+    formDevPeaNo() {
+      return this.editedIndex === -1 ? "New Item" : this.editedItem["devPeaNo"];
     },
   },
 };

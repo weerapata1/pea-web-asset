@@ -8,14 +8,14 @@ export default {
         items: [],
         value: null,
         headers: [
-            { text: 'เลขทรัพย์สิน', align: 'start', sortable: false, value: 'device.devPeaNo', },
-            { text: 'การไฟฟ้า', value: 'device.tbCostCenterTest.ccShortName' },
-            { text: 'คำอธิบายทรัพย์สิน', value: 'device.devDescription' },
+            { text: 'เลขทรัพย์สิน',          align: 'start', sortable: false, value: 'device.devPeaNo', },
+            { text: 'การไฟฟ้า',            align: 'start', sortable: false, value: 'device.tbCostCenterTest.ccShortName' },
+            { text: 'คำอธิบายทรัพย์สิน',     align: 'start', sortable: false, value: 'device.devDescription' },
             // { text: 'เลขที่สัญญา', value: 'damageDetail' },
-            { text: 'หมายเลขผลิตภัณฑ์', value: 'device.devSerialNo' },
-            { text: 'วันที่ส่งซ่อม', value: 'recivedIn' },
-            // { text: 'ผู้ส่งซ่อม', value: 'damageDetail' },
-            { text: 'สถานะ', value: 'tbRepairStatus.statusName' },
+            { text: 'หมายเลขผลิตภัณฑ์',    align: 'start', sortable: false, value: 'device.devSerialNo' },
+            { text: 'วันที่ส่งซ่อม',          align: 'start', sortable: false, value: 'sendDate' },
+            { text: 'ผู้ส่งซ่อม',           align: 'start', sortable: false, value: 'empSend.empName' },
+            { text: 'สถานะ',            align: 'start', sortable: false, value: 'repairStatus.statusName' },
 
         ],
         data1: [],
@@ -29,6 +29,7 @@ export default {
         });
 
         axios.get("http://localhost:8080/repair/getAllRepair").then((res => {
+            console.log(res.data)
             this.data1 = res.data;
         })).catch(error => {
             console.log(error);
@@ -42,7 +43,7 @@ export default {
         find(value) {
             let yy = value.ccLongCode
             let xx = "http://localhost:8080/repair/getByLocation"
-            axios.get(xx,{ params : {location : yy}}).then((res => {
+            axios.get(xx, { params: { location: yy } }).then((res => {
                 this.data1 = res.data;
             })).catch(error => {
                 console.log(error);
