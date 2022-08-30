@@ -175,4 +175,11 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         tbDevice findDeviceById(Long id);
 
+        @Query(value = "SELECT * from tb_device d " +
+        // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
+                        "WHERE d.cc_id LIKE CONCAT(:region,'%') " +
+                        "AND d.dt_id = :dt_id " +
+                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+        Page<tbDevice> getDevice53unpageByccId(@Param("region") String region, @Param("dt_id") String dt_id, Pageable pageable);
+
 }

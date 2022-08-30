@@ -14,7 +14,7 @@ export default {
             text: "เลขทรัพย์สิน",
             align: "start",
             value: "devPeaNo",
-            width: "10%",
+            // width: "10%",
           },
           {
             text: "คำอธิบายของสินทรัพย์",
@@ -24,7 +24,12 @@ export default {
           {
             text: "ชื่อผู้ครอบครอง",
             value: "tbEmployee.empName",
-            width: "25%"
+            // width: "25%"
+          },
+          {
+            text: "วันที่ได้รับ",
+            value: "devReceivedDate",
+            // width: "25%"
           },
         ],
         employeeheaders:[
@@ -45,6 +50,12 @@ export default {
                 // width: "25%"
               },
         ],
+        checkQuotaResult:'',
+        totalDeviceResult: 0,
+        totalEmployeeResult: 0,
+        showVRow: false,
+        totalEmployee:'',
+        totalDevice:'',
       }
     },
 
@@ -57,16 +68,16 @@ export default {
       },
 
       methods:{
-        checkQuota() {
+        async checkQuota() {
             console.log(this.model['ccLongCode']);
             let params = [];
             
             params = {
                 region: this.model['ccLongCode'],
-                setAssetType: '53'
+                dt_id: 1
               };
-              axios
-              .get("http://localhost:8080/api/dev/getAllByPattern2unpage", { params })
+              await axios
+              .get("http://localhost:8080/api/dev/getDevice53unpageByccId", { params })
               .then((resp2) => {
                 // this.getAllResult = resp.data;
                 // console.log(
@@ -74,8 +85,8 @@ export default {
                 //   JSON.stringify(this.getAllResult)
                 // );
 
-                this.getDeviceResult = resp2.data.dataExcel;
-                this.totaDeviceResult = resp2.data.totalItems;
+                this.getDeviceResult = resp2.data.dataDevice;
+                this.totalDeviceResult = resp2.data.totalItems;
                 // this.myloadingvariable = false;
               })
               .catch((error) => {
@@ -88,7 +99,7 @@ export default {
               params = {
                 region: ccLong,
               };
-              axios
+              await axios
               .get("http://localhost:8080/getEmpByccLongCode", { params })
               .then((resp2) => {
                 // this.getEmployeeResult = resp.data;
@@ -100,10 +111,21 @@ export default {
                 this.getEmployeeResult = resp2.data.dataEmployee;
                 this.totalEmployeeResult = resp2.data.totalItems;
                 // this.myloadingvariable = false;
+
               })
               .catch((error) => {
                 console.log(error.resp);
               });
+
+              if(this.totalEmployeeResult > this.totalDeviceResult)
+              {
+                this.checkQuotaResult = 'คอมพิวเตอร์น้อยกว่าจำนวนคน ' + this.totalEmployeeResult + ' - ' +  this.totalDeviceResult
+              }
+              else if( this.totalEmployeeResult ==  this.totalDeviceResult ||  this.totalEmployeeResult <  this.totalDeviceResult)
+              {
+                this.checkQuotaResult = 'คอมพิวเตอร์เพียงพอกับจำนวนคน ' + this.totalEmployeeResult + ' - ' +  this.totalDeviceResult
+              }
+          this.showVRow = true;
         },
       },
 
