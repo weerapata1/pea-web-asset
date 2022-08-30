@@ -46,6 +46,21 @@ public class DeviceController {
     public Collection<tbDevice> getAll() {
         return deviceRepository.findAll().stream().collect(Collectors.toList());
     }
+    @GetMapping("/getAll53")
+    public ResponseEntity<Map<String,Object>> getAll53(@RequestParam("ccLong")String ccLong){
+        List<tbDevice> deviceTemp = new ArrayList<tbDevice>();
+        try {
+            deviceTemp = deviceRepository.findDeviceForExcel53(ccLong);
+            Map<String , Object> response = new HashMap<>();
+            response.put("getAll53",deviceTemp);
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+//        System.out.println("deviceTemp "+deviceTemp);
+
+    }
 
     @GetMapping("/getAllDevice")
     public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,

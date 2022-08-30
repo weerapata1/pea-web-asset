@@ -10,10 +10,10 @@
 
     <v-card-text>
       <v-form v-model="valid">
-        <v-autocomplete v-model="ccName" :items="items" color="white" item-text="ccFullName"
-          label="การไฟฟ้า">
+        <v-autocomplete v-model="ccNameSeclected" :items="itemCC" item-text="ccFullName" item-value="ccLongCode" color="white"
+        label="การไฟฟ้า" @change="toggleBranch2">
         </v-autocomplete>
-        <v-text-field v-model="devPeaNO" color="white" label="เลขทรัพย์สิน"></v-text-field>
+        <!-- <v-autocomplete v-model="devPeaNO" :items="itemDevice" item-text="devPeaNo" color="white" label="เลขทรัพย์สิน"></v-autocomplete> -->
         <!-- <v-text-field v-model="peaNO" color="white" label="เลขที่สัญญา"></v-text-field> -->
         <v-text-field v-model="damage" color="white" label="อาการเสีย"></v-text-field>
         <v-text-field v-model="empsend" color="white" label="ผู้ส่ง"></v-text-field>
@@ -22,7 +22,7 @@
     <v-divider></v-divider>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="success" @click="save" to="/repairForm">
+      <v-btn color="success" @click="save()" >
         ค้นหา
       </v-btn>
     </v-card-actions>
@@ -30,6 +30,7 @@
       Your profile has been updated
     </v-snackbar>
   </v-card>
+
 </template>
 
 <script src="./repair.js"></script>
