@@ -145,12 +145,6 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         // @Param("empId") String empId, @Param("empName") String empName,
                         @Param("ccLong") String ccLong, Pageable pageable);
 
-        // @Query(value = "SELECT * from tb_device d " +
-        // // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-        // "WHERE (d.dev_pea_no LIKE '53%')", nativeQuery = true)
-
-        // Page<tbDevice> findAll53nopage();
-
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
                         "WHERE (d.dev_pea_no LIKE '53%')", nativeQuery = true)
@@ -172,8 +166,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         "AND (d.cc_id LIKE CONCAT(:ccLong,'%')) " +
                         "AND d.dev_left_price = 1 " +
                         "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
-        List<tbDevice> findDeviceForExcel53search(@Param("ccLong") String ccLong,
-                        @Param("textSearch") String textSearch);
-
+        List<tbDevice> findDeviceForExcel53search(@Param("ccLong") String ccLong, @Param("textSearch") String textSearch);
         tbDevice findDeviceById(Long id);
+
 }
