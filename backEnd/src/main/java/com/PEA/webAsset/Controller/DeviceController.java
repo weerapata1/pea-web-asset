@@ -47,13 +47,13 @@ public class DeviceController {
         return deviceRepository.findAll().stream().collect(Collectors.toList());
     }
     @GetMapping("/getAll53")
-    public ResponseEntity<Map<String,Object>> getAll53(@RequestParam("ccLong")String ccLong){
+    public ResponseEntity<Object> getAll53(@RequestParam("ccLong")String ccLong){
         List<tbDevice> deviceTemp = new ArrayList<tbDevice>();
+        System.out.println("ccLong : "+ccLong);
         try {
             deviceTemp = deviceRepository.findDeviceForExcel53(ccLong);
-            Map<String , Object> response = new HashMap<>();
-            response.put("getAll53",deviceTemp);
-            return new ResponseEntity<>(response,HttpStatus.OK);
+
+            return new ResponseEntity<>(deviceTemp,HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

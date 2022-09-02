@@ -1,39 +1,51 @@
 import axios from "axios";
 
 // E3010 ในเขต
-var regx = "E3010(\\d{5})";
+const data = {
+  ccNameSeclected: null,
+  devPeaNO : null,
+  empSend  : null,
+};
 export default {
   name: "Repair",
   data() {
     return {
-      valid: null,
+      ccNameRules: [(v) => !!v || "โปรดระบุ การไฟฟ้า"],
+      devPeaNoRules: [(v) => !!v || "โปรดระบุ รหัสทรัพย์สิน"],
+      damageRules: [
+        (v) => !!v || "โปรดระบุอาการเสีย",
+        (v) => (v && v.length >= 5) || "Name must be less than 5 characters",
+      ],
+      empsendRules: [(v) => !!v || "โปรดระบุ รหัสพนักงาน"],
+      valid: false,
       hasSaved: false,
       ccNameSeclected: null,
       devPeaNO: null,
       damage: null,
-      empsend: null,
+      empSend: null,
+      empName: null,
       itemCC: [],
       itemDevice: [],
+      empData: [],
     };
   },
   mounted() {
     axios.get("http://localhost:8080/cc/getAllCC").then((response) => {
-      console.log("getAllCC : " + response.data);
       this.itemCC = response.data;
     });
-    axios
-      .get("http://localhost:8080/api/dev/getAll53", {
-        params: { ccLong: "E301023030" },
-      })
-      .then((response) => {
-        this.itemDevice = response.data;
-      });
   },
 
   methods: {
-    toggleBranch2(ccCode) {
+    async toggleBranch2(ccCode) {
       this.ccNameSeclected = ccCode;
-      console.log("toggleBranch2 : " + this.ccNameSeclected);
+      await axios
+        .get("http://localhost:8080/api/dev/getAll53", {
+          params: { ccLong: this.ccNameSeclected },
+        })
+        .then((response) => {
+          this.itemDevice = response.data;
+        
+        });
     },
     currentDate() {
       const current = new Date();
@@ -42,16 +54,33 @@ export default {
       }/${current.getFullYear()}`;
       return date;
     },
-
-    save() {
-      // this.isEditing = !this.isEditing;
-      // this.hasSaved = true;
-      if (this.ccName == regx) {
-        console.log("5555+");
+    async findEmp(empSend) {
+      if (empSend == null) {
+        alert("โปรดระบุรหัสพนักงาน");
       } else {
-        console.log("fail");
+        await axios
+          .get("http://localhost:8080/emp/getEmpId", {
+            params: { id: empSend },
+          })
+          .then((response) => {
+            this.empData = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-      console.log(this.ccNameSeclected);
+    },
+    save() {
+      if (this.valid === false) {
+        alert("โปรดตรวจสอบข้อมูล");
+      } else {
+        data.ccNameSeclected = this.ccNameSeclected;
+        data.devPeaNO = this.devPeaNO;
+        data.empSend = this.empSend;
+        data.damage = this.damage;
+      }
+      console.log("data : ",data);
+      // console.log(this.ccNameSeclected);
     },
   },
 };

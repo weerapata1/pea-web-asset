@@ -168,5 +168,6 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
         List<tbDevice> findDeviceForExcel53search(@Param("ccLong") String ccLong, @Param("textSearch") String textSearch);
         tbDevice findDeviceById(Long id);
+        tbDevice findDeviceByDevPeaNo(String devPeaNo);
 
 }

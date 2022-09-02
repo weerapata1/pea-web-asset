@@ -58,7 +58,7 @@ public class RepairController {
 
     @PostMapping("/repair")
     public ResponseEntity<tbRepair> createRepair(@RequestParam("empSend") String empSend, @RequestParam("damage") String damage,
-                                                 @RequestParam("device") Long device) {
+                                                 @RequestParam("devicePeaNO") String devicePeaNO) {
         tbRepair newRepair = new tbRepair();
 
         LocalDateTime dateTimeNow = LocalDateTime.now();
@@ -67,7 +67,7 @@ public class RepairController {
         newRepair.setDamageDetail(damage);
         newRepair.setEmpSend(employeeRepository.findByEmpId(empSend));
         newRepair.setRepairStatus(repairStatusRepository.findStatusById(1L));
-        newRepair.setDevice(deviceRepository.findDeviceById(device));
+        newRepair.setDevice(deviceRepository.findDeviceByDevPeaNo(devicePeaNO));
 
         final tbRepair repair = repairRepository.save(newRepair);
         return new ResponseEntity<>(repair, HttpStatus.CREATED);

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/emp")
 @CrossOrigin(origins = "*")
 public class EmployeeController {
     @Autowired
@@ -24,8 +24,8 @@ public class EmployeeController {
         return employeeRepository.findAll();
     }
 
-    @GetMapping("/getEmp/{id}")
-    public tbEmployee getEmpId(@PathVariable("id")String id){
+    @GetMapping("/getEmpId")
+    public tbEmployee getEmpId(@RequestParam("id")String id){
         return employeeRepository.findByEmpId(id);
     }
 

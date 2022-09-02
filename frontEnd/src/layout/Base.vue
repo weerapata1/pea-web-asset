@@ -8,14 +8,14 @@
                   <i class="nc-icon nc-zoom-split"></i>
                   <p>ระบบตรวจสอบทรัพย์สิน</p>
                 </sidebar-link>
-                <sidebar-link to="/">
+                <!-- <sidebar-link to="/">
                   <i class="nc-icon nc-notes"></i>
                   <p>ระบบโอนทรัพย์สิน</p>
                 </sidebar-link>
                 <sidebar-link to="">
                   <i class="nc-icon nc-square-pin"></i>
                   <p>ระบบติดตามทรัพย์สิน</p>
-                </sidebar-link>
+                </sidebar-link> -->
                 <sidebar-link to="/repair">
                   <i class="nc-icon nc-settings-90"></i>
                   <p>ระบบแจ้งซ่อม</p>
