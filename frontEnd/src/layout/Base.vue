@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
+
         <!-- sidebar -->
         <div class="wrapper">
             <side-bar>
@@ -28,37 +29,44 @@
                   <i class="nc-icon nc-settings-90"></i>
                   <p>รายการซ่อม</p>
                 </sidebar-link>
+                <sidebar-link to="/checkQuota">
+            <i class="nc-icon nc-bullet-list-67"></i>
+            <p>ตรวจสอบโควต้า</p>
+          </sidebar-link>
             </side-bar>
         </div>
+          
     </v-navigation-drawer>
 
     <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> <!-- hideSidebar icon-->
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <!-- hideSidebar icon-->
 
-      <v-toolbar-title>Assets Management System</v-toolbar-title> <!-- title -->
+      <v-toolbar-title>Assets Management System</v-toolbar-title>
+      <!-- title -->
     </v-app-bar>
 
     <v-main>
-      <router-view @click="toggleSidebar"/>
+      <router-view @click="toggleSidebar" />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import sideBar from '../components/SidebarPlugin/SideBar.vue'
+import sideBar from "../components/SidebarPlugin/SideBar.vue";
 
-  export default {
-    data: () => ({ drawer: null }),
+export default {
+  data: () => ({ drawer: null }),
 
-    contents :{
-        sideBar
-    },
-    methods: {
-      toggleSidebar () {
-        if (this.$sidebar.showSidebar) {
-          this.$sidebar.displaySidebar(false)
-        }
+  contents: {
+    sideBar,
+  },
+  methods: {
+    toggleSidebar() {
+      if (this.$sidebar.showSidebar) {
+        this.$sidebar.displaySidebar(false);
       }
     },
-  }
+  },
+};
 </script>
