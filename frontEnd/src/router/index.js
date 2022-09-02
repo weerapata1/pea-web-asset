@@ -5,6 +5,7 @@ import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
 import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
 import repairForm from '../views/repairForm/repairForm.vue'
+import repairForm2 from '../views/repairForm2/repairForm2.vue'
 import ListRepair from '../views/listRepair/listRepair.vue'
 import checkQuota from '../views/checkQuota/checkQuota.vue'
 Vue.use(VueRouter)
@@ -19,6 +20,11 @@ const routes = [
     path: '/repairForm',
     name: 'repairForm',
     component: repairForm
+  },
+  {
+    path: '/repairForm2',
+    name: 'repairForm2',
+    component: repairForm2
   },
   {
     path: '/repair',

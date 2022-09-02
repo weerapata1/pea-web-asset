@@ -17,5 +17,8 @@ new Vue({
   router,
   store,
   vuetify,
+  icons: {
+    iconfont: 'mdiSvg', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+  },
   render: h => h(App)
 }).$mount('#app')

@@ -1,39 +1,41 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
-      <!-- sidebar -->
-      <div class="wrapper">
-        <side-bar>
-          <sidebar-link to="/about">
-            <i class="nc-icon nc-zoom-split"></i>
-            <p>ระบบตรวจสอบทรัพย์สิน</p>
-          </sidebar-link>
-          <sidebar-link to="/">
-            <i class="nc-icon nc-notes"></i>
-            <p>ระบบโอนทรัพย์สิน</p>
-          </sidebar-link>
-          <sidebar-link to="">
-            <i class="nc-icon nc-square-pin"></i>
-            <p>ระบบติดตามทรัพย์สิน</p>
-          </sidebar-link>
-          <sidebar-link to="/repair">
-            <i class="nc-icon nc-settings-90"></i>
-            <p>ระบบแจ้งซ่อม</p>
-          </sidebar-link>
-          <sidebar-link to="/tracking">
-            <i class="nc-icon nc-settings-90"></i>
-            <p>ติดตามการซ่อม</p>
-          </sidebar-link>
-          <sidebar-link to="/listRepair">
-            <i class="nc-icon nc-settings-90"></i>
-            <p>รายการซ่อม</p>
-          </sidebar-link>
-          <sidebar-link to="/checkQuota">
+
+        <!-- sidebar -->
+        <div class="wrapper">
+            <side-bar>
+                <sidebar-link to="/about">
+                  <i class="nc-icon nc-zoom-split"></i>
+                  <p>ระบบตรวจสอบทรัพย์สิน</p>
+                </sidebar-link>
+                <!-- <sidebar-link to="/">
+                  <i class="nc-icon nc-notes"></i>
+                  <p>ระบบโอนทรัพย์สิน</p>
+                </sidebar-link>
+                <sidebar-link to="">
+                  <i class="nc-icon nc-square-pin"></i>
+                  <p>ระบบติดตามทรัพย์สิน</p>
+                </sidebar-link> -->
+                <sidebar-link to="/repair">
+                  <i class="nc-icon nc-settings-90"></i>
+                  <p>ระบบแจ้งซ่อม</p>
+                </sidebar-link>
+                <sidebar-link to="/tracking" >
+                  <i class="nc-icon nc-settings-90"></i>
+                  <p>ติดตามการซ่อม</p>
+                </sidebar-link>
+                <sidebar-link to="/listRepair" >
+                  <i class="nc-icon nc-settings-90"></i>
+                  <p>รายการซ่อม</p>
+                </sidebar-link>
+                <sidebar-link to="/checkQuota">
             <i class="nc-icon nc-bullet-list-67"></i>
             <p>ตรวจสอบโควต้า</p>
           </sidebar-link>
-        </side-bar>
-      </div>
+            </side-bar>
+        </div>
+          
     </v-navigation-drawer>
 
     <v-app-bar app>

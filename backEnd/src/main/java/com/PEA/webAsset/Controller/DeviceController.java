@@ -72,8 +72,24 @@ public class DeviceController {
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }} 
+
+    @GetMapping("/getAll53")
+    public ResponseEntity<Object> getAll53(@RequestParam("ccLong")String ccLong){
+        List<tbDevice> deviceTemp = new ArrayList<tbDevice>();
+        System.out.println("ccLong : "+ccLong);
+        try {
+            deviceTemp = deviceRepository.findDeviceForExcel53(ccLong);
+
+            return new ResponseEntity<>(deviceTemp,HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+//        System.out.println("deviceTemp "+deviceTemp);
+
     }
-  }
+
 
   @GetMapping("/getAllDevice53")
   public ResponseEntity<Map<String, Object>> Device53(
