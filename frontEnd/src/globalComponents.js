@@ -18,6 +18,7 @@ const GlobalComponents = {
     Vue.component(BaseDropdown.name, BaseDropdown)
     Vue.component('card', Card)
     Vue.component("VueHtml2pdf", VueHtml2pdf);
+    
   }
 }
 

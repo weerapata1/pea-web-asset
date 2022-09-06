@@ -54,14 +54,8 @@ export default {
   data() {
     return {
       valid: false,
-      // ccNameRules: [(v) => !!v || "โปรดระบุ การไฟฟ้า"],
-      // devPeaNoRules: [(v) => !!v || "โปรดระบุ รหัสทรัพย์สิน"],
-      // damageRules: [
-      //   (v) => !!v || "โปรดระบุอาการเสีย",
-      //   (v) => (v && v.length >= 5) || "พิมพ์อย่างน้อย 5 ตัวอักษร",
-      // ],
-      // empsendRules: [(v) => !!v || "โปรดระบุ รหัสพนักงาน"],
-      temp: "",
+      dialog: false,
+      first5char: "",
       fBody: fBody,
       StaticHeader: StaticHeader,
       StaticBoby: StaticBoby,
@@ -72,6 +66,7 @@ export default {
       damage: "",
       empSend: "",
 
+      resPost: "",
       empName: [],
       itemCC: [],
       itemDevice: [],
@@ -122,8 +117,8 @@ export default {
   },
 
   methods: {
-    openPdf(){
-      window.open('@assets/formITSM97.PDF')
+    readFile() {
+      window.open("./resume.pdf", "_blank"); //to open in new tab
     },
     async findDiscDevice(peaNo) {
       this.devPeaNoSelceted = peaNo;
@@ -145,9 +140,9 @@ export default {
           this.itemDevice = response.data;
         });
       if (ccCode.substring(0, 5) == "E3010") {
-        this.temp = 1;
+        this.first5char = 1;
       } else {
-        this.temp = 2;
+        this.first5char = 2;
       }
     },
     currentDate() {
@@ -187,7 +182,7 @@ export default {
           (fBody.location = this.devDesc.tbCostCenterTest.ccShortName),
           (fBody.deviceType = this.devDesc.tbDeviceType.deviceTypeName),
           (fBody.damage = this.damage),
-          axios
+          await axios
             .post("http://localhost:8080/repair/repair", null, {
               params: {
                 empSend: this.empData.empId,
@@ -195,26 +190,27 @@ export default {
                 devicePeaNO: this.devPeaNoSelceted,
               },
             })
-            .then(function (response) {
-              console.log(response.status);
-              if (response.status == 201) {
-                console.log("555+")
-                this.$refs.html2Pdf.generatePdf();
-              } 
-              else {
-                alert("บันทึกไม่สำเร็จ โปรดตรวจสอบข้อมูล");
-                throw `error with status ${response.status}`;
-              }
+            .then((response) => {
+              this.resPost = response.status;
+              alert("บันทึกสำเร็จ");
             })
             .catch((error) => {
               console.log(error);
+              alert("บันทึกไม่สำเร็จ โปรดตรวจสอบข้อมูล");
             });
-
-        // this.postRepair(),
+      }
+      if (this.resPost == "201") {
+        this.$refs.html2Pdf.generatePdf();
+        this.clear();
       }
     },
-    // async postRepair(empSend , damage , devicePeaNO) {
-
-    // },
+    clear() {
+      this.$v.$reset();
+      this.ccNameSeclected = "";
+      this.devPeaNoSelceted = "";
+      this.devDesc = "";
+      this.damage = "";
+      this.empSend = "";
+    },
   },
 };
