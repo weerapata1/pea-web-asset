@@ -3,6 +3,8 @@ package com.PEA.webAsset.Entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,10 +17,11 @@ public class tbRepair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rep_seq")
     @SequenceGenerator(name = "rep_seq", sequenceName = "rep_seq")
-    @Column(name = "repairId")
+    @Column(name = "repairId" ,nullable = false ,unique = true)
     private Long repairId;
 
     private LocalDateTime SendDate; //ส่งเรื่องซ่อม
+    @Size(min = 5 ,max = 100 ,message = ">> plz chk your damageDetail <<")
     private String damageDetail;    //อาการที่เสีย
     @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "empSend",insertable = true,referencedColumnName = "empId")
@@ -34,6 +37,7 @@ public class tbRepair {
     @JoinColumn(name = "adminReceive",insertable = true,referencedColumnName = "id")
     private tbEmpAdmin adminReceive; //คนรับเครื่องเข้าระบบ
 
+    @Size(min = 5, max = 100 ,message = ">> plz chk your treatment <<")
     private String treatment; // วิธีการซ่อม
     private LocalDateTime treatComplete; // วันที่ซ่อมเสร็จ
 

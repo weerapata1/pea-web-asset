@@ -181,56 +181,6 @@
                   </tr>
                   </b-table
               >
-
-              <!-- </table> -->
-              <!-- <template>
-                <v-container class="grey lighten-5">
-                  <template>
-                    <v-row
-                      no-gutters
-                      v-for="item in Math.ceil(qrcode_value2.length / 2)"
-                    >
-                      <v-col :key="item">
-                      <div
-                        class="pa-4 text-center secondary text-no-wrap rounded-lg"
-                      >
-                        <v-card
-                          class="pa-2"
-                          outlined
-                          tile
-                          v-bind:key="item.devPeaNo"
-                        >
-                          <qrcode-vue
-                            :value="item"
-                            :size="qrcode_size"
-                            level="H"
-                          ></qrcode-vue>
-                          <H3 style="text-align: center">{{
-                            JSON.parse(item).devPeaNo
-                          }}</H3>
-                        </v-card>
-                      </div>
-                      </v-col>
-                      <v-responsive
-                        v-if="n === 2"
-                        :key="`width-${n}`"
-                        width="100%"
-                      ></v-responsive>
-                    </v-row>
-                  </template>
-                </v-container>
-              </template> -->
-
-              <!-- <ul v-for="item in qrcode_value2" v-bind:key="item.devPeaNo">
-                <qrcode-vue
-                  :value="item"
-                  :size="qrcode_size"
-                  level="H"
-                ></qrcode-vue>
-                <H2 style="text-align: center">{{
-                  JSON.parse(item).devPeaNo
-                }}</H2>
-                </ul> -->
             </section>
           </VueHtml2pdf>
         </div>

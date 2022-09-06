@@ -17,7 +17,7 @@ public class tbDeviceType {
     private Long dtId;
 
     @Column(name = "dt_name")
-    private String device_type_name;
+    private String deviceTypeName;
 
     //   Join tbDevice.class------------------------------
     // @OneToMany(mappedBy = "tbDeviceType")

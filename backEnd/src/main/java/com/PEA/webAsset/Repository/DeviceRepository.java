@@ -176,4 +176,5 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
         Page<tbDevice> getDevice53unpageByccId(@Param("region") String region, @Param("dt_id") String dt_id, Pageable pageable);
 
+        tbDevice findAllByDevPeaNo(String devPeaNo);
 }
