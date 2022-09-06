@@ -92,12 +92,15 @@ export default {
           empOwnerName: null,
           empOwnerId: null,
           damage: null,
+          damageDetail:null,
           adminName: null,
+          sendDate : null,
           admitDate: null,
           empSendName: null,
           empSendId: null,
           adminID: null,
           returnEmp: null,
+          returnEmpId:null,
           returnDate: null,
           treatment: null,
           treatComplete: null,
@@ -315,6 +318,7 @@ export default {
       }
     },
     openDialogInfo(item) {
+      console.log(item)
       this.dialogInfoValue.peaNo = item.device.devPeaNo;
       this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
       this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
@@ -325,6 +329,9 @@ export default {
         item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
       this.dialogInfoValue.damage =
         item.cause == null ? null : item.cause.causeName;
+
+      this.dialogInfoValue.damageDetail = item.damageDetail == null ? null : item.damageDetail;
+      
       this.dialogInfoValue.admitDate =
         item.admitDate == null
           ? null
@@ -340,7 +347,15 @@ export default {
       this.dialogInfoValue.empSendId =
         item.empSend == null ? null : item.empSend.empId;
       this.dialogInfoValue.returnEmp =
-        item.returnEmp == null ? null : item.returnEmp;
+        item.returnEmp == null ? null : item.returnEmp.empName;
+      this.dialogInfoValue.returnEmpId =
+        item.returnEmpId == null ? null : item.empSend.empId;
+      this.dialogInfoValue.sendDate =
+        item.sendDate == null
+          ? null
+          : moment(String(item.sendDate), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
       this.dialogInfoValue.returnDate =
         item.returnDate == null
           ? null

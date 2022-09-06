@@ -88,18 +88,45 @@ export default {
       this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
       this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
       this.dialogInfoValue.stage = item.repairStatus.statusName;
-      this.dialogInfoValue.empOwnerId = item.device.tbEmployee == null ? null : item.device.tbEmployee.empId;
-      this.dialogInfoValue.empOwnerName = item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
-      this.dialogInfoValue.damage = item.cause == null ? null : item.cause.causeName;
-      this.dialogInfoValue.admitDate = item.admitDate == null ? null : moment(String(item.admitDate), "YYYY-MM-DD HH:mm").format("DD MMMM YYYY HH:mm");
-      this.dialogInfoValue.adminName = item.adminReceive == null ? null : item.adminReceive.adName;
-      this.dialogInfoValue.adminID = item.adminReceive == null ? null : item.adminReceive.adEmp;
-      this.dialogInfoValue.empSendName = item.empSend == null ? null : item.empSend.empName;
-      this.dialogInfoValue.empSendId = item.empSend == null ? null : item.empSend.empId;
-      this.dialogInfoValue.returnEmp = item.returnEmp == null ? null : item.returnEmp;
-      this.dialogInfoValue.returnDate = item.returnDate == null ? null : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format("DD MMMM YYYY HH:mm");
-      this.dialogInfoValue.treatment = item.treatment == null ? null : item.treatment;
-      this.dialogInfoValue.treatComplete =item.treatComplete == null ? null: moment(String(item.treatComplete), "YYYY-MM-DD HH:mm").format("DD MMMM YYYY HH:mm");
+      this.dialogInfoValue.empOwnerId =
+        item.device.tbEmployee == null ? null : item.device.tbEmployee.empId;
+      this.dialogInfoValue.empOwnerName =
+        item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
+      this.dialogInfoValue.damage =
+        item.cause == null ? null : item.cause.causeName;
+
+      this.dialogInfoValue.damageDetail = item.damageDetail == null ? null : item.damageDetail;
+      
+      this.dialogInfoValue.admitDate =
+        item.admitDate == null
+          ? null
+          : moment(String(item.admitDate), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
+      this.dialogInfoValue.adminName =
+        item.adminReceive == null ? null : item.adminReceive.adName;
+      this.dialogInfoValue.adminID =
+        item.adminReceive == null ? null : item.adminReceive.adEmp;
+      this.dialogInfoValue.empSendName =
+        item.empSend == null ? null : item.empSend.empName;
+      this.dialogInfoValue.empSendId =
+        item.empSend == null ? null : item.empSend.empId;
+      this.dialogInfoValue.returnEmp =
+        item.returnEmp == null ? null : item.returnEmp.empName;
+      this.dialogInfoValue.returnDate =
+        item.returnDate == null
+          ? null
+          : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
+      this.dialogInfoValue.treatment =
+        item.treatment == null ? null : item.treatment;
+      this.dialogInfoValue.treatComplete =
+        item.treatComplete == null
+          ? null
+          : moment(String(item.treatComplete), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
     },
   },
 };

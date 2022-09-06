@@ -20,11 +20,14 @@ const fBody = {
     device : "",
 }
 const StaticFoot = {
+    dot1 : ".....................................................................................................",
+    dot2 : "(.....................................................)",
+    dot3 : "........................................................",
+    date1 : "................./................./.................",
     to1 : "อก.รท.ฉ.2",
-    to2 : "ผจก",
+    to2 : "ผจก.",
+    note1 : "เพื่อโปรดพิจารณา อนุมัติ"
 }
-import jsPDF from 'jspdf'
-// import html2canvas from "html2canvas"
 
 export default {
     name: "repairForm",
@@ -45,12 +48,7 @@ export default {
             return date;
         },
         download() {
-            const doc = new jsPDF();
-            const contentHtml = this.$refs.content.innerHTML;
-            doc.fromHTML(contentHtml, 15, 15, {
-                width: 170
-            });
-            doc.save("sample.pdf");
+            this.$refs.html2Pdf.generatePdf();
         },
         download2() {
             alert('555')

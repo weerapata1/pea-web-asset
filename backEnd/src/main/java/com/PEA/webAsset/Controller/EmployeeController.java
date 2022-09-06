@@ -32,6 +32,8 @@ public class EmployeeController {
         return employeeRepository.findByEmpId(id);
     }
 
+
+
     @GetMapping("/getEmpSor")
     public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
                                                          @RequestParam(defaultValue = "3") int size) {
@@ -55,6 +57,7 @@ public class EmployeeController {
     @GetMapping("/getEmpByccLongCode")
     public ResponseEntity<Map<String, Object>> Patternunpage(@RequestParam("region") String region
     ) {
+        System.out.println(region);
         try {
             List<tbEmployee> employee = new ArrayList<tbEmployee>();
             Pageable paging = Pageable.unpaged();

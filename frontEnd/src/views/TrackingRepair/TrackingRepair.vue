@@ -102,29 +102,42 @@
                             <v-col cols="12" sm="3">
                                 วันที่ส่ง : {{ dialogInfoValue.admitDate }}
                             </v-col>
-                            <v-col cols="12" sm="4">
-                                อาการเสียเบื้องต้น : <b>{{ dialogInfoValue.damage }}</b>
+
+                        </v-row>
+                        <v-row>
+                            <v-col cols="12" sm="12">
+                                อาการเสียเบื้องต้น : <b>{{ dialogInfoValue.damageDetail}}</b>
                             </v-col>
                         </v-row>
+                        <hr/>
                         <v-row>
                             <v-col cols="12" sm="3">
                                 เจ้าหน้ารับเครื่อง : <b>{{ dialogInfoValue.adminName }}</b>
                             </v-col>
-                            <v-col cols="12" sm="2">
+                            <v-col cols="12" sm="3">
                                 รหัสพนักงาน : {{ dialogInfoValue.adminID }}
+                            </v-col>
+                            <v-col cols="12" sm="3">
+                                วันที่ส่ง : {{ dialogInfoValue.admitDate }}
                             </v-col>
                             <v-col cols="12" sm="3">
                                 วันที่ซ่อมเสร็จ : {{ dialogInfoValue.treatComplete }}
                             </v-col>
-                            <v-col cols="12" sm="4">
+                        </v-row>
+                        <v-row>
+                            <v-col cols="12" sm="6">
+                                อาการเสีย : <b>{{ dialogInfoValue.damage }}</b>
+                            </v-col>
+                            <v-col cols="12" sm="6">
                                 วิธีแก้ไข : <b>{{ dialogInfoValue.treatment }}</b>
                             </v-col>
                         </v-row>
+                        <hr/>
                         <v-row>
                             <v-col cols="12" sm="3">
                                 ผู้รับเครื่องคืน : <b>{{ dialogInfoValue.returnEmp }}</b>
                             </v-col>
-                            <v-col cols="12" sm="3">
+                            <v-col cols="12" sm="4">
                                 วันที่รับเครื่องคืน : <b>{{ dialogInfoValue.returnDate }}</b>
                             </v-col>
                         </v-row>
