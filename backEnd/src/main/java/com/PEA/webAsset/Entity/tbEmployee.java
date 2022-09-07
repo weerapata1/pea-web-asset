@@ -24,7 +24,6 @@ public class tbEmployee {
 
     private String empName; // ชื่อพนักงาน
 
-
     private String empRole;  //ตำแหน่ง
 
     private String empDepFull; // ชื่อแผนก
@@ -32,5 +31,5 @@ public class tbEmployee {
     private String empCcId;  //  //
 
     // private String empCcShortName; //
-    
+
 }
