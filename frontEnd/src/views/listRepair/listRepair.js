@@ -77,10 +77,17 @@ export default {
 
       dialog2: false, // กำลังดำเนินการ
       dialog2Value: [{ treatment: null }],
+      treatmentRules: [
+        (v) => !!v || " required",
+        (v) => (v && v.length >= 5) || "พิมพ์อย่างน้อย 5 ตัวอักษร",
+      ],
 
       dialog3: false,
       dialog3Value: [{ returnEmp: null }],
-      returnEnpRules: [(v) => !!v || " required"],
+      returnEnpRules: [
+        (v) => !!v || " required",
+        (v) => (v && v.length >= 6) || "พิมพ์อย่างน้อย 6 ตัวอักษร",
+      ],
 
       dialogInfo: false,
       dialogInfoValue: [
@@ -92,15 +99,15 @@ export default {
           empOwnerName: null,
           empOwnerId: null,
           damage: null,
-          damageDetail:null,
+          damageDetail: null,
           adminName: null,
-          sendDate : null,
+          sendDate: null,
           admitDate: null,
           empSendName: null,
           empSendId: null,
           adminID: null,
           returnEmp: null,
-          returnEmpId:null,
+          returnEmpId: null,
           returnDate: null,
           treatment: null,
           treatComplete: null,
@@ -288,6 +295,7 @@ export default {
             },
             (error) => {
               console.log(error);
+              alert('เกิดข้อผิดพลาด')
             })
           );
         window.location.reload();
@@ -311,6 +319,7 @@ export default {
             },
             (error) => {
               console.log(error);
+              alert('เกิดข้อผิดพลาด')
             })
           );
         this.$router.go();
@@ -318,7 +327,7 @@ export default {
       }
     },
     openDialogInfo(item) {
-      console.log(item)
+      console.log(item);
       this.dialogInfoValue.peaNo = item.device.devPeaNo;
       this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
       this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
@@ -330,8 +339,9 @@ export default {
       this.dialogInfoValue.damage =
         item.cause == null ? null : item.cause.causeName;
 
-      this.dialogInfoValue.damageDetail = item.damageDetail == null ? null : item.damageDetail;
-      
+      this.dialogInfoValue.damageDetail =
+        item.damageDetail == null ? null : item.damageDetail;
+
       this.dialogInfoValue.admitDate =
         item.admitDate == null
           ? null

@@ -141,7 +141,7 @@
 
                                 <v-col cols="12" sm="12">
                                     <v-textarea fluid v-model="dialog2Value.treatment" solo name="treatment"
-                                        label="ดำเนินการโดยวิธี เช่น เปลี่ยนแรม *"></v-textarea>
+                                        :rules="treatmentRules" label="ดำเนินการโดยวิธี เช่น เปลี่ยนแรม *"></v-textarea>
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -234,7 +234,7 @@
                                 อาการเสียเบื้องต้น : <b>{{ dialogInfoValue.damageDetail}}</b>
                             </v-col>
                         </v-row>
-                        <hr/>
+                        <hr />
                         <v-row>
                             <v-col cols="12" sm="3">
                                 เจ้าหน้ารับเครื่อง : <b>{{ dialogInfoValue.adminName }}</b>
@@ -257,7 +257,7 @@
                                 วิธีแก้ไข : <b>{{ dialogInfoValue.treatment }}</b>
                             </v-col>
                         </v-row>
-                        <hr/>
+                        <hr />
                         <v-row>
                             <v-col cols="12" sm="3">
                                 ผู้รับเครื่องคืน : <b>{{ dialogInfoValue.returnEmp }}</b>
