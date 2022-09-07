@@ -12,9 +12,6 @@ Vue.component("mdiQrcode-Scan", mdiQrcodeScan);
 
 import router from "../../router";
 
-import VueHtml2pdf from "vue-html2pdf";
-Vue.component("VueHtml2pdf", VueHtml2pdf);
-
 export default {
   name: "EventsList",
   data() {
