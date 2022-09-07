@@ -47,7 +47,7 @@ export default {
   }),
   mounted() {
     axios
-      .get(url + "/cc/getAllCC")
+      .get(url + "/cc/getAllCC",{headers: {'Access-Control-Allow-Origin': '*'}})
       .then((res) => {
         this.items = res.data;
       })
@@ -56,7 +56,7 @@ export default {
       });
 
     axios
-      .get(urlRepair + "/getAllRepair")
+      .get(urlRepair + "/getAllRepair",{headers: {'Access-Control-Allow-Origin': '*'}})
       .then((res) => {
         this.dataTableItems = res.data;
       })
@@ -75,7 +75,7 @@ export default {
       let yy = value.ccLongCode;
       let xx = urlRepair + "/getByLocation";
       axios
-        .get(xx, { params: { location: yy } })
+        .get(xx, { headers: {'Access-Control-Allow-Origin': '*'}, params: { location: yy } })
         .then((res) => {
           this.dataTableItems = res.data;
         })

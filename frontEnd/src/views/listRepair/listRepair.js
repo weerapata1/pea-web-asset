@@ -295,7 +295,7 @@ export default {
             },
             (error) => {
               console.log(error);
-              alert('เกิดข้อผิดพลาด')
+              // alert('เกิดข้อผิดพลาด')
             })
           );
         window.location.reload();
@@ -319,7 +319,7 @@ export default {
             },
             (error) => {
               console.log(error);
-              alert('เกิดข้อผิดพลาด')
+              // alert('เกิดข้อผิดพลาด')
             })
           );
         this.$router.go();
