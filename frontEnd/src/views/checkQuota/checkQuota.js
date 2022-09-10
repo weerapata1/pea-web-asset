@@ -61,9 +61,9 @@ export default {
 
     mounted() {
         axios
-          .get('http://localhost:8080/cc/getAllCC')
+          .get('http://localhost:8080/cc/getAllCCOnlyUse')
           .then(response => {
-             this.items = response.data;  
+             this.items = response.data.costCenter;  
           })
       },
 
