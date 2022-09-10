@@ -13,10 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/emp")
-@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 
 public class EmployeeController {
     @Autowired

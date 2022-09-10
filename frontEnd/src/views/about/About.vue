@@ -191,7 +191,8 @@
       :items="data1"
       :footer-props="footerProps"
       @update:items-per-page="getItemPerPage"
-      :server-items-length="totalItems"
+      
+      :items-per-page="itemsPerPage"
       multi-sort
       :loading="myloadingvariable"
       loading-text="Loading... Please wait"
@@ -200,6 +201,7 @@
       show-select
       @input="enterSelect()"
     >
+    <!-- :server-items-length="totalItems" -->
       <!-- :footer-props="{ 'items-per-page-options': [30, 50, 100] }" -->
       <template v-slot:top>
         <v-toolbar flat>

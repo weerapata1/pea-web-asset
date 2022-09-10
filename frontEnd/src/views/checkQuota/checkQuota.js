@@ -100,7 +100,7 @@ export default {
                 region: ccLong,
               };
               await axios
-              .get("http://localhost:8080/getEmpByccLongCode", { params })
+              .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
               .then((resp2) => {
                 // this.getEmployeeResult = resp.data;
                 // console.log(
