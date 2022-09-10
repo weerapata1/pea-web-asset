@@ -610,8 +610,15 @@ export default {
       //   element.empId = this.groupSelected.tbEmployee.empId;
       // });
       for (i = 0; i < this.groupSelected.length; i++) {
-        result[i].empId = this.groupSelected[i].tbEmployee.empId;
-        result[i].empName = this.groupSelected[i].tbEmployee.empName;
+        if(this.groupSelected[i].tbEmployee !== null){
+          result[i].empId = this.groupSelected[i].tbEmployee.empId;
+          result[i].empName = this.groupSelected[i].tbEmployee.empName;
+        }else{
+          result[i].empId = "ไม่ระบุ";
+          result[i].empName = "ไม่ระบุ";
+        }
+        // result[i].empId = this.groupSelected[i].tbEmployee.empId;
+        // result[i].empId = this.groupSelected[i].tbEmployee.empId;
         result[i].costCenter =
           this.groupSelected[i].tbCostCenterTest.ccLongCode;
       }
