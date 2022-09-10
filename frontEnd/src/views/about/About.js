@@ -304,7 +304,7 @@ export default {
         // },
         getItemPerPage(val) {
             this.itemsPerPage = val;
-            console.log(this.itemsPerPage);
+            console.log("setItemPerPage ", this.itemsPerPage);
             this.searchFunction();
         },
         // hide_alert: function() {
@@ -391,34 +391,35 @@ export default {
         console.log("itemsPerPage", this.itemsPerPage);
         //ถ้าไม่ใส่คำค้น
         if (this.textSearch.length == 0) {
-          if (this.itemsPerPage > 0) {
-            params = {
-              page: 0,
-              size: this.itemsPerPage,
-              region: selectedBranch.branch,
-              setAssetType: setAssetType2.assetType,
-            };
-            // console.log("Pattern2 ", params);
-            axios
-              .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
-              .then((resp) => {
-                this.getAllResult = resp.data;
-                console.log(
-                  "getAllByPattern2",
-                  JSON.stringify(this.getAllResult),
-                  " resp.data.itemsPerPage ",
-                  resp.data.itemsPerPage
-                );
+          // if (this.itemsPerPage > 0) {
+          //   params = {
+          //     page: 0,
+          //     size: this.itemsPerPage,
+          //     region: selectedBranch.branch,
+          //     setAssetType: setAssetType2.assetType,
+          //   };
+          //   // console.log("Pattern2 ", params);
+          //   axios
+          //     .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
+          //     .then((resp) => {
+          //       this.getAllResult = resp.data;
+          //       console.log(
+          //         "getAllByPattern2",
+          //         JSON.stringify(this.getAllResult),
+          //         " resp.data.itemsPerPage ",
+          //         resp.data.itemsPerPage
+          //       );
 
-                this.data1 = resp.data.data1;
-                this.itemsPerPage = resp.data.itemsPerPage;
-                this.totalItems = resp.data.totalItems;
-                this.myloadingvariable = false;
-              })
-              .catch((error) => {
-                console.log(error.resp);
-              });
-          } else if (this.itemsPerPage == -1) {
+          //       this.data1 = resp.data.data1;
+          //       this.itemsPerPage = resp.data.itemsPerPage;
+          //       this.totalItems = resp.data.totalItems;
+          //       this.myloadingvariable = false;
+          //     })
+          //     .catch((error) => {
+          //       console.log(error.resp);
+          //     });
+          // }  
+          // else if (this.itemsPerPage == -1) {
             params = {
               region: selectedBranch.branch,
               setAssetType: setAssetType2.assetType,
@@ -436,14 +437,14 @@ export default {
                 );
 
                 this.data1 = resp.data.dataExcel;
-                this.itemsPerPage = resp.data.itemsPerPage;
+                // this.itemsPerPage = resp.data.itemsPerPage;
                 this.totalItems = resp.data.totalItems;
                 this.myloadingvariable = false;
               })
               .catch((error) => {
                 console.log(error.resp);
               });
-          }
+          // }
         }
         //ถ้าใส่คำค้น
         else {
@@ -468,13 +469,13 @@ export default {
                             this.data1 = resp.data.data1;
                             this.itemsPerPage = resp.data.itemsPerPage;
                             this.totalItems = resp.data.totalItems;
+                            this.myloadingvariable = false;
                         })
                         .catch((error) => {
                             console.log(error.resp);
                         });
                 }
             }
-            this.myloadingvariable = false;
         },
 
         async fetchData2() {
