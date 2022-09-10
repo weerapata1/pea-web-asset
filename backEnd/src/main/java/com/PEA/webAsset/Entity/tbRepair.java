@@ -3,6 +3,7 @@ package com.PEA.webAsset.Entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -41,6 +42,7 @@ public class tbRepair {
     private tbEmpAdmin adminReceive; //คนรับเครื่องเข้าระบบ
 
     @Size(min = 5, max = 100 ,message = ">> plz chk your treatment is less 5 or more 100 char <<")
+//    @Future(message = ">> a treatment will be in future <<")
     private String treatment; // วิธีการซ่อม
     private LocalDateTime treatComplete; // วันที่ซ่อมเสร็จ
 
