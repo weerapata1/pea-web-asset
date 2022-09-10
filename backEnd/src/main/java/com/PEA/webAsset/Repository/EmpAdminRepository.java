@@ -7,4 +7,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface EmpAdminRepository extends JpaRepository<tbEmpAdmin, Long> {
     tbEmpAdmin findAllByAdName(String adName);
+
+    tbEmpAdmin findAdminPasswordByAdminUserName(String AdminUserName);
 }
