@@ -49,6 +49,7 @@ export default {
               });
                 if (this.auth.message == "true") {
                     sessionStorage.setItem('LoggedUser', "true");
+                    sessionStorage.setItem('userName', this.username)
                     this.$emit("authenticated", true);
                     this.$router.replace({ path: "/listRepair" });
                 } else {

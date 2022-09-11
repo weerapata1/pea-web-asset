@@ -1,6 +1,6 @@
 import axios from "axios";
 import { validationMixin } from "vuelidate";
-import { required, maxLength, minLength } from "vuelidate/lib/validators";
+import { required, maxLength, minLength , numeric } from "vuelidate/lib/validators";
 
 // E3010 ในเขต
 const StaticHeader = {
@@ -26,6 +26,9 @@ const fBody = {
   warranty: "",
   location: "",
   deviceType: "",
+  peaNo : "",
+  discription : "",
+  empPhoneNumb : "",
 };
 const StaticFoot = {
   dot1: ".....................................................................................................",
@@ -49,7 +52,8 @@ export default {
     ccNameSeclected: { required },
     devPeaNoSelceted: { required },
     damage: { required, minLength: minLength(5), maxLength: maxLength(100) },
-    empSend: { required, minLength: minLength(6), maxLength: maxLength(9) },
+    empSend: { required, minLength: minLength(6), maxLength: maxLength(9) , numeric },
+    empPhoneNumb :{required, minLength: minLength(5), maxLength: maxLength(10) ,numeric},
   },
   data() {
     return {
@@ -65,6 +69,7 @@ export default {
       devPeaNoSelceted: "",
       damage: "",
       empSend: "",
+      empPhoneNumb : "",
 
       resPost: "",
       empName: [],
@@ -94,9 +99,9 @@ export default {
       if (!this.$v.damage.$dirty) return errors;
       !this.$v.damage.required && errors.push("โปรดระบุอาการที่ชำรุจ");
       !this.$v.damage.minLength &&
-        errors.push("พิมพ์อย่างน้อย 5 ตัวอักษร โปรดตตรวจสอบ");
+      errors.push("พิมพ์อย่างน้อย 5 ตัวอักษร โปรดตรวจสอบ");
       !this.$v.damage.maxLength &&
-        errors.push("พิมพ์เกินที่กำหนด โปรดตตรวจสอบ");
+      errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
       return errors;
     },
     empSendErrors() {
@@ -106,13 +111,27 @@ export default {
       !this.$v.empSend.minLength &&
         errors.push("พิมพ์อย่างน้อย 6 ตัวอักษร โปรดตตรวจสอบ");
       !this.$v.empSend.maxLength &&
-        errors.push("พิมพ์เกินที่กำหนด โปรดตตรวจสอบ");
+      errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
+      !this.$v.empSend.numeric &&
+      errors.push("โปรดกรอกข้อมูลเป็นตัวเลข");
       return errors;
     },
+    empPhoneNumbErrors(){
+      const errors = [];
+      if (!this.$v.empPhoneNumb.$dirty) return errors;
+      !this.$v.empPhoneNumb.required && errors.push("โปรดระบุเบอร์ติดต่อกลับ");
+      !this.$v.empPhoneNumb.minLength &&
+        errors.push("พิมพ์อย่างน้อย 5 ตัวอักษร โปรดตรวจสอบ");
+      !this.$v.empPhoneNumb.maxLength &&
+        errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
+        !this.$v.empPhoneNumb.numeric &&
+        errors.push("โปรดกรอกข้อมูลเป็นตัวเลข");
+      return errors;
+    }
   },
   mounted() {
-    axios.get("http://localhost:8080/cc/getAllCC").then((response) => {
-      this.itemCC = response.data;
+    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+      this.itemCC = response.data.costCenter;
     });
   },
 
@@ -162,6 +181,7 @@ export default {
             params: { id: empSend },
           })
           .then((response) => {
+            // console.log(response.data)
             this.empData = response.data;
           })
           .catch((error) => {
@@ -179,19 +199,25 @@ export default {
           (fBody.empSendRole = this.empData.empRole),
           (fBody.empSendId = this.empData.empId);
         (fBody.warranty = ""),
+        (fBody.peaNo = this.devPeaNoSelceted),
+        (fBody.discription = this.devDesc.devDescription),
           (fBody.location = this.devDesc.tbCostCenterTest.ccShortName),
           (fBody.deviceType = this.devDesc.tbDeviceType.deviceTypeName),
           (fBody.damage = this.damage),
+          (fBody.empPhoneNumb = this.empPhoneNumb),
+          
           await axios
             .post("http://localhost:8080/repair/repair", null, {
               params: {
-                empSend: this.empData.empId,
+                empSend: this.empData.empId ,
                 damage: this.damage,
                 devicePeaNO: this.devPeaNoSelceted,
+                empPhoneNumb : this.empPhoneNumb
               },
             })
             .then((response) => {
               this.resPost = response.status;
+              this.$refs.html2Pdf.generatePdf();
               alert("บันทึกสำเร็จ");
             })
             .catch((error) => {
@@ -200,7 +226,7 @@ export default {
             });
       }
       if (this.resPost == "201") {
-        this.$refs.html2Pdf.generatePdf();
+        
         this.clear();
       }
     },
@@ -211,6 +237,8 @@ export default {
       this.devDesc = "";
       this.damage = "";
       this.empSend = "";
+      this.empPhoneNumb = "";
+      this.empData = "";
     },
   },
 };

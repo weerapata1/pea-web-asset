@@ -111,15 +111,17 @@ export default {
           returnDate: null,
           treatment: null,
           treatComplete: null,
+          empPhoneNumb: null,
         },
       ],
     };
   },
   mounted() {
+    this.dialog1Value.adminName = sessionStorage.getItem("userName");
     axios
-      .get(url + "/cc/getAllCC")
+      .get(url + "/cc/getAllCCOnlyUse")
       .then((res) => {
-        this.CcItems = res.data;
+        this.CcItems = res.data.costCenter;
       })
       .catch((error) => {
         console.log(error);
@@ -327,7 +329,6 @@ export default {
       }
     },
     openDialogInfo(item) {
-      console.log(item);
       this.dialogInfoValue.peaNo = item.device.devPeaNo;
       this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
       this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
@@ -360,6 +361,8 @@ export default {
         item.returnEmp == null ? null : item.returnEmp.empName;
       this.dialogInfoValue.returnEmpId =
         item.returnEmpId == null ? null : item.empSend.empId;
+      this.dialogInfoValue.empPhoneNumb =
+        item.empPhoneNumb == null ? null : item.empPhoneNumb;
       this.dialogInfoValue.sendDate =
         item.sendDate == null
           ? null

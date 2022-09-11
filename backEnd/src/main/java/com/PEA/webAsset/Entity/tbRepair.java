@@ -37,6 +37,9 @@ public class tbRepair {
     @JoinColumn(name = "cause",insertable = true,referencedColumnName = "id")
     private tbCause cause; //อาการเบื้องต้น
 
+    @Column(name = "empPhoneNumb")
+    private String empPhoneNumb;
+
     @ManyToOne(targetEntity = tbEmpAdmin.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "adminReceive",insertable = true,referencedColumnName = "id")
     private tbEmpAdmin adminReceive; //คนรับเครื่องเข้าระบบ
