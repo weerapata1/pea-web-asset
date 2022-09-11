@@ -21,6 +21,20 @@ export default {
   },
   components: {
     'baseLayout': BaseLayout,
-  }
+  },
+  methods: {
+    setAuthenticated(status) {
+      this.authenticated = status;
+    },
+    logout() {
+      localStorage.clear();
+      this.authenticated = false;
+    }
+  },
+  mounted() {
+    // if (!this.authenticated) {
+    //   // this.$router.replace({ name: "/" });
+    // }
+  },
 };
 </script>

@@ -1,19 +1,34 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
 import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
 import repairForm from '../views/repairForm/repairForm.vue'
 import ListRepair from '../views/listRepair/listRepair.vue'
 import checkQuota from '../views/checkQuota/checkQuota.vue'
+import login from '../views/logIn/logIn.vue'
+
 Vue.use(VueRouter)
+
+function guardMyroute(to, from, next) {
+  var isAuthenticated = false;
+  //this is just an example. You will have to find a better or
+  // centralised way to handle you localstorage data handling
+  if (sessionStorage.getItem("LoggedUser") == "true") isAuthenticated = true;
+  else isAuthenticated = false;
+  if (isAuthenticated) {
+    next(); // allow to enter route
+  } else {
+    next("/"); // go to '/login';
+  }
+}
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'login',
+    component: login
   },
   {
     path: '/repairForm',
@@ -28,7 +43,9 @@ const routes = [
   {
     path: '/listRepair',
     name: 'listRepair',
-    component: ListRepair
+    component: ListRepair,
+    beforeEnter: guardMyroute,
+    meta: { requiresAuth: true },
   },
   {
     path: '/tracking',
