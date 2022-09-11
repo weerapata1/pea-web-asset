@@ -58,6 +58,34 @@ export default {
       totalDevice: "",
       alert: false,
       itemName:"",
+      assetComType: [
+        { id: "1", name: "1.Computer or labtop or Tablet", value: "1" },
+        {
+          id: "2",
+          name: "2.Monitor",
+          value: "2",
+        },
+        { id: "3", name: "3.Printer", value: "3" },
+        {
+          id: "4",
+          name: "4.UPS",
+          value: "4",
+        },
+        {
+          id: "5",
+          name: "5.อุปกรณ์สื่อสาร",
+          value: "5",
+        },
+        {
+          id: "6",
+          name: "6.อุปกรณ์ประกอบหรืออุปกรณ์อื่นๆ",
+          value: "6",
+        },
+      ],
+      selectedAssetComType: { id: "1", name: "1.Computer or labtop or Tablet", value: "1" },
+      setAssetComType: 1,
+      jsonObj: [],
+      jsonAssetComType: '{"assetComType":["1"]}',
     };
   },
 
@@ -76,12 +104,12 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        console.log(this.model["ccLongCode"]);
+        console.log("param dt_id - ",this.setAssetComType.assetComType);
         let params = [];
 
         params = {
           region: this.model["ccLongCode"],
-          dt_id: 1,
+          dt_id: this.setAssetComType,
         };
         await axios
           .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
@@ -124,7 +152,8 @@ export default {
           .catch((error) => {
             console.log(error.resp);
           });
-
+        
+          
         if (this.totalEmployeeResult > this.totalDeviceResult) {
           this.checkQuotaResult =
             "คอมพิวเตอร์น้อยกว่าจำนวนคน " +
@@ -157,6 +186,14 @@ export default {
         this.$refs.html2Pdf.generatePdf();
         // console.log("hide alert after 4 seconds");
       }
+    },
+
+    toggleAssetComType(assetComType) {
+      this.jsonObj = JSON.parse(this.jsonAssetComType);
+      this.jsonObj["assetComType"] = [];
+      this.jsonObj["assetComType"] = assetComType;
+      this.setAssetComType = assetComType;
+      console.log("assetComType-" + this.setAssetComType);
     },
   },
 };

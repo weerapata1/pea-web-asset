@@ -16,7 +16,7 @@
       <v-card-text>
         <v-form v-model="valid">
           <v-row>
-            <v-col cols="12" sm="8" md="8">
+            <v-col cols="12" sm="7" md="7">
               <v-autocomplete
                 v-model="model"
                 :items="items"
@@ -27,6 +27,17 @@
                 return-object
               >
               </v-autocomplete>
+            </v-col>
+            <v-col cols="12" sm="2" md="2">
+              <v-select
+                  v-model="selectedAssetComType"
+                  :items="assetComType"
+                  item-value="value"
+                  item-text="name"
+                  label="ประเภทย่อยทรัพย์สินคอมพิวเตอร์"
+                  @change="toggleAssetComType"
+                >
+                </v-select>
             </v-col>
             <v-col cols="12" sm="2" md="1">
               <v-btn elevation="3" @click="checkQuota" id="searchButton"
