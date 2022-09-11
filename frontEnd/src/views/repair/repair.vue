@@ -39,9 +39,12 @@
                 @keyup.enter="$v.empSend.$touch() ; findEmp(empSend) " :error-messages="empSendErrors">
               </v-text-field>
             </v-col>
-            <v-col col="12" md="6">
+            <v-col col="12" md="3">
               <v-text-field v-model="empData.empName" color="black" label="ชื่อพนักงานผู้ส่ง" disabled>
               </v-text-field>
+            </v-col>
+            <v-col col="12" md="3">
+              <v-text-field  v-model="empPhoneNumb" :error-messages="empPhoneNumbErrors" color="black" label="เบอร์ติดต่อกลับ"></v-text-field>
             </v-col>
             <v-col col="12" md="3">
               <v-btn color="success" block @click="$v.empSend.$touch() ; findEmp(empSend)">
@@ -142,6 +145,12 @@
               <v-col md="11">{{ StaticBoby.substance }}</v-col>
             </v-row>
             <v-row no-gutters>
+              <v-col md="2">เลขทรัพย์สิน</v-col>
+              <v-col md="3">{{fBody.peaNo}}</v-col>
+              <v-col md="2">รายละเอียด</v-col>
+              <v-col md="5">{{fBody.discription}}</v-col>
+            </v-row>
+            <v-row no-gutters>
               <v-col md="1">ประเภท</v-col>
               <v-col md="3">{{ fBody.deviceType }}</v-col>
               <v-col md="1">ยี่ห้อ</v-col>
@@ -153,9 +162,12 @@
             </v-row>
             <v-row no-gutters>
               <v-col md="2">การรับประกัน</v-col>
-              <v-col md="2">{{ fBody.warranty }}</v-col>
+              <v-col md="3"><v-icon>mdi-border-all-variant</v-icon> อยู่ในการรับประกัน</v-col>
+              <v-col md="5"><v-icon>mdi-border-all-variant</v-icon> ไม่อยู่ในการรับประกัน</v-col>
+            </v-row>
+            <v-row no-gutters>
               <v-col md="2">อาการเสีย</v-col>
-              <v-col md="6">{{ fBody.damage }}</v-col>
+              <v-col md="10">{{ fBody.damage }}</v-col>
             </v-row>
             <v-row no-gutters>
               <v-col md="2">สถานที่ติดตั้ง</v-col>
@@ -192,7 +204,7 @@
             <v-row no-gutters>
               <v-col md="6"></v-col>
               <v-col md="2">เบอร์ติดต่อกลับ</v-col>
-              <v-col md="3">......................................</v-col>
+              <v-col md="3">{{fBody.empPhoneNumb}}</v-col>
             </v-row>
             <table width="100%">
               <v-row no-gutters>
@@ -207,7 +219,7 @@
               </v-row>
               <v-row no-gutters>
                 <v-col col="12" md="1"></v-col>
-                <v-col col="12" md="4">จัดซื้ออุปกรณ์มาเปลี่ยน เนื่องจาก</v-col>
+                <v-col col="12" md="4"><v-icon>mdi-border-all-variant</v-icon> จัดซื้ออุปกรณ์มาเปลี่ยน เนื่องจาก</v-col>
               </v-row>
               <v-row no-gutters>
                 <v-col col="12" md="6">{{ StaticFoot.dot1 }}</v-col>
@@ -215,7 +227,7 @@
               </v-row>
               <v-row no-gutters>
                 <v-col col="12" md="1"></v-col>
-                <v-col col="12" md="4">ส่งให้บริษัทดำเนินการ เนื่องจาก</v-col>
+                <v-col col="12" md="4"><v-icon>mdi-border-all-variant</v-icon> ส่งให้บริษัทดำเนินการ เนื่องจาก</v-col>
                 <v-col col="12" md="4"></v-col>
                 <v-col col="12" md="2">อนุมัติ</v-col>
               </v-row>
@@ -225,7 +237,7 @@
               </v-row>
               <v-row no-gutters>
                 <v-col col="12" md="1"></v-col>
-                <v-col col="12" md="4">ไม่ดำเนินการจัดดซ่อม เนื่องจาก</v-col>
+                <v-col col="12" md="4"><v-icon>mdi-border-all-variant</v-icon> ไม่ดำเนินการจัดดซ่อม เนื่องจาก</v-col>
 
               </v-row>
               <v-row no-gutters>

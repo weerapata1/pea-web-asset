@@ -96,11 +96,11 @@
                             <v-col cols="12" sm="3">
                                 ผู้ส่งเครื่อง : <b>{{ dialogInfoValue.empSendName }}</b>
                             </v-col>
-                            <v-col cols="12" sm="2">
+                            <v-col cols="12" sm="3">
                                 รหัสพนักงาน : {{ dialogInfoValue.empSendId }}
                             </v-col>
                             <v-col cols="12" sm="3">
-                                วันที่ส่ง : {{ dialogInfoValue.admitDate }}
+                                วันที่ส่ง : {{ dialogInfoValue.sendDate }}
                             </v-col>
 
                         </v-row>
@@ -118,7 +118,7 @@
                                 รหัสพนักงาน : {{ dialogInfoValue.adminID }}
                             </v-col>
                             <v-col cols="12" sm="3">
-                                วันที่ส่ง : {{ dialogInfoValue.admitDate }}
+                                เจ้าหน้าที่รับเมื่อ : {{ dialogInfoValue.admitDate }}
                             </v-col>
                             <v-col cols="12" sm="3">
                                 วันที่ซ่อมเสร็จ : {{ dialogInfoValue.treatComplete }}

@@ -47,9 +47,9 @@ export default {
   }),
   mounted() {
     axios
-      .get(url + "/cc/getAllCC",{headers: {'Access-Control-Allow-Origin': '*'}})
+      .get(url + "/cc/getAllCCOnlyUse",{headers: {'Access-Control-Allow-Origin': '*'}})
       .then((res) => {
-        this.items = res.data;
+        this.items = res.data.costCenter;
       })
       .catch((error) => {
         console.log(error);
@@ -113,7 +113,13 @@ export default {
         item.empSend == null ? null : item.empSend.empId;
       this.dialogInfoValue.returnEmp =
         item.returnEmp == null ? null : item.returnEmp.empName;
-      this.dialogInfoValue.returnDate =
+        this.dialogInfoValue.sendDate =
+        item.sendDate == null
+          ? null
+          : moment(String(item.sendDate), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
+        this.dialogInfoValue.returnDate =
         item.returnDate == null
           ? null
           : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format(

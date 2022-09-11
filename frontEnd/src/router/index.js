@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
 import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
-import repairForm from '../views/repairForm/repairForm.vue'
+// import repairForm from '../views/repairForm/repairForm.vue'
 import ListRepair from '../views/listRepair/listRepair.vue'
 import checkQuota from '../views/checkQuota/checkQuota.vue'
 import login from '../views/logIn/logIn.vue'
@@ -20,21 +20,21 @@ function guardMyroute(to, from, next) {
   if (isAuthenticated) {
     next(); // allow to enter route
   } else {
-    next("/"); // go to '/login';
+    next("/login"); // go to '/login';
   }
 }
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     component: login
   },
-  {
-    path: '/repairForm',
-    name: 'repairForm',
-    component: repairForm
-  },
+  // {
+  //   path: '/repairForm',
+  //   name: 'repairForm',
+  //   component: repairForm
+  // },
   {
     path: '/repair',
     name: 'Repair',
