@@ -39,7 +39,7 @@
     "vue-pdf-reader": "^0.2.9",
     "vue-router": "^3.2.0",
     "vuelidate": "^0.7.7",
-    "vuetify": "^2.4.0",
+    "vuetify": "^2.6.10",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
