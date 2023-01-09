@@ -20,7 +20,7 @@
     "core-js": "^3.6.5",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "luxon": "^1.28.0",
+    "luxon": "^2.5.2",
     "material-design-icons": "^3.0.1",
     "moment": "^2.29.4",
     "node-sass": "^6.0.1",
