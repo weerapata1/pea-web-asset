@@ -1,6 +1,5 @@
 package com.PEA.webAsset.Repository;
 
-import com.PEA.webAsset.Entity.tbCostCenterTest;
 import com.PEA.webAsset.Entity.tbRepair;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +27,8 @@ public interface RepairRepository extends JpaRepository<tbRepair ,Long> {
             "JOIN tb_device d ON r.device_id = d.id " +
             "WHERE d.cc_id = :location AND r.status_id = :status" ,nativeQuery = true)
     Collection<tbRepair> findDeviceRepairByLocationAndState(@Param("location")String location ,@Param("status")int status);
+
+    Collection<tbRepair> findByDeviceId(Long device);
 
 
 

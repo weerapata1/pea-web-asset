@@ -5,7 +5,6 @@ import com.PEA.webAsset.Entity.tbRepair;
 import com.PEA.webAsset.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @RestController
@@ -126,5 +125,15 @@ public class RepairController {
         final tbRepair repair = repairRepository.save(updateRepair);
         return new ResponseEntity<>(repair, HttpStatus.OK);
     }
+//    @GetMapping("/getHistByPeaNo")
+//    public ResponseEntity<Collection<tbRepair>> getHistByPeaNo(@RequestParam("PeaNo") Long PeaNo)throws {
+//        try{
+//            Collection<tbRepair> getRepair = repairRepository.findByDeviceId(PeaNo).stream().collect(Collectors.toList());
+//            return new ResponseEntity<>(getRepair, HttpStatus.OK);
+//        }catch (ResourceNotFoundException e){
+//            return new ResponseEntity("this device is don't have a history of repaired",HttpStatus.NOT_FOUND);
+//        }
+//
+//    }
 
 }

@@ -1,6 +1,7 @@
 package com.PEA.webAsset.Entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
@@ -17,9 +18,13 @@ import java.time.LocalDateTime;
 public class tbRepair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rep_seq")
-    @SequenceGenerator(name = "rep_seq", sequenceName = "rep_seq")
-    @Column(name = "repairId" ,nullable = false ,unique = true)
-    private Long repairId;
+    @GenericGenerator(name = "rep_seq", strategy = "com.PEA.webAsset.Share.Generator.RepairGeneratorID")
+//    @SequenceGenerator(name = "rep_seq", sequenceName = "rep_seq")
+    @Column(name = "repair_id" ,nullable = false ,unique = true)
+    private String repairId;
+
+    @Column(name = "orderId")
+    private String orderId;
 
     private LocalDateTime SendDate; //ส่งเรื่องซ่อม
     @NotNull(message = ">> plz chk your damageDetail is Null <<")
@@ -31,12 +36,12 @@ public class tbRepair {
     @JoinColumn(name = "empSend",insertable = true,referencedColumnName = "empId")
     private tbEmployee empSend; // คนนำเครื่องมาส่ง
 
+    @Column(name="admitDate")
     private LocalDateTime admitDate; //รับเรื่องซ่อม
 
     @ManyToOne(targetEntity = tbCause.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "cause",insertable = true,referencedColumnName = "id")
     private tbCause cause; //อาการเบื้องต้น
-
     @Column(name = "empPhoneNumb")
     private String empPhoneNumb;
 
@@ -45,13 +50,17 @@ public class tbRepair {
     private tbEmpAdmin adminReceive; //คนรับเครื่องเข้าระบบ
 
     @Size(min = 5, max = 100 ,message = ">> plz chk your treatment is less 5 or more 100 char <<")
-//    @Future(message = ">> a treatment will be in future <<")
+    @Column(name = "treatment")
     private String treatment; // วิธีการซ่อม
+
+    @Column(name="treatComplete")
     private LocalDateTime treatComplete; // วันที่ซ่อมเสร็จ
 
     @ManyToOne(targetEntity = tbEmployee.class ,fetch = FetchType.EAGER)
     @JoinColumn(name = "empReturn",insertable = true ,referencedColumnName = "empId")
     private tbEmployee returnEmp; //คนมารับเครื่อง
+
+    @Column(name = "returnDate")
     private LocalDateTime returnDate; //วันส่งคืน
 
 
