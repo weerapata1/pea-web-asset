@@ -186,11 +186,12 @@
         </div>
       </template>
     </div>
+    <!-- :footer-props="footerProps"
+      @update:items-per-page="getItemPerPage" -->
     <v-data-table
       :headers="headers"
       :items="data1"
       :footer-props="footerProps"
-      @update:items-per-page="getItemPerPage"
       
       :items-per-page="itemsPerPage"
       multi-sort

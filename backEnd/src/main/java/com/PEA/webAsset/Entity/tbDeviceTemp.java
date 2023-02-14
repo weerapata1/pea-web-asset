@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name = "tb_device_old")
-@Entity(name = "tb_device_old")
+@Table(name = "tb_device_temp")
+@Entity(name = "tb_device_temp")
 @ToString
-public class tbDeviceOld {
+public class tbDeviceTemp {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "old_seq")
-    @SequenceGenerator(name = "old_seq", sequenceName = "old_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "temp_seq")
+    @SequenceGenerator(name = "temp_seq", sequenceName = "temp_seq")
     @Column(name = "id", unique = true)
     @NotNull(message = "\t device_id is null \t")
     private Long id;

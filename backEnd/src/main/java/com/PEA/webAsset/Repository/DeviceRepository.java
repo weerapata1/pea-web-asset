@@ -16,6 +16,11 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
+        // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
+                        "WHERE (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+        Page<tbDevice> findAll53(Pageable pageable);
+
+        @Query(value = "SELECT * from tb_device d " +
                         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
 
                         "WHERE ((d.dev_pea_no like CONCAT('%',:peaNo,'%')) " +
@@ -144,10 +149,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         // @Param("empId") String empId, @Param("empName") String empName,
                         @Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                        "WHERE (d.dev_pea_no LIKE '53%')", nativeQuery = true)
-        Page<tbDevice> findAll53(Pageable pageable);
+
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
