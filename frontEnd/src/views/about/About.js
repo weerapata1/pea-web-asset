@@ -431,13 +431,13 @@ export default {
           };
           // console.log("Pattern2 ", params);
           axios
-            .get("http://localhost:8080/api/dev/getAllByPattern2unpage", {
+            .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
               params,
             })
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log(
-                "getAllByPattern2unpage",
+                "searchNoWordUnpage-" + params['region'],
                 JSON.stringify(this.getAllResult)
               );
 
@@ -454,8 +454,8 @@ export default {
         //ถ้าใส่คำค้น
         else {
           params = {
-            page: 0,
-            size: this.itemsPerPage,
+            // page: 0,
+            // size: this.itemsPerPage,
             region: selectedBranch.branch,
             textSearch: this.textSearch,
             setAssetType: setAssetType2.assetType,
@@ -463,11 +463,11 @@ export default {
           console.log("searchFunction ", params);
 
           axios
-            .get("http://localhost:8080/api/dev/getAllByPattern1", { params })
+            .get("http://localhost:8080/api/dev/searchWithWord", { params })
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log(
-                "getAllByPattern1",
+                "searchWithWord",
                 JSON.stringify(this.getAllResult)
               );
 
