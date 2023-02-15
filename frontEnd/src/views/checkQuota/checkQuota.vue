@@ -16,7 +16,7 @@
       <v-card-text>
         <v-form v-model="valid">
           <v-row>
-            <v-col cols="12" sm="7" md="7">
+            <v-col cols="12" sm="5" md="5">
               <v-autocomplete
                 v-model="model"
                 :items="items"
@@ -30,14 +30,28 @@
             </v-col>
             <v-col cols="12" sm="2" md="2">
               <v-select
-                  v-model="selectedAssetComType"
-                  :items="assetComType"
-                  item-value="value"
-                  item-text="name"
-                  label="ประเภทย่อยทรัพย์สินคอมพิวเตอร์"
-                  @change="toggleAssetComType"
-                >
-                </v-select>
+                v-model="selectedAssetComType"
+                :items="assetComType"
+                item-value="value"
+                item-text="name"
+                label="ประเภทย่อยทรัพย์สินคอมพิวเตอร์"
+                @change="toggleAssetComType"
+              >
+              </v-select>
+            </v-col>
+            <v-col cols="12" sm="2" md="2" align-self="center">
+              <!-- <div > -->
+              <!-- <input type="checkbox" id="checkbox" v-model="checked" />
+                <label for="only7year" class="font-checkbox"
+                  >เฉพาะทรัพย์สินอายุ 7 ปี</label
+                > -->
+              <v-checkbox
+                id="checkbox"
+                v-model="checked7"
+                @change="checked7year"
+                label="เฉพาะทรัพย์สินอายุ 7 ปี"
+              ></v-checkbox>
+              <!-- </div> -->
             </v-col>
             <v-col cols="12" sm="2" md="1">
               <v-btn elevation="3" @click="checkQuota" id="searchButton"
@@ -99,7 +113,7 @@
                         :headers="employeeheaders"
                         :items="getEmployeeResult"
                         :hide-default-footer="true"
-                        :items-per-page=-1
+                        :items-per-page="-1"
                       >
                       </v-data-table>
                     </v-col>
@@ -114,7 +128,7 @@
                         sort-by="devReceivedDate"
                         :sort-desc="true"
                         :hide-default-footer="true"
-                        :items-per-page=-1
+                        :items-per-page="-1"
                       >
                       </v-data-table
                     ></v-col>

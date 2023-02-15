@@ -57,7 +57,7 @@ export default {
       totalEmployee: "",
       totalDevice: "",
       alert: false,
-      itemName:"",
+      itemName: "",
       assetComType: [
         { id: "1", name: "1.Computer or labtop or Tablet", value: "1" },
         {
@@ -82,10 +82,15 @@ export default {
           value: "6",
         },
       ],
-      selectedAssetComType: { id: "1", name: "1.Computer or labtop or Tablet", value: "1" },
+      selectedAssetComType: {
+        id: "1",
+        name: "1.Computer or labtop or Tablet",
+        value: "1",
+      },
       setAssetComType: 1,
       jsonObj: [],
       jsonAssetComType: '{"assetComType":["1"]}',
+      checked7: false,
     };
   },
 
@@ -104,32 +109,53 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        console.log("param dt_id - ",this.setAssetComType.assetComType);
+        console.log("param dt_id - ", this.setAssetComType.assetComType);
         let params = [];
 
         params = {
           region: this.model["ccLongCode"],
           dt_id: this.setAssetComType,
         };
-        await axios
-          .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
-            params,
-          })
-          .then((resp2) => {
-            // this.getAllResult = resp.data;
-            // console.log(
-            //   "getAllByPattern2unpage",
-            //   JSON.stringify(this.getAllResult)
-            // );
 
-            this.getDeviceResult = resp2.data.dataDevice;
-            this.totalDeviceResult = resp2.data.totalItems;
-            // this.myloadingvariable = false;
-          })
-          .catch((error) => {
-            console.log(error.resp);
-          });
+        if ((this.checked7 == false)) {
+          await axios
+            .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
+              params,
+            })
+            .then((resp2) => {
+              // this.getAllResult = resp.data;
+              // console.log(
+              //   "getAllByPattern2unpage",
+              //   JSON.stringify(this.getAllResult)
+              // );
 
+              this.getDeviceResult = resp2.data.dataDevice;
+              this.totalDeviceResult = resp2.data.totalItems;
+              // this.myloadingvariable = false;
+            })
+            .catch((error) => {
+              console.log(error.resp);
+            });
+        }else{
+          await axios
+            .get("http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year", {
+              params,
+            })
+            .then((resp2) => {
+              // this.getAllResult = resp.data;
+              // console.log(
+              //   "getAllByPattern2unpage",
+              //   JSON.stringify(this.getAllResult)
+              // );
+
+              this.getDeviceResult = resp2.data.dataDevice;
+              this.totalDeviceResult = resp2.data.totalItems;
+              // this.myloadingvariable = false;
+            })
+            .catch((error) => {
+              console.log(error.resp);
+            });
+        }
         // let params = [];
         let ccLong = this.model["ccLongCode"];
         console.log(ccLong);
@@ -152,8 +178,7 @@ export default {
           .catch((error) => {
             console.log(error.resp);
           });
-        
-          
+
         if (this.totalEmployeeResult > this.totalDeviceResult) {
           this.checkQuotaResult =
             "คอมพิวเตอร์น้อยกว่าจำนวนคน " +
@@ -172,6 +197,11 @@ export default {
         }
         this.showVRow = true;
       }
+    },
+
+    checked7year(newValue) {
+      this.checked7 = newValue;
+      console.log(newValue);
     },
 
     genQuotaReport() {
