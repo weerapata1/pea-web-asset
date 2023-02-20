@@ -95,7 +95,7 @@ export default {
   },
 
   mounted() {
-    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+    axios.get("http://172.21.1.51:8080/cc/getAllCCOnlyUse").then((response) => {
       this.items = response.data.costCenter;
     });
   },
@@ -119,7 +119,7 @@ export default {
 
         if ((this.checked7 == false)) {
           await axios
-            .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
+            .get("http://172.21.1.51:8080/api/dev/getDevice53unpageByccId", {
               params,
             })
             .then((resp2) => {
@@ -138,7 +138,7 @@ export default {
             });
         }else{
           await axios
-            .get("http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year", {
+            .get("http://172.21.1.51:8080/api/dev/getDevice53unpageByccIdOnly7Year", {
               params,
             })
             .then((resp2) => {
@@ -163,7 +163,7 @@ export default {
           region: ccLong,
         };
         await axios
-          .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
+          .get("http://172.21.1.51:8080/emp/getEmpByccLongCode", { params })
           .then((resp2) => {
             // this.getEmployeeResult = resp.data;
             // console.log(
