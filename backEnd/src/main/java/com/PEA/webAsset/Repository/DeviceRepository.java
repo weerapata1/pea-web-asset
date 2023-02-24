@@ -39,8 +39,8 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         Page<tbDevice> findDeviceByEmpIdOrEmpNameAndCC(@Param("empId") String empId, @Param("empName") String empName,
                         @Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT *from tb_device d " +
+                        //, cc_short_name "LEFT JOIN tb_cost_center_test cc ON d.cc_id = cc.cc_id " +
                         "WHERE d.cc_id LIKE CONCAT(:ccLong,'%') " +
                         "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId53(@Param("ccLong") String ccLong, Pageable pageable);

@@ -16,14 +16,28 @@
       <v-card-text>
         <v-form v-model="valid">
           <v-row>
-            <v-col cols="12" sm="5" md="5">
+            <v-col cols="12" sm="2" md="2">
               <v-autocomplete
-                v-model="model"
-                :items="items"
+                v-model="modelEmp"
+                :items="itemsEmp"
                 color="white"
-                item-text="ccFullName"
+                :item-text="getItemEmp"
+                label="รหัสพนักงาน"
+                item-value="empId"
+                @change="(event) => updateCCFromEmp(modelEmp)"
+                return-object
+              >
+              </v-autocomplete>
+            </v-col>
+            <v-col cols="12" sm="3" md="3">
+              <v-autocomplete
+                v-model="modelCC"
+                :items="itemsCC"
+                color="white"
+                :item-text="getItemCC"
                 label="การไฟฟ้า"
                 item-value="ccLongCode"
+                @change="(event) => updateCC(modelCC)"
                 return-object
               >
               </v-autocomplete>
