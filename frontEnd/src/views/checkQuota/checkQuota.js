@@ -5,8 +5,12 @@ export default {
   data() {
     return {
       valid: null,
-      model: null,
-      items: [],
+      // model: null,
+      modelEmp: null,
+      modelCC: null,
+      //items: [],
+      itemsCC: [],
+      itemsEmp: [],
       getDeviceResult: [],
       getEmployeeResult: [],
       deviceheaders: [
@@ -96,13 +100,41 @@ export default {
 
   mounted() {
     axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
-      this.items = response.data.costCenter;
+      this.itemsCC = response.data.costCenter;
+    });
+
+    axios.get("http://localhost:8080/emp/getEmp").then((response) => {
+      this.itemsEmp = response.data;
     });
   },
 
   methods: {
+    getItemEmp(itemEmp) {
+      return `${itemEmp.empId}` + " " + `${itemEmp.empName}`;
+    },
+
+    getItemCC(itemsCC) {
+      return `${itemsCC.ccShortName}` + " " + `${itemsCC.ccLongCode}`;
+    },
+
+    updateCC(modelCC) {
+      console.log(modelCC.ccLongCode);
+
+      this.modelCC = modelCC;
+      // how can I have here the index value?
+    },
+
+    updateCCFromEmp(modelEmp) {
+      console.log(modelEmp.empCcId);
+      
+      var result = this.itemsCC.find(item => item.ccLongCode === modelEmp.empCcId);
+      console.log('result ' + result.ccLongCode);
+      this.modelCC = result;
+      // how can I have here the index value?
+    },
+
     async checkQuota() {
-      if (this.model == null) {
+      if (this.modelCC == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
@@ -113,11 +145,11 @@ export default {
         let params = [];
 
         params = {
-          region: this.model["ccLongCode"],
+          region: this.modelCC["ccLongCode"],
           dt_id: this.setAssetComType,
         };
 
-        if ((this.checked7 == false)) {
+        if (this.checked7 == false) {
           await axios
             .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
               params,
@@ -136,11 +168,14 @@ export default {
             .catch((error) => {
               console.log(error.resp);
             });
-        }else{
+        } else {
           await axios
-            .get("http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year", {
-              params,
-            })
+            .get(
+              "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              {
+                params,
+              }
+            )
             .then((resp2) => {
               // this.getAllResult = resp.data;
               // console.log(
@@ -157,7 +192,7 @@ export default {
             });
         }
         // let params = [];
-        let ccLong = this.model["ccLongCode"];
+        let ccLong = this.modelCC["ccLongCode"];
         console.log(ccLong);
         params = {
           region: ccLong,
@@ -205,14 +240,14 @@ export default {
     },
 
     genQuotaReport() {
-      if (this.model == null) {
+      if (this.modelCC == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        this.itemName = this.model["ccFullName"];
+        this.itemName = this.modelCC["ccFullName"];
         this.$refs.html2Pdf.generatePdf();
         // console.log("hide alert after 4 seconds");
       }

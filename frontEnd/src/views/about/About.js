@@ -108,6 +108,12 @@ export default {
             return `${value}`;
           },
         },
+        สังกัด: {
+          field: "tbCostCenterTest.ccShortName",
+          callback: (value) => {
+            return `${value}`;
+          },
+        },
         // "Telephone 2": {
         //   field: "phone.landline",
         //   callback: (value) => {

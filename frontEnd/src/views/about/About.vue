@@ -134,7 +134,7 @@
     <div>
       <template>
         <div>
-          <VueHtml2pdf
+          <!-- <VueHtml2pdf
             :show-layout="false"
             :float-layout="true"
             :enable-download="true"
@@ -150,10 +150,31 @@
             :html-to-pdf-options="{
               margin: [5, 10, 5, 10],
             }"
+          > -->
+          <Vue-Html2pdf
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="true"
+            :preview-modal="true"
+            :paginate-elements-by-height="148"
+            filename="myPDF"
+            :pdf-quality="2"
+            :manual-pagination="false"
+            pdf-format="A6"
+            pdf-orientation="portrait"
+            pdf-content-width="105"
+            ref="html2Pdf"
+            :html-to-pdf-options="{
+              margin: [5, 10, 5, 10],
+              jsPDF: {
+                format: 'a6',
+                orientation: 'portrait',
+              },
+            }"
           >
             <section slot="pdf-content">
               <!-- <table cellspacing="0" class="no-spacing"> -->
-              <b-table>
+              <!-- <b-table>
                 
                   <tr
                     id="pdf_tr"
@@ -176,13 +197,40 @@
                       ></qrcode-vue>
 
                       <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
-                      <!-- {{ item2 }} -->
+                      
                     </td>
                   </tr>
                   </b-table
-              >
+              > -->
+
+                <b-table>
+                <tr height="148px"
+                  id="pdf_tr"
+                  v-for="item in qrcode_value2"
+                  v-bind:key="item.devPeaNo"
+                >
+                <!-- <td
+                    style="text-align: center"
+                    class="pdf_td"
+                    v-for="item2 in qrcode_value2.slice(
+                      (item - 1) * 2,
+                      item * 2
+                    )"
+                    v-bind:key="item2.devPeaNo"
+                  > -->
+                <qrcode-vue
+                  :value="item"
+                  :size="qrcode_size"
+                  level="H"
+                ></qrcode-vue>
+
+                <H5>{{ item }}</H5>
+                <!-- </td> -->
+                </tr>
+              </b-table>
+              
             </section>
-          </VueHtml2pdf>
+          </Vue-Html2pdf>
         </div>
       </template>
     </div>
@@ -192,7 +240,6 @@
       :headers="headers"
       :items="data1"
       :footer-props="footerProps"
-      
       :items-per-page="itemsPerPage"
       multi-sort
       :loading="myloadingvariable"
@@ -202,7 +249,7 @@
       show-select
       @input="enterSelect()"
     >
-    <!-- :server-items-length="totalItems" -->
+      <!-- :server-items-length="totalItems" -->
       <!-- :footer-props="{ 'items-per-page-options': [30, 50, 100] }" -->
       <template v-slot:top>
         <v-toolbar flat>
