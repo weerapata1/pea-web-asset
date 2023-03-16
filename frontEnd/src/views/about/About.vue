@@ -94,7 +94,11 @@
           <v-col cols="12" sm="3" md="1">
             <v-container>
               <v-row>
-                <v-btn elevation="3" @click="searchFunction" id="searchButton"
+                <v-btn
+                  elevation="3"
+                  @click="searchFunction"
+                  id="searchButton"
+                  color="primary"
                   >Serach</v-btn
                 >
               </v-row>
@@ -104,7 +108,7 @@
           <v-col cols="12" sm="3" md="2">
             <v-container>
               <v-row>
-                <v-btn>
+                <v-btn color="primary">
                   <download-excel
                     :fetch="fetchData2"
                     :data="dataExcel"
@@ -122,7 +126,11 @@
           <v-col cols="12" sm="3" md="1">
             <v-container>
               <v-row>
-                <v-btn elevation="3" @click="generateReport" id="searchButton"
+                <v-btn
+                  elevation="3"
+                  @click="generateReport"
+                  id="searchButton"
+                  color="primary"
                   >QR_Code</v-btn
                 >
               </v-row>
@@ -162,7 +170,6 @@
             :manual-pagination="false"
             pdf-format="A6"
             pdf-orientation="portrait"
-            pdf-content-width="105"
             ref="html2Pdf"
             :html-to-pdf-options="{
               margin: [5, 10, 5, 10],
@@ -172,6 +179,7 @@
               },
             }"
           >
+            <!-- pdf-content-width="105" -->
             <section slot="pdf-content">
               <!-- <table cellspacing="0" class="no-spacing"> -->
               <!-- <b-table>
@@ -203,13 +211,15 @@
                   </b-table
               > -->
 
-                <b-table>
-                <tr height="148px"
+              <b-table>
+                <tr
                   id="pdf_tr"
+                  style="text-align: center"
                   v-for="item in qrcode_value2"
                   v-bind:key="item.devPeaNo"
                 >
-                <!-- <td
+                  <section class="pdf-item">
+                    <!-- <td
                     style="text-align: center"
                     class="pdf_td"
                     v-for="item2 in qrcode_value2.slice(
@@ -218,17 +228,24 @@
                     )"
                     v-bind:key="item2.devPeaNo"
                   > -->
-                <qrcode-vue
-                  :value="item"
-                  :size="qrcode_size"
-                  level="H"
-                ></qrcode-vue>
+                    <div>-</div>
+                    <div>
+                      <qrcode-vue
+                        :value="item"
+                        :size="qrcode_size"
+                        level="H"
+                      ></qrcode-vue>
 
-                <H5>{{ item }}</H5>
-                <!-- </td> -->
+                      <H5>{{ JSON.parse(item).devPeaNo }}</H5>
+                    </div>
+                    <!-- </td> -->
+                  </section>
+                  <div class="html2pdf__page-break"></div>
                 </tr>
               </b-table>
-              
+
+              <!-- <section :class="savingPdf ? 'on-top' : '' "> -->
+              <!-- <h3>Test</h3> -->
             </section>
           </Vue-Html2pdf>
         </div>
@@ -244,7 +261,7 @@
       multi-sort
       :loading="myloadingvariable"
       loading-text="Loading... Please wait"
-      class="elevation-1"
+      class="elevation-5 mytable"
       v-model="selected"
       show-select
       @input="enterSelect()"
