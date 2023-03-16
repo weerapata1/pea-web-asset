@@ -19,20 +19,24 @@ export default {
           align: "start",
           value: "devPeaNo",
           width: "15%",
+          class: 'primary--text',
         },
         {
           text: "คำอธิบายของสินทรัพย์",
           value: "devDescription",
+          class: 'primary--text',
           // width: "6%"
         },
         {
           text: "ชื่อผู้ครอบครอง",
           value: "tbEmployee.empName",
+          class: 'primary--text',
           // width: "25%"
         },
         {
           text: "วันที่ได้รับ",
           value: "devReceivedDate",
+          class: 'primary--text',
           // width: "25%"
         },
       ],
@@ -41,16 +45,19 @@ export default {
           text: "รหัสพนักงาน",
           align: "start",
           value: "empId",
+          class: 'primary--text',
           // width: "10%",
         },
         {
           text: "ชื่อ-นามสกุล",
           value: "empName",
+          class: 'primary--text',
           // width: "6%"
         },
         {
           text: "ตำแหน่ง",
           value: "empRole",
+          class: 'primary--text',
           // width: "25%"
         },
       ],
@@ -95,6 +102,9 @@ export default {
       jsonObj: [],
       jsonAssetComType: '{"assetComType":["1"]}',
       checked7: false,
+      dialog: false,
+      passwordField: "",
+      wrongPassword: false,
     };
   },
 
@@ -114,7 +124,13 @@ export default {
     },
 
     getItemCC(itemsCC) {
-      return `${itemsCC.ccShortName}` + " " + `${itemsCC.ccLongCode}`;
+      return (
+        `${itemsCC.ccShortName}` +
+        " " +
+        `${itemsCC.ccLongCode}` +
+        " " +
+        `${itemsCC.ccFullName}`
+      );
     },
 
     updateCC(modelCC) {
@@ -122,13 +138,16 @@ export default {
 
       this.modelCC = modelCC;
       // how can I have here the index value?
+      this.modelEmp = null;
     },
 
     updateCCFromEmp(modelEmp) {
       console.log(modelEmp.empCcId);
-      
-      var result = this.itemsCC.find(item => item.ccLongCode === modelEmp.empCcId);
-      console.log('result ' + result.ccLongCode);
+
+      var result = this.itemsCC.find(
+        (item) => item.ccLongCode === modelEmp.empCcId
+      );
+      console.log("result " + result.ccLongCode);
       this.modelCC = result;
       // how can I have here the index value?
     },
@@ -218,8 +237,8 @@ export default {
           this.checkQuotaResult =
             "คอมพิวเตอร์น้อยกว่าจำนวนคน " +
             this.totalEmployeeResult +
-            " - " +
-            this.totalDeviceResult;
+            " คน - " +
+            this.totalDeviceResult+ " เครื่อง";
         } else if (
           this.totalEmployeeResult == this.totalDeviceResult ||
           this.totalEmployeeResult < this.totalDeviceResult
@@ -227,16 +246,34 @@ export default {
           this.checkQuotaResult =
             "คอมพิวเตอร์เพียงพอกับจำนวนคน " +
             this.totalEmployeeResult +
-            " - " +
-            this.totalDeviceResult;
+            " คน - " +
+            this.totalDeviceResult + " เครื่อง";
         }
         this.showVRow = true;
       }
     },
 
     checked7year(newValue) {
-      this.checked7 = newValue;
+      if (this.passwordField == "itsco") {
+        if (this.checked7) {
+          this.checked7 = false;
+        } else if (!this.checked7) {
+          this.checked7 = true;
+        }
+        this.dialog = false;
+      }
+      else{
+        this.wrongPassword = true;
+      }
+      
       console.log(newValue);
+    },
+
+    openDialog(){
+      this.dialog = true;
+      this.wrongPassword = false;
+      this.passwordFiel ='';
+     
     },
 
     genQuotaReport() {

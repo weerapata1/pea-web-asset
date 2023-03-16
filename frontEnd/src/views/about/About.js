@@ -29,57 +29,68 @@ export default {
           text: "เลขทรัพย์สิน",
           align: "start",
           value: "devPeaNo",
+          class: 'primary--text title',
           // width: "10%",
         },
         {
           text: "คำอธิบายของสินทรัพย์",
           value: "devDescription",
+          class: 'primary--text title',
           // width: "6%"
         },
         {
           text: "หมายเลขผลิตภัณฑ์",
           value: "devSerialNo",
+          class: 'primary--text title',
           //  width: "3%"
         },
         {
           text: "วันที่โอนเข้าเป็นทุน",
           value: "devReceivedDate",
+          class: 'primary--text title',
           // width: "7%"
         },
         {
           text: "มูลค่าการได้มา",
           value: "devReceivedPrice",
+          class: 'primary--text title',
           //  width: "3%"
         },
         {
           text: "มูลค่าตามบัญชี",
           value: "devLeftPrice",
+          class: 'primary--text title',
           // width: "3%"
         },
         {
           text: "ชื่อผู้ครอบครอง",
           value: "tbEmployee.empName",
+          class: 'primary--text title',
           // width: "20%",
         },
         {
           text: "รหัสพนักงาน",
           value: "tbEmployee.empId",
+          class: 'primary--text title',
           // width: "3%"
         },
         {
           text: "สังกัด",
           value: "tbCostCenterTest.ccShortName",
+          class: 'primary--text title',
           // width: "5%",
         },
         {
           text: "ศูนย์ต้นทุน",
           value: "tbCostCenterTest.ccLongCode",
+          class: 'primary--text title',
           // width: "5%",
         },
         {
           text: "Action",
           value: "actions",
           sortable: false,
+          class: 'primary--text title',
           // width: "3%"
         },
       ],
