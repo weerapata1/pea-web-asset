@@ -1,5 +1,5 @@
 .show-select {
-  width: 5px;
+  width: 3px;
 }
 
 table.no-spacing {
@@ -13,7 +13,22 @@ table.no-spacing {
 
 .mytable table tr {
   border-bottom: medium solid rgba(128,0,128,0.2);
-  border-spacing: 0 0.5rem;
+  border-spacing: 0;
+}
+
+.v-data-table .v-data-table-header tr th {
+  font-size: 1rem !important;
+  text-align: center !important;
+  padding: 0 !important;
+
+  margin: 0 !important;
+  white-space: nowrap;
+}
+
+.mytable tbody td{
+  padding: 0 !important;
+  margin: 0 !important;
+  /* font-size: 1.2rem !important; */
 }
 
 .theme--light.v-icon {
