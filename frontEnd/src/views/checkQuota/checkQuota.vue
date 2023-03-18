@@ -16,14 +16,28 @@
       <v-card-text>
         <v-form v-model="valid">
           <v-row>
-            <v-col cols="12" sm="5" md="5">
+            <v-col cols="12" sm="2" md="2">
               <v-autocomplete
-                v-model="model"
-                :items="items"
-                color="white"
-                item-text="ccFullName"
+                color="primary"
+                v-model="modelEmp"
+                :items="itemsEmp"
+                :item-text="getItemEmp"
+                label="รหัสพนักงาน"
+                item-value="empId"
+                @change="(event) => updateCCFromEmp(modelEmp)"
+                return-object
+              >
+              </v-autocomplete>
+            </v-col>
+            <v-col cols="12" sm="3" md="3">
+              <v-autocomplete
+                color="primary"
+                v-model="modelCC"
+                :items="itemsCC"
+                :item-text="getItemCC"
                 label="การไฟฟ้า"
                 item-value="ccLongCode"
+                @change="(event) => updateCC(modelCC)"
                 return-object
               >
               </v-autocomplete>
@@ -45,21 +59,83 @@
                 <label for="only7year" class="font-checkbox"
                   >เฉพาะทรัพย์สินอายุ 7 ปี</label
                 > -->
-              <v-checkbox
+              <!-- <v-checkbox
                 id="checkbox"
                 v-model="checked7"
                 @change="checked7year"
                 label="เฉพาะทรัพย์สินอายุ 7 ปี"
-              ></v-checkbox>
-              <!-- </div> -->
+              ></v-checkbox> -->
+
+              <template>
+                <div class="text-center">
+                  <!-- <v-btn color="primary" @click="dialog = true">
+                    Open Dialog"
+                  </v-btn> 
+                  @change="checked7year
+                  v-model="checked7"
+                  @click="dialog = true"-->
+                  <v-checkbox
+                    id="checkbox"
+                    readonly
+                    v-model="checked7"
+                    @click="openDialog"
+                    label="เฉพาะทรัพย์สินอายุ 7 ปี"
+                  ></v-checkbox>
+
+                  <v-dialog v-model="dialog" width="auto">
+                    <v-card>
+                      <div class="container">
+                        <v-card-text xs12 mb-4>
+                          <h4>กรุณากรอกรหัสผ่าน เพื่อใช้งาน Function นี้</h4>
+                        </v-card-text>
+                      </div>
+                      <div class="container">
+                        <v-text-field
+                          class="v-text-field-password centered-input"
+                          xs12
+                          mb-4
+                          v-model="passwordField"
+                          clearable
+                          type="password"
+                        >
+                        </v-text-field>
+                      </div>
+                      <!-- <v-card-actions>
+                        <v-btn color="primary" block @click="dialog = false"
+                          >Close Dialog</v-btn
+                        >
+                      </v-card-actions> id="wrongPassword"-->
+                      <div v-if="wrongPassword" class="text-center">
+                        <v-card-text class="text-warning" xs12 mb-4>
+                          <h4>รหัสผ่านไม่ถูกต้อง!</h4>
+                        </v-card-text>
+                      </div>
+
+                      <v-card-actions>
+                        <v-btn color="primary" block @click="checked7year"
+                          >Check</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </div>
+              </template>
             </v-col>
-            <v-col cols="12" sm="2" md="1">
-              <v-btn elevation="3" @click="checkQuota" id="searchButton"
+            <v-col cols="12" sm="2" md="1" align-self="center">
+              <v-btn
+                elevation="3"
+                @click="checkQuota"
+                id="searchButton"
+                color="primary"
                 >ตรวจสอบ
               </v-btn>
             </v-col>
-            <v-col cols="12" sm="2" md="1">
-              <v-btn elevation="3" @click="genQuotaReport" id="genQuotaReportt"
+            <v-col cols="12" sm="2" md="1" align-self="center">
+              <v-btn
+                elevation="3"
+                @click="genQuotaReport"
+                id="genQuotaReportt"
+                color="primary"
                 >สร้างรายงาน</v-btn
               >
             </v-col>
@@ -76,7 +152,7 @@
               :enable-download="true"
               :preview-modal="true"
               :paginate-elements-by-height="1400"
-              filename="myPDF"
+              filename=modelCC
               :pdf-quality="2"
               :manual-pagination="false"
               pdf-format="a4"
@@ -95,7 +171,7 @@
                       <v-row>
                         <h5>{{ itemName }} - {{ checkQuotaResult }}</h5>
                       </v-row>
-                      <v-row>
+                      <v-row >
                         <H5
                           >พนักงานจำนวน {{ totalEmployeeResult }} คน -
                           ทรัพย์สินคอมพิวเตอร์จำนวน
@@ -122,13 +198,14 @@
                     <v-col cols="12" sm="11" md="11"
                       ><H5>รายการทรัพย์สิน</H5>
                       <v-data-table
-                        class="elevation-1"
+                        class="elevation-1 mytableReport"
                         :headers="deviceheaders"
                         :items="getDeviceResult"
                         sort-by="devReceivedDate"
                         :sort-desc="true"
                         :hide-default-footer="true"
                         :items-per-page="-1"
+
                       >
                       </v-data-table
                     ></v-col>
@@ -144,16 +221,17 @@
         <v-form>
           <template v-if="showVRow">
             <v-row>
-              <v-col cols="12" sm="4" md="2">
-                <H5>พนักงานจำนวน {{ totalEmployeeResult }} คน</H5>
-              </v-col>
-              <v-col cols="12" sm="4" md="3">
-                <H5
-                  >ทรัพย์สินคอมพิวเตอร์จำนวน {{ totalDeviceResult }} เครื่อง</H5
-                >
+              <v-col cols="12" sm="6" md="4">
+                <H3>พนักงานจำนวน {{ totalEmployeeResult }} คน</H3>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <H5>{{ checkQuotaResult }}</H5>
+                <H3
+                  >ทรัพย์สินคอมพิวเตอร์จำนวน {{ totalDeviceResult }} เครื่อง</H3
+                >
+              </v-col>
+            </v-row><v-row>
+              <v-col cols="12" sm="12" md="6">
+                <H3 >{{ checkQuotaResult }}</H3>
               </v-col>
             </v-row>
           </template>
@@ -162,19 +240,19 @@
 
       <v-card-text>
         <v-row>
-          <v-col cols="12" sm="12" md="4"
-            ><H4>พนักงานในสังกัด</H4
+          <v-col cols="12" sm="12" md="4" 
+            ><H4 class="primary--text">พนักงานในสังกัด</H4
             ><v-data-table
-              class="elevation-1"
+              class="elevation-1 mytable"
               :headers="employeeheaders"
               :items="getEmployeeResult"
             >
             </v-data-table>
           </v-col>
           <v-col cols="12" sm="12" md="8"
-            ><H4>รายการทรัพย์สิน</H4>
+            ><H4 class="primary--text">รายการทรัพย์สิน</H4>
             <v-data-table
-              class="elevation-1"
+              class="elevation-1 mytable"
               :headers="deviceheaders"
               :items="getDeviceResult"
               sort-by="devReceivedDate"

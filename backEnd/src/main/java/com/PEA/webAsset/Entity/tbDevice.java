@@ -65,6 +65,9 @@ public class tbDevice {
 
     private String devConcatPriceDate;
 
+    @Column(columnDefinition="tinyint(1) default 0")
+    private Boolean isDeleted;
+
     // @ManyToOne(targetEntity = tbDeviceBrand.class, fetch = FetchType.EAGER)
     // @JoinColumn(name = "brand_id", insertable = true,referencedColumnName = "id")
     // private tbDeviceBrand tbDeviceBrand;

@@ -94,7 +94,11 @@
           <v-col cols="12" sm="3" md="1">
             <v-container>
               <v-row>
-                <v-btn elevation="3" @click="searchFunction" id="searchButton"
+                <v-btn
+                  elevation="3"
+                  @click="searchFunction"
+                  id="searchButton"
+                  color="primary"
                   >Serach</v-btn
                 >
               </v-row>
@@ -104,7 +108,7 @@
           <v-col cols="12" sm="3" md="2">
             <v-container>
               <v-row>
-                <v-btn>
+                <v-btn color="primary">
                   <download-excel
                     :fetch="fetchData2"
                     :data="dataExcel"
@@ -122,7 +126,11 @@
           <v-col cols="12" sm="3" md="1">
             <v-container>
               <v-row>
-                <v-btn elevation="3" @click="generateReport" id="searchButton"
+                <v-btn
+                  elevation="3"
+                  @click="generateReport"
+                  id="searchButton"
+                  color="primary"
                   >QR_Code</v-btn
                 >
               </v-row>
@@ -134,7 +142,7 @@
     <div>
       <template>
         <div>
-          <VueHtml2pdf
+          <!-- <VueHtml2pdf
             :show-layout="false"
             :float-layout="true"
             :enable-download="true"
@@ -150,10 +158,31 @@
             :html-to-pdf-options="{
               margin: [5, 10, 5, 10],
             }"
+          > -->
+          <Vue-Html2pdf
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="true"
+            :preview-modal="true"
+            :paginate-elements-by-height="148"
+            filename="myPDF"
+            :pdf-quality="2"
+            :manual-pagination="false"
+            pdf-format="A6"
+            pdf-orientation="portrait"
+            ref="html2Pdf"
+            :html-to-pdf-options="{
+              margin: [1, 5, 0, 5],
+              jsPDF: {
+                format: 'a6',
+                orientation: 'portrait',
+              },
+            }"
           >
+            <!-- pdf-content-width="105" -->
             <section slot="pdf-content">
               <!-- <table cellspacing="0" class="no-spacing"> -->
-              <b-table>
+              <!-- <b-table>
                 
                   <tr
                     id="pdf_tr"
@@ -176,13 +205,55 @@
                       ></qrcode-vue>
 
                       <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
-                      <!-- {{ item2 }} -->
+                      
                     </td>
                   </tr>
                   </b-table
-              >
+              > -->
+
+              <b-table>
+                <tr
+                  id="pdf_tr"
+                  style="text-align: center"
+                  v-for="item in Math.ceil(qrcode_value2.length / 2)"
+                  v-bind:key="item.devPeaNo"
+                >
+                  <section class="pdf-item">
+                    <!-- <td
+                    style="text-align: center"
+                    class="pdf_td"
+                    v-for="item2 in qrcode_value2.slice(
+                      (item - 1) * 2,
+                      item * 2
+                    )"
+                    v-bind:key="item2.devPeaNo"
+                  > -->
+                  <div v-for="item2 in qrcode_value2.slice(
+                        (item - 1) * 2,
+                        item * 2
+                      )"
+                      v-bind:key="item2.devPeaNo">
+                    <div>-</div>
+                    <div >
+                      <qrcode-vue
+                        :value="item2"
+                        :size="qrcode_size"
+                        level="H"
+                      ></qrcode-vue>
+
+                      <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
+                    </div>
+                  </div>
+                    <!-- </td> -->
+                  </section>
+                  <div class="html2pdf__page-break"></div>
+                </tr>
+              </b-table>
+
+              <!-- <section :class="savingPdf ? 'on-top' : '' "> -->
+              <!-- <h3>Test</h3> -->
             </section>
-          </VueHtml2pdf>
+          </Vue-Html2pdf>
         </div>
       </template>
     </div>
@@ -192,17 +263,16 @@
       :headers="headers"
       :items="data1"
       :footer-props="footerProps"
-      
       :items-per-page="itemsPerPage"
       multi-sort
       :loading="myloadingvariable"
       loading-text="Loading... Please wait"
-      class="elevation-1"
+      class="elevation-5 mytable ma-0 pa-0"
       v-model="selected"
       show-select
       @input="enterSelect()"
     >
-    <!-- :server-items-length="totalItems" -->
+      <!-- :server-items-length="totalItems" -->
       <!-- :footer-props="{ 'items-per-page-options': [30, 50, 100] }" -->
       <template v-slot:top>
         <v-toolbar flat>

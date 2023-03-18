@@ -5,8 +5,12 @@ export default {
   data() {
     return {
       valid: null,
-      model: null,
-      items: [],
+      // model: null,
+      modelEmp: null,
+      modelCC: null,
+      //items: [],
+      itemsCC: [],
+      itemsEmp: [],
       getDeviceResult: [],
       getEmployeeResult: [],
       deviceheaders: [
@@ -14,21 +18,25 @@ export default {
           text: "เลขทรัพย์สิน",
           align: "start",
           value: "devPeaNo",
-          width: "15%",
+          // width: "15%",
+          class: 'primary--text',
         },
         {
           text: "คำอธิบายของสินทรัพย์",
           value: "devDescription",
+          class: 'primary--text',
           // width: "6%"
         },
         {
           text: "ชื่อผู้ครอบครอง",
           value: "tbEmployee.empName",
+          class: 'primary--text',
           // width: "25%"
         },
         {
           text: "วันที่ได้รับ",
           value: "devReceivedDate",
+          class: 'primary--text',
           // width: "25%"
         },
       ],
@@ -37,16 +45,19 @@ export default {
           text: "รหัสพนักงาน",
           align: "start",
           value: "empId",
+          class: 'primary--text',
           // width: "10%",
         },
         {
           text: "ชื่อ-นามสกุล",
           value: "empName",
+          class: 'primary--text',
           // width: "6%"
         },
         {
           text: "ตำแหน่ง",
           value: "empRole",
+          class: 'primary--text',
           // width: "25%"
         },
       ],
@@ -91,18 +102,58 @@ export default {
       jsonObj: [],
       jsonAssetComType: '{"assetComType":["1"]}',
       checked7: false,
+      dialog: false,
+      passwordField: "",
+      wrongPassword: false,
     };
   },
 
   mounted() {
-    axios.get("http://172.21.1.51:8080/cc/getAllCCOnlyUse").then((response) => {
-      this.items = response.data.costCenter;
+    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+      this.itemsCC = response.data.costCenter;
+    });
+
+    axios.get("http://localhost:8080/emp/getEmp").then((response) => {
+      this.itemsEmp = response.data;
     });
   },
 
   methods: {
+    getItemEmp(itemEmp) {
+      return `${itemEmp.empId}` + " " + `${itemEmp.empName}`;
+    },
+
+    getItemCC(itemsCC) {
+      return (
+        `${itemsCC.ccShortName}` +
+        " " +
+        `${itemsCC.ccLongCode}` +
+        " " +
+        `${itemsCC.ccFullName}`
+      );
+    },
+
+    updateCC(modelCC) {
+      console.log(modelCC.ccLongCode);
+
+      this.modelCC = modelCC;
+      // how can I have here the index value?
+      this.modelEmp = null;
+    },
+
+    updateCCFromEmp(modelEmp) {
+      console.log(modelEmp.empCcId);
+
+      var result = this.itemsCC.find(
+        (item) => item.ccLongCode === modelEmp.empCcId
+      );
+      console.log("result " + result.ccLongCode);
+      this.modelCC = result;
+      // how can I have here the index value?
+    },
+
     async checkQuota() {
-      if (this.model == null) {
+      if (this.modelCC == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
@@ -113,11 +164,11 @@ export default {
         let params = [];
 
         params = {
-          region: this.model["ccLongCode"],
+          region: this.modelCC["ccLongCode"],
           dt_id: this.setAssetComType,
         };
 
-        if ((this.checked7 == false)) {
+        if (this.checked7 == false) {
           await axios
             .get("http://172.21.1.51:8080/api/dev/getDevice53unpageByccId", {
               params,
@@ -136,11 +187,14 @@ export default {
             .catch((error) => {
               console.log(error.resp);
             });
-        }else{
+        } else {
           await axios
-            .get("http://172.21.1.51:8080/api/dev/getDevice53unpageByccIdOnly7Year", {
-              params,
-            })
+            .get(
+              "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              {
+                params,
+              }
+            )
             .then((resp2) => {
               // this.getAllResult = resp.data;
               // console.log(
@@ -157,7 +211,7 @@ export default {
             });
         }
         // let params = [];
-        let ccLong = this.model["ccLongCode"];
+        let ccLong = this.modelCC["ccLongCode"];
         console.log(ccLong);
         params = {
           region: ccLong,
@@ -183,8 +237,8 @@ export default {
           this.checkQuotaResult =
             "คอมพิวเตอร์น้อยกว่าจำนวนคน " +
             this.totalEmployeeResult +
-            " - " +
-            this.totalDeviceResult;
+            " คน - " +
+            this.totalDeviceResult+ " เครื่อง";
         } else if (
           this.totalEmployeeResult == this.totalDeviceResult ||
           this.totalEmployeeResult < this.totalDeviceResult
@@ -192,27 +246,45 @@ export default {
           this.checkQuotaResult =
             "คอมพิวเตอร์เพียงพอกับจำนวนคน " +
             this.totalEmployeeResult +
-            " - " +
-            this.totalDeviceResult;
+            " คน - " +
+            this.totalDeviceResult + " เครื่อง";
         }
         this.showVRow = true;
       }
     },
 
     checked7year(newValue) {
-      this.checked7 = newValue;
+      if (this.passwordField == "itsco") {
+        if (this.checked7) {
+          this.checked7 = false;
+        } else if (!this.checked7) {
+          this.checked7 = true;
+        }
+        this.dialog = false;
+      }
+      else{
+        this.wrongPassword = true;
+      }
+      
       console.log(newValue);
     },
 
+    openDialog(){
+      this.dialog = true;
+      this.wrongPassword = false;
+      this.passwordFiel ='';
+     
+    },
+
     genQuotaReport() {
-      if (this.model == null) {
+      if (this.modelCC == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        this.itemName = this.model["ccFullName"];
+        this.itemName = this.modelCC["ccFullName"];
         this.$refs.html2Pdf.generatePdf();
         // console.log("hide alert after 4 seconds");
       }
