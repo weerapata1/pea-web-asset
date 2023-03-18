@@ -46,7 +46,7 @@ const StaticFoot = {
 //   damage: '',
 // };
 export default {
-  name: "Repair",
+  name: "RepairComponent",
   mixins: [validationMixin],
   validations: {
     ccNameSeclected: { required },

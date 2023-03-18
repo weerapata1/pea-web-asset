@@ -8,6 +8,7 @@ import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
 import ListRepair from '../views/listRepair/listRepair.vue'
 import checkQuota from '../views/checkQuota/checkQuota.vue'
 import login from '../views/logIn/logIn.vue'
+import preRepairComponent from '../views/preRepair/preRepair.vue'
 
 Vue.use(VueRouter)
 
@@ -30,11 +31,11 @@ const routes = [
     name: 'login',
     component: login
   },
-  // {
-  //   path: '/repairForm',
-  //   name: 'repairForm',
-  //   component: repairForm
-  // },
+  {
+    path: '/preRepair',
+    name: 'preRepair',
+    component: preRepairComponent
+  },
   {
     path: '/repair',
     name: 'Repair',
