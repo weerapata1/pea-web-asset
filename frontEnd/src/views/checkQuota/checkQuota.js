@@ -18,7 +18,7 @@ export default {
           text: "เลขทรัพย์สิน",
           align: "start",
           value: "devPeaNo",
-          width: "15%",
+          // width: "15%",
           class: 'primary--text',
         },
         {

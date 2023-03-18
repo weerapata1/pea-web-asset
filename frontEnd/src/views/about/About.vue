@@ -172,7 +172,7 @@
             pdf-orientation="portrait"
             ref="html2Pdf"
             :html-to-pdf-options="{
-              margin: [5, 10, 5, 10],
+              margin: [1, 5, 0, 5],
               jsPDF: {
                 format: 'a6',
                 orientation: 'portrait',
@@ -215,7 +215,7 @@
                 <tr
                   id="pdf_tr"
                   style="text-align: center"
-                  v-for="item in qrcode_value2"
+                  v-for="item in Math.ceil(qrcode_value2.length / 2)"
                   v-bind:key="item.devPeaNo"
                 >
                   <section class="pdf-item">
@@ -228,16 +228,22 @@
                     )"
                     v-bind:key="item2.devPeaNo"
                   > -->
+                  <div v-for="item2 in qrcode_value2.slice(
+                        (item - 1) * 2,
+                        item * 2
+                      )"
+                      v-bind:key="item2.devPeaNo">
                     <div>-</div>
-                    <div>
+                    <div >
                       <qrcode-vue
-                        :value="item"
+                        :value="item2"
                         :size="qrcode_size"
                         level="H"
                       ></qrcode-vue>
 
-                      <H5>{{ JSON.parse(item).devPeaNo }}</H5>
+                      <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
                     </div>
+                  </div>
                     <!-- </td> -->
                   </section>
                   <div class="html2pdf__page-break"></div>
@@ -261,7 +267,7 @@
       multi-sort
       :loading="myloadingvariable"
       loading-text="Loading... Please wait"
-      class="elevation-5 mytable"
+      class="elevation-5 mytable ma-0 pa-0"
       v-model="selected"
       show-select
       @input="enterSelect()"
