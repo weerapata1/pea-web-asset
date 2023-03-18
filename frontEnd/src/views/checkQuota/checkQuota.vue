@@ -152,7 +152,7 @@
               :enable-download="true"
               :preview-modal="true"
               :paginate-elements-by-height="1400"
-              filename="myPDF"
+              filename=modelCC
               :pdf-quality="2"
               :manual-pagination="false"
               pdf-format="a4"
@@ -198,13 +198,14 @@
                     <v-col cols="12" sm="11" md="11"
                       ><H5>รายการทรัพย์สิน</H5>
                       <v-data-table
-                        class="elevation-1"
+                        class="elevation-1 mytableReport"
                         :headers="deviceheaders"
                         :items="getDeviceResult"
                         sort-by="devReceivedDate"
                         :sort-desc="true"
                         :hide-default-footer="true"
                         :items-per-page="-1"
+
                       >
                       </v-data-table
                     ></v-col>
