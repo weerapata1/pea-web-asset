@@ -270,7 +270,7 @@ export default {
       },
       groupSelected: [],
       qrcode_value2: [],
-
+      result: [],
       selected: [],
     };
   },
@@ -391,6 +391,10 @@ export default {
     },
 
     searchFunction() {
+      this.qrcode_value2 = [];
+      this.result = [];
+      this.groupSelected = [];
+      this.selected = [];
       if (this.appendBranch == "") {
         this.alert = true;
         window.setInterval(() => {
@@ -623,28 +627,28 @@ export default {
       // user_id: this.editedItem["tbEmployee"]["empId"],
       // user_name: this.editedItem["tbEmployee"]["empName"],
       let i = 0;
-      let result = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
+      this.result = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
       // result.forEach((element) => {
       //   element.empId = this.groupSelected.tbEmployee.empId;
       // });
       for (i = 0; i < this.groupSelected.length; i++) {
         if(this.groupSelected[i].tbEmployee !== null){
-          result[i].empId = this.groupSelected[i].tbEmployee.empId;
-          result[i].empName = this.groupSelected[i].tbEmployee.empName;
+          this.result[i].empId = this.groupSelected[i].tbEmployee.empId;
+          this.result[i].empName = this.groupSelected[i].tbEmployee.empName;
         }else{
-          result[i].empId = "ไม่ระบุ";
-          result[i].empName = "ไม่ระบุ";
+          this.result[i].empId = "ไม่ระบุ";
+          this.result[i].empName = "ไม่ระบุ";
         }
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
-        result[i].costCenter =
+        this.result[i].costCenter =
           this.groupSelected[i].tbCostCenterTest.ccLongCode;
       }
 
-      for (i = 0; i < result.length; i++) {
-        console.log(JSON.stringify(result[i]));
+      for (i = 0; i < this.result.length; i++) {
+        console.log(JSON.stringify(this.result[i]));
         // this.qrcode_value2[i].push(JSON.stringify(this.groupSelected[i].devPeaNo));
-        this.qrcode_value2.push(JSON.stringify(result[i]));
+        this.qrcode_value2.push(JSON.stringify(this.result[i]));
       }
       if (this.selected.length == this.itemsPerPage) {
         alert("selected all");

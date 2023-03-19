@@ -51,10 +51,9 @@ public class DeviceController {
 
   @GetMapping("/getAllDevice")
   public ResponseEntity<Map<String, Object>> getEmpSor(
-    // @RequestParam(defaultValue = "0") int page,
-    // @RequestParam(defaultValue = "30") int size
-  ) 
-  {
+  // @RequestParam(defaultValue = "0") int page,
+  // @RequestParam(defaultValue = "30") int size
+  ) {
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
@@ -75,7 +74,7 @@ public class DeviceController {
   }
 
   @GetMapping("/getDeviceByPeaNo")
-  public tbDevice getDeviceByPeaNo(@RequestParam("PeaNo")String PeaNo){
+  public tbDevice getDeviceByPeaNo(@RequestParam("PeaNo") String PeaNo) {
     return deviceRepository.findAllByDevPeaNo(PeaNo);
   }
 
@@ -95,10 +94,9 @@ public class DeviceController {
 
   @GetMapping("/getAllDevice53")
   public ResponseEntity<Map<String, Object>> Device53(
-    // @RequestParam(defaultValue = "0") int page,
-    // @RequestParam(defaultValue = "30") int size
-  ) 
-  {
+  // @RequestParam(defaultValue = "0") int page,
+  // @RequestParam(defaultValue = "30") int size
+  ) {
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
@@ -141,99 +139,118 @@ public class DeviceController {
 
   // @GetMapping("/getAllByPattern2")
   // public ResponseEntity<Map<String, Object>> Pattern2(
-  //   @RequestParam(defaultValue = "0") int page,
-  //   @RequestParam(defaultValue = "30") int size,
-  //   @RequestParam("region") String region,
-  //   @RequestParam("setAssetType") String setAssetType
+  // @RequestParam(defaultValue = "0") int page,
+  // @RequestParam(defaultValue = "30") int size,
+  // @RequestParam("region") String region,
+  // @RequestParam("setAssetType") String setAssetType
   // ) {
-  //   System.out.println("setAssetType " + setAssetType);
+  // System.out.println("setAssetType " + setAssetType);
 
-  //   try {
-  //     List<tbDevice> device = new ArrayList<tbDevice>();
-  //     Pageable paging = PageRequest.of(page, size);
-  //     Page<tbDevice> pageTuts = null;
-  //     if (setAssetType.equals("53")) {
-  //       System.out.println("Pattern2-53");
-  //       pageTuts =
-  //         (region.length() > 0)
-  //           ? deviceRepository.findDeviceByCcId53(region, paging)
-  //           : null;
-  //     } else if (setAssetType.equals("153")) {
-  //       System.out.println("Pattern2-153");
-  //       pageTuts =
-  //         (region.length() > 0)
-  //           ? deviceRepository.findDeviceByCcId153(region, paging)
-  //           : null;
-  //     } else if (setAssetType.equals("all")) {
-  //       System.out.println("Pattern2-all");
-  //       pageTuts =
-  //         (region.length() > 0)
-  //           ? deviceRepository.findDeviceByCcId(region, paging)
-  //           : null;
-  //     } else if (setAssetType.equals("1all")) {
-  //       System.out.println("Pattern2-1all");
-  //       pageTuts =
-  //         (region.length() > 0)
-  //           ? deviceRepository.findDeviceByCcId1all(region, paging)
-  //           : null;
-  //     }
-  //     device = pageTuts.getContent();
-  //     System.out.println(pageTuts);
+  // try {
+  // List<tbDevice> device = new ArrayList<tbDevice>();
+  // Pageable paging = PageRequest.of(page, size);
+  // Page<tbDevice> pageTuts = null;
+  // if (setAssetType.equals("53")) {
+  // System.out.println("Pattern2-53");
+  // pageTuts =
+  // (region.length() > 0)
+  // ? deviceRepository.findDeviceByCcId53(region, paging)
+  // : null;
+  // } else if (setAssetType.equals("153")) {
+  // System.out.println("Pattern2-153");
+  // pageTuts =
+  // (region.length() > 0)
+  // ? deviceRepository.findDeviceByCcId153(region, paging)
+  // : null;
+  // } else if (setAssetType.equals("all")) {
+  // System.out.println("Pattern2-all");
+  // pageTuts =
+  // (region.length() > 0)
+  // ? deviceRepository.findDeviceByCcId(region, paging)
+  // : null;
+  // } else if (setAssetType.equals("1all")) {
+  // System.out.println("Pattern2-1all");
+  // pageTuts =
+  // (region.length() > 0)
+  // ? deviceRepository.findDeviceByCcId1all(region, paging)
+  // : null;
+  // }
+  // device = pageTuts.getContent();
+  // System.out.println(pageTuts);
 
-  //     System.out.println(device);
+  // System.out.println(device);
 
-  //     Map<String, Object> response = new HashMap<>();
-  //     response.put("currentPage", pageTuts.getNumber());
-  //     response.put("totalItems", pageTuts.getTotalElements());
-  //     response.put("totalPages", pageTuts.getTotalPages());
-  //     response.put("data1", device);
-  //     response.put("itemsPerPage", size);
-  //     return new ResponseEntity<>(response, HttpStatus.OK);
-  //   } catch (Exception e) {
-  //     return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-  //   }
+  // Map<String, Object> response = new HashMap<>();
+  // response.put("currentPage", pageTuts.getNumber());
+  // response.put("totalItems", pageTuts.getTotalElements());
+  // response.put("totalPages", pageTuts.getTotalPages());
+  // response.put("data1", device);
+  // response.put("itemsPerPage", size);
+  // return new ResponseEntity<>(response, HttpStatus.OK);
+  // } catch (Exception e) {
+  // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+  // }
   // }
 
   @GetMapping("/searchNoWordUnpage")
   public ResponseEntity<Map<String, Object>> Patternunpage(
-    @RequestParam("region") String region,
-    @RequestParam("setAssetType") String setAssetType
-  ) {
-    System.out.println("setAssetType " + setAssetType);
+      @RequestParam("region") String region,
+      @RequestParam("setAssetType") String setAssetType) {
+    System.out.println("setAssetType=" + setAssetType + " region=" + region);
 
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
       Page<tbDevice> pageTuts = null;
-      if (setAssetType.equals("53")) {
-        System.out.println("searchNoWord-53");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcId53(region, paging)
-            : null;
-      } else if (setAssetType.equals("153")) {
-        System.out.println("searchNoWord-153");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcId153(region, paging)
-            : null;
-      } else if (setAssetType.equals("all")) {
-        System.out.println("searchNoWord-all");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcId(region, paging)
-            : null;
-      } else if (setAssetType.equals("1all")) {
-        System.out.println("searchNoWord-1all");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcId1all(region, paging)
-            : null;
+      if (region.equals("E3") || region.equals("E3010")) {
+        if (setAssetType.equals("53")) {
+          System.out.println("searchNoWord-53");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcId53zc(region, paging)
+              : null;
+        } else if (setAssetType.equals("153")) {
+          System.out.println("searchNoWord-153");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcId153zc(region, paging)
+              : null;
+        } else if (setAssetType.equals("all")) {
+          System.out.println("searchNoWord-all");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdzc(region, paging)
+              : null;
+        } else if (setAssetType.equals("1all")) {
+          System.out.println("searchNoWord-1all");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcId1allzc(region, paging)
+              : null;
+        }
+      } else {
+        if (setAssetType.equals("53")) {
+          // System.out.println("searchNoWord-53");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcId53(region, paging)
+              : null;
+        } else if (setAssetType.equals("153")) {
+          // System.out.println("searchNoWord-153");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcId153(region, paging)
+              : null;
+        } else if (setAssetType.equals("all")) {
+          // System.out.println("searchNoWord-all");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcId(region, paging)
+              : null;
+        } else if (setAssetType.equals("1all")) {
+          // System.out.println("searchNoWord-1all");
+          pageTuts = (region.length() > 0)
+              ? deviceRepository.findDeviceByCcId1all(region, paging)
+              : null;
+        }
       }
       device = pageTuts.getContent();
-      System.out.println(pageTuts);
+      // System.out.println(pageTuts);
 
-      System.out.println(device);
+      // System.out.println(device);
 
       Map<String, Object> response = new HashMap<>();
       response.put("currentPage", pageTuts.getNumber());
@@ -259,48 +276,92 @@ public class DeviceController {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
       Page<tbDevice> pageTuts = null;
-      if (setAssetType.equals("53")) {
-        System.out.println("searchWithWord-53");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcIdAndTextSearch53(
-              region,
-              textSearch,
-              paging
-            )
-            : null;
-      } else if (setAssetType.equals("153")) {
-        System.out.println("searchWithWord-153");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcIdAndTextSearch153(
-              region,
-              textSearch,
-              paging
-            )
-            : null;
-      } else if (setAssetType.equals("all")) {
-        System.out.println("searchWithWord-all");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcIdAndTextSearch(
-              region,
-              textSearch,
-              paging
-            )
-            : null;
-      } else if (setAssetType.equals("1all")) {
-        System.out.println("searchWithWord-all");
-        pageTuts =
-          (region.length() > 0)
-            ? deviceRepository.findDeviceByCcIdAndTextSearch1all(
-              region,
-              textSearch,
-              paging
-            )
-            : null;
-      }
 
+      if(region.equals("E3") || region.equals("E3010")){
+        if (setAssetType.equals("53")) {
+          System.out.println("searchWithWord-53");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearch53zc(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        } else if (setAssetType.equals("153")) {
+          System.out.println("searchWithWord-153");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearch153zc(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        } else if (setAssetType.equals("all")) {
+          System.out.println("searchWithWord-all");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearchzc(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        } else if (setAssetType.equals("1all")) {
+          System.out.println("searchWithWord-all");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearch1allzc(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        }
+      }else{
+        if (setAssetType.equals("53")) {
+          System.out.println("searchWithWord-53");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearch53(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        } else if (setAssetType.equals("153")) {
+          System.out.println("searchWithWord-153");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearch153(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        } else if (setAssetType.equals("all")) {
+          System.out.println("searchWithWord-all");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearch(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        } else if (setAssetType.equals("1all")) {
+          System.out.println("searchWithWord-all");
+          pageTuts =
+            (region.length() > 0)
+              ? deviceRepository.findDeviceByCcIdAndTextSearch1all(
+                region,
+                textSearch,
+                paging
+              )
+              : null;
+        }
+      }
       device = pageTuts.getContent();
       System.out.println(pageTuts);
 
@@ -320,187 +381,180 @@ public class DeviceController {
 
   // @GetMapping("/getAllByPattern")
   // public ResponseEntity<Map<String, Object>> getAllByPattern(
-  //   @RequestParam(defaultValue = "0") int page,
-  //   @RequestParam(defaultValue = "30") int size,
-  //   @RequestParam("test1") String test1[]
+  // @RequestParam(defaultValue = "0") int page,
+  // @RequestParam(defaultValue = "30") int size,
+  // @RequestParam("test1") String test1[]
   // ) {
-  //   String peaNo = test1[0];
-  //   String empId = test1[1];
-  //   String empName = test1[2];
-  //   String ccLong = test1[3];
+  // String peaNo = test1[0];
+  // String empId = test1[1];
+  // String empName = test1[2];
+  // String ccLong = test1[3];
 
-  //   try {
-  //     List<tbDevice> device = new ArrayList<tbDevice>();
-  //     Pageable paging = PageRequest.of(page, size);
+  // try {
+  // List<tbDevice> device = new ArrayList<tbDevice>();
+  // Pageable paging = PageRequest.of(page, size);
 
-  //     Page<tbDevice> XX = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC(
-  //       peaNo,
-  //       empId,
-  //       empName,
-  //       ccLong,
-  //       paging
-  //     );
-  //     Page<tbDevice> YY = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC(
-  //       empId,
-  //       empName,
-  //       ccLong,
-  //       paging
-  //     );
-  //     Page<tbDevice> pageTuts = (peaNo.length() > 0) ? XX : YY;
+  // Page<tbDevice> XX = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC(
+  // peaNo,
+  // empId,
+  // empName,
+  // ccLong,
+  // paging
+  // );
+  // Page<tbDevice> YY = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC(
+  // empId,
+  // empName,
+  // ccLong,
+  // paging
+  // );
+  // Page<tbDevice> pageTuts = (peaNo.length() > 0) ? XX : YY;
 
-  //     System.out.println("paging : " + paging);
+  // System.out.println("paging : " + paging);
 
-  //     device = pageTuts.getContent();
-  //     Map<String, Object> response = new HashMap<>();
-  //     response.put("currentPage", pageTuts.getNumber());
-  //     response.put("totalItems", pageTuts.getTotalElements());
-  //     response.put("totalPages", pageTuts.getTotalPages());
-  //     response.put("data1", device);
-  //     return new ResponseEntity<>(response, HttpStatus.OK);
-  //   } catch (Exception e) {
-  //     return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-  //   }
+  // device = pageTuts.getContent();
+  // Map<String, Object> response = new HashMap<>();
+  // response.put("currentPage", pageTuts.getNumber());
+  // response.put("totalItems", pageTuts.getTotalElements());
+  // response.put("totalPages", pageTuts.getTotalPages());
+  // response.put("data1", device);
+  // return new ResponseEntity<>(response, HttpStatus.OK);
+  // } catch (Exception e) {
+  // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+  // }
   // }
 
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> importExcelFile(
-    @RequestParam("file") MultipartFile files
-  )
-    throws IOException {
+      @RequestParam("file") MultipartFile files)
+      throws IOException {
     String message = "";
     if (ExcelHelper.hasExcelFormat(files)) {
       try {
         List<tbDevice> deviceList = deviceService.saveDevice(files);
         deviceRepository.saveAll(deviceList);
 
-        message =
-          "Uploaded the file successfully: " +
-          files.getOriginalFilename() +
-          "\n";
+        message = "Uploaded the file successfully: " +
+            files.getOriginalFilename() +
+            "\n";
         return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(new ResponseMessage(message));
+            .status(HttpStatus.OK)
+            .body(new ResponseMessage(message));
       } catch (Exception e) {
-        message =
-          "Could not upload the file: " +
-          files.getOriginalFilename() +
-          e.getMessage();
+        message = "Could not upload the file: " +
+            files.getOriginalFilename() +
+            e.getMessage();
         return ResponseEntity
-          .status(HttpStatus.EXPECTATION_FAILED)
-          .body(new ResponseMessage(message));
+            .status(HttpStatus.EXPECTATION_FAILED)
+            .body(new ResponseMessage(message));
       }
     }
     message = "Please upload an excel file!";
     return ResponseEntity
-      .status(HttpStatus.BAD_REQUEST)
-      .body(new ResponseMessage(message));
+        .status(HttpStatus.BAD_REQUEST)
+        .body(new ResponseMessage(message));
   }
 
   @PostMapping("/posT")
   public ResponseEntity<ResponseMessage> posT(
-    @RequestParam("dev_serialNo") String dev_serialNo,
-    @RequestParam("dev_note") String dev_note,
-    @RequestParam("dev_description") String dev_description,
-    @RequestParam("dev_peaNo") String dev_peaNo,
-    @RequestParam("tbCostCenter") String tbCostCenter
-  ) {
+      @RequestParam("dev_serialNo") String dev_serialNo,
+      @RequestParam("dev_note") String dev_note,
+      @RequestParam("dev_description") String dev_description,
+      @RequestParam("dev_peaNo") String dev_peaNo,
+      @RequestParam("tbCostCenter") String tbCostCenter) {
     String message;
     try {
       deviceService.postDevice(
-        dev_serialNo,
-        dev_note,
-        dev_description,
-        dev_peaNo,
-        tbCostCenter
-      );
+          dev_serialNo,
+          dev_note,
+          dev_description,
+          dev_peaNo,
+          tbCostCenter);
       message = "POST OK \n";
       return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body(new ResponseMessage(message));
+          .status(HttpStatus.CREATED)
+          .body(new ResponseMessage(message));
     } catch (Exception e) {
       message = "POST NOT OK : " + e.getMessage();
       return ResponseEntity
-        .status(HttpStatus.BAD_REQUEST)
-        .body(new ResponseMessage(message));
+          .status(HttpStatus.BAD_REQUEST)
+          .body(new ResponseMessage(message));
     }
   }
 
   @PutMapping("/updateDevice")
   public ResponseEntity<ResponseMessage> updateDevice(
-    @RequestParam("id") long id
-  )
-    throws Exception {
+      @RequestParam("id") long id)
+      throws Exception {
     String message = "";
     try {
       tbDevice device = deviceRepository
-        .findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("NotFound"));
+          .findById(id)
+          .orElseThrow(() -> new ResourceNotFoundException("NotFound"));
 
       device.setDevPeaNo("5555555");
 
       final tbDevice updateDevice = deviceRepository.save(device);
       message = "update is OK";
       return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(new ResponseMessage(message));
+          .status(HttpStatus.OK)
+          .body(new ResponseMessage(message));
     } catch (ResourceNotFoundException e) {
       message = "Not found ";
       return ResponseEntity
-        .status(HttpStatus.NOT_FOUND)
-        .body(new ResponseMessage(message));
+          .status(HttpStatus.NOT_FOUND)
+          .body(new ResponseMessage(message));
     }
   }
 
   @SneakyThrows
   @PostMapping("/upload2")
   public ResponseEntity<ResponseMessage> importExcelFile2(
-    @RequestParam("file") MultipartFile files
-  )
-    throws IOException {
+      @RequestParam("file") MultipartFile files)
+      throws IOException {
     String message = "";
     if (ExcelHelper.hasExcelFormat(files)) {
       deviceService.chkCellType(files);
     }
     message = "Please upload an excel file!";
     return ResponseEntity
-      .status(HttpStatus.BAD_REQUEST)
-      .body(new ResponseMessage(message));
+        .status(HttpStatus.BAD_REQUEST)
+        .body(new ResponseMessage(message));
   }
 
   @GetMapping("/getExcelData2")
   public ResponseEntity<Map<String, Object>> excelData2(
-    // @RequestParam(defaultValue = "0") int page,
-    // @RequestParam(defaultValue = "30") int size,
-    @RequestParam("region") String region,
-    // @RequestParam("textSearch") String textSearch,
-    @RequestParam("setAssetType") String setAssetType
-  ) {
+      // @RequestParam(defaultValue = "0") int page,
+      // @RequestParam(defaultValue = "30") int size,
+      @RequestParam("region") String region,
+      // @RequestParam("textSearch") String textSearch,
+      @RequestParam("setAssetType") String setAssetType) {
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       // Pageable paging = PageRequest.of(page, size);
       // Page<tbDevice> pageTuts = null;
       if (setAssetType.equals("53")) {
         System.out.println("Excel-53");
-        device =
-          (region.length() > 0)
+        device = (region.length() > 0)
             ? deviceRepository.findDeviceForExcel53(region)
             : null;
       }
       // else if (setAssetType.equals("153")) {
-      //     System.out.println("Pattern2-153");
-      //     pageTuts = (region.length() > 0)
-      //             ? deviceRepository.findDeviceByCcIdAndTextSearch153(region, textSearch, paging)
-      //             : null;
+      // System.out.println("Pattern2-153");
+      // pageTuts = (region.length() > 0)
+      // ? deviceRepository.findDeviceByCcIdAndTextSearch153(region, textSearch,
+      // paging)
+      // : null;
       // }else if (setAssetType.equals("all")) {
-      //     System.out.println("Pattern2-all");
-      //     pageTuts = (region.length() > 0)
-      //             ? deviceRepository.findDeviceByCcIdAndTextSearch(region, textSearch, paging)
-      //             : null;
+      // System.out.println("Pattern2-all");
+      // pageTuts = (region.length() > 0)
+      // ? deviceRepository.findDeviceByCcIdAndTextSearch(region, textSearch, paging)
+      // : null;
       // } else if (setAssetType.equals("1all")) {
-      //     System.out.println("Pattern2-all");
-      //     pageTuts = (region.length() > 0)
-      //             ? deviceRepository.findDeviceByCcIdAndTextSearch1all(region, textSearch, paging)
-      //             : null;
+      // System.out.println("Pattern2-all");
+      // pageTuts = (region.length() > 0)
+      // ? deviceRepository.findDeviceByCcIdAndTextSearch1all(region, textSearch,
+      // paging)
+      // : null;
       // }
 
       // device = pageTuts.getContent();
@@ -522,38 +576,38 @@ public class DeviceController {
 
   @GetMapping("/getExcelData2search")
   public ResponseEntity<Map<String, Object>> excelData2search(
-    // @RequestParam(defaultValue = "0") int page,
-    // @RequestParam(defaultValue = "30") int size,
-    @RequestParam("region") String region,
-    @RequestParam("textSearch") String textSearch,
-    @RequestParam("setAssetType") String setAssetType
-  ) {
+      // @RequestParam(defaultValue = "0") int page,
+      // @RequestParam(defaultValue = "30") int size,
+      @RequestParam("region") String region,
+      @RequestParam("textSearch") String textSearch,
+      @RequestParam("setAssetType") String setAssetType) {
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       // Pageable paging = PageRequest.of(page, size);
       // Page<tbDevice> pageTuts = null;
       if (setAssetType.equals("53")) {
         System.out.println("Excel-53");
-        device =
-          (region.length() > 0)
+        device = (region.length() > 0)
             ? deviceRepository.findDeviceForExcel53search(region, textSearch)
             : null;
       }
       // else if (setAssetType.equals("153")) {
-      //     System.out.println("Pattern2-153");
-      //     pageTuts = (region.length() > 0)
-      //             ? deviceRepository.findDeviceByCcIdAndTextSearch153(region, textSearch, paging)
-      //             : null;
+      // System.out.println("Pattern2-153");
+      // pageTuts = (region.length() > 0)
+      // ? deviceRepository.findDeviceByCcIdAndTextSearch153(region, textSearch,
+      // paging)
+      // : null;
       // }else if (setAssetType.equals("all")) {
-      //     System.out.println("Pattern2-all");
-      //     pageTuts = (region.length() > 0)
-      //             ? deviceRepository.findDeviceByCcIdAndTextSearch(region, textSearch, paging)
-      //             : null;
+      // System.out.println("Pattern2-all");
+      // pageTuts = (region.length() > 0)
+      // ? deviceRepository.findDeviceByCcIdAndTextSearch(region, textSearch, paging)
+      // : null;
       // } else if (setAssetType.equals("1all")) {
-      //     System.out.println("Pattern2-all");
-      //     pageTuts = (region.length() > 0)
-      //             ? deviceRepository.findDeviceByCcIdAndTextSearch1all(region, textSearch, paging)
-      //             : null;
+      // System.out.println("Pattern2-all");
+      // pageTuts = (region.length() > 0)
+      // ? deviceRepository.findDeviceByCcIdAndTextSearch1all(region, textSearch,
+      // paging)
+      // : null;
       // }
 
       // device = pageTuts.getContent();
@@ -575,16 +629,14 @@ public class DeviceController {
 
   @GetMapping("/getDevice53unpageByccId")
   public ResponseEntity<Map<String, Object>> getDevice53unpageByccId(
-    @RequestParam("region") String region,
-    @RequestParam("dt_id") String dt_id
-  ) {
+      @RequestParam("region") String region,
+      @RequestParam("dt_id") String dt_id) {
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccId(
-         region, dt_id,  paging
-      );
+          region, dt_id, paging);
       device = pageTuts.getContent();
 
       Map<String, Object> response = new HashMap<>();
@@ -598,18 +650,16 @@ public class DeviceController {
     }
   }
 
-    @GetMapping("/getDevice53unpageByccIdOnly7Year")
+  @GetMapping("/getDevice53unpageByccIdOnly7Year")
   public ResponseEntity<Map<String, Object>> getDevice53unpageByccIdOnly7Year(
-    @RequestParam("region") String region,
-    @RequestParam("dt_id") String dt_id
-  ) {
+      @RequestParam("region") String region,
+      @RequestParam("dt_id") String dt_id) {
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccIdOnly7Year(
-         region, dt_id,  paging
-      );
+          region, dt_id, paging);
       device = pageTuts.getContent();
 
       Map<String, Object> response = new HashMap<>();
@@ -623,5 +673,3 @@ public class DeviceController {
     }
   }
 }
-
-
