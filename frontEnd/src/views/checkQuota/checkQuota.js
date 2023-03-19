@@ -109,11 +109,11 @@ export default {
   },
 
   mounted() {
-    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+    axios.get("http://172.21.1.51:8080/cc/getAllCCOnlyUse").then((response) => {
       this.itemsCC = response.data.costCenter;
     });
 
-    axios.get("http://localhost:8080/emp/getEmp").then((response) => {
+    axios.get("http://172.21.1.51:8080/emp/getEmp").then((response) => {
       this.itemsEmp = response.data;
     });
   },
@@ -190,7 +190,7 @@ export default {
         } else {
           await axios
             .get(
-              "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              "http://172.21.1.51:8080/api/dev/getDevice53unpageByccIdOnly7Year",
               {
                 params,
               }
