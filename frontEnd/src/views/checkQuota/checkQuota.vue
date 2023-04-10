@@ -224,13 +224,13 @@
               <v-col cols="12" sm="6" md="4">
                 <H3>พนักงานจำนวน {{ totalEmployeeResult }} คน</H3>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6" md="6">
                 <H3
                   >ทรัพย์สินคอมพิวเตอร์จำนวน {{ totalDeviceResult }} เครื่อง</H3
                 >
               </v-col>
             </v-row><v-row>
-              <v-col cols="12" sm="12" md="6">
+              <v-col cols="12" sm="12" md="8">
                 <H3 >{{ checkQuotaResult }}</H3>
               </v-col>
             </v-row>
