@@ -47,6 +47,7 @@ table.v-table { border-collapse:collapse }
 .mytable table tr {
   border-bottom: medium solid rgba(128,0,128,0.2);
   border-spacing: 0 0.5rem;
+  
 }
 
 .mytable tbody td{
@@ -65,4 +66,10 @@ table.v-table { border-collapse:collapse }
 .theme--light.v-icon {
   color: purple !important;
 }
-  
+
+.style-1 {
+  background-color: rgba(128,0,128,0.2)
+}
+.style-2 {
+  background-color: rgba(250,128,0,0.2)
+}
