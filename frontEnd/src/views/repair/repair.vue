@@ -87,7 +87,7 @@
       </v-dialog>
     </div>
 
-    <VueHtml2pdf :show-layout="false" :float-layout="true" :enable-download="true" :preview-modal="true"
+    <!-- <VueHtml2pdf :show-layout="false" :float-layout="true" :enable-download="true" :preview-modal="true"
       :paginate-elements-by-height="1400" filename="myPDF" :pdf-quality="2" :manual-pagination="false" pdf-format="a4"
       pdf-orientation="portrait" pdf-content-width="800px" ref="html2Pdf" :html-to-pdf-options="{
         filename: `คำร้องแจ้งซ่อม ` +devPeaNoSelceted +` .pdf`,
@@ -286,7 +286,7 @@
 
         </div>
       </section>
-    </VueHtml2pdf>
+    </VueHtml2pdf> -->
   </div>
 
 

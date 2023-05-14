@@ -154,7 +154,7 @@ export default {
     },
 
     updateCCFromEmp(modelEmp) {
-      console.log(modelEmp.empCcId);
+      console.log(">> " + modelEmp);
 
       var result = this.itemsCC.find(
         (item) => item.ccLongCode === modelEmp.empCcId

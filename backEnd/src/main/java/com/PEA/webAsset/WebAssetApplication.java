@@ -7,8 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+@CrossOrigin(origins = "*")
 @SpringBootApplication
 public class WebAssetApplication extends SpringBootServletInitializer {
 
@@ -30,5 +32,7 @@ public class WebAssetApplication extends SpringBootServletInitializer {
 		filter.setForceEncoding(true);
 		return filter;
 	}
+	
+
 
 }
