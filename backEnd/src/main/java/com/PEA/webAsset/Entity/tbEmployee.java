@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+
 @Entity(name = "tb_employees")
 @Data
 @Getter
@@ -16,9 +17,7 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class tbEmployee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "emp_seq")
-    @SequenceGenerator(name = "emp_seq",sequenceName = "emp_seq")
-    @Column(name = "empId", unique = true,nullable = false)
+    @Column(name = "empId", unique = true, nullable = false)
     @NotNull
     private String empId; // รหัสพนักงาน
 
@@ -28,8 +27,20 @@ public class tbEmployee {
 
     private String empDepFull; // ชื่อแผนก
 
-    private String empCcId;  //  //
+
+    @ManyToOne(targetEntity = tbCostCenterTest.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cc_id", insertable = true )
+    private tbCostCenterTest CostCenter;
 
     // private String empCcShortName; //
+
+    public tbEmployee(String empId, String empName, String empRole, String empDepFull, tbCostCenterTest CostCenter) {
+        this.empId = empId;
+        this.empName = empName;
+        this.empDepFull = empDepFull;
+        this.empRole = empRole;
+        this.CostCenter = CostCenter;
+    }
+
 
 }

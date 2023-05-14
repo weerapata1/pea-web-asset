@@ -11,12 +11,14 @@ import javax.persistence.*;
 @Entity(name = "tb_cost_center_test")
 // @Table(name = "tb_cost_center_test")
 // @Entity(name = "tb_cost_center_test")
-@NoArgsConstructor
 @EqualsAndHashCode
+@NoArgsConstructor
 public class tbCostCenterTest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cc_seq")
-    @SequenceGenerator(name = "cc_seq", sequenceName = "cc_seq")
+//    @SequenceGenerator(name = "cost_seq",sequenceName = "cost_seq")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "cost_seq")
+//    private Long costCenterId;
+
     @Column(name = "cc_id")
     private String ccLongCode; //
 
@@ -27,5 +29,14 @@ public class tbCostCenterTest {
     private String ccShortName; //
 
     private String ccFullName; //
+
+    public tbCostCenterTest(String ccLongCode, String ccShortCode, String ccAgencyName, String ccShortName, String ccFullName){
+        this.ccLongCode = ccLongCode;
+        this.ccShortCode = ccShortCode;
+        this.ccAgencyName = ccAgencyName;
+        this.ccShortName = ccShortName;
+        this.ccFullName = ccFullName;
+    }
+
 
 }

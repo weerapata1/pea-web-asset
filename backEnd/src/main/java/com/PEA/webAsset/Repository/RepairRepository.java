@@ -30,6 +30,9 @@ public interface RepairRepository extends JpaRepository<tbRepair ,Long> {
 
     Collection<tbRepair> findByDeviceId(Long device);
 
+    @Query(value = "SELECT * FROM tb_repair r WHERE r.repair_id = :repairId",nativeQuery = true)
+    tbRepair findRepairByRepairId(String repairId);
+
 
 
 

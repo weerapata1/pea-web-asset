@@ -2,7 +2,7 @@ import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength , numeric } from "vuelidate/lib/validators";
 
-// E3010 ในเขต
+
 const StaticHeader = {
   No: "",
   FromDepartment: "",
@@ -191,7 +191,7 @@ export default {
     },
 
     async continues() {
-      this.$v.$touch();
+      // this.$v.$touch();
       if (this.$v.$invalid) {
         alert("โปรดตรวจสอบข้อมูล");
       } else {
@@ -217,11 +217,11 @@ export default {
             })
             .then((response) => {
               this.resPost = response.status;
-              this.$refs.html2Pdf.generatePdf();
+
               alert("บันทึกสำเร็จ");
             })
             .catch((error) => {
-              console.log(error);
+              console.log("post Error >> ",error);
               alert("บันทึกไม่สำเร็จ โปรดตรวจสอบข้อมูล");
             });
       }
