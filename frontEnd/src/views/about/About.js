@@ -286,12 +286,22 @@ export default {
 
   mounted() {
     this.myloadingvariable = true;
+    
+    let params = {
+      region: 'E301000000',
+      setAssetType: 53,
+    };
     // this.setAssetType = JSON.stringify({assetType:53});
     axios
-      .get("http://localhost:8080/api/dev/getAllDevice53/")
+      .get("http://localhost:8080/api/dev/searchNoWordUnpage/",{params})
       .then((resp) => {
         this.getAllResult = resp;
-        this.data1 = resp.data.data1;
+        
+        this.data1 = resp.data.dataExcel;
+        // this.itemsPerPage = resp.data.itemsPerPage;
+        // this.totalItems = resp.data.totalItems;
+
+        // this.data1 = resp.data.data1;
         this.itemsPerPage = resp.data.itemsPerPage;
         this.totalItems = resp.data.totalItems;
         console.log("at mounted ", this.getAllResult.data.totalItems);
@@ -451,7 +461,7 @@ export default {
             region: selectedBranch.branch,
             setAssetType: setAssetType2.assetType,
           };
-          // console.log("Pattern2 ", params);
+          console.log("searchNoWordUnpage-", params);
           axios
             .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
               params,

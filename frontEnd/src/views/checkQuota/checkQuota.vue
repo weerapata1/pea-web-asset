@@ -91,6 +91,7 @@
                       </div>
                       <div class="container">
                         <v-text-field
+                          id="passworTextField"
                           class="v-text-field-password centered-input"
                           xs12
                           mb-4
@@ -230,7 +231,7 @@
                 >
               </v-col>
             </v-row><v-row>
-              <v-col cols="12" sm="12" md="8">
+              <v-col cols="12" sm="12" md="12">
                 <H3 >{{ checkQuotaResult }}</H3>
               </v-col>
             </v-row>
@@ -243,10 +244,12 @@
           <v-col cols="12" sm="12" md="4" 
             ><H4 class="primary--text">พนักงานในสังกัด</H4
             ><v-data-table
+              id="empTable"
               class="elevation-1 mytable"
               :headers="employeeheaders"
               :items="getEmployeeResult"
             >
+            <!-- :item-class="itemRowBackground" -->
             </v-data-table>
           </v-col>
           <v-col cols="12" sm="12" md="8"
