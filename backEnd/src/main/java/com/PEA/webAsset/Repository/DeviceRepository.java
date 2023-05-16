@@ -39,7 +39,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         @Param("ccLong") String ccLong, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
-        // , cc_short_name "LEFT JOIN tb_cost_center_test cc ON d.cc_id = cc.cc_id " +
+        // , cc_short_name "LEFT JOIN tb_cost_center_test My01CostC ON d.cc_id = My01CostC.cc_id " +
                         "WHERE d.cc_id LIKE CONCAT(:ccLong,'%') " +
                         "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId53(@Param("ccLong") String ccLong, Pageable pageable);
@@ -191,7 +191,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         tbDevice findAllByDevPeaNo(String devPeaNo);
 
         @Query(value = "SELECT * from tb_device d " +
-        // , cc_short_name "LEFT JOIN tb_cost_center_test cc ON d.cc_id = cc.cc_id " +
+        // , cc_short_name "LEFT JOIN tb_cost_center_test My01CostC ON d.cc_id = My01CostC.cc_id " +
                         "WHERE (d.cc_id LIKE CONCAT(:ccLong,'%') OR d.cc_id LIKE 'ZC%') " +
                         "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId53zc(@Param("ccLong") String ccLong, Pageable pageable);

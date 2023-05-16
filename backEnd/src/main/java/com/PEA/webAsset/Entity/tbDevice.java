@@ -77,4 +77,20 @@ public class tbDevice {
     // "repairId")
     // private tbRepair tbRepair;
 
+    public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
+                    Double devReceivedPrice, Double devLeftPrice, tbCostCenterTest cc_id, tbEmployee emp_id,
+                    LocalDateTime devUpdate, tbDeviceType dt_id
+                    ){
+        this.devPeaNo = devPeaNo;
+        this.devDescription = devDescription;
+        this.devSerialNo = devSerialNo;
+        this.devReceivedDate = devReceivedDate;
+        this.devReceivedPrice = devReceivedPrice;
+        this.devLeftPrice = devLeftPrice;
+        this.tbCostCenterTest = cc_id;
+        this.tbEmployee = emp_id;
+        this.devUpdate = devUpdate;
+        this.tbDeviceType = dt_id;
+    }
+
 }
