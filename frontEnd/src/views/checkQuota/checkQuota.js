@@ -172,10 +172,10 @@ export default {
     },
 
     updateCCFromEmp(modelEmp) {
-      console.log(">> " + modelEmp);
+      console.log(">> " + (modelEmp.costCenter.ccLongCode));
 
       var result = this.itemsCC.find(
-        (item) => item.ccLongCode === modelEmp.empCcId
+        (item) => item.ccLongCode === modelEmp.costCenter.ccLongCode
       );
       console.log("result " + result.ccLongCode);
       this.modelCC = result;

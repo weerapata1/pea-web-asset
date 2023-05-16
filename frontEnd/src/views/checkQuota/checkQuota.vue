@@ -141,7 +141,7 @@
               >
             </v-col>
 
-            <v-col cols="12" sm="2" md="1" align-self="center">
+            <!-- <v-col cols="12" sm="2" md="1" align-self="center">
               <v-btn
                 elevation="3"
                 @click="idmLogin"
@@ -149,7 +149,7 @@
                 color="primary"
                 >Login</v-btn
               >
-            </v-col>
+            </v-col> -->
           </v-row>
         </v-form>
       </v-card-text>
