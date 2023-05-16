@@ -286,7 +286,7 @@
                 </v-card>
             </v-dialog>
         </v-card>
-        <VueHtml2pdf :show-layout="false" :float-layout="true" :enable-download="false" :preview-modal="true"
+        <VueHtml2pdf :show-layout="false" :float-layout="true" :enable-download="true" :preview-modal="true"
             :paginate-elements-by-height="1400" filename="myPDF" :pdf-quality="2" :manual-pagination="false" pdf-format="a4"
             pdf-orientation="portrait" pdf-content-width="800px" ref="html2Pdf" :html-to-pdf-options="{
                 filename: `คำร้องแจ้งซ่อม ` + dialogInfoValue.peaNo + ` .pdf`,
@@ -481,9 +481,10 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col style="margin-left: 11%;">{{ StaticFoot.date1 }}</v-col>
+                        <v-col style="margin-left: 11%;">หมายเลขติดตามงาน&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; {{ dialogInfoValue.repairId }}</v-col>
                     </v-row>
-
                 </div>
+                
 
             </section>
         </VueHtml2pdf>

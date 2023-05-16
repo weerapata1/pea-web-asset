@@ -124,6 +124,7 @@ export default {
 
       dialogInfoValue: [
         {
+          repairId : null,
           empSendRole: null,
           peaNo: null,
           location: null,
@@ -217,8 +218,8 @@ export default {
       }
     },
     openDialogInfo(item) {
-      console.log(item);
       
+      this.dialogInfoValue.repairId = item.repairId;
       this.dialogInfoValue.peaNo = item.device.devPeaNo;
       this.dialogInfoValue.discription = item.device.devDescription;
       this.dialogInfoValue.deviceType =
