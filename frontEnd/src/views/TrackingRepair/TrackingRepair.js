@@ -4,6 +4,8 @@ let url = "http://172.21.1.51:8080";
 let urlRepair = "http://172.21.1.51:8080/repair";
 moment.locale("th");
 
+
+
 export default {
   name: "TrackingRepair",
   data: () => ({
@@ -18,14 +20,17 @@ export default {
       { text: "วันที่ส่งซ่อม", value: "sendDate" },
       { text: "ผู้ส่งซ่อม", value: "empSend.empName" },
       { text: "สถานะ", value: "repairStatus.statusName" },
-      { text: "", value: "" },
+      { text: "หมายเหตุ", value: "" },
 
     ],
     dataTableItems: [],
 
     dialogInfo: false,
+
+
     dialogInfoValue: [
       {
+        empSendRole: null,
         peaNo: null,
         location: null,
         ccFull: null,
@@ -42,6 +47,9 @@ export default {
         returnDate: null,
         treatment: null,
         treatComplete: null,
+        discription :null,
+        deviceType: null,
+        empPhoneNumb : null,
       },
     ],
   }),
@@ -58,6 +66,7 @@ export default {
     axios
       .get(urlRepair + "/getAllRepair",{headers: {'Access-Control-Allow-Origin': '*'}})
       .then((res) => {
+        
         this.dataTableItems = res.data;
       })
       .catch((error) => {
@@ -68,6 +77,7 @@ export default {
   computed: {},
 
   methods: {
+    
     formatDate(value) {
       return moment(value).format("DD MMMM YYYY HH:mm");
     },
@@ -83,8 +93,13 @@ export default {
           console.log(error);
         });
     },
+    
     openDialogInfo(item) {
+      console.log(item)
+
       this.dialogInfoValue.peaNo = item.device.devPeaNo;
+      this.dialogInfoValue.discription = item.device.devDescription;
+      this.dialogInfoValue.deviceType = item.device.tbDeviceType.deviceTypeName0;
       this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
       this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
       this.dialogInfoValue.stage = item.repairStatus.statusName;
@@ -94,7 +109,7 @@ export default {
         item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
       this.dialogInfoValue.damage =
         item.cause == null ? null : item.cause.causeName;
-
+      
       this.dialogInfoValue.damageDetail = item.damageDetail == null ? null : item.damageDetail;
       
       this.dialogInfoValue.admitDate =
@@ -111,15 +126,16 @@ export default {
         item.empSend == null ? null : item.empSend.empName;
       this.dialogInfoValue.empSendId =
         item.empSend == null ? null : item.empSend.empId;
-      this.dialogInfoValue.returnEmp =
+      this.dialogInfoValue.empPhoneNumb = item.empPhoneNumb;
+      this.dialogInfoValue.returnEmp = 
         item.returnEmp == null ? null : item.returnEmp.empName;
-        this.dialogInfoValue.sendDate =
+      this.dialogInfoValue.sendDate =
         item.sendDate == null
           ? null
           : moment(String(item.sendDate), "YYYY-MM-DD HH:mm").format(
               "DD MMMM YYYY HH:mm"
             );
-        this.dialogInfoValue.returnDate =
+      this.dialogInfoValue.returnDate =
         item.returnDate == null
           ? null
           : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format(

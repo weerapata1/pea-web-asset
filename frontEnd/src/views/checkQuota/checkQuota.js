@@ -19,24 +19,24 @@ export default {
           align: "start",
           value: "devPeaNo",
           // width: "15%",
-          class: 'primary--text',
+          class: "primary--text",
         },
         {
           text: "คำอธิบายของสินทรัพย์",
           value: "devDescription",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "6%"
         },
         {
           text: "ชื่อผู้ครอบครอง",
           value: "tbEmployee.empName",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "25%"
         },
         {
           text: "วันที่ได้รับ",
           value: "devReceivedDate",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "25%"
         },
       ],
@@ -45,19 +45,19 @@ export default {
           text: "รหัสพนักงาน",
           align: "start",
           value: "empId",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "10%",
         },
         {
           text: "ชื่อ-นามสกุล",
           value: "empName",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "6%"
         },
         {
           text: "ตำแหน่ง",
           value: "empRole",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "25%"
         },
       ],
@@ -105,7 +105,37 @@ export default {
       dialog: false,
       passwordField: "",
       wrongPassword: false,
+      quotaCom: 0,
+      countElectrician: 0,
+      countAssistElectrician: 0,
+      empId: "506027",
+      passWord: "P@ss2489**",
+      dataXML: `<?xml version="1.0" encoding="utf-8"?>\r\n  
+                <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n   
+                  <soap:Body>\r\n    
+                    <Login xmlns="http://idm.pea.co.th/">\r\n     
+                      <request>\r\n       
+                        <InputObject>\r\n          
+                          <Username>506027</Username>\r\n           
+                          <Password>P@ss2489**</Password>\r\n       
+                        </InputObject>\r\n        
+                        <WSAuthenKey>e3358fc1-99ad-4b21-8237-7c9c8ba1c5dc</WSAuthenKey>\r\n      
+                      </request>\r\n    
+                    </Login>\r\n  
+                  </soap:Body>\r\n
+                </soap:Envelope>`,
     };
+  },
+
+  watch: {
+    dialog: function (val) {
+      if (val) {
+        this.passwordField = "";
+        console.log("clear password");
+      }
+    },
   },
 
   mounted() {
@@ -142,10 +172,10 @@ export default {
     },
 
     updateCCFromEmp(modelEmp) {
-      console.log(modelEmp.empCcId);
+      console.log(">> " + (modelEmp.costCenter.ccLongCode));
 
       var result = this.itemsCC.find(
-        (item) => item.ccLongCode === modelEmp.empCcId
+        (item) => item.ccLongCode === modelEmp.costCenter.ccLongCode
       );
       console.log("result " + result.ccLongCode);
       this.modelCC = result;
@@ -212,6 +242,9 @@ export default {
         }
         // let params = [];
         let ccLong = this.modelCC["ccLongCode"];
+        //let ccFullName = this.modelCC["ccFullName"];
+        let ccShortName = this.modelCC["ccShortName"];
+        let ccShortCode = this.modelCC["ccShortCode"];
         console.log(ccLong);
         params = {
           region: ccLong,
@@ -233,22 +266,107 @@ export default {
             console.log(error.resp);
           });
 
-        if (this.totalEmployeeResult > this.totalDeviceResult) {
-          this.checkQuotaResult =
-            "คอมพิวเตอร์น้อยกว่าจำนวนคน " +
-            this.totalEmployeeResult +
-            " คน - " +
-            this.totalDeviceResult+ " เครื่อง";
-        } else if (
-          this.totalEmployeeResult == this.totalDeviceResult ||
-          this.totalEmployeeResult < this.totalDeviceResult
+        //เช็คเงื่อนไขแผนก quota 2:3
+        if (
+          !ccLong.startsWith("E3010") &&
+          (ccShortName.includes("ผปบ") ||
+            ccShortName.includes("ผกส") ||
+            ccShortName.includes("ผกป") ||
+            !ccShortCode.endsWith("1"))
         ) {
+          console.log(
+            "Check พชง. 3:2 " +
+              ccShortName.includes("ผปบ") +
+              " " +
+              ccShortName.includes("ผกส") +
+              " " +
+              ccShortName.includes("ผกป") +
+              " " +
+              ccShortCode +
+              !ccShortCode.endsWith("1")
+          );
+          this.countElectrician = 0;
+          let electrician = "";
+          this.countAssistElectrician = 0;
+          // let assistElectrician = '';
+          this.quotaCom = 0;
+          // console.log("totalEmployeeResult " + JSON.stringify(this.getEmployeeResult[0].empRole));
+          for (let i = 0; i < this.totalEmployeeResult; i++) {
+            electrician = JSON.stringify(this.getEmployeeResult[i].empRole);
+            if (
+              electrician.includes("พชง")
+              // || electrician.includes("ชชง")
+            ) {
+              this.countElectrician++;
+              // this.quotaCom++;
+              // if(this.countElectrician % 3 == 0){
+              //   this.quotaCom--;
+              // }
+            } else if (electrician.includes("ชชง")) {
+              this.countAssistElectrician++;
+            }
+          }
+          console.log("countElectrician " + this.countElectrician);
+          let a = this.countElectrician;
+          for (let i = 1; i <= this.countElectrician; i++) {
+            console.log("Compare: " + i / a);
+            if (i / a < 0.67) {
+              this.quotaCom++;
+            }
+            console.log("Com พชง:" + this.quotaCom);
+            // if(this.countElectrician % 3 == 0){
+            //   this.quotaCom--;
+            // }
+          }
+          //นับ ชชง.
+
+          this.quotaCom +=
+            this.totalEmployeeResult -
+            this.countElectrician -
+            this.countAssistElectrician;
+          console.log("quotaCom final " + this.quotaCom);
+
+          //แผนก quota 2:3
+          // if (this.totalEmployeeResult > this.totalDeviceResult) {
+          //   this.checkQuotaResult =
+          //     "คอมพิวเตอร์น้อยกว่าจำนวนคน " +
+          //     this.totalEmployeeResult +
+          //     " คน - " +
+          //     this.totalDeviceResult +
+          //     " เครื่อง  จากโควตาโดยประมาณ " + this.quotaCom + " เครื่อง";
+          // } else if (
+          //   this.totalEmployeeResult == this.totalDeviceResult ||
+          //   this.totalEmployeeResult < this.totalDeviceResult
+          // ) {
           this.checkQuotaResult =
             "คอมพิวเตอร์เพียงพอกับจำนวนคน " +
             this.totalEmployeeResult +
             " คน - " +
-            this.totalDeviceResult + " เครื่อง";
+            this.totalDeviceResult +
+            " เครื่อง";
+          // }
+        } else {
+          //แผนก quota 1:1
+          if (this.totalEmployeeResult > this.totalDeviceResult) {
+            this.checkQuotaResult =
+              "คอมพิวเตอร์น้อยกว่าจำนวนคน " +
+              this.totalEmployeeResult +
+              " คน - " +
+              this.totalDeviceResult +
+              " เครื่อง";
+          } else if (
+            this.totalEmployeeResult == this.totalDeviceResult ||
+            this.totalEmployeeResult < this.totalDeviceResult
+          ) {
+            this.checkQuotaResult =
+              "คอมพิวเตอร์เพียงพอกับจำนวนคน " +
+              this.totalEmployeeResult +
+              " คน - " +
+              this.totalDeviceResult +
+              " เครื่อง";
+          }
         }
+
         this.showVRow = true;
       }
     },
@@ -261,19 +379,17 @@ export default {
           this.checked7 = true;
         }
         this.dialog = false;
-      }
-      else{
+      } else {
         this.wrongPassword = true;
       }
-      
+
       console.log(newValue);
     },
 
-    openDialog(){
+    openDialog() {
       this.dialog = true;
       this.wrongPassword = false;
-      this.passwordFiel ='';
-     
+      console.log("openDialog");
     },
 
     genQuotaReport() {
@@ -296,6 +412,90 @@ export default {
       this.jsonObj["assetComType"] = assetComType;
       this.setAssetComType = assetComType;
       console.log("assetComType-" + this.setAssetComType);
+    },
+
+    // itemRowBackground: function (item) {
+    //   return item.includes("พชง") || item.includes("ชชง")  ? 'style-1' : 'style-2'
+    //   //return 'style-1';
+    // },
+
+    async idmLogin() {
+
+      var dataXML = `<?xml version="1.0" encoding="utf-8"?>\r\n  
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+          xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n   
+          <soap:Body>\r\n    
+            <Login xmlns="http://idm.pea.co.th/">\r\n     
+              <request>\r\n       
+                <InputObject>\r\n          
+                  <Username>506027</Username>\r\n           
+                  <Password>P@ss2489**</Password>\r\n       
+                </InputObject>\r\n        
+                <WSAuthenKey>e3358fc1-99ad-4b21-8237-7c9c8ba1c5dc</WSAuthenKey>\r\n      
+              </request>\r\n    
+            </Login>\r\n  
+          </soap:Body>\r\n
+        </soap:Envelope>`;
+
+      // var config = {
+      //   headers: {
+      //     "Content-Type": "text/xml",
+      //     "Access-Control-Allow-Origin": "*",
+      //     "Access-Control-Allow-Methods": "POST",
+      //     "Access-Control-Allow-Headers":
+      //       "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+      //   },
+      //   body: dataXML,
+      //   // redirect: "follow",
+      // };
+
+      // await axios
+      //   .post("idm/webservices/IdmServices.asmx", config)
+      //   .then((res) => {
+      //     //callback(res.data);
+      //     console.log(res.data);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+
+      // let data =
+      //   '<?xml version="1.0" encoding="utf-8"?>\r\n<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n  <soap:Body>\r\n    <Login xmlns="http://idm.pea.co.th/">\r\n      <request>\r\n        <InputObject>\r\n          <Username>506027</Username>\r\n          <Password>P@ss2489**</Password>\r\n        </InputObject>\r\n        <WSAuthenKey>e3358fc1-99ad-4b21-8237-7c9c8ba1c5dc</WSAuthenKey>\r\n      </request>\r\n    </Login>\r\n  </soap:Body>\r\n</soap:Envelope>';
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "/idm",
+        headers: {
+          "Content-Type": "text/xml",
+        },
+        data: dataXML,
+      };
+
+      await axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      // var parseString = require("xml2js").parseString;
+      // await axios
+      //   .post(
+      //     // "https://idm.pea.co.th/webservices/IdmServices.asmx",
+      //     "/idm/IdmServices.asmx",
+      //     dataXML,
+      //     config
+      //   )
+      //   .then((response) => {
+      //     parseString(response.data, function (err, result) {
+      //       console.log(result); // returns a json array
+      //       this.events = result; // nothing happens
+      //     });
+      //   });
     },
   },
 };

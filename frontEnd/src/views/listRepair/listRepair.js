@@ -3,13 +3,46 @@ import moment from "moment";
 let url = "http://172.21.1.51:8080";
 let urlRepair = "http://172.21.1.51:8080/repair";
 moment.locale("th");
+
+const StaticHeader = {
+  // E3010 ในเขต
+  No: "...................................................................",
+  FromDepartment: "",
+  to1: "ผปค.กรท.ฉ.2",
+  to2: "ศปค.",
+};
+const StaticBoby = {
+  subject: "ขอให้จัดซ่อมคอมพิวเตอร์ และอุปกรณ์ประกอบ",
+  substance: "ขอแจ้งเครื่องชำรุจเพื่อส่งซ่อมตามรายการดังนี้",
+  to1: "หผ.ปค.",
+  to2: "พคค.",
+  note1:
+    "ในกรณีที่ไม่อยู่ในสัญญาประกัน ขอให้กรท.ฉ.2 ดำเนินการซ่อมและตัดงบค่าใช้จ่ายตามบันทึกฉบับ ฉ.2 กรท(ก) 94/2564 ",
+  note2: "จึงเรียนมาเพื่อโปรดแจ้งผู้ที่เกี่ยวข้องดำเนินการต่อไปด้วย",
+};
+const StaticFoot = {
+  dot1: ".........................................................................",
+  dot2: "(.....................................................)",
+  dot3: "..........................................................",
+  dot4: "ตำแหน่ง ................................................",
+  date1: "............../............../..............",
+  to1: "อก.รท.ฉ.2",
+  to2: "ผจก.",
+  note1: "เพื่อโปรดพิจารณา อนุมัติ",
+};
+
 export default {
   name: "listRepair",
 
   data() {
     return {
       rowIdValue: null,
+      first5char : null,
       valid: true,
+      dialogInfo: false,
+      StaticHeader: StaticHeader,
+      StaticBoby: StaticBoby,
+      StaticFoot: StaticFoot,
 
       state: null,
       adminNames: [],
@@ -89,9 +122,10 @@ export default {
         (v) => (v && v.length >= 6) || "พิมพ์อย่างน้อย 6 ตัวอักษร",
       ],
 
-      dialogInfo: false,
       dialogInfoValue: [
         {
+          repairId : null,
+          empSendRole: null,
           peaNo: null,
           location: null,
           ccFull: null,
@@ -99,18 +133,19 @@ export default {
           empOwnerName: null,
           empOwnerId: null,
           damage: null,
-          damageDetail: null,
           adminName: null,
-          sendDate: null,
+          adminRole : null,
           admitDate: null,
           empSendName: null,
           empSendId: null,
+          empRole :null,
           adminID: null,
           returnEmp: null,
-          returnEmpId: null,
           returnDate: null,
           treatment: null,
           treatComplete: null,
+          discription: null,
+          deviceType: null,
           empPhoneNumb: null,
         },
       ],
@@ -146,9 +181,21 @@ export default {
   },
   computed: {},
   methods: {
+    currentDate() {
+      const current = new Date();
+      const date = `${current.getDate()}/${
+        current.getMonth() + 1
+      }/${current.getFullYear()}`;
+      return date;
+    },
+    printPDF() {
+      this.$refs.html2Pdf.generatePdf();
+      console.log("PDF print");
+    },
     formatDate(value) {
       return moment(value).format("DD MMMM YYYY HH:mm");
     },
+
     lookFor(selectCCvalue) {
       if (this.state == 1) {
         this.find(selectCCvalue, 1);
@@ -162,6 +209,78 @@ export default {
         this.find2(selectCCvalue);
       }
     },
+    find5charCCid(ccCode) {
+      // E3010 ในเขต
+      if (ccCode.substring(0, 5) == "E3010") {
+        return 2;
+      } else {
+        return 1;
+      }
+    },
+    openDialogInfo(item) {
+      
+      this.dialogInfoValue.repairId = item.repairId;
+      this.dialogInfoValue.peaNo = item.device.devPeaNo;
+      this.dialogInfoValue.discription = item.device.devDescription;
+      this.dialogInfoValue.deviceType =
+        item.device.tbDeviceType.deviceTypeName;
+      this.first5char = this.find5charCCid(item.device.devPeaNo);
+      this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
+      this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
+      this.dialogInfoValue.stage = item.repairStatus.statusName;
+      
+      this.dialogInfoValue.empOwnerId =
+        item.device.tbEmployee == null ? null : item.device.tbEmployee.empId;
+      this.dialogInfoValue.empOwnerName =
+        item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
+      this.dialogInfoValue.damage =
+        item.cause == null ? null : item.cause.causeName;
+
+      this.dialogInfoValue.damageDetail =
+        item.damageDetail == null ? null : item.damageDetail;
+
+      this.dialogInfoValue.admitDate =
+        item.admitDate == null
+          ? null
+          : moment(String(item.admitDate), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
+      this.dialogInfoValue.adminName =
+        item.adminReceive == null ? null : item.adminReceive.adName;
+      this.dialogInfoValue.adminRole = item.adminReceive.empRole;
+      this.dialogInfoValue.adminID =
+        item.adminReceive == null ? null : item.adminReceive.adEmp;
+      this.dialogInfoValue.empSendName =
+        item.empSend == null ? null : item.empSend.empName;
+      this.dialogInfoValue.empSendId =
+        item.empSend == null ? null : item.empSend.empId;
+      this.dialogInfoValue.empSendRole =
+        item.empSend == null ? null : item.empSend.empRole;
+      this.dialogInfoValue.empPhoneNumb = item.empPhoneNumb;
+      this.dialogInfoValue.returnEmp =
+        item.returnEmp == null ? null : item.returnEmp.empName;
+      this.dialogInfoValue.sendDate =
+        item.sendDate == null
+          ? null
+          : moment(String(item.sendDate), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
+      this.dialogInfoValue.returnDate =
+        item.returnDate == null
+          ? null
+          : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
+      this.dialogInfoValue.treatment =
+        item.treatment == null ? null : item.treatment;
+      this.dialogInfoValue.treatComplete =
+        item.treatComplete == null
+          ? null
+          : moment(String(item.treatComplete), "YYYY-MM-DD HH:mm").format(
+              "DD MMMM YYYY HH:mm"
+            );
+    },
+
     find(value, state) {
       let locationFromCC = value.ccLongCode;
 
@@ -328,61 +447,6 @@ export default {
         this.dialog3Value.returnEmp = null;
       }
     },
-    openDialogInfo(item) {
-      this.dialogInfoValue.peaNo = item.device.devPeaNo;
-      this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
-      this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
-      this.dialogInfoValue.stage = item.repairStatus.statusName;
-      this.dialogInfoValue.empOwnerId =
-        item.device.tbEmployee == null ? null : item.device.tbEmployee.empId;
-      this.dialogInfoValue.empOwnerName =
-        item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
-      this.dialogInfoValue.damage =
-        item.cause == null ? null : item.cause.causeName;
-
-      this.dialogInfoValue.damageDetail =
-        item.damageDetail == null ? null : item.damageDetail;
-
-      this.dialogInfoValue.admitDate =
-        item.admitDate == null
-          ? null
-          : moment(String(item.admitDate), "YYYY-MM-DD HH:mm").format(
-              "DD MMMM YYYY HH:mm"
-            );
-      this.dialogInfoValue.adminName =
-        item.adminReceive == null ? null : item.adminReceive.adName;
-      this.dialogInfoValue.adminID =
-        item.adminReceive == null ? null : item.adminReceive.adEmp;
-      this.dialogInfoValue.empSendName =
-        item.empSend == null ? null : item.empSend.empName;
-      this.dialogInfoValue.empSendId =
-        item.empSend == null ? null : item.empSend.empId;
-      this.dialogInfoValue.returnEmp =
-        item.returnEmp == null ? null : item.returnEmp.empName;
-      this.dialogInfoValue.returnEmpId =
-        item.returnEmpId == null ? null : item.empSend.empId;
-      this.dialogInfoValue.empPhoneNumb =
-        item.empPhoneNumb == null ? null : item.empPhoneNumb;
-      this.dialogInfoValue.sendDate =
-        item.sendDate == null
-          ? null
-          : moment(String(item.sendDate), "YYYY-MM-DD HH:mm").format(
-              "DD MMMM YYYY HH:mm"
-            );
-      this.dialogInfoValue.returnDate =
-        item.returnDate == null
-          ? null
-          : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format(
-              "DD MMMM YYYY HH:mm"
-            );
-      this.dialogInfoValue.treatment =
-        item.treatment == null ? null : item.treatment;
-      this.dialogInfoValue.treatComplete =
-        item.treatComplete == null
-          ? null
-          : moment(String(item.treatComplete), "YYYY-MM-DD HH:mm").format(
-              "DD MMMM YYYY HH:mm"
-            );
-    },
+    
   },
 };

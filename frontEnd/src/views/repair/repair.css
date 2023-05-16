@@ -1,19 +1,19 @@
-.outside-card {
+ .outside-card {
     margin-top: 10%;
     margin-left: 15%;
     width: 70%;
-}
-.inside-card {
+} 
+/* .inside-card {
     margin-top: auto;
     margin-left: 5%;
     width: 90%;
-}
-.btn-position ,md{
+} */
+/* .btn-position ,md{
     left: 80%;
 }
 .v-text-field .v-input__control .v-input__slot {
     min-height: auto !important;
     display: flex !important;
     align-items: center !important;
-  }
+  }  */
 

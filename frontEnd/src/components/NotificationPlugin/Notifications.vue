@@ -1,5 +1,5 @@
-<template>
-  <div class="notifications">
+<template >
+  <div class="notificationsComponent">
     <transition-group :name="transitionName"
                       :mode="transitionMode">
       <notification

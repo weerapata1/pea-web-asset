@@ -18,13 +18,12 @@ import java.time.LocalDateTime;
 public class tbRepair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rep_seq")
-    @GenericGenerator(name = "rep_seq", strategy = "com.PEA.webAsset.Share.Generator.RepairGeneratorID")
+    @GenericGenerator(name = "rep_seq", strategy = "com.PEA.webAsset.Share.Generator.RepairGeneratorId")
 //    @SequenceGenerator(name = "rep_seq", sequenceName = "rep_seq")
     @Column(name = "repair_id" ,nullable = false ,unique = true)
     private String repairId;
 
-    @Column(name = "orderId")
-    private String orderId;
+
 
     private LocalDateTime SendDate; //ส่งเรื่องซ่อม
     @NotNull(message = ">> plz chk your damageDetail is Null <<")
@@ -71,4 +70,5 @@ public class tbRepair {
     @ManyToOne(targetEntity = tbDevice.class,fetch = FetchType.EAGER)
     @JoinColumn(name = "device_id",insertable=true, referencedColumnName = "id")
     private tbDevice device; //เครื่องที่ส่งซ่อม
+
 }
