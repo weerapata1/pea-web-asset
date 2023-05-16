@@ -2,6 +2,9 @@ import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength , numeric } from "vuelidate/lib/validators";
 
+// let url = "http://localhost:8080";
+// let urlRepair = "http://localhost:8080/repair";
+let url = "http://localhost:172.21.1.51";
 
 const StaticHeader = {
   No: "",
@@ -130,7 +133,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+    axios.get(url+"/cc/getAllCCOnlyUse").then((response) => {
       this.itemCC = response.data.costCenter;
     });
   },
@@ -142,7 +145,7 @@ export default {
     async findDiscDevice(peaNo) {
       this.devPeaNoSelceted = peaNo;
       await axios
-        .get("http://localhost:8080/api/dev/getDeviceByPeaNo", {
+        .get(url+"/api/dev/getDeviceByPeaNo", {
           params: { PeaNo: peaNo },
         })
         .then((response) => {
@@ -152,7 +155,7 @@ export default {
     async toggleBranch2(ccCode) {
       this.ccNameSeclected = ccCode;
       await axios
-        .get("http://localhost:8080/api/dev/getAll53", {
+        .get(url+"/api/dev/getAll53", {
           params: { ccLong: this.ccNameSeclected },
         })
         .then((response) => {
@@ -177,7 +180,7 @@ export default {
         alert("โปรดระบุรหัสพนักงาน");
       } else {
         await axios
-          .get("http://localhost:8080/emp/getEmpId", {
+          .get(url+"/emp/getEmpId", {
             params: { id: empSend },
           })
           .then((response) => {
@@ -207,7 +210,7 @@ export default {
           (fBody.empPhoneNumb = this.empPhoneNumb),
           
           await axios
-            .post("http://localhost:8080/repair/repair", null, {
+            .post(url+"/repair/repair", null, {
               params: {
                 empSend: this.empData.empId ,
                 damage: this.damage,
