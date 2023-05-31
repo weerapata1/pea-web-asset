@@ -24,7 +24,6 @@ public class tbRepair {
     private String repairId;
 
 
-
     private LocalDateTime SendDate; //ส่งเรื่องซ่อม
     @NotNull(message = ">> plz chk your damageDetail is Null <<")
     @Size(min = 5 ,max = 100 ,message = ">> plz chk your damageDetail is less 5 or more 100 char <<")
@@ -38,9 +37,10 @@ public class tbRepair {
     @Column(name="admitDate")
     private LocalDateTime admitDate; //รับเรื่องซ่อม
 
-    @ManyToOne(targetEntity = tbCause.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "cause",insertable = true,referencedColumnName = "id")
-    private tbCause cause; //อาการเบื้องต้น
+//    @ManyToOne(targetEntity = tbCause.class,fetch = FetchType.EAGER)
+//    @JoinColumn(name = "cause",insertable = true,referencedColumnName = "id")
+    private String cause; //อาการเบื้องต้น
+    
     @Column(name = "empPhoneNumb")
     private String empPhoneNumb;
 
