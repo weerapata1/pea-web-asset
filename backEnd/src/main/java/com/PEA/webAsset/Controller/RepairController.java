@@ -77,24 +77,24 @@ public class RepairController {
         return new ResponseEntity<>(repair, HttpStatus.CREATED);
     }
 
-    @GetMapping("/findStatusById")
-    public List<tbRepairStatus> getStatus() {
-        return repairStatusRepository.findAll();
-    }
-
+//    @GetMapping("/findStatusById")
+//    public List<tbRepairStatus> getStatus() {
+//        return repairStatusRepository.findAll();
+//    }
+//
     @PutMapping("/updateStatusSec/{repairId}") //
-    public ResponseEntity<tbRepair> updateStatusSec(@PathVariable("repairId") String repairId, @RequestParam String adminName, @RequestParam Long causeId) {
+    public ResponseEntity<tbRepair> updateStatusSec(@PathVariable("repairId") String repairId, @RequestParam String adUserName, @RequestParam String cause) {
 
 
         tbRepair updateRepair = repairRepository.findRepairByRepairId(repairId);
 
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
-        System.out.println("adminName : " + adminName + " causeId : " + causeId);
+        System.out.println("adminUser : " + adUserName + " causeId : " + cause);
 
         updateRepair.setRepairStatus(repairStatusRepository.findStatusById(2L));
-        updateRepair.setAdminReceive(empAdminRepository.findAllByAdName(adminName));
-        updateRepair.setCause(causeRepository.findCauseById(causeId));
+        updateRepair.setAdminReceive(empAdminRepository.findAllByAdminUserName(adUserName));
+        updateRepair.setCause(cause);
         updateRepair.setAdmitDate(dateTimeNow);
 
         final tbRepair repair = repairRepository.save(updateRepair);

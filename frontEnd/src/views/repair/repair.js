@@ -1,50 +1,27 @@
 import axios from "axios";
 import { validationMixin } from "vuelidate";
-import { required, maxLength, minLength , numeric } from "vuelidate/lib/validators";
+import {
+  required,
+  maxLength,
+  minLength,
+  numeric,
+} from "vuelidate/lib/validators";
 
+let url = "http://localhost:8080";
+// let urlRepair = "http://localhost:8080/repair";
+// let url = "http://localhost:172.21.1.51";
 
-const StaticHeader = {
-  No: "",
-  FromDepartment: "",
-  to1: "ผปค.กรท.ฉ.2",
-  to2: "ศปค.",
-};
-const StaticBoby = {
-  subject: "ขอให้จัดซ่อมคอมพิวเตอร์ และอุปกรณ์ประกอบ",
-  substance: "ขอแจ้งเครื่องชำรุจเพื่อส่งซ่อมตามรายการดังนี้",
-  to1: "หผ.ปค.",
-  to2: "พคค.",
-  note1:
-    "ในกรณีที่ไม่อยู่ในสัญญาประกัน ขอให้กรท.ฉ.2 ดำเนินการซ่อมและตัดงบค่าใช้จ่ายตามบันทึกฉบับ ฉ.2 กรท(ก) 94/2564 ",
-  note2: "จึงเรียนมาเพื่อโปรดแจ้งผู้ที่เกี่ยวข้องดำเนินการต่อไปด้วย",
-};
 const fBody = {
-  empSendName: "",
-  empSendRole: "",
-  empSendId: "",
-  damage: "",
-  warranty: "",
-  location: "",
-  deviceType: "",
-  peaNo : "",
-  discription : "",
-  empPhoneNumb : "",
+  empSends: "null",
+  empOwner: "null",
+  device: "null",
+  discription: "null",
+  location: "null",
+  deviceType: "null",
+  damage: "null",
+  empPhoneNumb: "null",
 };
-const StaticFoot = {
-  dot1: ".....................................................................................................",
-  dot2: "(.....................................................)",
-  dot3: "........................................................",
-  date1: "................./................./.................",
-  to1: "อก.รท.ฉ.2",
-  to2: "ผจก.",
-  note1: "เพื่อโปรดพิจารณา อนุมัติ",
-};
-// const data = {
-//   ccNameSeclected: '',
-//   devPeaNoSelceted: '',
-//   empSend: '',
-//   damage: '',
-// };
+
 export default {
   name: "RepairComponent",
   mixins: [validationMixin],
@@ -52,24 +29,33 @@ export default {
     ccNameSeclected: { required },
     devPeaNoSelceted: { required },
     damage: { required, minLength: minLength(5), maxLength: maxLength(100) },
-    empSend: { required, minLength: minLength(6), maxLength: maxLength(9) , numeric },
-    empPhoneNumb :{required, minLength: minLength(5), maxLength: maxLength(10) ,numeric},
+    empSend: {
+      required,
+      minLength: minLength(6),
+      maxLength: maxLength(9),
+      numeric,
+    },
+    empPhoneNumb: {
+      required,
+      minLength: minLength(5),
+      maxLength: maxLength(10),
+      numeric,
+    },
   },
   data() {
     return {
       valid: false,
-      dialog: false,
+      dialogNote: false,
+      dialogRechk: false,
+      
       first5char: "",
-      fBody: fBody,
-      StaticHeader: StaticHeader,
-      StaticBoby: StaticBoby,
-      StaticFoot: StaticFoot,
-      hasSaved: false,
       ccNameSeclected: "",
       devPeaNoSelceted: "",
       damage: "",
       empSend: "",
-      empPhoneNumb : "",
+      empPhoneNumb: "",
+
+      fBody: fBody,
 
       resPost: "",
       empName: [],
@@ -99,9 +85,8 @@ export default {
       if (!this.$v.damage.$dirty) return errors;
       !this.$v.damage.required && errors.push("โปรดระบุอาการที่ชำรุจ");
       !this.$v.damage.minLength &&
-      errors.push("พิมพ์อย่างน้อย 5 ตัวอักษร โปรดตรวจสอบ");
-      !this.$v.damage.maxLength &&
-      errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
+        errors.push("พิมพ์อย่างน้อย 5 ตัวอักษร โปรดตรวจสอบ");
+      !this.$v.damage.maxLength && errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
       return errors;
     },
     empSendErrors() {
@@ -111,12 +96,11 @@ export default {
       !this.$v.empSend.minLength &&
         errors.push("พิมพ์อย่างน้อย 6 ตัวอักษร โปรดตตรวจสอบ");
       !this.$v.empSend.maxLength &&
-      errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
-      !this.$v.empSend.numeric &&
-      errors.push("โปรดกรอกข้อมูลเป็นตัวเลข");
+        errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
+      !this.$v.empSend.numeric && errors.push("โปรดกรอกข้อมูลเป็นตัวเลข");
       return errors;
     },
-    empPhoneNumbErrors(){
+    empPhoneNumbErrors() {
       const errors = [];
       if (!this.$v.empPhoneNumb.$dirty) return errors;
       !this.$v.empPhoneNumb.required && errors.push("โปรดระบุเบอร์ติดต่อกลับ");
@@ -124,15 +108,19 @@ export default {
         errors.push("พิมพ์อย่างน้อย 5 ตัวอักษร โปรดตรวจสอบ");
       !this.$v.empPhoneNumb.maxLength &&
         errors.push("พิมพ์เกินที่กำหนด โปรดตรวจสอบ");
-        !this.$v.empPhoneNumb.numeric &&
-        errors.push("โปรดกรอกข้อมูลเป็นตัวเลข");
+      !this.$v.empPhoneNumb.numeric && errors.push("โปรดกรอกข้อมูลเป็นตัวเลข");
       return errors;
-    }
+    },
   },
   mounted() {
+<<<<<<< HEAD
     axios.get("http://172.21.1.51:8080/cc/getAllCCOnlyUse").then((response) => {
+=======
+    axios.get(url + "/cc/getAllCCOnlyUse").then((response) => {
+>>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
       this.itemCC = response.data.costCenter;
     });
+    
   },
 
   methods: {
@@ -142,7 +130,11 @@ export default {
     async findDiscDevice(peaNo) {
       this.devPeaNoSelceted = peaNo;
       await axios
+<<<<<<< HEAD
         .get("http://172.21.1.51:8080/api/dev/getDeviceByPeaNo", {
+=======
+        .get(url + "/api/dev/getDeviceByPeaNo", {
+>>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
           params: { PeaNo: peaNo },
         })
         .then((response) => {
@@ -152,7 +144,11 @@ export default {
     async toggleBranch2(ccCode) {
       this.ccNameSeclected = ccCode;
       await axios
+<<<<<<< HEAD
         .get("http://172.21.1.51:8080/api/dev/getAll53", {
+=======
+        .get(url + "/api/dev/getAll53", {
+>>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
           params: { ccLong: this.ccNameSeclected },
         })
         .then((response) => {
@@ -166,9 +162,8 @@ export default {
     },
     currentDate() {
       const current = new Date();
-      const date = `${current.getDate()}/${
-        current.getMonth() + 1
-      }/${current.getFullYear()}`;
+      const date = `${current.getDate()}/${current.getMonth() + 1
+        }/${current.getFullYear()}`;
       return date;
     },
     async findEmp(empSend) {
@@ -177,24 +172,35 @@ export default {
         alert("โปรดระบุรหัสพนักงาน");
       } else {
         await axios
+<<<<<<< HEAD
           .get("http://172.21.1.51:8080/emp/getEmpId", {
+=======
+          .get(url + "/emp/getEmployeeId", {
+>>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
             params: { id: empSend },
           })
           .then((response) => {
-            // console.log(response.data)
             this.empData = response.data;
+            if(response.data == null){
+              this.empData = "",
+              alert("ไม่พบนักงานรหัสนี้")
+        }
           })
           .catch((error) => {
             console.log(error);
           });
+          
       }
+      
     },
 
-    async continues() {
-      // this.$v.$touch();
+    continues() {
+      this.$v.$touch();
+
       if (this.$v.$invalid) {
-        alert("โปรดตรวจสอบข้อมูล");
+        console.log("มีช่างว่าง");
       } else {
+<<<<<<< HEAD
         (fBody.empSendName = this.empData.empName),
           (fBody.empSendRole = this.empData.empRole),
           (fBody.empSendId = this.empData.empId);
@@ -208,6 +214,23 @@ export default {
           
           await axios
             .post("http://172.21.1.51:8080/repair/repair", null, {
+=======
+
+        (fBody.empSends = this.empData),
+        (fBody.device = this.devDesc),
+        (fBody.location = this.devDesc.tbCostCenterTest),
+        (fBody.deviceType = this.devDesc.tbDeviceType),
+        (fBody.empOwner = this.devDesc.tbEmployee),
+        (fBody.damage = this.damage),
+        (fBody.empPhoneNumb = this.empPhoneNumb);
+
+        this.dialogRechk = true;
+      }
+    },
+    async save() {
+      await axios
+            .post(url+"/repair/repair", null, {
+>>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
               params: {
                 empSend: this.empData.empId ,
                 damage: this.damage,
@@ -224,9 +247,8 @@ export default {
               console.log("post Error >> ",error);
               alert("บันทึกไม่สำเร็จ โปรดตรวจสอบข้อมูล");
             });
-      }
+      
       if (this.resPost == "201") {
-        
         this.clear();
       }
     },

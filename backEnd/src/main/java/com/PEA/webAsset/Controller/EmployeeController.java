@@ -5,10 +5,12 @@ import com.PEA.webAsset.Repository.EmployeeRepository;
 
 import java.util.*;
 
+import com.PEA.webAsset.Share.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,23 @@ public class EmployeeController {
     public tbEmployee getEmpId(@RequestParam("id") String id) {
         return employeeRepository.findByEmpId(id);
     }
+    @GetMapping("/getEmployeeId")
+    public ResponseEntity<Object> getEmployeeId(@RequestParam("id") String id) {
+        String message = "data";
+        try {
+            tbEmployee employee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("NotFound"));
 
+
+
+
+            return new ResponseEntity<>(employee,HttpStatus.OK);
+//            return new ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+        }catch (ResourceNotFoundException e){
+            System.out.println("notFound");
+            return new ResponseEntity<>("null", HttpStatus.OK);
+
+        }
+    }
 
 
     @GetMapping("/getEmpSor")

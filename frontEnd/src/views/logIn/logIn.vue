@@ -53,6 +53,7 @@ export default {
                     this.$emit("authenticated", true);
                     this.$router.replace({ path: "/listRepair" });
                 } else {
+                    alert("The username and / or password is incorrect");
                     console.log("The username and / or password is incorrect");
                 }
             } else {

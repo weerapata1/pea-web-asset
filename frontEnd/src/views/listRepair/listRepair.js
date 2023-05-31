@@ -1,7 +1,15 @@
 import axios from "axios";
 import moment from "moment";
+<<<<<<< HEAD
 let url = "http://172.21.1.51:8080";
 let urlRepair = "http://172.21.1.51:8080/repair";
+=======
+
+let url = "http://localhost:8080";
+let urlRepair = "http://localhost:8080/repair";
+// let url = "http://localhost:172.21.1.51";
+// let urlRepair = "http://localhost:172.21.1.51/repair";
+>>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
 moment.locale("th");
 
 const StaticHeader = {
@@ -46,6 +54,7 @@ export default {
 
       state: null,
       adminNames: [],
+      // caues: null,
       caues: [
         { header: "CPU/Notebook" },
         { name: "เมนบอร์ดชำรุด/ไหม้", value: 1 },
@@ -82,7 +91,7 @@ export default {
         { name: "แผงวงจรไหม้/ชำรุด", value: 26 },
         { name: "ไม่เก็บกระแสไฟ", value: 27 },
         { name: "ปุ่มเปิด/ปิดไม่ทำงาน", value: 28 },
-      ],
+    ],
 
       selectCCvalue: null,
       CcItems: [],
@@ -122,33 +131,32 @@ export default {
         (v) => (v && v.length >= 6) || "พิมพ์อย่างน้อย 6 ตัวอักษร",
       ],
 
-      dialogInfoValue: [
-        {
-          repairId : null,
-          empSendRole: null,
-          peaNo: null,
-          location: null,
-          ccFull: null,
-          stage: null,
-          empOwnerName: null,
-          empOwnerId: null,
-          damage: null,
-          adminName: null,
-          adminRole : null,
-          admitDate: null,
-          empSendName: null,
-          empSendId: null,
-          empRole :null,
-          adminID: null,
-          returnEmp: null,
-          returnDate: null,
-          treatment: null,
-          treatComplete: null,
-          discription: null,
-          deviceType: null,
-          empPhoneNumb: null,
-        },
-      ],
+      dialogInfoValue: {
+        repairId : null,
+        SendDate : null,
+        damageDetail : null,       
+        adminReceiveAdmitDate : null,
+        empPhoneNumb : null,
+        treatment : null,
+        treatCompleteDate : null,
+        returnDate : null,
+
+        location: [],
+        device : [],
+        empSend : [],
+        cause : [],
+        repairStatus: [],
+        empOwnerDevice: [],
+
+        adminReceiveName : null,
+        adminReceiveEmpID : null,
+        
+        Warranty: null,
+       
+        deviceType: [],
+        returnEmp: [],
+      },
+      
     };
   },
   mounted() {
@@ -211,74 +219,84 @@ export default {
     },
     find5charCCid(ccCode) {
       // E3010 ในเขต
+      console.log("find5charCCid",ccCode.substring(0, 5))
       if (ccCode.substring(0, 5) == "E3010") {
-        return 2;
-      } else {
+        
         return 1;
+      } else {
+        return 2;
       }
+    },
+    findDateWarranty(date){
+      // console.log(">>",date)
+
+      var date1 = new Date(date).getFullYear() - 543;
+      var date2 = new Date().getFullYear();
+
+      // var date1 = new Date('05/29/2023').toLocaleDateString('th-TH');
+      // var date2 = new Date().toLocaleDateString('th-TH');
+      var diffDate = Math.abs(date2-date1);
+      
+      // console.log("date1 : ",date1);
+      // console.log("date2 : ",date2);
+
+      if(diffDate <=5 )
+        return "อยู่ในการรับประกัน";
+      else
+      return "ไม่อยู่ในการรับประกัน";
     },
     openDialogInfo(item) {
       
       this.dialogInfoValue.repairId = item.repairId;
-      this.dialogInfoValue.peaNo = item.device.devPeaNo;
-      this.dialogInfoValue.discription = item.device.devDescription;
-      this.dialogInfoValue.deviceType =
-        item.device.tbDeviceType.deviceTypeName;
-      this.first5char = this.find5charCCid(item.device.devPeaNo);
-      this.dialogInfoValue.location = item.device.tbCostCenterTest.ccFullName;
-      this.dialogInfoValue.ccFull = item.device.tbCostCenterTest.ccLongCode;
-      this.dialogInfoValue.stage = item.repairStatus.statusName;
-      
-      this.dialogInfoValue.empOwnerId =
-        item.device.tbEmployee == null ? null : item.device.tbEmployee.empId;
-      this.dialogInfoValue.empOwnerName =
-        item.device.tbEmployee == null ? null : item.device.tbEmployee.empName;
-      this.dialogInfoValue.damage =
-        item.cause == null ? null : item.cause.causeName;
 
-      this.dialogInfoValue.damageDetail =
-        item.damageDetail == null ? null : item.damageDetail;
-
-      this.dialogInfoValue.admitDate =
-        item.admitDate == null
-          ? null
-          : moment(String(item.admitDate), "YYYY-MM-DD HH:mm").format(
-              "DD MMMM YYYY HH:mm"
-            );
-      this.dialogInfoValue.adminName =
-        item.adminReceive == null ? null : item.adminReceive.adName;
-      this.dialogInfoValue.adminRole = item.adminReceive.empRole;
-      this.dialogInfoValue.adminID =
-        item.adminReceive == null ? null : item.adminReceive.adEmp;
-      this.dialogInfoValue.empSendName =
-        item.empSend == null ? null : item.empSend.empName;
-      this.dialogInfoValue.empSendId =
-        item.empSend == null ? null : item.empSend.empId;
-      this.dialogInfoValue.empSendRole =
-        item.empSend == null ? null : item.empSend.empRole;
-      this.dialogInfoValue.empPhoneNumb = item.empPhoneNumb;
-      this.dialogInfoValue.returnEmp =
-        item.returnEmp == null ? null : item.returnEmp.empName;
       this.dialogInfoValue.sendDate =
         item.sendDate == null
           ? null
           : moment(String(item.sendDate), "YYYY-MM-DD HH:mm").format(
               "DD MMMM YYYY HH:mm"
             );
-      this.dialogInfoValue.returnDate =
-        item.returnDate == null
-          ? null
-          : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format(
-              "DD MMMM YYYY HH:mm"
-            );
-      this.dialogInfoValue.treatment =
-        item.treatment == null ? null : item.treatment;
-      this.dialogInfoValue.treatComplete =
-        item.treatComplete == null
-          ? null
-          : moment(String(item.treatComplete), "YYYY-MM-DD HH:mm").format(
-              "DD MMMM YYYY HH:mm"
-            );
+      
+      this.dialogInfoValue.damageDetail = item.damageDetail;
+      this.dialogInfoValue.adminReceiveAdmitDate = item.admitDate == null ? null
+      : moment(String(item.admitDate), "YYYY-MM-DD HH:mm").format(
+          "DD MMMM YYYY HH:mm"  );
+      this.dialogInfoValue.empPhoneNumb = item.empPhoneNumb;
+      this.dialogInfoValue.treatment = item.treatment;
+      this.dialogInfoValue.treatCompleteDate = item.treatComplete == null ? null
+      : moment(String(item.treatComplete), "YYYY-MM-DD HH:mm").format(
+          "DD MMMM YYYY HH:mm"  );
+
+      this.dialogInfoValue.returnDate = item.returnDate == null ? null
+      : moment(String(item.returnDate), "YYYY-MM-DD HH:mm").format(
+          "DD MMMM YYYY HH:mm"  );
+
+      this.dialogInfoValue.device = item.device == null ? null : item.device;
+      this.dialogInfoValue.deviceType = item.device.tbDeviceType  == null ? null : item.device.tbDeviceType;
+        
+      this.dialogInfoValue.location = item.device.tbCostCenterTest;
+
+      this.first5char = this.find5charCCid(item.device.tbCostCenterTest.ccLongCode);
+      
+
+      this.dialogInfoValue.Warranty =this.findDateWarranty(this.dialogInfoValue.device.devReceivedDate);
+      console.log("Warranty",this.dialogInfoValue.Warranty)
+      
+      this.dialogInfoValue.repairStatus = item.repairStatus;
+      
+      this.dialogInfoValue.empOwnerDevice = item.device.tbEmployee;
+      
+      this.dialogInfoValue.empSend = item.empSend;
+
+      this.dialogInfoValue.adminReceiveName = item.adminReceive == null ? null : item.adminReceive.adName;
+      this.dialogInfoValue.adminReceiveEmpID = item.adminReceive == null ? null : item.adminReceive.adEmp;
+
+      this.dialogInfoValue.cause = item.cause == null ? null : item.cause;
+      
+
+      this.dialogInfoValue.returnEmp = item.returnEmp == null ? null : item.returnEmp.empName;
+
+      // console.log("openDialogInfo >> ",this.dialogInfoValue)
+      // console.log("item >> ",item)
     },
 
     find(value, state) {
@@ -376,14 +394,16 @@ export default {
 
     async saveDialog1(dialog1Value) {
       //dialogรับเครื่อง
-      if (dialog1Value.adminName == null || dialog1Value.caues == null) {
+       
+      if (dialog1Value.caues == null) {
         alert("โปรดกรอกข้อมูล");
-      } else {
+      } 
+      else {
         await axios
           .put(urlRepair + "/updateStatusSec/" + this.rowIdValue, null, {
             params: {
-              adminName: dialog1Value.adminName,
-              causeId: dialog1Value.caues,
+              adUserName: sessionStorage.getItem("userName"),
+              cause: dialog1Value.caues,
             },
           })
           .then(
