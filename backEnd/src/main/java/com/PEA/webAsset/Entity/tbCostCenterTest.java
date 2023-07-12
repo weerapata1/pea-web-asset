@@ -37,6 +37,5 @@ public class tbCostCenterTest {
         this.ccShortName = ccShortName;
         this.ccFullName = ccFullName;
     }
-
-
+    
 }
