@@ -172,7 +172,7 @@ export default {
     },
 
     updateCCFromEmp(modelEmp) {
-      console.log(">> " + (modelEmp.costCenter.ccLongCode));
+      console.log(">> " + modelEmp.costCenter.ccLongCode);
 
       var result = this.itemsCC.find(
         (item) => item.ccLongCode === modelEmp.costCenter.ccLongCode
@@ -190,7 +190,7 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        console.log("param dt_id - ", this.setAssetComType.assetComType);
+        console.log("param dt_id - ", this.setAssetComType);
         let params = [];
 
         params = {
@@ -245,7 +245,7 @@ export default {
         //let ccFullName = this.modelCC["ccFullName"];
         let ccShortName = this.modelCC["ccShortName"];
         let ccShortCode = this.modelCC["ccShortCode"];
-        console.log(ccLong);
+        console.log("ccLong- " + ccLong);
         params = {
           region: ccLong,
         };
@@ -272,7 +272,7 @@ export default {
           (ccShortName.includes("ผปบ") ||
             ccShortName.includes("ผกส") ||
             ccShortName.includes("ผกป") ||
-            !ccShortCode.endsWith("1"))
+            !ccShortCode.slice(-1)=="1")
         ) {
           console.log(
             "Check พชง. 3:2 " +
@@ -420,11 +420,8 @@ export default {
     // },
 
     async idmLogin() {
-
       var dataXML = `<?xml version="1.0" encoding="utf-8"?>\r\n  
-        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-          xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-          xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n   
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n   
           <soap:Body>\r\n    
             <Login xmlns="http://idm.pea.co.th/">\r\n     
               <request>\r\n       
@@ -464,17 +461,18 @@ export default {
       //   '<?xml version="1.0" encoding="utf-8"?>\r\n<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n  <soap:Body>\r\n    <Login xmlns="http://idm.pea.co.th/">\r\n      <request>\r\n        <InputObject>\r\n          <Username>506027</Username>\r\n          <Password>P@ss2489**</Password>\r\n        </InputObject>\r\n        <WSAuthenKey>e3358fc1-99ad-4b21-8237-7c9c8ba1c5dc</WSAuthenKey>\r\n      </request>\r\n    </Login>\r\n  </soap:Body>\r\n</soap:Envelope>';
 
       let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: "/idm",
         headers: {
           "Content-Type": "text/xml",
         },
-        data: dataXML,
+        // method: "post",
+        maxBodyLength: Infinity,
+        // url: "/idm/IdmServices.asmx",
+
+        body: dataXML,
       };
 
       await axios
-        .request(config)
+        .post("idm/IdmServices.asmx", config)
         .then((response) => {
           console.log(JSON.stringify(response.data));
         })

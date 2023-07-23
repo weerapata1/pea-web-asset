@@ -8,20 +8,16 @@ module.exports = {
     port: 8000,
     proxy:
      {
-      "^/api": {
-        target: "http://localhost:8080",
+      "/api": {
+        target: "http://172.21.1.51:8080",
         ws: true,
         changeOrigin: true,
         secure: false
       },
       "/idm": {
-        target: "https://idm.pea.co.th/webservices/IdmServices.asmx",
+        target: "https://idm.pea.co.th/webservices",
         ws: true,
         changeOrigin: true,
-        
-        // ws: true,
-        // changeOrigin: true,
-        // secure: false,
         // pathRewrite: {'^/idm' : '/'}
       }
     },

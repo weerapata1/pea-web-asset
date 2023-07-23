@@ -249,7 +249,7 @@ export default {
           cost_center: "E301000010",
         }),
       // ]),
-      qrcode_size: 210,
+      qrcode_size: 192,
       dialog: false,
       dialogDelete: false,
 

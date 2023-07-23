@@ -168,17 +168,18 @@
             filename="myPDF"
             :pdf-quality="2"
             :manual-pagination="false"
-            pdf-format="A6"
-            pdf-orientation="portrait"
             ref="html2Pdf"
             :html-to-pdf-options="{
-              margin: [1, 5, 0, 5],
+              margin: [1, 3, 0, 3],
               jsPDF: {
-                format: 'a6',
-                orientation: 'portrait',
+                format: ('l', 'mm', [100, 75]),
+                orientation: 'landscape',
               },
             }"
           >
+            <!-- pdf-format="A6"
+            pdf-orientation="portrait" -->
+
             <!-- pdf-content-width="105" -->
             <section slot="pdf-content">
               <!-- <table cellspacing="0" class="no-spacing"> -->
@@ -211,13 +212,14 @@
                   </b-table
               > -->
 
-              <b-table>
+              <b-table class='paddingBetweenRows'>
                 <tr
                   id="pdf_tr"
                   style="text-align: center"
-                  v-for="item in Math.ceil(qrcode_value2.length / 2)"
+                  v-for="item in Math.ceil(qrcode_value2.length)"
                   v-bind:key="item.devPeaNo"
                 >
+                  <!-- v-for="item in Math.ceil(qrcode_value2.length / 2)" -->
                   <section class="pdf-item">
                     <!-- <td
                     style="text-align: center"
@@ -228,22 +230,46 @@
                     )"
                     v-bind:key="item2.devPeaNo"
                   > -->
-                  <div v-for="item2 in qrcode_value2.slice(
-                        (item - 1) * 2,
-                        item * 2
-                      )"
-                      v-bind:key="item2.devPeaNo">
-                    <div>-</div>
-                    <div >
-                      <qrcode-vue
-                        :value="item2"
-                        :size="qrcode_size"
-                        level="H"
-                      ></qrcode-vue>
-
-                      <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
+                    <!-- <div v-for="item2 in qrcode_value2"
+                      v-bind:key="item2.devPeaNo"> -->
+                    <div>
+                      <!-- <div>-</div> -->
+                      <tr>
+                        <td>
+                          <div>
+                            <qrcode-vue
+                              :value="qrcode_value2[item - 1]"
+                              :size="qrcode_size"
+                              level="H"
+                            ></qrcode-vue>
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <H5><B>{{
+                              JSON.parse(qrcode_value2[item - 1]).devPeaNo
+                            }}</B></H5>
+                          </div>
+                          <div>
+                            <H5><B>{{
+                              JSON.parse(qrcode_value2[item - 1]).costCenter
+                            }}</B></H5>
+                          </div>
+                          <div class="wrap">
+                            <!-- <H5 ><B> -->
+                              {{
+                              JSON.parse(qrcode_value2[item - 1]).empName
+                            }}
+                            <!-- </B></H5> -->
+                          </div>
+                          <!-- <div>
+                            <H5><B>{{
+                              JSON.parse(qrcode_value2[item - 1]).empId
+                            }}</B></H5>
+                          </div> -->
+                        </td>
+                      </tr>
                     </div>
-                  </div>
                     <!-- </td> -->
                   </section>
                   <div class="html2pdf__page-break"></div>

@@ -1,7 +1,7 @@
 package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbDevice;
-import com.PEA.webAsset.Repository.CommitmentRepository;
+import com.PEA.webAsset.Repository.ContractRepository;
 import com.PEA.webAsset.Repository.CostCenterRepository;
 import com.PEA.webAsset.Repository.DeviceRepository;
 import com.PEA.webAsset.Repository.DeviceTypeRepository;
@@ -30,7 +30,8 @@ public class DeviceController {
   private DeviceRepository deviceRepository;
 
   @Autowired
-  private CommitmentRepository commitmentRepository;
+  private ContractRepository commitmentRepository;
+
 
   @Autowired
   private DeviceTypeRepository dtRepository;

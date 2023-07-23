@@ -21,7 +21,7 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, String>, C
 
     @Query(value = "SELECT * from tb_employees e " +
     // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                    "WHERE e.emp_cc_id LIKE CONCAT(:ccLong,'%')", nativeQuery = true)
+                    "WHERE e.cc_id LIKE CONCAT(:ccLong,'%')", nativeQuery = true)
     Page<tbEmployee> findEmployeeByCcId(@Param("ccLong") String ccLong, Pageable pageable);
 
 //    test
