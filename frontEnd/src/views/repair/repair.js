@@ -44,6 +44,8 @@ export default {
   },
   data() {
     return {
+      steppers: 1,
+
       valid: false,
       dialogNote: false,
       dialogRechk: false,

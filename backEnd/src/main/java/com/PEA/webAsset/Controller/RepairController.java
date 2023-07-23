@@ -31,9 +31,6 @@ public class RepairController {
     private DeviceRepository deviceRepository;
     @Autowired
     private EmpAdminRepository empAdminRepository;
-    @Autowired
-    private CauseRepository causeRepository;
-
 
     @GetMapping("/getAllRepair")
     public Collection<tbRepair> getAllCC() {
@@ -148,5 +145,7 @@ public class RepairController {
         }
 
     }
+
+
 
 }

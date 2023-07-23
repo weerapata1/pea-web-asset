@@ -2,6 +2,7 @@ package com.PEA.webAsset.Repository;
 
 import com.PEA.webAsset.Entity.tbDevice;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -290,5 +291,15 @@ Page<tbDevice> findDeviceByCcIdAndTextSearchzc(@Param("ccLong") String ccLong,
         "AND d.dev_left_price = 1 ", nativeQuery = true)
 Page<tbDevice> findDeviceByCcIdAndTextSearch1allzc(@Param("ccLong") String ccLong,
         @Param("textSearch") String textSearch, Pageable pageable);
+
+
+
+        @Query(value = "select * from tb_device d " +
+                "left join tb_employees e ON d.emp_id = e.emp_id " +
+                "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+                "WHERE d.dev_pea_no LIKE CONCAT('%',:text,'%')" +
+                "or e.emp_id LIKE CONCAT('%',:text,'%') "
+                ,nativeQuery = true)
+        Collection<tbDevice> findDeviceByEmpIdOrEmpNameOrCcId(@Param("text") String text);
 
 }

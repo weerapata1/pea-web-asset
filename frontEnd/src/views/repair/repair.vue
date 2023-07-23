@@ -1,14 +1,79 @@
 <template>
   <div>
+
     <v-card class="outside-card" color="purple  lighten-5">
+
       <v-toolbar flat color="purple" dark>
         <v-icon>mdi-database-search</v-icon>
         <v-toolbar-title class="font-weight-light"> แจ้งซ่อม </v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
-
       <v-card-text>
-        <v-form>
+
+        <v-stepper v-model="steppers">
+          <v-stepper-header>
+            <v-stepper-step :complete="steppers > 1" step="1">
+              ผู้ส่งซ่อม
+            </v-stepper-step>
+
+            <v-divider>
+            </v-divider>
+
+            <v-stepper-step :complete="steppers > 2" step="2">
+              เลือกอุปกรณ์
+            </v-stepper-step>
+
+            <v-divider></v-divider>
+
+            <v-stepper-step step="3">
+              ตรวจสอบ
+            </v-stepper-step>
+          </v-stepper-header>
+
+          <v-stepper-items>
+            <v-stepper-content step="1">
+              <v-card class="my-stepper-01" color="grey lighten-1">
+
+
+              </v-card>
+
+              <v-btn color="primary" @click="steppers = 2">
+                Continue
+              </v-btn>
+
+              <v-btn text>
+                Cancel
+              </v-btn>
+            </v-stepper-content>
+
+            <v-stepper-content step="2">
+              <v-card class="my-stepper-01" color="grey lighten-1"></v-card>
+
+              <v-btn color="primary" @click="steppers = 3">
+                Continue
+              </v-btn>
+
+              <v-btn text>
+                Cancel
+              </v-btn>
+            </v-stepper-content>
+
+            <v-stepper-content step="3">
+              <v-card class="my-stepper-01" color="grey lighten-1"></v-card>
+
+              <v-btn color="primary" @click="steppers = 1">
+                บันทึก
+              </v-btn>
+
+              <v-btn color="error">
+                แก้ไข
+              </v-btn>
+            </v-stepper-content>
+          </v-stepper-items>
+        </v-stepper>
+
+
+        <!--  <v-form>
           <v-row>
             <v-col col="12" md="12">
               <v-autocomplete v-model="ccNameSeclected" :items="itemCC" item-text="ccFullName" item-value="ccLongCode"
@@ -60,15 +125,11 @@
               </v-btn>
             </v-col>
           </v-row>
-        </v-form>
+        </v-form>-->
+
       </v-card-text>
-      <v-divider></v-divider>
       <v-card-actions>
         <a @click="dialogNote = true" target="_blank">*หมายเหตุ : บันทึก ฉ.2 กรท.(ก) 97/2564 ลว.27 ม.ค. 2564</a>
-
-        <v-spacer></v-spacer>
-        <v-btn color="error" @click="clear()"> ล้างค่า </v-btn>
-        <v-btn color="success" @click="continues()"> ต่อไป </v-btn>
       </v-card-actions>
     </v-card>
     <div class="text-center">
@@ -88,8 +149,10 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+
     </div>
-    <div class="text">
+    <!-- <div class="text">
       <v-dialog v-model="dialogRechk" width="80%" height="70%">
         <v-card>
           <v-toolbar color="primary" dark>
@@ -151,9 +214,9 @@
             </v-row>
           </v-card-text>
 
-          <v-divider></v-divider>
+          <v-divider></v-divider> -->
 
-          <v-card-actions>
+    <!-- <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="error" text @click="dialogRechk = false">
               แก้ไข
@@ -161,10 +224,10 @@
             <v-btn color="primary" variant="tonal" text @click="(dialogRechk = false), save()">
               บันทึก
             </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
+          </v-card-actions> -->
+    <!-- </v-card> -->
+    <!-- </v-dialog> -->
+    <!-- </div> -->
   </div>
 </template>
 

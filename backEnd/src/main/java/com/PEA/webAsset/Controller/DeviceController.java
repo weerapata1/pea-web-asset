@@ -672,4 +672,12 @@ public class DeviceController {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @GetMapping("/getDeviceByEmpIdOrCcid")
+  public ResponseEntity<Collection<tbDevice>> getDeviceByEmpIdOrCcid(@RequestParam("textFind")String textFind){
+
+    Collection<tbDevice> newDevice = deviceRepository.findDeviceByEmpIdOrEmpNameOrCcId(textFind);
+
+    return new ResponseEntity<>(newDevice ,HttpStatus.OK);
+  }
 }
