@@ -2,9 +2,14 @@
   width: 3px;
 }
 
-table.no-spacing {
-  border-spacing: 0; /* Removes the cell spacing via CSS */
+.no-spacing {
+  table-layout: fixed;
+  width: 375px;
+  border-spacing: 2px; /* Removes the cell spacing via CSS */
   border-collapse: collapse; /* Optional - if you don't want to have double border where cells touch */
+  /* padding: 0 !important; */
+  /* border: 1px solid black; */
+  word-wrap:break-word;
 }
 
 .text-pruple {
@@ -45,14 +50,24 @@ table.no-spacing {
 
 .paddingBetweenRows td
 {
-    padding:10px 5px 0px 5px;
+    padding:5px 5px 5px 5px;
     vertical-align:top;
     word-wrap:break-word;
 }
 
+/* .paddingBetweenRows table, th, td, tr
+{
+  border: 1px solid black;
+} */
+
 .wrap {
-  max-width: 150px;
+  border-spacing: 3px;
+  /* max-width: 150px; */
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
+}
+
+.text-right {
+  text-align: right;
 }
