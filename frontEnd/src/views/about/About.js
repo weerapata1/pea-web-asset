@@ -135,7 +135,10 @@ export default {
       },
       select: [],
       fruits: [
+        {header: "เขต"},
         { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
+        // { divider: true },
+        {header: "หน้างาน"},
         { id: "2", name: "กฟจ.อบ.", value: "E3011" },
         { id: "3", name: "กฟจ.ศก.", value: "E302" },
         { id: "4", name: "กฟจ.ยส.", value: "E303" },
