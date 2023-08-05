@@ -1,5 +1,5 @@
  .outside-card {
-    margin-top: 4%;
+    margin-top: 1%;
     margin-left: 5%;
     width: 90%;
 } 
@@ -8,7 +8,9 @@
     font-size: 2.05em !important;
 } */
 .my-stepper-01 {
-    height : 40%;
+    min-height: 400px;
+    /* height: 400px; */
+    color: purple lighten-5;
     margin-bottom : 20px;
-
+    height: 100%;
 }

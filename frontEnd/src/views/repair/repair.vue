@@ -10,30 +10,16 @@
       </v-toolbar>
       <v-card-text>
 
-        <v-stepper v-model="steppers">
-          <v-stepper-header>
-            <v-stepper-step :complete="steppers > 1" step="1">
-              ผู้ส่งซ่อม
-            </v-stepper-step>
+        <v-stepper v-model="steppers" vertical>
 
-            <v-divider>
-            </v-divider>
+          <v-stepper-step :complete="steppers > 1" step="1">
+            ผู้ส่งซ่อม
+          </v-stepper-step>
 
-            <v-stepper-step :complete="steppers > 2" step="2">
-              เลือกอุปกรณ์
-            </v-stepper-step>
-
-            <v-divider></v-divider>
-
-            <v-stepper-step step="3">
-              ตรวจสอบ
-            </v-stepper-step>
-          </v-stepper-header>
 
           <v-stepper-items>
             <v-stepper-content step="1">
-              <v-card class="my-stepper-01" color="grey lighten-1">
-
+              <v-card class="my-stepper-01" color="purple lighten-5">
 
               </v-card>
 
@@ -46,8 +32,11 @@
               </v-btn>
             </v-stepper-content>
 
+            <v-stepper-step :complete="steppers > 2" step="2">
+              เลือกอุปกรณ์
+            </v-stepper-step>
             <v-stepper-content step="2">
-              <v-card class="my-stepper-01" color="grey lighten-1"></v-card>
+              <v-card class="my-stepper-01" ></v-card>
 
               <v-btn color="primary" @click="steppers = 3">
                 Continue
@@ -58,6 +47,10 @@
               </v-btn>
             </v-stepper-content>
 
+            <v-stepper-step step="3">
+              ตรวจสอบ
+            </v-stepper-step>
+
             <v-stepper-content step="3">
               <v-card class="my-stepper-01" color="grey lighten-1"></v-card>
 
@@ -65,7 +58,7 @@
                 บันทึก
               </v-btn>
 
-              <v-btn color="error">
+              <v-btn color="eror">
                 แก้ไข
               </v-btn>
             </v-stepper-content>
