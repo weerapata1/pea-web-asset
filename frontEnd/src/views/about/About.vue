@@ -164,120 +164,127 @@
             :float-layout="true"
             :enable-download="true"
             :preview-modal="true"
-            :paginate-elements-by-height="148"
+            :paginate-elements-by-height="280"
             filename="myPDF"
             :pdf-quality="2"
             :manual-pagination="false"
             ref="html2Pdf"
             :html-to-pdf-options="{
-              margin: [1, 3, 0, 3],
+              margin: [2, 1, 1, 1],
               jsPDF: {
                 format: ('l', 'mm', [100, 75]),
                 orientation: 'landscape',
               },
             }"
           >
-            <!-- pdf-format="A6"
-            pdf-orientation="portrait" -->
 
-            <!-- pdf-content-width="105" -->
             <section slot="pdf-content">
-              <!-- <table cellspacing="0" class="no-spacing"> -->
-              <!-- <b-table>
-                
-                  <tr
-                    id="pdf_tr"
-                    v-for="item in Math.ceil(qrcode_value2.length / 2)"
-                    v-bind:key="item.devPeaNo"
-                  >
-                    <td
-                      style="text-align: center"
-                      class="pdf_td"
-                      v-for="item2 in qrcode_value2.slice(
-                        (item - 1) * 2,
-                        item * 2
-                      )"
-                      v-bind:key="item2.devPeaNo"
-                    >
-                      <qrcode-vue
-                        :value="item2"
-                        :size="qrcode_size"
-                        level="H"
-                      ></qrcode-vue>
 
-                      <H5>{{ JSON.parse(item2).devPeaNo }}</H5>
-                      
-                    </td>
-                  </tr>
-                  </b-table
-              > -->
-
-              <b-table class='paddingBetweenRows'>
+              <!-- <b-table class="paddingBetweenRows" > -->
+              <b-table width="377px">
                 <tr
                   id="pdf_tr"
                   style="text-align: center"
                   v-for="item in Math.ceil(qrcode_value2.length)"
                   v-bind:key="item.devPeaNo"
+                  heigh="280px"
+                  class="html2pdf__page-break"
                 >
-                  <!-- v-for="item in Math.ceil(qrcode_value2.length / 2)" -->
                   <section class="pdf-item">
-                    <!-- <td
-                    style="text-align: center"
-                    class="pdf_td"
-                    v-for="item2 in qrcode_value2.slice(
-                      (item - 1) * 2,
-                      item * 2
-                    )"
-                    v-bind:key="item2.devPeaNo"
-                  > -->
-                    <!-- <div v-for="item2 in qrcode_value2"
-                      v-bind:key="item2.devPeaNo"> -->
-                    <div>
-                      <!-- <div>-</div> -->
+                    <!-- <td rowspan="2"> -->
+                    <table class="no-spacing">
                       <tr>
-                        <td>
-                          <div>
-                            <qrcode-vue
-                              :value="qrcode_value2[item - 1]"
-                              :size="qrcode_size"
-                              level="H"
-                            ></qrcode-vue>
-                          </div>
+                        <td rowspan="5" width="40%">
+                          <qrcode-vue
+                            :value="qrcode_value2[item - 1]"
+                            :size="qrcode_size"
+                            level="H"
+                          ></qrcode-vue>
                         </td>
-                        <td>
-                          <div>
-                            <H5><B>{{
-                              JSON.parse(qrcode_value2[item - 1]).devPeaNo
-                            }}</B></H5>
-                          </div>
-                          <div>
-                            <H5><B>{{
-                              JSON.parse(qrcode_value2[item - 1]).costCenter
-                            }}</B></H5>
-                          </div>
-                          <div class="wrap">
-                            <!-- <H5 ><B> -->
-                              {{
-                              JSON.parse(qrcode_value2[item - 1]).empName
-                            }}
-                            <!-- </B></H5> -->
-                          </div>
-                          <!-- <div>
-                            <H5><B>{{
-                              JSON.parse(qrcode_value2[item - 1]).empId
-                            }}</B></H5>
-                          </div> -->
+                        <td width="20%" class="text-right">
+                          ทรัพย์สิน
+                        </td>
+                        <td width="40%">
+                          {{ JSON.parse(detail_value[item - 1]).devPeaNo }}
                         </td>
                       </tr>
-                    </div>
-                    <!-- </td> -->
+                      <tr>
+                        <td width="20%" class="text-right">
+                          การได้มา
+                        </td>
+                        <td width="40%">
+                          {{
+                            JSON.parse(detail_value[item - 1]).devReceivedPrice
+                          }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="20%" class="text-right">
+                          ตามบัญชี
+                        </td>
+                        <td width="40%">
+                          {{ JSON.parse(detail_value[item - 1]).devLeftPrice }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="20%" class="text-right">
+                          ศูนย์ต้นทุน
+                        </td>
+                        <td width="40%">
+                          {{ JSON.parse(detail_value[item - 1]).ccLongCode }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="20%" class="text-right">
+                          สังกัด
+                        </td>
+                        <td width="40%">
+                          {{ JSON.parse(detail_value[item - 1]).ccShortName }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="text-right">
+                          โอนเข้าเป็นทุน
+                        </td>
+                        <td width="40%" >
+                          {{
+                            JSON.parse(detail_value[item - 1]).devReceivedDate
+                          }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="text-right">
+                          {{ JSON.parse(detail_value[item - 1]).empName }} 
+                        </td>
+                        <td width="40%">
+                          {{ JSON.parse(detail_value[item - 1]).empId }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          หมายเลขผลิตภัณฑ์
+                        </td>
+                        <td width="60%" colspan="2">
+                          <!-- {{ JSON.parse(detail_value[item - 1]).devSerialNo }} -->
+                          1234567890ABCDEFGH
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" class="wrap">
+                          {{
+                            JSON.parse(detail_value[item - 1]).devDescription
+                          }}
+                        </td>
+                      </tr>
+
+                      <!-- <tr>
+                          <div class="html2pdf__page-break"></div>
+                      </tr> -->
+                    </table>
+                    
                   </section>
-                  <div class="html2pdf__page-break"></div>
                 </tr>
               </b-table>
-
-              <!-- <section :class="savingPdf ? 'on-top' : '' "> -->
-              <!-- <h3>Test</h3> -->
             </section>
           </Vue-Html2pdf>
         </div>

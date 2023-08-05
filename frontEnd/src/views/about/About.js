@@ -135,7 +135,10 @@ export default {
       },
       select: [],
       fruits: [
+        {header: "เขต"},
         { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
+        // { divider: true },
+        {header: "หน้างาน"},
         { id: "2", name: "กฟจ.อบ.", value: "E3011" },
         { id: "3", name: "กฟจ.ศก.", value: "E302" },
         { id: "4", name: "กฟจ.ยส.", value: "E303" },
@@ -249,7 +252,7 @@ export default {
           cost_center: "E301000010",
         }),
       // ]),
-      qrcode_size: 192,
+      qrcode_size: 128,
       dialog: false,
       dialogDelete: false,
 
@@ -631,6 +634,7 @@ export default {
       let e = this.selected.map((e) => e);
       // console.log(e.length); // logs all the selected items.
       this.qrcode_value2 = [];
+      this.detail_value = [];
       this.groupSelected = e;
       console.log(this.groupSelected.length);
       // this.qrcode_value2 = JSON.stringify(this.groupSelected);
@@ -638,6 +642,7 @@ export default {
       // user_name: this.editedItem["tbEmployee"]["empName"],
       let i = 0;
       this.result = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
+      this.result2 = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
       // result.forEach((element) => {
       //   element.empId = this.groupSelected.tbEmployee.empId;
       // });
@@ -645,20 +650,52 @@ export default {
         if(this.groupSelected[i].tbEmployee !== null){
           this.result[i].empId = this.groupSelected[i].tbEmployee.empId;
           this.result[i].empName = this.groupSelected[i].tbEmployee.empName;
+          // this.result2[i].empId = this.groupSelected[i].tbEmployee.empId;
+          // this.result2[i].empName = this.groupSelected[i].tbEmployee.empName;
         }else{
           this.result[i].empId = "ไม่ระบุ";
           this.result[i].empName = "ไม่ระบุ";
+          // this.result2[i].empId = "ไม่ระบุ";
+          // this.result2[i].empName = "ไม่ระบุ";
         }
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
-        this.result[i].costCenter =
-          this.groupSelected[i].tbCostCenterTest.ccLongCode;
+        this.result[i].devSerialNo =
+        this.groupSelected[i].devSerialNo;
+        // this.result2[i].devSerialNo =
+        // this.groupSelected[i].devSerialNo;
+
+        this.result[i].devReceivedDate =
+        this.groupSelected[i].devReceivedDate;
+
+        this.result[i].devReceivedPrice =
+        this.groupSelected[i].devReceivedPrice;
+
+        this.result[i].devLeftPrice =
+        this.groupSelected[i].devLeftPrice;
+
+        this.result[i].ccLongCode =
+        this.groupSelected[i].tbCostCenterTest.ccLongCode;
+
+        this.result[i].ccShortName =
+        this.groupSelected[i].tbCostCenterTest.ccShortName;
+        this.result2[i].ccShortName =
+        this.groupSelected[i].tbCostCenterTest.ccShortName;
+
+        this.result[i].devDescription =
+        this.groupSelected[i].devDescription;
+
       }
 
       for (i = 0; i < this.result.length; i++) {
         console.log(JSON.stringify(this.result[i]));
-        // this.qrcode_value2[i].push(JSON.stringify(this.groupSelected[i].devPeaNo));
-        this.qrcode_value2.push(JSON.stringify(this.result[i]));
+        // this.qrcode_value2[i].push(JSON.stringify(this.groupSelected[i].devPeaNo)); ?region=ZC05020000
+        this.detail_value.push(JSON.stringify(this.result[i]));
+      }
+      for (i = 0; i < this.result.length; i++) {
+        console.log(JSON.stringify(this.result2[i]));
+        // this.qrcode_value2[i].push(JSON.stringify(this.groupSelected[i].devPeaNo)); ?region=ZC05020000
+        this.qrcode_value2.push(JSON.stringify(this.result2[i].devPeaNo));
       }
       if (this.selected.length == this.itemsPerPage) {
         alert("selected all");
