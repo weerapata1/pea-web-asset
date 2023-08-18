@@ -10,6 +10,24 @@ Vue.component("qrcode-vue", QrcodeVue);
 import { mdiQrcodeScan } from "@mdi/js";
 Vue.component("mdiQrcode-Scan", mdiQrcodeScan);
 
+import { mdiMicrosoftExcel } from '@mdi/js';
+Vue.component("mdiMicrosoftExcel", mdiMicrosoftExcel);
+
+import { mdiFileFindOutline } from '@mdi/js';
+Vue.component("mdiFileFindOutline", mdiFileFindOutline);
+
+import { mdiMagnify } from '@mdi/js';
+Vue.component("mdiMagnify", mdiMagnify);
+
+import { mdiQrcode } from '@mdi/js';
+Vue.component("mdiQrcode", mdiQrcode);
+
+// import the component
+import Treeselect from "@riophae/vue-treeselect";
+Vue.component("treeselect", Treeselect);
+// import the styles
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 import router from "../../router";
 
 export default {
@@ -29,69 +47,69 @@ export default {
           text: "เลขทรัพย์สิน",
           align: "start",
           value: "devPeaNo",
-          class: 'primary--text font-size: 50%',
+          class: "primary--text font-size: 50%",
           // width: "10%",
         },
         {
           text: "คำอธิบายของสินทรัพย์",
           value: "devDescription",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "6%"
         },
         {
           text: "หมายเลขผลิตภัณฑ์",
           value: "devSerialNo",
-          class: 'primary--text',
+          class: "primary--text",
           //  width: "3%"
         },
         {
           text: "วันที่โอนเข้าเป็นทุน",
           value: "devReceivedDate",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "7%"
         },
         {
           text: "มูลค่าการได้มา",
           value: "devReceivedPrice",
-          class: 'primary--text',
+          class: "primary--text",
           //  width: "3%"
         },
         {
           text: "มูลค่าตามบัญชี",
           value: "devLeftPrice",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "3%"
         },
         {
           text: "ชื่อผู้ครอบครอง",
           value: "tbEmployee.empName",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "20%",
         },
         {
           text: "รหัสพนักงาน",
           value: "tbEmployee.empId",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "3%"
         },
         {
           text: "สังกัด",
           value: "tbCostCenterTest.ccShortName",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "5%",
         },
         {
           text: "ศูนย์ต้นทุน",
           value: "tbCostCenterTest.ccLongCode",
-          class: 'primary--text',
+          class: "primary--text",
           // width: "5%",
         },
         {
           text: "Action",
           value: "actions",
           sortable: false,
-          class: 'primary--text',
-          align: 'center',
+          class: "primary--text",
+          align: "center",
           // width: "3%"
         },
       ],
@@ -134,26 +152,7 @@ export default {
         // },
       },
       select: [],
-      fruits: [
-        {header: "เขต"},
-        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
-        // { divider: true },
-        {header: "หน้างาน"},
-        { id: "2", name: "กฟจ.อบ.", value: "E3011" },
-        { id: "3", name: "กฟจ.ศก.", value: "E302" },
-        { id: "4", name: "กฟจ.ยส.", value: "E303" },
-        { id: "5", name: "กฟจ.มค.", value: "E304" },
-        { id: "6", name: "กฟจ.กส.", value: "E305" },
-        { id: "7", name: "กฟจ.รอ.", value: "E306" },
-        { id: "8", name: "กฟจ.มห.", value: "E307" },
-        { id: "9", name: "กฟจ.อจ.", value: "E308" },
-        { id: "10", name: "กฟอ.สล.", value: "E309" },
-        { id: "11", name: "กฟอ.สดจ.", value: "E310" },
-        { id: "12", name: "กฟอ.กล.", value: "E311" },
-        { id: "13", name: "กฟอ.ดอ.", value: "E312" },
-        { id: "14", name: "กฟอ.วรช.", value: "E313" },
-        { id: "15", name: "กฟอ.ตผ.", value: "E314" },
-      ],
+
       typeSearch: [
         { id: "1", name: "เลขทรัพย์สิน", value: "pea_no" },
         { id: "2", name: "คำอธิบายของสินทรัพย์", value: "description" },
@@ -275,6 +274,419 @@ export default {
       qrcode_value2: [],
       result: [],
       selected: [],
+
+      fruits: [
+        { header: "เขต" },
+        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
+        // { divider: true },
+        { header: "หน้างาน" },
+        { id: "2", name: "กฟจ.อบ.", value: "E3011" },
+        { id: "3", name: "กฟจ.ศก.", value: "E302" },
+        { id: "4", name: "กฟจ.ยส.", value: "E303" },
+        { id: "5", name: "กฟจ.มค.", value: "E304" },
+        { id: "6", name: "กฟจ.กส.", value: "E305" },
+        { id: "7", name: "กฟจ.รอ.", value: "E306" },
+        { id: "8", name: "กฟจ.มห.", value: "E307" },
+        { id: "9", name: "กฟจ.อจ.", value: "E308" },
+        { id: "10", name: "กฟอ.สล.", value: "E309" },
+        { id: "11", name: "กฟอ.สดจ.", value: "E310" },
+        { id: "12", name: "กฟอ.กล.", value: "E311" },
+        { id: "13", name: "กฟอ.ดอ.", value: "E312" },
+        { id: "14", name: "กฟอ.วรช.", value: "E313" },
+        { id: "15", name: "กฟอ.ตผ.", value: "E314" },
+      ],
+
+      value: ["เฉพาะในเขต กฟฉ.2"],
+      optionBranches: [
+        {
+          id: "ZC0502",
+          label: "ผชก.(ฉ2)",
+          value: "ZC0502",
+          icon: 'pi pi-fw pi-cog',
+        },
+        {
+          id: "reg",
+          label: "เฉพาะในเขต กฟฉ.2",
+          value: "E3010",
+          children: [
+            {
+              id: "reg1",
+              label: "กอก.",
+              value: "E30100",
+              icon: 'pi pi-fw pi-cog',
+              // isNew: true,
+            },
+            {
+              id: "reg2",
+              label: "ฝวบ.",
+              value: "E30101",
+            },
+            {
+              id: "reg3",
+              label: "กบล.",
+              value: "E301011",
+            },
+            {
+              id: "reg4",
+              label: "กวว.",
+              value: "E301012",
+            },
+            {
+              id: "reg5",
+              label: "กกค.",
+              value: "E301013",
+            },
+            {
+              id: "reg6",
+              label: "ฝบพ.",
+              value: "E30102",
+            },
+            {
+              id: "reg7",
+              label: "กบญ.",
+              value: "E301021",
+            },
+            {
+              id: "reg8",
+              label: "กซข.",
+              value: "E301022",
+            },
+            {
+              id: "reg9",
+              label: "กรท.",
+              value: "E301023",
+            },
+            {
+              id: "reg10",
+              label: "ฝปบ.",
+              value: "E30103",
+            },
+            {
+              id: "reg11",
+              label: "กปบ.",
+              value: "E301031",
+            },
+            {
+              id: "reg12",
+              label: "กบษ.",
+              value: "E301032",
+            },
+            {
+              id: "reg13",
+              label: "กรส.",
+              value: "E301033",
+            },
+          ],
+        },
+        {
+          id: "ubn",
+          label: "จุดรวมงาน กฟจ.อบ.",
+          value: "E3011",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.อบ.",
+              value: "E3011",
+            },
+            {
+              id: "2",
+              label: "กฟส.มสส.",
+              value: "E3015",
+            },
+            {
+              id: "3",
+              label: "กฟส.ขน.",
+              value: "E3016",
+            },
+          ],
+        },
+        {
+          id: "ssk",
+          label: "จุดรวมงาน กฟจ.ศก.",
+          value: "E302",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.ศก.",
+              value: "E3021",
+            },
+            {
+              id: "2",
+              label: "กฟส.อพ.",
+              value: "E3022",
+            },
+            {
+              id: "3",
+              label: "กฟอ.ขข.",
+              value: "E3023",
+            },
+            {
+              id: "4",
+              label: "กฟส.รศ.",
+              value: "E3024",
+            },
+            {
+              id: "5",
+              label: "กฟส.กร.",
+              value: "E3025",
+            },
+          ],
+        },
+        {
+          id: "yst",
+          label: "จุดรวมงาน กฟจ.ยส.",
+          value: "E303",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.ยส.",
+              value: "E3031",
+            },
+            {
+              id: "2",
+              label: "กฟส.พนพ.",
+              value: "E3032",
+            },
+            {
+              id: "3",
+              label: "กฟส.มช.",
+              value: "E3033",
+            },
+          ],
+        },
+        {
+          id: "mhk",
+          label: "จุดรวมงาน กฟจ.มค.",
+          value: "E304",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.มค.",
+              value: "E3041",
+            },
+            {
+              id: "2",
+              label: "กฟส.พภ.",
+              value: "E3042",
+            },
+            {
+              id: "3",
+              label: "กฟส.วป.",
+              value: "E3043",
+            },
+            {
+              id: "4",
+              label: "กฟจ.กพส.",
+              value: "E3044",
+            },
+            {
+              id: "5",
+              label: "กฟส.บบ.",
+              value: "E3045",
+            },
+            {
+              id: "6",
+              label: "กฟส.ชย.",
+              value: "E3046",
+            },
+            {
+              id: "7",
+              label: "กฟส.กวช.",
+              value: "E3047",
+            },
+          ],
+        },
+        {
+          id: "kls",
+          label: "จุดรวมงาน กฟจ.กส.",
+          value: "E305",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.กส.",
+              value: "E3051",
+            },
+            {
+              id: "2",
+              label: "กฟส.นกศ.",
+              value: "E3052",
+            },
+            {
+              id: "3",
+              label: "กฟส.ยต.",
+              value: "E3053",
+            },
+          ],
+        },
+        {
+          id: "roe",
+          label: "จุดรวมงาน กฟจ.รอ.",
+          value: "E306",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.รอ.",
+              value: "E3061",
+            },
+            {
+              id: "2",
+              label: "กฟส.สณ.",
+              value: "E3062",
+            },
+            {
+              id: "3",
+              label: "กฟส.กษ.",
+              value: "E3063",
+            },
+            {
+              id: "4",
+              label: "กฟส.อส.",
+              value: "E3064",
+            },
+          ],
+        },
+        {
+          id: "mdh",
+          label: "จุดรวมงาน กฟจ.มห.",
+          value: "E307",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.มห.",
+              value: "E3071",
+            },
+            {
+              id: "2",
+              label: "กฟส.คช.",
+              value: "E3072",
+            },
+          ],
+        },
+        {
+          id: "anc",
+          label: "จุดรวมงาน กฟจ.อจ.",
+          value: "E308",
+          children: [
+            {
+              id: "1",
+              label: "กฟจ.อจ.",
+              value: "E3081",
+            },
+            {
+              id: "2",
+              label: "กฟส.ลท..",
+              value: "E3083",
+            },
+          ],
+        },
+        {
+          id: "slp",
+          label: "จุดรวมงาน กฟอ.สล.",
+          value: "E309",
+          children: [
+            {
+              id: "1",
+              label: "กฟอ.สล.",
+              value: "E3091",
+            },
+            {
+              id: "2",
+              label: "กฟส.พทง.",
+              value: "E3092",
+            },
+          ],
+        },
+        {
+          id: "sdj",
+          label: "จุดรวมงาน กฟอ.สดจ.",
+          value: "E310",
+          children: [
+            {
+              id: "1",
+              label: "กฟอ.สดจ.",
+              value: "E3101",
+            },
+            {
+              id: "2",
+              label: "กฟส.กฉ.",
+              value: "E3102",
+            },
+          ],
+        },
+        {
+          id: "ktl",
+          label: "จุดรวมงาน กฟอ.กล.",
+          value: "E311",
+          children: [
+            {
+              id: "1",
+              label: "กฟอ.กล.",
+              value: "E3111",
+            },
+            {
+              id: "2",
+              label: "กฟส.ขห.",
+              value: "E3112",
+            },
+          ],
+        },
+        {
+          id: "dud",
+          label: "จุดรวมงาน กฟอ.ดอ.",
+          value: "E312",
+          children: [
+            {
+              id: "1",
+              label: "กฟอ.ดอ.",
+              value: "E3121",
+            },
+            {
+              id: "2",
+              label: "กฟส.นย.",
+              value: "E3122",
+            },
+            {
+              id: "3",
+              label: "กฟส.บฑ.",
+              value: "E3123",
+            },
+          ],
+        },
+        {
+          id: "wch",
+          label: "จุดรวมงาน กฟอ.วรช.",
+          value: "E313",
+          children: [
+            {
+              id: "1",
+              label: "กฟอ.วรช.",
+              value: "E3131",
+            },
+            {
+              id: "2",
+              label: "กฟส.พมห.",
+              value: "E3132",
+            },
+          ],
+        },
+        {
+          id: "tpp",
+          label: "จุดรวมงาน กฟอ.ตผ.",
+          value: "E314",
+          children: [
+            {
+              id: "1",
+              label: "กฟอ.ตผ.",
+              value: "E3141",
+            },
+            {
+              id: "2",
+              label: "กฟส.ขร.",
+              value: "E3142",
+            },
+          ],
+        },
+      ],
     };
   },
 
@@ -289,17 +701,17 @@ export default {
 
   mounted() {
     this.myloadingvariable = true;
-    
+
     let params = {
-      region: 'E301000000',
+      region: "E301000000",
       setAssetType: 53,
     };
     // this.setAssetType = JSON.stringify({assetType:53});
     axios
-      .get("http://localhost:8080/api/dev/searchNoWordUnpage/",{params})
+      .get("http://localhost:8080/api/dev/searchNoWordUnpage/", { params })
       .then((resp) => {
         this.getAllResult = resp;
-        
+
         this.data1 = resp.data.dataExcel;
         // this.itemsPerPage = resp.data.itemsPerPage;
         // this.totalItems = resp.data.totalItems;
@@ -472,7 +884,7 @@ export default {
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log(
-                "searchNoWordUnpage-" + params['region'],
+                "searchNoWordUnpage-" + params["region"],
                 JSON.stringify(this.getAllResult)
               );
 
@@ -501,10 +913,7 @@ export default {
             .get("http://localhost:8080/api/dev/searchWithWord", { params })
             .then((resp) => {
               this.getAllResult = resp.data;
-              console.log(
-                "searchWithWord",
-                JSON.stringify(this.getAllResult)
-              );
+              console.log("searchWithWord", JSON.stringify(this.getAllResult));
 
               this.data1 = resp.data.data1;
               this.itemsPerPage = resp.data.itemsPerPage;
@@ -559,10 +968,9 @@ export default {
         //     console.log(error.resp);
         //   });
 
-
         this.dataExcel = this.data1;
         this.myloadingvariable = false;
-        console.log("dataExcel : ", this.dataExcel );
+        console.log("dataExcel : ", this.dataExcel);
         return this.dataExcel;
       }
     },
@@ -647,12 +1055,12 @@ export default {
       //   element.empId = this.groupSelected.tbEmployee.empId;
       // });
       for (i = 0; i < this.groupSelected.length; i++) {
-        if(this.groupSelected[i].tbEmployee !== null){
+        if (this.groupSelected[i].tbEmployee !== null) {
           this.result[i].empId = this.groupSelected[i].tbEmployee.empId;
           this.result[i].empName = this.groupSelected[i].tbEmployee.empName;
           // this.result2[i].empId = this.groupSelected[i].tbEmployee.empId;
           // this.result2[i].empName = this.groupSelected[i].tbEmployee.empName;
-        }else{
+        } else {
           this.result[i].empId = "ไม่ระบุ";
           this.result[i].empName = "ไม่ระบุ";
           // this.result2[i].empId = "ไม่ระบุ";
@@ -660,31 +1068,26 @@ export default {
         }
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
-        this.result[i].devSerialNo =
-        this.groupSelected[i].devSerialNo;
+        this.result[i].devSerialNo = this.groupSelected[i].devSerialNo;
         // this.result2[i].devSerialNo =
         // this.groupSelected[i].devSerialNo;
 
-        this.result[i].devReceivedDate =
-        this.groupSelected[i].devReceivedDate;
+        this.result[i].devReceivedDate = this.groupSelected[i].devReceivedDate;
 
         this.result[i].devReceivedPrice =
-        this.groupSelected[i].devReceivedPrice;
+          this.groupSelected[i].devReceivedPrice;
 
-        this.result[i].devLeftPrice =
-        this.groupSelected[i].devLeftPrice;
+        this.result[i].devLeftPrice = this.groupSelected[i].devLeftPrice;
 
         this.result[i].ccLongCode =
-        this.groupSelected[i].tbCostCenterTest.ccLongCode;
+          this.groupSelected[i].tbCostCenterTest.ccLongCode;
 
         this.result[i].ccShortName =
-        this.groupSelected[i].tbCostCenterTest.ccShortName;
+          this.groupSelected[i].tbCostCenterTest.ccShortName;
         this.result2[i].ccShortName =
-        this.groupSelected[i].tbCostCenterTest.ccShortName;
+          this.groupSelected[i].tbCostCenterTest.ccShortName;
 
-        this.result[i].devDescription =
-        this.groupSelected[i].devDescription;
-
+        this.result[i].devDescription = this.groupSelected[i].devDescription;
       }
 
       for (i = 0; i < this.result.length; i++) {

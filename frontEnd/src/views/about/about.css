@@ -71,3 +71,11 @@
 .text-right {
   text-align: right;
 }
+
+.vue-treeselect__label { font-size:18px !important; color:purple; }
+
+.vue-treeselect__menu{ font-size:18px; }
+
+i.v-icon.v-white {
+  color:white !important;
+}
