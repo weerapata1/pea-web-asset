@@ -116,10 +116,30 @@
                 <treeselect
                   :multiple="false"
                   :options="optionBranches"
-                  
                   placeholder="โปรดเลือกการไฟฟ้า"
                   v-model="value"
-                />
+                >
+                  <label
+                    slot="option-label"
+                    slot-scope="{
+                      node,
+                      labelClassName,
+                    }"
+                    :class="labelClassName"
+                  >
+                  <!-- shouldShowCount,
+                      count,
+                      countClassName, -->
+                  <v-icon>{{ node.raw.icon }}</v-icon>
+                    <!-- 1 {{ node.raw.icon }} 2 |  -->
+                    <!-- {{ node.isBranch ? "Br" : "Lf" }} :  -->
+                    | {{ node.label }}
+                    <!-- {{ node.label }} -->
+                    <!-- <span v-if="shouldShowCount" :class="countClassName"
+                      >({{ count }})</span
+                    > -->
+                  </label>
+                </treeselect>
                 <treeselect-value :value="value" />
               </div>
             </v-container>
@@ -159,9 +179,7 @@
                   id="searchButton"
                   color="primary"
                 >
-                  <v-icon medium class="mr-2 v-white">
-                    mdi-magnify </v-icon
-                  >
+                  <v-icon medium class="mr-2 v-white"> mdi-magnify </v-icon>
                   <!-- <i class="nc-icon nc-zoom-split mr-2"></i> -->
                   Serach</v-btn
                 >
@@ -181,8 +199,8 @@
                     name="filename.xls"
                   >
                     <v-icon medium class="mr-2 v-white">
-                      mdi-microsoft-excel </v-icon
-                  >
+                      mdi-microsoft-excel
+                    </v-icon>
                     Export Excel
                   </download-excel>
                 </v-btn>
@@ -198,10 +216,8 @@
                   @click="generateReport"
                   id="searchButton"
                   color="primary"
-                  >
-                  <v-icon medium class="mr-2 v-white">
-                    mdi-qrcode </v-icon
-                  >
+                >
+                  <v-icon medium class="mr-2 v-white"> mdi-qrcode </v-icon>
                   QR_Code</v-btn
                 >
               </v-row>
@@ -425,4 +441,7 @@
 
 <script src="./About.js"></script>
 <style src="./about.css"></style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,100,0,0" />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,100,0,0"
+/>
