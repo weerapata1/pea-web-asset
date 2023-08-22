@@ -72,10 +72,23 @@
   text-align: right;
 }
 
-.vue-treeselect__label { font-size:18px !important; color:purple; }
+.vue-treeselect__label { font-size:18px !important; }
 
-.vue-treeselect__menu{ font-size:18px; }
+.vue-treeselect__menu{ font-size:18px;}
 
 i.v-icon.v-white {
   color:white !important;
+}
+
+.vue-treeselect.treeselect-invalid:not(.vue-treeselect--open) .vue-treeselect__control {
+  border-color: purple;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.vue-treeselect.treeselect-invalid .vue-treeselect__single-value {
+  font-size:18px !important;
 }

@@ -28,11 +28,10 @@
       <v-form>
         <v-row>
           <v-col cols="12" sm="4" md="2">
-            <v-container fluid>
+            <v-container fluid class="mt-2 mr-0 pr-0">
               <!-- item-value="fruits.name" -->
               <!-- multiple -->
               <!-- <v-row>
-                
                 <v-select
                   v-model="selectedFruits"
                   :items="fruits"
@@ -41,7 +40,6 @@
                   label="การไฟฟ้าในสังกัด กฟฉ.2"
                   @change="toggleBranch2"
                 >
-                  
                   <template v-slot:prepend-item>
                     <v-list-item
                       ripple
@@ -67,57 +65,15 @@
               </v-row> -->
               <!-- prepend-icon="mdi-home" -->
 
-              <!-- <template>
-                <v-card class="mx-auto" width="300">
-                  <v-list>
-                    <v-list-group prepend-icon="mdi-account-circle">
-                      <template v-slot:activator>
-                        <v-list-item-title>Users</v-list-item-title>
-                      </template>
-                      <v-list-group no-action sub-group>
-                        <template v-slot:activator>
-                          <v-list-item-content>
-                            <v-list-item-title>Admin</v-list-item-title>
-                          </v-list-item-content>
-                        </template>
-                        <v-list-item
-                          v-for="([title, icon], i) in admins"
-                          :key="i"
-                          link
-                        >
-                          <v-list-item-title v-text="title"></v-list-item-title>
-                          <v-list-item-icon>
-                            <v-icon v-text="icon"></v-icon>
-                          </v-list-item-icon>
-                        </v-list-item>
-                      </v-list-group>
-                      <v-list-group no-action sub-group>
-                        <template v-slot:activator>
-                          <v-list-item-content>
-                            <v-list-item-title>Actions</v-list-item-title>
-                          </v-list-item-content>
-                        </template>
-                        <v-list-item
-                          v-for="([title, icon], i) in cruds"
-                          :key="i"
-                          link
-                        >
-                          <v-list-item-title v-text="title"></v-list-item-title>
-                          <v-list-item-icon>
-                            <v-icon v-text="icon"></v-icon>
-                          </v-list-item-icon>
-                        </v-list-item>
-                      </v-list-group>
-                    </v-list-group>
-                  </v-list>
-                </v-card>
-              </template> -->
-              <div>
+              <!-- <div> -->
                 <treeselect
                   :multiple="false"
                   :options="optionBranches"
                   placeholder="โปรดเลือกการไฟฟ้า"
+                  :class="treeselectClass"
                   v-model="value"
+                  
+                  v-on:select="treeselectChange"
                 >
                   <label
                     slot="option-label"
@@ -127,7 +83,7 @@
                     }"
                     :class="labelClassName"
                   >
-                  <!-- shouldShowCount,
+                  <!-- shouldShowCount, @select="treeselectChange"
                       count,
                       countClassName, -->
                   <v-icon>{{ node.raw.icon }}</v-icon>
@@ -141,7 +97,7 @@
                   </label>
                 </treeselect>
                 <treeselect-value :value="value" />
-              </div>
+              <!-- </div> -->
             </v-container>
           </v-col>
 

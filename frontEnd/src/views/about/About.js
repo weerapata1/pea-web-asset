@@ -10,16 +10,16 @@ Vue.component("qrcode-vue", QrcodeVue);
 import { mdiQrcodeScan } from "@mdi/js";
 Vue.component("mdiQrcode-Scan", mdiQrcodeScan);
 
-import { mdiMicrosoftExcel } from '@mdi/js';
+import { mdiMicrosoftExcel } from "@mdi/js";
 Vue.component("mdiMicrosoftExcel", mdiMicrosoftExcel);
 
-import { mdiFileFindOutline } from '@mdi/js';
+import { mdiFileFindOutline } from "@mdi/js";
 Vue.component("mdiFileFindOutline", mdiFileFindOutline);
 
-import { mdiMagnify } from '@mdi/js';
+import { mdiMagnify } from "@mdi/js";
 Vue.component("mdiMagnify", mdiMagnify);
 
-import { mdiQrcode } from '@mdi/js';
+import { mdiQrcode } from "@mdi/js";
 Vue.component("mdiQrcode", mdiQrcode);
 
 // import the component
@@ -174,32 +174,32 @@ export default {
       jsonTextSearch: '{"text":["*"]}',
       appendSearch: [],
       textSearch: "",
-      searchResult: [
-        {
-          pea_no: "531009537-0",
-          description: "ระบบสายสัญญาณ (FIBER OPTIC)",
-          serial: "",
-          user_id: "430962",
-          user_name: "นาง มนัสนันท์ พรรักษมณีรัฐ",
-          cc_short_name: "ผบห.กฟฉ.2-บห.",
-          received_date: "2551.6.18",
-          price_recieve: "108130.85",
-          price_left: "1",
-          cost_center: "E301000010",
-        },
-        {
-          pea_no: "531011277-0",
-          description: "ระบบเครือข่าย Switch HUB 1 ตัว",
-          serial: "",
-          user_id: "505338",
-          user_name: "นาย นนทธรรม นนทเตรียมกิจ",
-          cc_short_name: "กบห.กบล.-บห.",
-          received_date: "2553.7.30",
-          price_recieve: "32700",
-          price_left: "1",
-          cost_center: "E301011000",
-        },
-      ],
+      // searchResult: [
+      //   {
+      //     pea_no: "531009537-0",
+      //     description: "ระบบสายสัญญาณ (FIBER OPTIC)",
+      //     serial: "",
+      //     user_id: "430962",
+      //     user_name: "นาง มนัสนันท์ พรรักษมณีรัฐ",
+      //     cc_short_name: "ผบห.กฟฉ.2-บห.",
+      //     received_date: "2551.6.18",
+      //     price_recieve: "108130.85",
+      //     price_left: "1",
+      //     cost_center: "E301000010",
+      //   },
+      //   {
+      //     pea_no: "531011277-0",
+      //     description: "ระบบเครือข่าย Switch HUB 1 ตัว",
+      //     serial: "",
+      //     user_id: "505338",
+      //     user_name: "นาย นนทธรรม นนทเตรียมกิจ",
+      //     cc_short_name: "กบห.กบล.-บห.",
+      //     received_date: "2553.7.30",
+      //     price_recieve: "32700",
+      //     price_left: "1",
+      //     cost_center: "E301011000",
+      //   },
+      // ],
       getAllResult: [],
       data1: [],
       itemsPerPage: 0,
@@ -296,98 +296,97 @@ export default {
         { id: "15", name: "กฟอ.ตผ.", value: "E314" },
       ],
 
-      value: ["เฉพาะในเขต กฟฉ.2"],
       optionBranches: [
         {
           id: "ZC0502",
-          label: "ผชก.(ฉ2)",
+          label: "สังกัด ผชก.(ฉ2)",
           value: "ZC0502",
-          icon: 'mdi-account',
+          icon: "mdi-account",
         },
         {
           id: "reg",
-          label: "เฉพาะในเขต กฟฉ.2",
+          label: "สำนักงาน กฟฉ.2",
           value: "E3010",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "reg1",
               label: "กอก.",
               value: "E30100",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
               // isNew: true,
             },
             {
               id: "reg2",
               label: "ฝวบ.",
               value: "E30101",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg3",
               label: "กบล.",
               value: "E301011",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg4",
               label: "กวว.",
               value: "E301012",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg5",
               label: "กกค.",
               value: "E301013",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg6",
               label: "ฝบพ.",
               value: "E30102",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg7",
               label: "กบญ.",
               value: "E301021",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg8",
               label: "กซข.",
               value: "E301022",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg9",
               label: "กรท.",
               value: "E301023",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg10",
               label: "ฝปบ.",
               value: "E30103",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg11",
               label: "กปบ.",
               value: "E301031",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg12",
               label: "กบษ.",
               value: "E301032",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "reg13",
               label: "กรส.",
               value: "E301033",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -395,25 +394,25 @@ export default {
           id: "ubn",
           label: "จุดรวมงาน กฟจ.อบ.",
           value: "E3011",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "ub1",
               label: "กฟจ.อบ.",
               value: "E3011",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "ub2",
               label: "กฟส.มสส.",
               value: "E3015",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "ub3",
               label: "กฟส.ขน.",
               value: "E3016",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -421,37 +420,37 @@ export default {
           id: "ssk",
           label: "จุดรวมงาน กฟจ.ศก.",
           value: "E302",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "ssk1",
               label: "กฟจ.ศก.",
               value: "E3021",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "ssk2",
               label: "กฟส.อพ.",
               value: "E3022",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "ssk3",
               label: "กฟอ.ขข.",
               value: "E3023",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "ssk4",
               label: "กฟส.รศ.",
               value: "E3024",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "ssk5",
               label: "กฟส.กร.",
               value: "E3025",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -459,25 +458,25 @@ export default {
           id: "yst",
           label: "จุดรวมงาน กฟจ.ยส.",
           value: "E303",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "yst1",
               label: "กฟจ.ยส.",
               value: "E3031",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "yst2",
               label: "กฟส.พนพ.",
               value: "E3032",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "yst3",
               label: "กฟส.มช.",
               value: "E3033",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -485,49 +484,49 @@ export default {
           id: "mhk",
           label: "จุดรวมงาน กฟจ.มค.",
           value: "E304",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "mhk1",
               label: "กฟจ.มค.",
               value: "E3041",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "mhk2",
               label: "กฟส.พภ.",
               value: "E3042",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "mhk3",
               label: "กฟส.วป.",
               value: "E3043",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "mhk4",
               label: "กฟจ.กพส.",
               value: "E3044",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "mhk5",
               label: "กฟส.บบ.",
               value: "E3045",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "mhk6",
               label: "กฟส.ชย.",
               value: "E3046",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "mhk7",
               label: "กฟส.กวช.",
               value: "E3047",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -535,25 +534,25 @@ export default {
           id: "kls",
           label: "จุดรวมงาน กฟจ.กส.",
           value: "E305",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "kls1",
               label: "กฟจ.กส.",
               value: "E3051",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "kls2",
               label: "กฟส.นกศ.",
               value: "E3052",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "kls3",
               label: "กฟส.ยต.",
               value: "E3053",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -561,31 +560,31 @@ export default {
           id: "roe",
           label: "จุดรวมงาน กฟจ.รอ.",
           value: "E306",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "roe1",
               label: "กฟจ.รอ.",
               value: "E3061",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "roe2",
               label: "กฟส.สณ.",
               value: "E3062",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "roe3",
               label: "กฟส.กษ.",
               value: "E3063",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "roe4",
               label: "กฟส.อส.",
               value: "E3064",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -593,19 +592,19 @@ export default {
           id: "mdh",
           label: "จุดรวมงาน กฟจ.มห.",
           value: "E307",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "mdh1",
               label: "กฟจ.มห.",
               value: "E3071",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "mdh2",
               label: "กฟส.คช.",
               value: "E3072",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -613,19 +612,19 @@ export default {
           id: "anc",
           label: "จุดรวมงาน กฟจ.อจ.",
           value: "E308",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "anc1",
               label: "กฟจ.อจ.",
               value: "E3081",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "anc2",
               label: "กฟส.ลท..",
               value: "E3083",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -633,19 +632,19 @@ export default {
           id: "slp",
           label: "จุดรวมงาน กฟอ.สล.",
           value: "E309",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "slp1",
               label: "กฟอ.สล.",
               value: "E3091",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "slp2",
               label: "กฟส.พทง.",
               value: "E3092",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -653,19 +652,19 @@ export default {
           id: "sdj",
           label: "จุดรวมงาน กฟอ.สดจ.",
           value: "E310",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "sdj1",
               label: "กฟอ.สดจ.",
               value: "E3101",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "sdj2",
               label: "กฟส.กฉ.",
               value: "E3102",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -673,19 +672,19 @@ export default {
           id: "ktl",
           label: "จุดรวมงาน กฟอ.กล.",
           value: "E311",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "ktl1",
               label: "กฟอ.กล.",
               value: "E3111",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "ktl2",
               label: "กฟส.ขห.",
               value: "E3112",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -693,25 +692,25 @@ export default {
           id: "dud",
           label: "จุดรวมงาน กฟอ.ดอ.",
           value: "E312",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "dud1",
               label: "กฟอ.ดอ.",
               value: "E3121",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "dud2",
               label: "กฟส.นย.",
               value: "E3122",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "dud3",
               label: "กฟส.บฑ.",
               value: "E3123",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -719,19 +718,19 @@ export default {
           id: "wch",
           label: "จุดรวมงาน กฟอ.วรช.",
           value: "E313",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "wch1",
               label: "กฟอ.วรช.",
               value: "E3131",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "wch2",
               label: "กฟส.พมห.",
               value: "E3132",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
@@ -739,23 +738,26 @@ export default {
           id: "tpp",
           label: "จุดรวมงาน กฟอ.ตผ.",
           value: "E314",
-          icon: 'mdi-home-circle',
+          icon: "mdi-home-circle",
           children: [
             {
               id: "tpp1",
               label: "กฟอ.ตผ.",
               value: "E3141",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
             {
               id: "tpp2",
               label: "กฟส.ขร.",
               value: "E3142",
-              icon: 'mdi-home-assistant',
+              icon: "mdi-home-assistant",
             },
           ],
         },
       ],
+
+      value: ["reg"],
+      fieldValid: false,
     };
   },
 
@@ -876,6 +878,16 @@ export default {
     //   this.appendType = JSON.stringify(this.jsonObj);
     //   console.log("t-" + this.appendType);
     // },
+    treeselectChange: function (node) {
+      // alert("changed ", value);
+      console.log(node.value);
+      this.jsonObj = JSON.parse(this.jsonStrBranch);
+      this.jsonObj["branch"] = [];
+      this.jsonObj["branch"] = node.value;
+      this.appendBranch = JSON.stringify(this.jsonObj);
+      console.log("b-" + this.appendBranch);
+    },
+   
     toggleAssetType(assetType) {
       this.jsonObj = JSON.parse(this.jsonStrAssetType);
       this.jsonObj["assetType"] = [];
@@ -1224,6 +1236,11 @@ export default {
     },
     formDevPeaNo() {
       return this.editedIndex === -1 ? "New Item" : this.editedItem["devPeaNo"];
+    },
+    treeselectClass() {
+      return {
+        "treeselect-invalid": !this.fieldValid,
+      };
     },
   },
 };
