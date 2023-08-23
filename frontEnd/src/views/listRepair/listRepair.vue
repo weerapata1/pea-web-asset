@@ -96,33 +96,31 @@
                     </v-toolbar>
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-card-text>
-
-
                             <v-row>
-                                <v-col cols="12" sm="6">
+                                <!-- <v-col cols="12" sm="6">
                                     <v-select v-model="dialog1Value.adminName" :items="adminNames" item-text="adName"
                                         :rules="adNameRules" item-value="adName" label="ผู้รับเรื่อง *" required>
                                     </v-select>
-                                </v-col>
+                                </v-col> -->
 
-                                <v-col cols="12" sm="6">
-                                    <v-select v-model="dialog1Value.caues" :items="caues" item-text="name"
+                                <v-col cols="12" sm="12">
+                                    <!-- <v-select v-model="dialog1Value.caues" :items="caues" item-text="name"
                                         :rules="causeRules" item-value="value" label="อาการเสียเบื้องต้น *" required>
-                                    </v-select>
+                                    </v-select> -->
+                                    <v-textarea fluid v-model="dialog1Value.caues" solo name="treatment"
+                                        :rules="causeRules" label="ตัวอย่าง : แรมไหม้ *">
+                                    </v-textarea>
                                 </v-col>
                             </v-row>
-
-
-
                             <small>*indicates required field</small>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue-darken-1" text @click="dialog1 = false; reset()">
-                                Close
+                                ยกเลิก
                             </v-btn>
                             <v-btn color="success" text @click="saveDialog1(dialog1Value)">
-                                Save
+                                บันทึก
                             </v-btn>
                         </v-card-actions>
                     </v-form>
@@ -141,7 +139,8 @@
 
                                     <v-col cols="12" sm="12">
                                         <v-textarea fluid v-model="dialog2Value.treatment" solo name="treatment"
-                                            :rules="treatmentRules" label="ดำเนินการโดยวิธี เช่น เปลี่ยนแรม *"></v-textarea>
+                                            :rules="treatmentRules" label="ดำเนินการโดยวิธี เช่น เปลี่ยนแรม *">
+                                        </v-textarea>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -150,10 +149,10 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue-darken-1" text @click="dialog2 = false; reset()">
-                                Close
+                                ยกเลิก
                             </v-btn>
                             <v-btn color="success" text @click="dialog2 = false; openDialog2(dialog2Value)">
-                                Save
+                                บันทึก
                             </v-btn>
                         </v-card-actions>
                     </v-form>
@@ -180,10 +179,10 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue-darken-1" text @click="dialog3 = false; reset()">
-                                Close
+                                ยกเลิก
                             </v-btn>
                             <v-btn color="success" text @click="dialog3 = false; openDialog3(dialog3Value)">
-                                Save
+                                บันทึก
                             </v-btn>
                         </v-card-actions>
                     </v-form>
@@ -195,34 +194,50 @@
                     <v-toolbar color="primary" dark>
                         <span class="text-h5">รายละเอียด</span>
                         <v-spacer></v-spacer>
-                        <span class="text-h5">สถานะ : {{ dialogInfoValue.stage }}</span>
+                        <span class="text-h5">สถานะ : {{ dialogInfoValue.repairStatus.statusName }}</span>
                     </v-toolbar>
 
                     <v-card-text>
 
                         <v-row>
                             <v-col cols="12" sm="3">
-                                เลขทรัพย์สิน : {{ dialogInfoValue.peaNo }}
+                                เลขทรัพย์สิน : <b>{{ dialogInfoValue.device.devPeaNo }}</b>
                             </v-col>
                             <v-col cols="12" sm="3">
-                                การไฟฟ้า : {{ dialogInfoValue.location }}
+                                การไฟฟ้า : {{ dialogInfoValue.location.ccFullName  }}
                             </v-col>
                             <v-col cols="12" sm="2">
-                                ศูนย์ต้นทุน : {{ dialogInfoValue.ccFull }}
+                                ศูนย์ต้นทุน : {{ dialogInfoValue.location.ccLongCode }}
                             </v-col>
                             <v-col cols="12" sm="2">
-                                ผู้ครอบครอง : <b>{{ dialogInfoValue.empOwnerName }}</b>
+                                ผู้ครอบครอง : <b>{{ dialogInfoValue.empOwnerDevice.empName }}</b>
                             </v-col>
                             <v-col cols="12" sm="2">
-                                รหัสพนักงาน : {{ dialogInfoValue.empOwnerId }}
+                                รหัสพนักงาน : {{ dialogInfoValue.empOwnerDevice.empId }}
+                            </v-col>
+                        </v-row>
+                        <v-row no-gutters>
+                            <v-col cols="12" sm="3">
+                                หมายเลขผลิตภัณฑ์ : <b>{{ dialogInfoValue.device.devSerialNo }}</b>
+                            </v-col>
+                            <v-col cols="12" sm="5">
+                                รายละเอียดเครื่อง : <b>{{ dialogInfoValue.device.devDescription }}</b>
+                            </v-col>
+                            <v-col cols="12" sm="4">
+                                อาการเสียเบื้องต้น : <b>{{ dialogInfoValue.damageDetail }}</b>
+                            </v-col>
+                        </v-row>
+                        <v-row no-gutters>
+                            <v-col cols="12" sm="12">
+                                ประเภทเครื่อง : <p>{{ dialogInfoValue.deviceType.deviceTypeName }}</p>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" sm="3">
-                                ผู้ส่งเครื่อง : <b>{{ dialogInfoValue.empSendName }}</b>
+                                ผู้ส่งเครื่อง : <b>{{ dialogInfoValue.empSend.empName }}</b>
                             </v-col>
                             <v-col cols="12" sm="3">
-                                รหัสพนักงาน : {{ dialogInfoValue.empSendId }}
+                                รหัสพนักงาน : {{ dialogInfoValue.empSend.empId }}
                             </v-col>
                             <v-col cols="12" sm="3">
                                 เบอร์ติดต่อ : {{ dialogInfoValue.empPhoneNumb }}
@@ -230,31 +245,26 @@
                             <v-col cols="12" sm="3">
                                 วันที่ส่ง : {{ dialogInfoValue.sendDate }}
                             </v-col>
-
                         </v-row>
-                        <v-row>
-                            <v-col cols="12" sm="12">
-                                อาการเสียเบื้องต้น : <b>{{ dialogInfoValue.damageDetail }}</b>
-                            </v-col>
-                        </v-row>
+                        
                         <hr />
                         <v-row>
                             <v-col cols="12" sm="3">
-                                เจ้าหน้าที่รับเครื่อง : <b>{{ dialogInfoValue.adminName }}</b>
+                                เจ้าหน้าที่รับเครื่อง : <b>{{ dialogInfoValue.adminReceiveName }}</b>
                             </v-col>
                             <v-col cols="12" sm="3">
-                                รหัสพนักงาน : {{ dialogInfoValue.adminID }}
+                                รหัสพนักงาน : {{ dialogInfoValue.adminReceiveEmpID }}
                             </v-col>
                             <v-col cols="12" sm="3">
-                                เจ้าหน้าที่รับเมื่อ : {{ dialogInfoValue.admitDate }}
+                                เจ้าหน้าที่รับเมื่อ : {{ dialogInfoValue.adminReceiveAdmitDate }}
                             </v-col>
                             <v-col cols="12" sm="3">
-                                วันที่ซ่อมเสร็จ : {{ dialogInfoValue.treatComplete }}
+                                วันที่ซ่อมเสร็จ : {{ dialogInfoValue.treatCompleteDate }}
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" sm="6">
-                                อาการเสีย : <b>{{ dialogInfoValue.damage }}</b>
+                                อาการเสีย : <b>{{ dialogInfoValue.cause }}</b>
                             </v-col>
                             <v-col cols="12" sm="6">
                                 วิธีแก้ไข : <b>{{ dialogInfoValue.treatment }}</b>
@@ -304,7 +314,7 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="1">จาก</v-col>
-                        <v-col md="5">{{ dialogInfoValue.empSendRole }}</v-col>
+                        <v-col md="5">{{ dialogInfoValue.location.ccShortName }}</v-col>
                         <v-col md="1">ถึง</v-col>
                         <v-col md="5">
                             <div v-if="first5char == 1">{{ StaticHeader.to1 }}</div>
@@ -339,13 +349,13 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="2">เลขทรัพย์สิน</v-col>
-                        <v-col md="3">{{ dialogInfoValue.peaNo }}</v-col>
+                        <v-col md="3">{{ dialogInfoValue.device.devPeaNo }}</v-col>
                         <v-col md="2">รายละเอียด</v-col>
-                        <v-col md="5">{{ dialogInfoValue.discription }}</v-col>
+                        <v-col md="5">{{ dialogInfoValue.device.devDescription }}</v-col>
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="1">ประเภท</v-col>
-                        <v-col md="3">{{ dialogInfoValue.deviceType }}</v-col>
+                        <v-col md="3">{{ dialogInfoValue.deviceType.deviceTypeName }}</v-col>
                         <v-col md="1">ยี่ห้อ</v-col>
                         <v-col md="1"></v-col>
                         <v-col md="1">รุ่น</v-col>
@@ -355,8 +365,7 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="2">การรับประกัน</v-col>
-                        <v-col md="3"><v-icon>mdi-border-all-variant</v-icon> อยู่ในการรับประกัน</v-col>
-                        <v-col md="5"><v-icon>mdi-border-all-variant</v-icon> ไม่อยู่ในการรับประกัน</v-col>
+                        <v-col md="3"> {{ this.dialogInfoValue.Warranty }} </v-col>    
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="2">อาการเสีย</v-col>
@@ -364,7 +373,7 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="2">สถานที่ติดตั้ง</v-col>
-                        <v-col md="10"> {{ dialogInfoValue.location }}</v-col>
+                        <v-col md="10"> {{ dialogInfoValue.location.ccFullName }}</v-col>
                     </v-row>
                     <v-row class="new1">
                         <hr>
@@ -388,12 +397,12 @@
                     </v-row>
                     <v-row>
                         <v-col md="7"></v-col>
-                        <v-col md="5">&nbsp;&nbsp;&nbsp;ชื่อ {{ dialogInfoValue.empSendName }}</v-col>
+                        <v-col md="5">&nbsp;&nbsp;&nbsp;ชื่อ {{ dialogInfoValue.empSend.empName }}</v-col>
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="6"></v-col>
-                        <v-col md="3">ตำแหน่ง {{ dialogInfoValue.empSendRole }}</v-col>
-                        <v-col md="3">รหัสพนักงาน {{ dialogInfoValue.empSendId }}</v-col>
+                        <v-col md="3">ตำแหน่ง {{ dialogInfoValue.empSend.empRole }}</v-col>
+                        <v-col md="3">รหัสพนักงาน {{ dialogInfoValue.empSend.empId }}</v-col>
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="6"></v-col>
@@ -411,8 +420,7 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col md="7"></v-col>
-                        <v-col md="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อ&nbsp;&nbsp;&nbsp;{{ dialogInfoValue.adminName
-                        }}</v-col>
+                        <v-col md="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อ&nbsp;&nbsp;&nbsp;{{ dialogInfoValue.adminName}}</v-col>
                     </v-row>
                     <v-row no-gutters>
 
@@ -459,7 +467,7 @@
                     <v-row no-gutters>
                         <v-col class="bodyBox3" style="margin-left: 2%;">
                             <v-icon>mdi-border-all-variant</v-icon>
-                            &nbsp;ไม่ดำเนินการจัดดซ่อม
+                            &nbsp;ไม่ดำเนินการจัดซ่อม
                         </v-col>
                     </v-row>
                     <v-row no-gutters>
@@ -481,10 +489,11 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col style="margin-left: 11%;">{{ StaticFoot.date1 }}</v-col>
-                        <v-col style="margin-left: 11%;">หมายเลขติดตามงาน&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; {{ dialogInfoValue.repairId }}</v-col>
+                        <v-col style="margin-left: 11%;">หมายเลขติดตามงาน&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; {{
+                            dialogInfoValue.repairId }}</v-col>
                     </v-row>
                 </div>
-                
+
 
             </section>
         </VueHtml2pdf>

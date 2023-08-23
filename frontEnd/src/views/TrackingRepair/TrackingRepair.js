@@ -1,7 +1,12 @@
 import axios from "axios";
 import moment from "moment";
+
 let url = "http://localhost:8080";
 let urlRepair = "http://localhost:8080/repair";
+
+// let url = "http://localhost:172.21.1.51";
+// let urlRepair = "http://localhost:172.21.1.51/repair";
+
 moment.locale("th");
 
 
@@ -95,7 +100,7 @@ export default {
     },
     
     openDialogInfo(item) {
-      console.log(item)
+      // console.log(item)
 
       this.dialogInfoValue.peaNo = item.device.devPeaNo;
       this.dialogInfoValue.discription = item.device.devDescription;
