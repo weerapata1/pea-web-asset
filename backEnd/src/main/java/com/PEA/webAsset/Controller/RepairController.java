@@ -31,8 +31,8 @@ public class RepairController {
     private DeviceRepository deviceRepository;
     @Autowired
     private EmpAdminRepository empAdminRepository;
-    @Autowired
-    private CauseRepository causeRepository;
+    // @Autowired
+    // private CauseRepository causeRepository;
 
 
     @GetMapping("/getAllRepair")
