@@ -2,9 +2,14 @@
   width: 3px;
 }
 
-table.no-spacing {
-  border-spacing: 0; /* Removes the cell spacing via CSS */
+.no-spacing {
+  table-layout: fixed;
+  width: 375px;
+  border-spacing: 2px; /* Removes the cell spacing via CSS */
   border-collapse: collapse; /* Optional - if you don't want to have double border where cells touch */
+  /* padding: 0 !important; */
+  /* border: 1px solid black; */
+  word-wrap:break-word;
 }
 
 .text-pruple {
@@ -42,3 +47,48 @@ table.no-spacing {
     margin: 0 ;
     margin-top: 20px !important;
  } */
+
+.paddingBetweenRows td
+{
+    padding:5px 5px 5px 5px;
+    vertical-align:top;
+    word-wrap:break-word;
+}
+
+/* .paddingBetweenRows table, th, td, tr
+{
+  border: 1px solid black;
+} */
+
+.wrap {
+  border-spacing: 3px;
+  /* max-width: 150px; */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.vue-treeselect__label { font-size:18px !important; }
+
+.vue-treeselect__menu{ font-size:18px;}
+
+i.v-icon.v-white {
+  color:white !important;
+}
+
+.vue-treeselect.treeselect-invalid:not(.vue-treeselect--open) .vue-treeselect__control {
+  border-color: purple;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.vue-treeselect.treeselect-invalid .vue-treeselect__single-value {
+  font-size:18px !important;
+}

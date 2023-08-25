@@ -10,7 +10,7 @@
         <!-- lookup parent from repository -->
     </parent>
     <groupId>com.PEA</groupId>
-    <artifactId>webAsset</artifactId>
+    <artifactId>web-asset</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>webAsset</name>

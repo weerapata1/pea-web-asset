@@ -51,8 +51,8 @@ public class tbDevice {
     private tbCostCenterTest tbCostCenterTest;
 
     // Join tbEmployee.class------------------------------
-    @ManyToOne(targetEntity = tbEmployee.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "emp_id", insertable = true)
+    @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "emp_id", insertable = true, nullable = true)
     private tbEmployee tbEmployee;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
