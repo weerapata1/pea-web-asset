@@ -293,7 +293,7 @@ export default {
     };
     // this.setAssetType = JSON.stringify({assetType:53});
     axios
-      .get("http://localhost:8080/api/dev/searchNoWordUnpage/",{params})
+      .get("http://172.21.1.51:8080/api/dev/searchNoWordUnpage/",{params})
       .then((resp) => {
         this.getAllResult = resp;
         

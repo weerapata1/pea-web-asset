@@ -190,7 +190,7 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        console.log("param dt_id - ", this.setAssetComType.assetComType);
+        console.log("param dt_id - ", this.setAssetComType);
         let params = [];
 
         params = {

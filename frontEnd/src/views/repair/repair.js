@@ -7,9 +7,9 @@ import {
   numeric,
 } from "vuelidate/lib/validators";
 
-let url = "http://localhost:8080";
+// let url = "http://localhost:8080";
 // let urlRepair = "http://localhost:8080/repair";
-// let url = "http://localhost:172.21.1.51";
+let url = "http://172.21.1.51:8080";
 
 const fBody = {
   empSends: "null",
@@ -113,11 +113,7 @@ export default {
     },
   },
   mounted() {
-<<<<<<< HEAD
-    axios.get("http://172.21.1.51:8080/cc/getAllCCOnlyUse").then((response) => {
-=======
     axios.get(url + "/cc/getAllCCOnlyUse").then((response) => {
->>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
       this.itemCC = response.data.costCenter;
     });
     
@@ -130,11 +126,7 @@ export default {
     async findDiscDevice(peaNo) {
       this.devPeaNoSelceted = peaNo;
       await axios
-<<<<<<< HEAD
-        .get("http://172.21.1.51:8080/api/dev/getDeviceByPeaNo", {
-=======
         .get(url + "/api/dev/getDeviceByPeaNo", {
->>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
           params: { PeaNo: peaNo },
         })
         .then((response) => {
@@ -144,11 +136,8 @@ export default {
     async toggleBranch2(ccCode) {
       this.ccNameSeclected = ccCode;
       await axios
-<<<<<<< HEAD
-        .get("http://172.21.1.51:8080/api/dev/getAll53", {
-=======
         .get(url + "/api/dev/getAll53", {
->>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
+
           params: { ccLong: this.ccNameSeclected },
         })
         .then((response) => {
@@ -172,11 +161,7 @@ export default {
         alert("โปรดระบุรหัสพนักงาน");
       } else {
         await axios
-<<<<<<< HEAD
-          .get("http://172.21.1.51:8080/emp/getEmpId", {
-=======
           .get(url + "/emp/getEmployeeId", {
->>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
             params: { id: empSend },
           })
           .then((response) => {
@@ -200,21 +185,7 @@ export default {
       if (this.$v.$invalid) {
         console.log("มีช่างว่าง");
       } else {
-<<<<<<< HEAD
-        (fBody.empSendName = this.empData.empName),
-          (fBody.empSendRole = this.empData.empRole),
-          (fBody.empSendId = this.empData.empId);
-        (fBody.warranty = ""),
-        (fBody.peaNo = this.devPeaNoSelceted),
-        (fBody.discription = this.devDesc.devDescription),
-          (fBody.location = this.devDesc.tbCostCenterTest.ccShortName),
-          (fBody.deviceType = this.devDesc.tbDeviceType.deviceTypeName),
-          (fBody.damage = this.damage),
-          (fBody.empPhoneNumb = this.empPhoneNumb),
-          
-          await axios
-            .post("http://172.21.1.51:8080/repair/repair", null, {
-=======
+
 
         (fBody.empSends = this.empData),
         (fBody.device = this.devDesc),
@@ -230,7 +201,7 @@ export default {
     async save() {
       await axios
             .post(url+"/repair/repair", null, {
->>>>>>> 7f1801a350ecc675f3dc2f42b5ccf2bd365ec200
+
               params: {
                 empSend: this.empData.empId ,
                 damage: this.damage,
