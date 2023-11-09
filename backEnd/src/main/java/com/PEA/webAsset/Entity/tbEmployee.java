@@ -30,7 +30,7 @@ public class tbEmployee {
     // private String CostCenter; // ชื่อศุนย์ต้นทุน ไม่ผูก
 
     @ManyToOne(targetEntity = tbCostCenterTest.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cc_id", insertable = true, nullable = true)
+    @JoinColumn(name = "cc_id", insertable = true, nullable = true )
     private tbCostCenterTest CostCenter;
 
     // private String empCcShortName; //
