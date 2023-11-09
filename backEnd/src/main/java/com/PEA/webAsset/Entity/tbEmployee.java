@@ -29,7 +29,7 @@ public class tbEmployee {
 
 
     @ManyToOne(targetEntity = tbCostCenterTest.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cc_id", insertable = true, nullable = false )
+    @JoinColumn(name = "cc_id", insertable = true, nullable = true )
     private tbCostCenterTest CostCenter;
 
     // private String empCcShortName; //
