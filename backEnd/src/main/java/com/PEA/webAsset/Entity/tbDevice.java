@@ -24,8 +24,7 @@ public class tbDevice {
     private Long id;
 
     private String devPeaNo;
-    //
-    // private String tbEmployee;
+   
     //
     private String devDescription;
     // @Column(name ="dev_serialNo", unique = true)
@@ -47,13 +46,15 @@ public class tbDevice {
 
     // Join tbCostCenter.class------------------------------
     @ManyToOne(targetEntity = tbCostCenterTest.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cc_id", insertable = true, referencedColumnName = "cc_id")
+    @JoinColumn(name = "cc_id", insertable = true, referencedColumnName = "cc_id", nullable = true)
     private tbCostCenterTest tbCostCenterTest;
+    // private String tbCostCenterTest;
 
     // Join tbEmployee.class------------------------------
     @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "emp_id", insertable = true, nullable = true)
-    private tbEmployee tbEmployee;
+    private tbEmployee tbEmployee; 
+    // private String tbEmployee;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime devUpdate;
@@ -78,7 +79,10 @@ public class tbDevice {
     // private tbRepair tbRepair;
 
     public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
-                    Double devReceivedPrice, Double devLeftPrice, tbCostCenterTest cc_id, tbEmployee emp_id,
+                    Double devReceivedPrice, Double devLeftPrice, 
+                    tbCostCenterTest cc_id, 
+                    // String cc_id,
+                    tbEmployee emp_id,
                     LocalDateTime devUpdate, tbDeviceType dt_id
                     ){
         this.devPeaNo = devPeaNo;
