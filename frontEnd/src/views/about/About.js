@@ -298,9 +298,9 @@ export default {
 
       optionBranches: [
         {
-          id: "ZC0502",
+          id: "E300",
           label: "สังกัด ผชก.(ฉ2)",
-          value: "ZC0502",
+          value: "E300",
           icon: "mdi-account",
         },
         {

@@ -5,7 +5,7 @@ FROM openjdk:8
 # Expose the port your Spring Boot app is listening on
 EXPOSE 8080
 
-ADD target/web-asset.jar web-asset.jar
+COPY target/web-asset.jar /web-asset.jar
 
 # Set the working directory inside the container
 # WORKDIR /app
@@ -14,4 +14,4 @@ ADD target/web-asset.jar web-asset.jar
 # COPY target/web-asset.jar /app/web-asset.jar
 
 # Define the command to run your Spring Boot app
-CMD ["java", "-jar", "web-asset.jar"]
+ENTRYPOINT ["java", "-jar", "web-asset.jar"]
