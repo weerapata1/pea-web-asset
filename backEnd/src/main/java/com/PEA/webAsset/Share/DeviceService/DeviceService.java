@@ -103,7 +103,7 @@ public class DeviceService {
 
         LocalDate dateNow = LocalDate.now();
         String dateNowFormat = dateNow.format(dateFormat);
-        LocalDate dateReceived = LocalDate.parse(dateNowFormat, dateFormat);
+        // LocalDate dateReceived = LocalDate.parse(dateNowFormat, dateFormat);
         int index = 0;
         DataFormatter formatter = new DataFormatter();
         try {
@@ -178,7 +178,7 @@ public class DeviceService {
                             leftPrice = (double) row.getCell(11).getNumericCellValue();
                         }
                         Cell c12 = row.getCell(12);
-                        if (c12 == null || c11.getCellType() == CellType.BLANK) {
+                        if (c12 == null || c12.getCellType() == CellType.BLANK) {
                             ccId = "";
                             System.out.println("ccId is BLANK at " + index);
                         } else {
@@ -206,7 +206,8 @@ public class DeviceService {
                         device.setDevLeftPrice(leftPrice);
                         device.setTbCostCenterTest(costCenterRepository.findByCcLongCode(ccId));
                         device.setTbEmployee(employeeRepository.findByEmpId(userId));
-
+                        // device.setTbCostCenterTest(ccId);
+                        // device.setTbEmployee(userId);
                         deviceList.add(device);
                     }
                 }
