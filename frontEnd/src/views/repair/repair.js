@@ -7,9 +7,9 @@ import {
   numeric,
 } from "vuelidate/lib/validators";
 
-let url = "http://localhost:8080";
+// let url = "http://localhost:8080";
 // let urlRepair = "http://localhost:8080/repair";
-// let url = "http://localhost:172.21.1.51";
+let url = "http://172.21.1.51:8080";
 
 const fBody = {
   empSends: "null",
@@ -137,6 +137,7 @@ export default {
       this.ccNameSeclected = ccCode;
       await axios
         .get(url + "/api/dev/getAll53", {
+
           params: { ccLong: this.ccNameSeclected },
         })
         .then((response) => {
@@ -185,6 +186,7 @@ export default {
         console.log("มีช่างว่าง");
       } else {
 
+
         (fBody.empSends = this.empData),
         (fBody.device = this.devDesc),
         (fBody.location = this.devDesc.tbCostCenterTest),
@@ -199,6 +201,7 @@ export default {
     async save() {
       await axios
             .post(url+"/repair/repair", null, {
+
               params: {
                 empSend: this.empData.empId ,
                 damage: this.damage,

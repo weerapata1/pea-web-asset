@@ -41,7 +41,7 @@ export default {
         async login() {
             if (this.username != "" && this.password != "") {
 
-                await axios.get("http://localhost:8080/empAdmin/login", { params: { userName: this.username, Password: this.password } }).then((response) => {
+                await axios.get("http://172.21.1.51:8080/empAdmin/login", { params: { userName: this.username, Password: this.password } }).then((response) => {
                     this.auth = response.data;
                     console.log(this.auth.message)
                 }).catch((error) => {

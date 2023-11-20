@@ -779,7 +779,11 @@ export default {
     };
     // this.setAssetType = JSON.stringify({assetType:53});
     axios
+<<<<<<< HEAD
+      .get("http://172.21.1.51:8080/api/dev/searchNoWordUnpage/",{params})
+=======
       .get("http://localhost:8080/api/dev/searchNoWordUnpage/", { params })
+>>>>>>> ba6531d479876e27e8c03e9de8626ce10075e25a
       .then((resp) => {
         this.getAllResult = resp;
 
@@ -933,7 +937,7 @@ export default {
           //   };
           //   // console.log("Pattern2 ", params);
           //   axios
-          //     .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
+          //     .get("http://172.21.1.51:8080/api/dev/getAllByPattern2", { params })
           //     .then((resp) => {
           //       this.getAllResult = resp.data;
           //       console.log(
@@ -959,7 +963,7 @@ export default {
           };
           console.log("searchNoWordUnpage-", params);
           axios
-            .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
+            .get("http://172.21.1.51:8080/api/dev/searchNoWordUnpage", {
               params,
             })
             .then((resp) => {
@@ -991,7 +995,7 @@ export default {
           console.log("searchFunction ", params);
 
           axios
-            .get("http://localhost:8080/api/dev/searchWithWord", { params })
+            .get("http://172.21.1.51:8080/api/dev/searchWithWord", { params })
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log("searchWithWord", JSON.stringify(this.getAllResult));
@@ -1029,7 +1033,7 @@ export default {
         //   setAssetType: setAssetType.assetType,
         // };
         // let response = await axios
-        //   .get("http://localhost:8080/api/dev/getAllByPattern2unpage", {
+        //   .get("http://172.21.1.51:8080/api/dev/getAllByPattern2unpage", {
         //     params,
         //   })
         //   .then((resp) => {
