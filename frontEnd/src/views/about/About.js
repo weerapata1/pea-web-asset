@@ -304,6 +304,12 @@ export default {
           icon: "mdi-account",
         },
         {
+          id: "E3",
+          label: "ทุกหน่วยงานในสังกัด กฟฉ.2",
+          value: "E3",
+          icon: "mdi-home-circle",
+        },
+        {
           id: "reg",
           label: "สำนักงาน กฟฉ.2",
           value: "E3010",
