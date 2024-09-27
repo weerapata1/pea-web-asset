@@ -28,7 +28,7 @@ Vue.component("treeselect", Treeselect);
 // import the styles
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
-import router from "../../router";
+// import router from "../../router";
 
 export default {
   name: "EventsList",
@@ -253,7 +253,7 @@ export default {
       // ]),
       qrcode_size: 128,
       dialog: false,
-      dialogDelete: false,
+      dialogFixForm: false,
 
       editedIndex: -1,
       editedItem: {
@@ -758,6 +758,27 @@ export default {
 
       value: ["reg"],
       fieldValid: false,
+      formData: {
+        cost_center_name: "กฟส.กทล.",
+        date: "19 มิ.ย. 2567",
+        type_other: "",
+        brand: "HP",
+        model: "ProDesk 600 G5",
+        contract: "บ.75/2563",
+        serial: "4CE03526C6",
+        pea_no: "5330404643",
+        problem: "ฮาร์ดิสชำรุด",
+        emp_name: "นายอนุสรณ์ อมรรัตนศักดิ์",
+        emp_role: "พบค.7",
+        emp_id: "499857",
+        tel: "(22)14890",
+        inspector_name: "นายภาณุวิชญ์ ธานีวัฒน์",
+        inspector_role: "นรค.7",
+        inspector_date: "19 มิ.ย. 2567",
+        dep_head_name: "นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ",
+        dep_head_role: "หผ.คข.กดส.ฉ.2",
+        dep_head_date: "19 มิ.ย. 2567",
+      },
     };
   },
 
@@ -765,8 +786,8 @@ export default {
     dialog(val) {
       val || this.close();
     },
-    dialogDelete(val) {
-      val || this.closeDelete();
+    dialogFixForm(val) {
+      val || this.closeFixForm();
     },
   },
 
@@ -777,17 +798,14 @@ export default {
       region: "E301000000",
       setAssetType: 53,
     };
-    // this.setAssetType = JSON.stringify({assetType:53});
+
     axios
       .get("http://localhost:8080/api/dev/searchNoWordUnpage/", { params })
       .then((resp) => {
         this.getAllResult = resp;
 
         this.data1 = resp.data.dataExcel;
-        // this.itemsPerPage = resp.data.itemsPerPage;
-        // this.totalItems = resp.data.totalItems;
 
-        // this.data1 = resp.data.data1;
         this.itemsPerPage = resp.data.itemsPerPage;
         this.totalItems = resp.data.totalItems;
         console.log("at mounted ", this.getAllResult.data.totalItems);
@@ -797,9 +815,14 @@ export default {
       .catch((error) => {
         console.log(error.resp);
       });
-    // if (alert) {
-    //   this.hide_alert();
-    // }
+
+    // axios.get('http://localhost:8080/api/dev/test')
+    // .then(response => {
+    //     console.log(response.data);
+    // })
+    // .catch(error => {
+    //     console.error("There was an error with the test request!", error);
+    // });
   },
 
   created() {
@@ -887,7 +910,7 @@ export default {
       this.appendBranch = JSON.stringify(this.jsonObj);
       console.log("b-" + this.appendBranch);
     },
-   
+
     toggleAssetType(assetType) {
       this.jsonObj = JSON.parse(this.jsonStrAssetType);
       this.jsonObj["assetType"] = [];
@@ -933,7 +956,7 @@ export default {
           //   };
           //   // console.log("Pattern2 ", params);
           //   axios
-          //     .get("http://172.21.1.51:8080/api/dev/getAllByPattern2", { params })
+          //     .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
           //     .then((resp) => {
           //       this.getAllResult = resp.data;
           //       console.log(
@@ -959,7 +982,7 @@ export default {
           };
           console.log("searchNoWordUnpage-", params);
           axios
-            .get("http://172.21.1.51:8080/api/dev/searchNoWordUnpage", {
+            .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
               params,
             })
             .then((resp) => {
@@ -991,7 +1014,7 @@ export default {
           console.log("searchFunction ", params);
 
           axios
-            .get("http://172.21.1.51:8080/api/dev/searchWithWord", { params })
+            .get("http://localhost:8080/api/dev/searchWithWord", { params })
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log("searchWithWord", JSON.stringify(this.getAllResult));
@@ -1029,7 +1052,7 @@ export default {
         //   setAssetType: setAssetType.assetType,
         // };
         // let response = await axios
-        //   .get("http://172.21.1.51:8080/api/dev/getAllByPattern2unpage", {
+        //   .get("http://localhost:8080/api/dev/getAllByPattern2unpage", {
         //     params,
         //   })
         //   .then((resp) => {
@@ -1084,15 +1107,89 @@ export default {
         (this.dialog = true);
     },
 
-    deleteItem(item) {
+    showFixForm(item) {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
+      this.dialogFixForm = true;
     },
 
-    deleteItemConfirm() {
-      router.push("/repairForm");
-      this.closeDelete();
+    sendFixPage() {
+      let data = JSON.stringify({
+        templateProjectPath: "sample/ams/506027-fixform.dito",
+        templateName: "output",
+        pdfVersion: "1.7",
+      });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "http://localhost:8080/api/proxy-pdf-producer",
+        headers: {
+          Accept: "application/pdf",
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log("PDF generated successfully.", response);
+        })
+        .catch((error) => {
+          console.error("Error occurred while generating PDF:", error);
+        });
+
+      // axios
+      //   .post("http://localhost:8080/api/dev/redirectPdfProducer", data, {
+      //     responseType: "blob", // Important
+      //   })
+      //   .then((response) => {
+      //     const blob = new Blob([response.data], { type: "application/pdf" });
+      //     const link = document.createElement("a");
+      //     link.href = window.URL.createObjectURL(blob);
+      //     link.download = "generated.pdf";
+      //     link.click();
+      //   })
+      //   .catch((error) => {
+      //     console.error("There was an error redirecting!", error);
+      //   });
+
+      // axios
+      //   .get("http://localhost:8080/api/dev/redirectgoogle")
+      //   .then((response) => {
+      //     // Assuming the API returns an object with a key 'redirectUrl'
+      //     const redirectUrl = response.data.redirectUrl;
+      //     if (redirectUrl) {
+      //       // Redirect the browser to the URL
+      //       window.location.href = redirectUrl;
+      //     } else {
+      //       console.error("Redirect URL not found in the response.");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("There was an error with the test request!", error);
+      //   });
+    },
+
+    sendpostmanecho() {
+      const data = {
+        name: "ChatGPT",
+        message: "Hello from JavaScript!",
+      };
+
+      axios
+        .post("http://localhost:8080/api/postmanecho", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log("Response from Postman Echo:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error occurred:", error);
+        });
     },
 
     close() {
@@ -1103,8 +1200,8 @@ export default {
       });
     },
 
-    closeDelete() {
-      this.dialogDelete = false;
+    closeFixForm() {
+      this.dialogFixForm = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -1205,6 +1302,49 @@ export default {
         }, 3000);
       } else {
         this.$refs.html2Pdf.generatePdf();
+      }
+    },
+
+    genFixFormReport() {
+     console.log("this.editedItem",this.editedItem);
+      if (this.editedItem == null) {
+        this.alert = true;
+        window.setInterval(() => {
+          this.alert = false;
+          // console.log("hide alert after 3 seconds");
+        }, 3000);
+      } else {
+        // Make a POST request to the Spring Boot endpoint
+        axios
+          .post("http://localhost:8080/api/dev/redirectPdfProducer", this.editedItem, {
+            responseType: "blob", // Important: To handle the response as a binary blob (PDF)
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/pdf",
+            },
+          })
+          .then((response) => {
+            // Create a blob from the response
+            const fileBlob = new Blob([response.data], {
+              type: "application/pdf",
+            });
+            const fileURL = URL.createObjectURL(fileBlob);
+
+            // Create a temporary anchor element to download the PDF
+            const link = document.createElement("a");
+            link.href = fileURL;
+            link.setAttribute("download", "generated.pdf"); // Filename for the download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          })
+          .catch((error) => {
+            console.error("Error generating PDF:", error);
+            this.alert = true;
+            setTimeout(() => {
+              this.alert = false;
+            }, 3000);
+          });
       }
     },
   },

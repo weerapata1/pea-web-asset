@@ -108,24 +108,6 @@ export default {
       quotaCom: 0,
       countElectrician: 0,
       countAssistElectrician: 0,
-      empId: "506027",
-      passWord: "P@ss2489**",
-      dataXML: `<?xml version="1.0" encoding="utf-8"?>\r\n  
-                <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-                  xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n   
-                  <soap:Body>\r\n    
-                    <Login xmlns="http://idm.pea.co.th/">\r\n     
-                      <request>\r\n       
-                        <InputObject>\r\n          
-                          <Username>506027</Username>\r\n           
-                          <Password>P@ss2489**</Password>\r\n       
-                        </InputObject>\r\n        
-                        <WSAuthenKey>e3358fc1-99ad-4b21-8237-7c9c8ba1c5dc</WSAuthenKey>\r\n      
-                      </request>\r\n    
-                    </Login>\r\n  
-                  </soap:Body>\r\n
-                </soap:Envelope>`,
     };
   },
 
@@ -139,11 +121,11 @@ export default {
   },
 
   mounted() {
-    axios.get("http://172.21.1.51:8080/cc/getAllCCOnlyUse").then((response) => {
+    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
       this.itemsCC = response.data.costCenter;
     });
 
-    axios.get("http://172.21.1.51:8080/emp/getEmp").then((response) => {
+    axios.get("http://localhost:8080/emp/getEmp").then((response) => {
       this.itemsEmp = response.data;
     });
   },
@@ -200,7 +182,7 @@ export default {
 
         if (this.checked7 == false) {
           await axios
-            .get("http://172.21.1.51:8080/api/dev/getDevice53unpageByccId", {
+            .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
               params,
             })
             .then((resp2) => {
@@ -220,7 +202,7 @@ export default {
         } else {
           await axios
             .get(
-              "http://172.21.1.51:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
               {
                 params,
               }
@@ -250,7 +232,7 @@ export default {
           region: ccLong,
         };
         await axios
-          .get("http://172.21.1.51:8080/emp/getEmpByccLongCode", { params })
+          .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
           .then((resp2) => {
             // this.getEmployeeResult = resp.data;
             // console.log(
@@ -418,82 +400,5 @@ export default {
     //   return item.includes("พชง") || item.includes("ชชง")  ? 'style-1' : 'style-2'
     //   //return 'style-1';
     // },
-
-    async idmLogin() {
-      var dataXML = `<?xml version="1.0" encoding="utf-8"?>\r\n  
-        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n   
-          <soap:Body>\r\n    
-            <Login xmlns="http://idm.pea.co.th/">\r\n     
-              <request>\r\n       
-                <InputObject>\r\n          
-                  <Username>506027</Username>\r\n           
-                  <Password>P@ss2489**</Password>\r\n       
-                </InputObject>\r\n        
-                <WSAuthenKey>e3358fc1-99ad-4b21-8237-7c9c8ba1c5dc</WSAuthenKey>\r\n      
-              </request>\r\n    
-            </Login>\r\n  
-          </soap:Body>\r\n
-        </soap:Envelope>`;
-
-      // var config = {
-      //   headers: {
-      //     "Content-Type": "text/xml",
-      //     "Access-Control-Allow-Origin": "*",
-      //     "Access-Control-Allow-Methods": "POST",
-      //     "Access-Control-Allow-Headers":
-      //       "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
-      //   },
-      //   body: dataXML,
-      //   // redirect: "follow",
-      // };
-
-      // await axios
-      //   .post("idm/webservices/IdmServices.asmx", config)
-      //   .then((res) => {
-      //     //callback(res.data);
-      //     console.log(res.data);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
-
-      // let data =
-      //   '<?xml version="1.0" encoding="utf-8"?>\r\n<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n  <soap:Body>\r\n    <Login xmlns="http://idm.pea.co.th/">\r\n      <request>\r\n        <InputObject>\r\n          <Username>506027</Username>\r\n          <Password>P@ss2489**</Password>\r\n        </InputObject>\r\n        <WSAuthenKey>e3358fc1-99ad-4b21-8237-7c9c8ba1c5dc</WSAuthenKey>\r\n      </request>\r\n    </Login>\r\n  </soap:Body>\r\n</soap:Envelope>';
-
-      let config = {
-        headers: {
-          "Content-Type": "text/xml",
-        },
-        // method: "post",
-        maxBodyLength: Infinity,
-        // url: "/idm/IdmServices.asmx",
-
-        body: dataXML,
-      };
-
-      await axios
-        .post("idm/IdmServices.asmx", config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      // var parseString = require("xml2js").parseString;
-      // await axios
-      //   .post(
-      //     // "https://idm.pea.co.th/webservices/IdmServices.asmx",
-      //     "/idm/IdmServices.asmx",
-      //     dataXML,
-      //     config
-      //   )
-      //   .then((response) => {
-      //     parseString(response.data, function (err, result) {
-      //       console.log(result); // returns a json array
-      //       this.events = result; // nothing happens
-      //     });
-      //   });
-    },
   },
 };

@@ -5,32 +5,32 @@ import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
 import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
 // import repairForm from '../views/repairForm/repairForm.vue'
-import ListRepair from '../views/listRepair/listRepair.vue'
+// import ListRepair from '../views/listRepair/listRepair.vue'
 import checkQuota from '../views/checkQuota/checkQuota.vue'
-import login from '../views/logIn/logIn.vue'
+// import login from '../views/logIn/logIn.vue'
 import preRepairComponent from '../views/preRepair/preRepair.vue'
 
 Vue.use(VueRouter)
 
-function guardMyroute(to, from, next) {
-  var isAuthenticated = false;
-  //this is just an example. You will have to find a better or
-  // centralised way to handle you localstorage data handling
-  if (sessionStorage.getItem("LoggedUser") == "true") isAuthenticated = true;
-  else isAuthenticated = false;
-  if (isAuthenticated) {
-    next(); // allow to enter route
-  } else {
-    next("/login"); // go to '/login';
-  }
-}
+// function guardMyroute(to, from, next) {
+//   var isAuthenticated = false;
+//   //this is just an example. You will have to find a better or
+//   // centralised way to handle you localstorage data handling
+//   if (sessionStorage.getItem("LoggedUser") == "true") isAuthenticated = true;
+//   else isAuthenticated = false;
+//   if (isAuthenticated) {
+//     next(); // allow to enter route
+//   } else {
+//     next("/login"); // go to '/login';
+//   }
+// }
 
 const routes = [
-  {
-    path: '/login',
-    name: 'login',
-    component: login
-  },
+  // {
+  //   path: '/login',
+  //   name: 'login',
+  //   component: login
+  // },
   {
     path: '/preRepair',
     name: 'preRepair',
@@ -41,13 +41,13 @@ const routes = [
     name: 'Repair',
     component: Repair
   },
-  {
-    path: '/listRepair',
-    name: 'listRepair',
-    component: ListRepair,
-    beforeEnter: guardMyroute,
-    meta: { requiresAuth: true },
-  },
+  // {
+  //   path: '/listRepair',
+  //   name: 'listRepair',
+  //   component: ListRepair,
+  //   beforeEnter: guardMyroute,
+  //   meta: { requiresAuth: true },
+  // },
   {
     path: '/tracking',
     name: 'Tracking',
