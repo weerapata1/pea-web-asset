@@ -16,12 +16,11 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                        "WHERE (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+                        "WHERE d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%'", nativeQuery = true)
         Page<tbDevice> findAll53(Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
                         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-
                         "WHERE ((d.dev_pea_no like CONCAT('%',:peaNo,'%')) " +
                         "OR (e.emp_id = :empId)  " +
                         "OR (e.emp_name = :empName)) " +
@@ -41,14 +40,14 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         @Query(value = "SELECT * from tb_device d " +
         // , cc_short_name "LEFT JOIN tb_cost_center_test My01CostC ON d.cc_id = My01CostC.cc_id " +
                         "WHERE d.cc_id LIKE CONCAT(:ccLong,'%') " +
-                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+                        "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId53(@Param("ccLong") String ccLong, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
                         "WHERE d.cc_id LIKE CONCAT(:ccLong,'%')" +
                         "AND d.dev_left_price = 1 " +
-                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+                        "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId153(@Param("ccLong") String ccLong, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
@@ -95,7 +94,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         "OR c.cc_full_name LIKE CONCAT('%',:textSearch,'%') " +
                         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_id LIKE CONCAT(:ccLong,'%')) " +
-                        "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+                        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         Page<tbDevice> findDeviceByCcIdAndTextSearch53(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
@@ -115,7 +114,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_id LIKE CONCAT(:ccLong,'%')) " +
                         "AND d.dev_left_price = 1 " +
-                        "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+                        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         Page<tbDevice> findDeviceByCcIdAndTextSearch153(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
@@ -151,7 +150,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
                         "WHERE d.cc_id LIKE CONCAT(:ccLong,'%') " +
-                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+                        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         List<tbDevice> findDeviceForExcel53(@Param("ccLong") String ccLong);
 
         @Query(value = "SELECT * from tb_device d " +
@@ -163,7 +162,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         // "OR e.emp_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_id LIKE CONCAT(:ccLong,'%')) " +
                         "AND d.dev_left_price = 1 " +
-                        "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+                        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         List<tbDevice> findDeviceForExcel53search(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch);
 
@@ -175,7 +174,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
                         "WHERE d.cc_id LIKE CONCAT(:region,'%') " +
                         "AND d.dt_id = :dt_id " +
-                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+                        "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
         Page<tbDevice> getDevice53unpageByccId(@Param("region") String region, @Param("dt_id") String dt_id,
                         Pageable pageable);
 
@@ -184,7 +183,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         "WHERE d.cc_id LIKE CONCAT(:region,'%') " +
                         "AND d.dt_id = :dt_id " +
                         "AND year(d.dev_received_date) >= 2558 " +
-                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+                        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         Page<tbDevice> getDevice53unpageByccIdOnly7Year(@Param("region") String region, @Param("dt_id") String dt_id,
                         Pageable pageable);
 
@@ -192,15 +191,15 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
         // , cc_short_name "LEFT JOIN tb_cost_center_test My01CostC ON d.cc_id = My01CostC.cc_id " +
-                        "WHERE (d.cc_id LIKE CONCAT(:ccLong,'%') OR d.cc_id LIKE 'ZC%') " +
-                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+                        "WHERE d.cc_id LIKE CONCAT(:ccLong,'%') OR d.cc_id LIKE 'ZC%' " +
+                        "AND ((d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId53zc(@Param("ccLong") String ccLong, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
                         "WHERE (d.cc_id LIKE CONCAT(:ccLong,'%') OR d.cc_id LIKE 'ZC%') " +
                         "AND d.dev_left_price = 1 " +
-                        "AND d.dev_pea_no LIKE '53%'", nativeQuery = true)
+                        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId153zc(@Param("ccLong") String ccLong, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
@@ -230,7 +229,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         "OR c.cc_full_name LIKE CONCAT('%',:textSearch,'%') " +
         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
         "AND (d.cc_id LIKE CONCAT(:ccLong,'%') OR d.cc_id LIKE 'ZC%') " +
-        "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
 Page<tbDevice> findDeviceByCcIdAndTextSearch53zc(@Param("ccLong") String ccLong,
         @Param("textSearch") String textSearch, Pageable pageable);
 
@@ -250,7 +249,7 @@ Page<tbDevice> findDeviceByCcIdAndTextSearch53zc(@Param("ccLong") String ccLong,
         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
         "AND (d.cc_id LIKE CONCAT(:ccLong,'%') OR d.cc_id LIKE 'ZC%') " +
         "AND d.dev_left_price = 1 " +
-        "AND (d.dev_pea_no LIKE '53%')", nativeQuery = true)
+        "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
 Page<tbDevice> findDeviceByCcIdAndTextSearch153zc(@Param("ccLong") String ccLong,
         @Param("textSearch") String textSearch, Pageable pageable);
 

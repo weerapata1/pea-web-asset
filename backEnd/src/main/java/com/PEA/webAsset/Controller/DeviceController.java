@@ -12,18 +12,28 @@ import com.PEA.webAsset.Share.ExcelService.ExcelService;
 import com.PEA.webAsset.Share.ResponseMessage;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import lombok.SneakyThrows;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin("*")
+
+// @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/dev")
 public class DeviceController {
@@ -34,7 +44,6 @@ public class DeviceController {
   // private CommitmentRepository commitmentRepository;
   @Autowired
   private ContractRepository commitmentRepository;
-
 
   @Autowired
   private DeviceTypeRepository dtRepository;
@@ -153,7 +162,7 @@ public class DeviceController {
   // try {
   // List<tbDevice> device = new ArrayList<tbDevice>();
   // Pageable paging = PageRequest.of(page, size);
-  // Page<tbDevice> pageTuts = null;
+  // Page<tbDevice> pageTuts = null;findDeviceByCcId53
   // if (setAssetType.equals("53")) {
   // System.out.println("Pattern2-53");
   // pageTuts =
@@ -200,52 +209,54 @@ public class DeviceController {
   public ResponseEntity<Map<String, Object>> Patternunpage(
       @RequestParam("region") String region,
       @RequestParam("setAssetType") String setAssetType) {
-    System.out.println("setAssetType=" + setAssetType + " region=" + region);
+    // System.out.println("setAssetType=" + setAssetType + " region=" + region);
 
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
       Page<tbDevice> pageTuts = null;
       if (region.equals("E3") || region.equals("E3010")) {
+        System.out.println("setAssetType=" + setAssetType + " region=" + region);
         if (setAssetType.equals("53")) {
-          System.out.println("searchNoWord-53");
+          System.out.println("searchNoWord-53-E3");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcId53zc(region, paging)
               : null;
         } else if (setAssetType.equals("153")) {
-          System.out.println("searchNoWord-153");
+          System.out.println("searchNoWord-153-E3");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcId153zc(region, paging)
               : null;
         } else if (setAssetType.equals("all")) {
-          System.out.println("searchNoWord-all");
+          System.out.println("searchNoWord-all-E3");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdzc(region, paging)
               : null;
         } else if (setAssetType.equals("1all")) {
-          System.out.println("searchNoWord-1all");
+          System.out.println("searchNoWord-1all-E3");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcId1allzc(region, paging)
               : null;
         }
       } else {
+        System.out.println("setAssetType=" + setAssetType + " region=" + region);
         if (setAssetType.equals("53")) {
-          // System.out.println("searchNoWord-53");
+          System.out.println("findDeviceByCcId53");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcId53(region, paging)
               : null;
         } else if (setAssetType.equals("153")) {
-          // System.out.println("searchNoWord-153");
+          System.out.println("findDeviceByCcId153");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcId153(region, paging)
               : null;
         } else if (setAssetType.equals("all")) {
-          // System.out.println("searchNoWord-all");
+          System.out.println("findDeviceByCcId");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcId(region, paging)
               : null;
         } else if (setAssetType.equals("1all")) {
-          // System.out.println("searchNoWord-1all");
+          System.out.println("findDeviceByCcId1all");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcId1all(region, paging)
               : null;
@@ -270,99 +281,82 @@ public class DeviceController {
 
   @GetMapping("/searchWithWord")
   public ResponseEntity<Map<String, Object>> Pattern1(
-    // @RequestParam(defaultValue = "0") int page,
-    // @RequestParam(defaultValue = "30") int size,
-    @RequestParam("region") String region,
-    @RequestParam("textSearch") String textSearch,
-    @RequestParam("setAssetType") String setAssetType
-  ) {
+      // @RequestParam(defaultValue = "0") int page,
+      // @RequestParam(defaultValue = "30") int size,
+      @RequestParam("region") String region,
+      @RequestParam("textSearch") String textSearch,
+      @RequestParam("setAssetType") String setAssetType) {
     try {
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
       Page<tbDevice> pageTuts = null;
 
-      if(region.equals("E3") || region.equals("E3010")){
+      if (region.equals("E3") || region.equals("E3010")) {
         if (setAssetType.equals("53")) {
           System.out.println("searchWithWord-53");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch53zc(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         } else if (setAssetType.equals("153")) {
           System.out.println("searchWithWord-153");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch153zc(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         } else if (setAssetType.equals("all")) {
           System.out.println("searchWithWord-all");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearchzc(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         } else if (setAssetType.equals("1all")) {
           System.out.println("searchWithWord-all");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch1allzc(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         }
-      }else{
+      } else {
         if (setAssetType.equals("53")) {
           System.out.println("searchWithWord-53");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch53(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         } else if (setAssetType.equals("153")) {
           System.out.println("searchWithWord-153");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch153(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         } else if (setAssetType.equals("all")) {
           System.out.println("searchWithWord-all");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         } else if (setAssetType.equals("1all")) {
           System.out.println("searchWithWord-all");
-          pageTuts =
-            (region.length() > 0)
+          pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch1all(
-                region,
-                textSearch,
-                paging
-              )
+                  region,
+                  textSearch,
+                  paging)
               : null;
         }
       }
@@ -631,6 +625,18 @@ public class DeviceController {
     }
   }
 
+  @GetMapping("/redirectgoogle")
+  public Map<String, String> redirectGoogle() {
+    Map<String, String> response = new HashMap<>();
+    response.put("redirectUrl", "https://www.google.com");
+    return response;
+  }
+
+  @GetMapping("/test")
+  public String testEndpoint() {
+    return "CORS is working!";
+  }
+
   @GetMapping("/getDevice53unpageByccId")
   public ResponseEntity<Map<String, Object>> getDevice53unpageByccId(
       @RequestParam("region") String region,
@@ -674,6 +680,102 @@ public class DeviceController {
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private static final Logger LOGGER = Logger.getLogger(DeviceController.class.getName());
+
+  @PostMapping("/test2")
+  public String getDescription(@RequestBody String json) {
+    return (json);
+  }
+
+  @RequestMapping(path = "/something", method = RequestMethod.PUT)
+  public @ResponseBody String helloWorld() {
+    return "Hello World";
+  }
+
+  String requestData2 = "{\r\n" + //
+      "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
+      "    \"templateName\": \"output\",\r\n" + //
+      "    \"pdfVersion\": \"1.7\",\r\n" + //
+      "    \"data\": {\r\n" + //
+      "        \"cost_center_name\": \"กฟส.กทล.\",\r\n" + //
+      "        \"date\": \"19 มิ.ย. 2567\",\r\n" + //
+      "        \"type_other\": \"\",\r\n" + //
+      "        \"brand\": \"HP\",\r\n" + //
+      "        \"model\": \"ProDesk 600 G5\",\r\n" + //
+      "        \"contract\": \"บ.75/2563\",\r\n" + //
+      "        \"serial\": \"4CE03526C6\",\r\n" + //
+      "        \"pea_no\": \"5330404643\",\r\n" + //
+      "        \"problem\": \"ฮาร์ดิสชำรุด\",\r\n" + //
+      "        \"emp_name\": \"นายอนุสรณ์ อมรรัตนศักดิ์\",\r\n" + //
+      "        \"emp_role\": \"พบค.7\",\r\n" + //
+      "        \"emp_id\": \"499857\",\r\n" + //
+      "        \"tel\": \"(22)14890\",\r\n" + //
+      "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" + //
+      "        \"inspector_role\": \"นรค.7\",\r\n" + //
+      "        \"inspector_date\": \"19 มิ.ย. 2567\",\r\n" + //
+      "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" + //
+      "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" + //
+      "        \"dep_head_date\": \"19 มิ.ย. 2567\"\r\n" + //
+      "    }\r\n" + //
+      "}";
+
+  @CrossOrigin(origins = "http://localhost:8000")
+  @PostMapping("/redirectPdfProducer")
+  public ResponseEntity<byte[]> redirectPdfProducer(@RequestBody String requestData) {
+    String targetUrl = "http://172.30.211.224:42/api/pdf-producer";
+    System.err.println("Received Request Data: " + requestData);
+
+    // Initialize RestTemplate and headers
+    RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+    headers.setAccept(Collections.singletonList(org.springframework.http.MediaType.APPLICATION_PDF));
+
+    // Here you can modify the requestData if needed before forwarding
+    // Example: you can parse requestData into a JSON object and modify fields
+    try {
+    // Log the prepared request data
+    System.err.println("Sending Data to External API: " + requestData);
+
+    // Create HttpEntity with the modified requestData and headers
+    HttpEntity<String> entity = new HttpEntity<>(requestData2, headers);
+
+    // Send the request to the external API
+    ResponseEntity<byte[]> response = restTemplate.exchange(targetUrl,
+    HttpMethod.POST, entity, byte[].class);
+
+    // Log the response status and headers
+    System.err.println("Response Status: " + response.getStatusCode());
+    System.err.println("Response Headers: " + response.getHeaders());
+
+    // Set the response headers for the client
+    HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
+
+    // Return the response as a PDF
+    return
+    ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
+    } catch (Exception e) {
+    // Log the exception for debugging
+    System.err.println("Error occurred while redirecting PDF producer request: "
+    + e.getMessage());
+    e.printStackTrace();
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+  }
+
+  @ExceptionHandler(CustomException.class)
+  public final ResponseEntity<String> handleCustomException(CustomException ex, WebRequest request) {
+    LOGGER.log(Level.SEVERE, "Handling custom exception", ex);
+    return ResponseEntity.status(500).body("Custom error: " + ex.getMessage());
+  }
+
+  public static class CustomException extends RuntimeException {
+    public CustomException(String message, Throwable cause) {
+      super(message, cause);
     }
   }
 }

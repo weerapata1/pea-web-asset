@@ -66,37 +66,33 @@
               <!-- prepend-icon="mdi-home" -->
 
               <!-- <div> -->
-                <treeselect
-                  :multiple="false"
-                  :options="optionBranches"
-                  placeholder="โปรดเลือกการไฟฟ้า"
-                  :class="treeselectClass"
-                  v-model="value"
-                  
-                  v-on:select="treeselectChange"
+              <treeselect
+                :multiple="false"
+                :options="optionBranches"
+                placeholder="โปรดเลือกการไฟฟ้า"
+                :class="treeselectClass"
+                v-model="value"
+                v-on:select="treeselectChange"
+              >
+                <label
+                  slot="option-label"
+                  slot-scope="{ node, labelClassName }"
+                  :class="labelClassName"
                 >
-                  <label
-                    slot="option-label"
-                    slot-scope="{
-                      node,
-                      labelClassName,
-                    }"
-                    :class="labelClassName"
-                  >
                   <!-- shouldShowCount, @select="treeselectChange"
                       count,
                       countClassName, -->
                   <v-icon>{{ node.raw.icon }}</v-icon>
-                    <!-- 1 {{ node.raw.icon }} 2 |  -->
-                    <!-- {{ node.isBranch ? "Br" : "Lf" }} :  -->
-                    | {{ node.label }}
-                    <!-- {{ node.label }} -->
-                    <!-- <span v-if="shouldShowCount" :class="countClassName"
+                  <!-- 1 {{ node.raw.icon }} 2 |  -->
+                  <!-- {{ node.isBranch ? "Br" : "Lf" }} :  -->
+                  | {{ node.label }}
+                  <!-- {{ node.label }} -->
+                  <!-- <span v-if="shouldShowCount" :class="countClassName"
                       >({{ count }})</span
                     > -->
-                  </label>
-                </treeselect>
-                <treeselect-value :value="value" />
+                </label>
+              </treeselect>
+              <treeselect-value :value="value" />
               <!-- </div> -->
             </v-container>
           </v-col>
@@ -182,6 +178,7 @@
         </v-row>
       </v-form>
     </div>
+
     <div>
       <template>
         <div>
@@ -363,17 +360,113 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-dialog v-model="dialogFixForm" max-width="800px">
             <v-card>
               <v-card-title class="text-h5"
                 >เชื่อมต่อไปยังหน้าแจ้งซ่อม</v-card-title
               >
+              <v-card-text>
+                <v-simple-table>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Field</th>
+                      <th class="text-left">Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>cost_center_name</td>
+                      <td>
+                        <v-text-field v-model="formData.cost_center_name" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>date</td>
+                      <td><v-text-field v-model="formData.date" /></td>
+                    </tr>
+                    <tr>
+                      <td>type_other</td>
+                      <td><v-text-field v-model="formData.type_other" /></td>
+                    </tr>
+                    <tr>
+                      <td>brand</td>
+                      <td><v-text-field v-model="formData.brand" /></td>
+                    </tr>
+                    <tr>
+                      <td>model</td>
+                      <td><v-text-field v-model="formData.model" /></td>
+                    </tr>
+                    <tr>
+                      <td>contract</td>
+                      <td><v-text-field v-model="formData.contract" /></td>
+                    </tr>
+                    <tr>
+                      <td>serial</td>
+                      <td><v-text-field v-model="formData.serial" /></td>
+                    </tr>
+                    <tr>
+                      <td>pea_no</td>
+                      <td><v-text-field v-model="formData.pea_no" /></td>
+                    </tr>
+                    <tr>
+                      <td>problem</td>
+                      <td><v-text-field v-model="formData.problem" /></td>
+                    </tr>
+                    <tr>
+                      <td>emp_name</td>
+                      <td><v-text-field v-model="formData.emp_name" /></td>
+                    </tr>
+                    <tr>
+                      <td>emp_role</td>
+                      <td><v-text-field v-model="formData.emp_role" /></td>
+                    </tr>
+                    <tr>
+                      <td>emp_id</td>
+                      <td><v-text-field v-model="formData.emp_id" /></td>
+                    </tr>
+                    <tr>
+                      <td>tel</td>
+                      <td><v-text-field v-model="formData.tel" /></td>
+                    </tr>
+                    <tr>
+                      <td>inspector_name</td>
+                      <td>
+                        <v-text-field v-model="formData.inspector_name" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>inspector_role</td>
+                      <td>
+                        <v-text-field v-model="formData.inspector_role" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>inspector_date</td>
+                      <td>
+                        <v-text-field v-model="formData.inspector_date" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>dep_head_name</td>
+                      <td><v-text-field v-model="formData.dep_head_name" /></td>
+                    </tr>
+                    <tr>
+                      <td>dep_head_role</td>
+                      <td><v-text-field v-model="formData.dep_head_role" /></td>
+                    </tr>
+                    <tr>
+                      <td>dep_head_date</td>
+                      <td><v-text-field v-model="formData.dep_head_date" /></td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+              </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete"
+                <v-btn color="blue darken-1" text @click="closeFixForm"
                   >Cancel</v-btn
                 >
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                <v-btn color="blue darken-1" text @click="genFixFormReport"
                   >OK</v-btn
                 >
                 <v-spacer></v-spacer>
@@ -382,12 +475,194 @@
           </v-dialog>
         </v-toolbar>
       </template>
+      <template>
+        <VueHtml2pdf
+          :show-layout="false"
+          :float-layout="true"
+          :enable-download="true"
+          :preview-modal="true"
+          :paginate-elements-by-height="1400"
+          filename="editedItem"
+          :pdf-quality="2"
+          :manual-pagination="false"
+          pdf-format="a4"
+          pdf-orientation="portrait"
+          pdf-content-width="750px"
+          ref="html2Pdf"
+          :html-to-pdf-options="{
+            margin: [10, 10, 10, 10],
+          }"
+        >
+        <section slot="pdf-content">
+            <h2>เอกสารแจ้งซ่อม</h2>
+
+            <!-- <div class="section">
+                  <p>
+                    จาก <span class="input-line"></span> ถึง
+                    <span class="input-line">กดส.ฉ.2</span>
+                  </p>
+                  <p>
+                    เลขที่ <span class="input-line"></span> วันที่
+                    <span class="input-line"></span>
+                  </p>
+                </div>
+
+                <div class="section">
+                  <p>เรื่อง: ขอให้จัดซ่อมเครื่องคอมพิวเตอร์ และอุปกรณ์ประกอบ</p>
+                  <p>เรียน: หผ.คข</p>
+                  <p>"ขอแจ้งเครื่องชำรุดเพื่อส่งซ่อมตามรายการดังนี้:"</p>
+
+                  <div class="checkbox-group">
+                    <label><input type="checkbox" /> CPU</label>
+                    <label><input type="checkbox" /> Monitor</label>
+                    <label><input type="checkbox" /> Printer</label>
+                    <label><input type="checkbox" /> UPS</label>
+                  </div>
+                  <p>
+                    ยี่ห้อ <span class="input-line"></span> รุ่น
+                    <span class="input-line"></span> สัญญาเลขที่
+                    <span class="input-line"></span>
+                  </p>
+                  <p>
+                    รหัสเครื่อง
+                    <span class="input-line"></span> รหัสทรัพย์สิน
+                    <span class="input-line"></span>
+                  </p>
+                  <p>
+                    <label><input type="checkbox" /> อยู่</label>
+                    <label
+                      ><input type="checkbox" /> ไม่อยู่ในสัญญารับประกัน</label
+                    >
+                  </p>
+                  <p>
+                    อาการ:
+                    <span class="input-line" style="width: 400px"></span>
+                  </p>
+                </div>
+
+                <div class="section">
+                  <p>
+                    อื่นๆ
+                    <span class="input-line" style="width: 400px"></span>
+                  </p>
+                  <p>สัญญาเลขที่ <span class="input-line"></span></p>
+                  <p>
+                    รหัสเครื่อง
+                    <span class="input-line"></span> รหัสทรัพย์สิน
+                    <span class="input-line"></span>
+                  </p>
+                  <p>
+                    <label><input type="checkbox" /> อยู่</label>
+                    <label
+                      ><input type="checkbox" /> ไม่อยู่ในสัญญารับประกัน</label
+                    >
+                  </p>
+                  <p>
+                    อาการ:
+                    <span class="input-line" style="width: 400px"></span>
+                  </p>
+                  <p>
+                    ซึ่งติดตั้งใช้งานที่
+                    <span class="input-line" style="width: 400px"></span>
+                  </p>
+                </div>
+
+                <div class="section">
+                  <p>
+                    ในกรณีที่ไม่อยู่ในสัญญารับประกัน ขอให้ กดส.ฉ.2 ดำเนินการซ่อม
+                    และตัดงบค่าใช้จ่ายจากศูนย์ต้นทุนของ
+                    <span class="input-line" style="width: 300px"
+                      >E301023000</span
+                    >
+                    รหัสบัญชี <span class="input-line">53051060</span>
+                  </p>
+                  <p>จึงเรียนมาเพื่อโปรดแจ้งผู้เกี่ยวข้องดำเนินการต่อไปด้วย</p>
+                  <div class="signature">
+                    ชื่อ-สกุล
+                    <span class="input-line"
+                      >(.......................................................)</span
+                    ><br />
+                    ตำแหน่ง <span class="input-line"></span> รหัสพนักงาน
+                    <span class="input-line"></span><br />
+                    เบอร์โทรติดต่อกลับ <span class="input-line"></span>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <p>การตรวจสอบอุปกรณ์ก่อนส่งซ่อม (ผคข.กดส.ฉ.2)</p>
+                  <p>
+                    ................................................................................................................
+                  </p>
+                  <div class="signature">
+                    ผู้รับเครื่อง/ตรวจสอบ
+                    <span class="input-line"
+                      >(....................................................)</span
+                    ><br />
+                    ตำแหน่ง <span class="input-line"></span><br />
+                    <span class="input-line"
+                      >....................../.............../................</span
+                    >
+                  </div>
+                </div>
+
+                <div class="section">
+                  <p>เรียน อก.ดส.ฉ.2</p>
+                  <p>ดำเนินการซ่อมโดยวิธี:</p>
+                  <div class="checkbox-group">
+                    <label
+                      ><input type="checkbox" /> จัดซื้ออุปกรณ์มาเปลี่ยน
+                      เนื่องจาก
+                      <span
+                        class="input-line"
+                        style="width: 400px"
+                      ></span></label
+                    ><br />
+                    <label
+                      ><input type="checkbox" /> ส่งให้บริษัทดำเนินการ เนื่องจาก
+                      <span
+                        class="input-line"
+                        style="width: 400px"
+                      ></span></label
+                    ><br />
+                    <label
+                      ><input type="checkbox" /> ไม่ดำเนินการซ่อม เนื่องจาก
+                      <span class="input-line" style="width: 400px"></span
+                    ></label>
+                  </div>
+                  <div class="signature">
+                    เพื่อโปรดพิจารณา อนุมัติ<br />
+                    <span class="input-line"
+                      >(....................................................)</span
+                    ><br />
+                    ตำแหน่ง <span class="input-line"></span><br />
+                    <span class="input-line"
+                      >.................../.............../................</span
+                    >
+                  </div>
+                </div>
+
+                <div class="section">
+                  <p>ที่ ฉ.2กดส.(คข.)........../2567</p>
+                  <div class="signature">
+                    อนุมัติ<br />
+                    <span class="input-line"
+                      >(....................................................)</span
+                    ><br />
+                    ตำแหน่ง <span class="input-line"></span><br />
+                    <span class="input-line"
+                      >.................../.............../................</span
+                    >
+                  </div>
+                </div> -->
+          </section>
+        </VueHtml2pdf>
+    </template>
 
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon medium class="mr-2" @click="editItem(item)">
           mdi-qrcode-scan
         </v-icon>
-        <v-icon medium @click="deleteItem(item)">
+        <v-icon medium @click="showFixForm(item)">
           mdi-folder-wrench-outline
         </v-icon>
       </template>
