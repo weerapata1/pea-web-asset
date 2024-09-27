@@ -2,25 +2,25 @@ import axios from "axios"
 // const qs = require('qs');
 
 export default {
-    async getEvents() {
-      let res = await axios.get("http://172.21.1.51:8080/api/dev/getAllDevice",{headers: {'Access-Control-Allow-Origin': '*'}});
-      console.log("export default", res.data);
-      return res.data;
-    },
+    // async getEvents() {
+    //   let res = await axios.get("http://172.21.1.51:8080/api/dev/getAllDevice",{headers: {'Access-Control-Allow-Origin': '*'}});
+    //   console.log("export default", res.data);
+    //   return res.data;
+    // },
     // async getAllDevice53() {
     //   let res = await axios.get("http://172.21.1.51:8080/api/dev/getAllDevice53",{headers: {'Access-Control-Allow-Origin': '*'}});
     //   console.log("export default", res.data);
     //   return res.data;
     // },
-    async getEventSingle(eventId) {
-      let res = await axios.get("http://172.21.1.51:8080/data/" + eventId,{headers: {'Access-Control-Allow-Origin': '*'}});
-      return res.data;
-    },
-    async getCC(){
-      let res = axios.get("http://172.21.1.51:8080/cc/getAllCC");
-      console.log("cc ", res.data );
-      return res.data
-    },
+    // async getEventSingle(eventId) {
+    //   let res = await axios.get("http://172.21.1.51:8080/data/" + eventId,{headers: {'Access-Control-Allow-Origin': '*'}});
+    //   return res.data;
+    // },
+    // async getCC(){
+    //   let res = axios.get("http://172.21.1.51:8080/cc/getAllCC");
+    //   console.log("cc ", res.data );
+    //   return res.data
+    // },
 
 
 //    async getSearch(jdata){

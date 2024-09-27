@@ -25,24 +25,24 @@ public class EmpAdminController {
         return empAdminRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<ResponseMessage> loginService(@RequestParam("userName") String userName, @RequestParam("Password") String Password) {
+    // @GetMapping("/login")
+    // public ResponseEntity<ResponseMessage> loginService(@RequestParam("userName") String userName, @RequestParam("Password") String Password) {
 
-        String message = "";
-        tbEmpAdmin admin = empAdminRepository.findAdminPasswordByAdminUserName(userName);
-        System.out.println("username : "+ userName + " password : "+ Password);
-        if (new String(userName).equals(admin.getAdminUserName()) && new String(Password).equals(admin.getAdminPassword()) ){
-            System.out.println("true");
-            message = "true";
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new ResponseMessage(message));
-        } else {
-            System.out.println("fail");
-            message = "fail";
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseMessage(message));
-        }
-    }
+    //     String message = "";
+    //     tbEmpAdmin admin = empAdminRepository.findAdminPasswordByAdminUserName(userName);
+    //     System.out.println("username : "+ userName + " password : "+ Password);
+    //     if (new String(userName).equals(admin.getAdminUserName()) && new String(Password).equals(admin.getAdminPassword()) ){
+    //         System.out.println("true");
+    //         message = "true";
+    //         return ResponseEntity
+    //                 .status(HttpStatus.OK)
+    //                 .body(new ResponseMessage(message));
+    //     } else {
+    //         System.out.println("fail");
+    //         message = "fail";
+    //         return ResponseEntity
+    //                 .status(HttpStatus.BAD_REQUEST)
+    //                 .body(new ResponseMessage(message));
+    //     }
+    // }
 }
