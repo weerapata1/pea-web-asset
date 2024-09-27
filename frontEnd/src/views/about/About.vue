@@ -27,7 +27,7 @@
       </div>
       <v-form>
         <v-row>
-          <v-col cols="12" sm="4" md="2">
+          <v-col cols="12" sm="6" md="4">
             <v-container fluid class="mt-2 mr-0 pr-0">
               <!-- item-value="fruits.name" -->
               <!-- multiple -->
@@ -101,7 +101,7 @@
             </v-container>
           </v-col>
 
-          <v-col cols="12" sm="6" md="3">
+          <v-col cols="12" sm="4" md="2">
             <v-container fluid>
               <v-row>
                 <v-text-field v-model="textSearch" label="ค้นหา"></v-text-field>
