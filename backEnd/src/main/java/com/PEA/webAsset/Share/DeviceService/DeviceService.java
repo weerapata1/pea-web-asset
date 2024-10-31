@@ -15,13 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.Console;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -204,9 +202,9 @@ public class DeviceService {
                         device.setDevReceivedDate(recievedDate);
                         device.setDevReceivedPrice(receivedPrice);
                         device.setDevLeftPrice(leftPrice);
-                        device.setTbCostCenterTest(costCenterRepository.findByCcLongCode(ccId));
+                        device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccId));
                         device.setTbEmployee(employeeRepository.findByEmpId(userId));
-                        // device.setTbCostCenterTest(ccId);
+                        // device.setTbCostCenter(ccId);
                         // device.setTbEmployee(userId);
                         deviceList.add(device);
                     }

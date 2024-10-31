@@ -3,9 +3,9 @@ package com.PEA.webAsset.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import  jakarta.persistence.*;
+//import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Data
 @Setter
@@ -20,7 +20,7 @@ public class tbDevice {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")
     @SequenceGenerator(name = "dev_seq", sequenceName = "dev_seq")
     @Column(name = "id", unique = true)
-    @NotNull(message = "\t device_id is null \t")
+//    @NotNull(message = "\t device_id is null \t")
     private Long id;
 
     private String devPeaNo;
@@ -45,10 +45,10 @@ public class tbDevice {
     // private tbCommitment tbCommitment;
 
     // Join tbCostCenter.class------------------------------
-    @ManyToOne(targetEntity = tbCostCenterTest.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_id", insertable = true, referencedColumnName = "cc_id", nullable = true)
-    private tbCostCenterTest tbCostCenterTest;
-    // private String tbCostCenterTest;
+    private tbCostCenter tbCostCenter;
+    // private String tbCostCenter;
 
     // Join tbEmployee.class------------------------------
     @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
@@ -56,8 +56,8 @@ public class tbDevice {
     private tbEmployee tbEmployee; 
     // private String tbEmployee;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime devUpdate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
+    private LocalDate devUpdate;
     //
     // Join tbDeviceType.class------------------------------
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
@@ -80,10 +80,10 @@ public class tbDevice {
 
     public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
                     Double devReceivedPrice, Double devLeftPrice, 
-                    tbCostCenterTest cc_id, 
+                    tbCostCenter cc_id,
                     // String cc_id,
                     tbEmployee emp_id,
-                    LocalDateTime devUpdate, tbDeviceType dt_id
+                    LocalDate devUpdate, tbDeviceType dt_id
                     ){
         this.devPeaNo = devPeaNo;
         this.devDescription = devDescription;
@@ -91,7 +91,7 @@ public class tbDevice {
         this.devReceivedDate = devReceivedDate;
         this.devReceivedPrice = devReceivedPrice;
         this.devLeftPrice = devLeftPrice;
-        this.tbCostCenterTest = cc_id;
+        this.tbCostCenter = cc_id;
         this.tbEmployee = emp_id;
         this.devUpdate = devUpdate;
         this.tbDeviceType = dt_id;

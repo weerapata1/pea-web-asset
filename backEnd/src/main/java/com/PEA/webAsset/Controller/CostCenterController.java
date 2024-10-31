@@ -1,6 +1,6 @@
 package com.PEA.webAsset.Controller;
 
-import com.PEA.webAsset.Entity.tbCostCenterTest;
+import com.PEA.webAsset.Entity.tbCostCenter;
 import com.PEA.webAsset.Repository.CostCenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -24,17 +24,17 @@ public class CostCenterController {
     CostCenterRepository costCenterRepository;
 
     @GetMapping("/getAllCC")
-    public Collection<tbCostCenterTest> getAllCC() {
+    public Collection<tbCostCenter> getAllCC() {
         return costCenterRepository.findAll().stream().collect(Collectors.toList());
     }
 
     @GetMapping("/getAllCCOnlyUse")
     public ResponseEntity<Map<String, Object>> getAllCCOnlyUse() {
         try {
-            List<tbCostCenterTest> costCenter = new ArrayList<tbCostCenterTest>();
+            List<tbCostCenter> costCenter = new ArrayList<tbCostCenter>();
             Pageable paging = Pageable.unpaged();
       
-            Page<tbCostCenterTest> pageTuts = costCenterRepository.onlyUse(paging);
+            Page<tbCostCenter> pageTuts = costCenterRepository.onlyUse(paging);
             costCenter = pageTuts.getContent();
       
             Map<String, Object> response = new HashMap<>();

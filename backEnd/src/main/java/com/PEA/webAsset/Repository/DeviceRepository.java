@@ -38,7 +38,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
                         @Param("ccLong") String ccLong, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
-        // , cc_short_name "LEFT JOIN tb_cost_center_test My01CostC ON d.cc_id = My01CostC.cc_id " +
+        // , cc_short_name "LEFT JOIN tb_cost_center My01CostC ON d.cc_id = My01CostC.cc_id " +
                         "WHERE d.cc_id LIKE CONCAT(:ccLong,'%') " +
                         "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId53(@Param("ccLong") String ccLong, Pageable pageable);
@@ -63,7 +63,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
                         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
@@ -81,7 +81,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
                         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
@@ -100,7 +100,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
                         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
@@ -120,7 +120,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
                         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
                         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
@@ -190,7 +190,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
         tbDevice findAllByDevPeaNo(String devPeaNo);
 
         @Query(value = "SELECT * from tb_device d " +
-        // , cc_short_name "LEFT JOIN tb_cost_center_test My01CostC ON d.cc_id = My01CostC.cc_id " +
+        // , cc_short_name "LEFT JOIN tb_cost_center My01CostC ON d.cc_id = My01CostC.cc_id " +
                         "WHERE (d.cc_id LIKE CONCAT(:ccLong,'%') OR d.cc_id LIKE 'ZC%')" +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         Page<tbDevice> findDeviceByCcId53zc(@Param("ccLong") String ccLong, Pageable pageable);
@@ -216,7 +216,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
 
         @Query(value = "SELECT * from tb_device d " +
         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
@@ -235,7 +235,7 @@ Page<tbDevice> findDeviceByCcIdAndTextSearch53zc(@Param("ccLong") String ccLong,
 
         @Query(value = "SELECT * from tb_device d " +
         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
@@ -255,7 +255,7 @@ Page<tbDevice> findDeviceByCcIdAndTextSearch153zc(@Param("ccLong") String ccLong
 
         @Query(value = "SELECT * from tb_device d " +
         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
@@ -273,7 +273,7 @@ Page<tbDevice> findDeviceByCcIdAndTextSearchzc(@Param("ccLong") String ccLong,
 
         @Query(value = "SELECT * from tb_device d " +
         "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-        "LEFT JOIN tb_cost_center_test c ON d.cc_id = c.cc_id " +
+        "LEFT JOIN tb_cost_center c ON d.cc_id = c.cc_id " +
         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
         "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +

@@ -57,6 +57,13 @@ public class DeviceController {
   @Autowired
   DeviceService deviceService;
 
+  public DeviceController(DeviceRepository deviceRepository, ContractRepository commitmentRepository, CostCenterRepository costCenterRepository, ExcelService excelService){
+    this.deviceRepository = deviceRepository;
+    this.costCenterRepository = costCenterRepository;
+    this.commitmentRepository = commitmentRepository;
+    this.excelService = excelService;
+  }
+
   @GetMapping("/getAll")
   public Collection<tbDevice> getAll() {
     return deviceRepository.findAll().stream().collect(Collectors.toList());
@@ -373,7 +380,10 @@ public class DeviceController {
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      Map<String , Object> response = new HashMap<>();
+      response.put("Error",e.getMessage());
+      System.out.println(e.getMessage());
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -665,12 +675,14 @@ public class DeviceController {
       @RequestParam("region") String region,
       @RequestParam("dt_id") String dt_id) {
     try {
+
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccIdOnly7Year(
           region, dt_id, paging);
       device = pageTuts.getContent();
+      System.out.println("Device : " + device);
 
       Map<String, Object> response = new HashMap<>();
 
@@ -679,6 +691,7 @@ public class DeviceController {
       // response.put("itemsPerPage", size);
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
+      System.out.println("error on  getDevice53unpageByccIdOnly7Year message: " + e.getMessage());
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

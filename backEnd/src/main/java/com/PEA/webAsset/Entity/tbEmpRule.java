@@ -1,16 +1,16 @@
 package com.PEA.webAsset.Entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.*;
+import  jakarta.persistence.*;
 
 @Data
+@Getter @Setter
 @Entity(name = "tbEmpRule")
 @Table(name = "tbEmpRule")
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class tbEmpRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rule_seq")
@@ -19,4 +19,9 @@ public class tbEmpRule {
     private Long id;
 
     private String ruleName;
+
+
+    public tbEmpRule(String ruleName){
+        this.ruleName = ruleName;
+    }
 }

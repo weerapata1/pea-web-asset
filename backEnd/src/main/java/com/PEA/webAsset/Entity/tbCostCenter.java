@@ -2,24 +2,23 @@ package com.PEA.webAsset.Entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import  jakarta.persistence.*;
 
 @Data
 @Getter
 @Setter
-@Table(name = "tb_cost_center_test")
-@Entity(name = "tb_cost_center_test")
-// @Table(name = "tb_cost_center_test")
-// @Entity(name = "tb_cost_center_test")
+@Table(name = "tb_cost_center")
+@Entity(name = "tb_cost_center")
 @EqualsAndHashCode
 @NoArgsConstructor
-public class tbCostCenterTest {
+@ToString
+public class tbCostCenter {
     @Id
-//    @SequenceGenerator(name = "cost_seq",sequenceName = "cost_seq")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "cost_seq")
-//    private Long costCenterId;
-
+    @SequenceGenerator(name = "cost_seq",sequenceName = "cost_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "cost_seq")
     @Column(name = "cc_id")
+    private  Long cc_id;
+
     private String ccLongCode; //
 
     private String ccShortCode; //
@@ -30,12 +29,12 @@ public class tbCostCenterTest {
 
     private String ccFullName; //
 
-    public tbCostCenterTest(String ccLongCode, String ccShortCode, String ccAgencyName, String ccShortName, String ccFullName){
+    public tbCostCenter(String ccLongCode, String ccShortCode, String ccAgencyName, String ccShortName, String ccFullName){
         this.ccLongCode = ccLongCode;
         this.ccShortCode = ccShortCode;
         this.ccAgencyName = ccAgencyName;
         this.ccShortName = ccShortName;
         this.ccFullName = ccFullName;
     }
-    
+
 }
