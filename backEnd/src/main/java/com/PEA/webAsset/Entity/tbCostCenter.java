@@ -21,7 +21,7 @@ public class tbCostCenter {
 
     private String ccLongCode; //
 
-    private String ccShortCode; //
+    private String ccBusA; //
 
     private String ccAgencyName;// ชื่อสังกัด
 
@@ -29,9 +29,9 @@ public class tbCostCenter {
 
     private String ccFullName; //
 
-    public tbCostCenter(String ccLongCode, String ccShortCode, String ccAgencyName, String ccShortName, String ccFullName){
+    public tbCostCenter(String ccLongCode, String ccBusA, String ccAgencyName, String ccShortName, String ccFullName){
         this.ccLongCode = ccLongCode;
-        this.ccShortCode = ccShortCode;
+        this.ccBusA = ccBusA;
         this.ccAgencyName = ccAgencyName;
         this.ccShortName = ccShortName;
         this.ccFullName = ccFullName;

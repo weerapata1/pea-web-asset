@@ -3,3 +3,4 @@
 .history/
 .idea/
 .vs/
+./backEnd/src/main/resources/application.properties
