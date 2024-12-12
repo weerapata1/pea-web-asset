@@ -1,6 +1,7 @@
 package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbDevice;
+import com.PEA.webAsset.Exeption.InvalidDataException;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
 import com.PEA.webAsset.Repository.CostCenterRepository;
@@ -32,7 +33,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-
 // @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/dev")
@@ -57,7 +57,8 @@ public class DeviceController {
   @Autowired
   DeviceService deviceService;
 
-  public DeviceController(DeviceRepository deviceRepository, ContractRepository commitmentRepository, CostCenterRepository costCenterRepository, ExcelService excelService){
+  public DeviceController(DeviceRepository deviceRepository, ContractRepository commitmentRepository,
+      CostCenterRepository costCenterRepository, ExcelService excelService) {
     this.deviceRepository = deviceRepository;
     this.costCenterRepository = costCenterRepository;
     this.commitmentRepository = commitmentRepository;
@@ -380,8 +381,8 @@ public class DeviceController {
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
-      Map<String , Object> response = new HashMap<>();
-      response.put("Error",e.getMessage());
+      Map<String, Object> response = new HashMap<>();
+      response.put("Error", e.getMessage());
       System.out.println(e.getMessage());
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -431,35 +432,83 @@ public class DeviceController {
   // }
   // }
 
+  // @PostMapping("/upload")
+  // public ResponseEntity<ResponseMessage> importExcelFile(
+  // @RequestParam("file") MultipartFile files)
+  // throws IOException {
+  // String message = "";
+  // if (ExcelHelper.hasExcelFormat(files)) {
+  // try {
+  // List<tbDevice> deviceList = deviceService.saveDevice(files);
+  // deviceRepository.saveAll(deviceList);
+
+  // message = "Uploaded the file successfully: " +
+  // files.getOriginalFilename() +
+  // "\n";
+  // return ResponseEntity
+  // .status(HttpStatus.OK)
+  // .body(new ResponseMessage(message));
+  // } catch (Exception e) {
+  // message = "Could not upload the file: " +
+  // files.getOriginalFilename() +
+  // e.getMessage();
+  // return ResponseEntity
+  // .status(HttpStatus.EXPECTATION_FAILED)
+  // .body(new ResponseMessage(message));
+  // }
+  // }
+  // message = "Please upload an excel file!";
+  // return ResponseEntity
+  // .status(HttpStatus.BAD_REQUEST)
+  // .body(new ResponseMessage(message));
+  // }
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> importExcelFile(
-      @RequestParam("file") MultipartFile files)
-      throws IOException {
-    String message = "";
-    if (ExcelHelper.hasExcelFormat(files)) {
-      try {
-        List<tbDevice> deviceList = deviceService.saveDevice(files);
-        deviceRepository.saveAll(deviceList);
+      @RequestParam("file") MultipartFile file) throws IOException {
 
-        message = "Uploaded the file successfully: " +
-            files.getOriginalFilename() +
-            "\n";
+    String message;
+
+    // Validate if the file is an Excel file
+    if (!ExcelHelper.hasExcelFormat(file)) {
+      message = "Please upload a valid Excel file!";
+      return ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .body(new ResponseMessage(message));
+    }
+
+    try {
+      // Parse and save the Excel data
+      List<tbDevice> deviceList = deviceService.saveDevice(file);
+
+      // Check if the list is empty (e.g., no valid rows in Excel)
+      if (deviceList.isEmpty()) {
+        message = "The uploaded file contains no valid data!";
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(new ResponseMessage(message));
-      } catch (Exception e) {
-        message = "Could not upload the file: " +
-            files.getOriginalFilename() +
-            e.getMessage();
-        return ResponseEntity
-            .status(HttpStatus.EXPECTATION_FAILED)
+            .status(HttpStatus.NO_CONTENT)
             .body(new ResponseMessage(message));
       }
+
+      // Save all devices to the database
+      deviceRepository.saveAll(deviceList);
+
+      // Success message
+      message = "Uploaded the file successfully: " + file.getOriginalFilename();
+      return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(new ResponseMessage(message));
+    } catch (InvalidDataException e) {
+      // Custom exception handling for invalid data
+      message = "The file contains invalid data: " + e.getMessage();
+      return ResponseEntity
+          .status(HttpStatus.UNPROCESSABLE_ENTITY)
+          .body(new ResponseMessage(message));
+    } catch (Exception e) {
+      // General error handling
+      message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+      return ResponseEntity
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponseMessage(message));
     }
-    message = "Please upload an excel file!";
-    return ResponseEntity
-        .status(HttpStatus.BAD_REQUEST)
-        .body(new ResponseMessage(message));
   }
 
   @PostMapping("/posT")
@@ -750,33 +799,32 @@ public class DeviceController {
     // Here you can modify the requestData if needed before forwarding
     // Example: you can parse requestData into a JSON object and modify fields
     try {
-    // Log the prepared request data
-    System.err.println("Sending Data to External API: " + requestData);
+      // Log the prepared request data
+      System.err.println("Sending Data to External API: " + requestData);
 
-    // Create HttpEntity with the modified requestData and headers
-    HttpEntity<String> entity = new HttpEntity<>(requestData2, headers);
+      // Create HttpEntity with the modified requestData and headers
+      HttpEntity<String> entity = new HttpEntity<>(requestData2, headers);
 
-    // Send the request to the external API
-    ResponseEntity<byte[]> response = restTemplate.exchange(targetUrl,
-    HttpMethod.POST, entity, byte[].class);
+      // Send the request to the external API
+      ResponseEntity<byte[]> response = restTemplate.exchange(targetUrl,
+          HttpMethod.POST, entity, byte[].class);
 
-    // Log the response status and headers
-    System.err.println("Response Status: " + response.getStatusCode());
-    System.err.println("Response Headers: " + response.getHeaders());
+      // Log the response status and headers
+      System.err.println("Response Status: " + response.getStatusCode());
+      System.err.println("Response Headers: " + response.getHeaders());
 
-    // Set the response headers for the client
-    HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
+      // Set the response headers for the client
+      HttpHeaders responseHeaders = new HttpHeaders();
+      responseHeaders.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
 
-    // Return the response as a PDF
-    return
-    ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
+      // Return the response as a PDF
+      return ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
     } catch (Exception e) {
-    // Log the exception for debugging
-    System.err.println("Error occurred while redirecting PDF producer request: "
-    + e.getMessage());
-    e.printStackTrace();
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+      // Log the exception for debugging
+      System.err.println("Error occurred while redirecting PDF producer request: "
+          + e.getMessage());
+      e.printStackTrace();
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
   }
 

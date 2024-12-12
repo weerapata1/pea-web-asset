@@ -20,40 +20,33 @@ public class tbDevice {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")
     @SequenceGenerator(name = "dev_seq", sequenceName = "dev_seq")
     @Column(name = "id", unique = true)
-//    @NotNull(message = "\t device_id is null \t")
+
     private Long id;
 
     private String devPeaNo;
    
-    //
     private String devDescription;
-    // @Column(name ="dev_serialNo", unique = true)
+
     private String devSerialNo;
 
     private String devNote;
 
-    // @JsonFormat(pattern="yyyy-MM-dd")
     private String devReceivedDate;
 
     private Double devReceivedPrice;
 
     private Double devLeftPrice;
 
-    // Join tbCommitment.class------------------------------
-    // @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "cont_id", insertable = true)
-    // private tbCommitment tbCommitment;
-
     // Join tbCostCenter.class------------------------------
     @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cc_id", insertable = true, referencedColumnName = "cc_id", nullable = true)
+    @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
     private tbCostCenter tbCostCenter;
     // private String tbCostCenter;
 
     // Join tbEmployee.class------------------------------
     @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "emp_id", insertable = true, nullable = true)
-    private tbEmployee tbEmployee; 
+    @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", nullable = true) // Reference emp_id in tbEmployee
+    private tbEmployee tbEmployee;
     // private String tbEmployee;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
@@ -69,20 +62,15 @@ public class tbDevice {
     @Column(columnDefinition="tinyint(1) default 0")
     private Boolean isDeleted;
 
-    // @ManyToOne(targetEntity = tbDeviceBrand.class, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "brand_id", insertable = true,referencedColumnName = "id")
-    // private tbDeviceBrand tbDeviceBrand;
-    //
-    // @ManyToOne (targetEntity = tbRepair.class , fetch = FetchType.EAGER)
-    // @JoinColumn(name = "repairId", insertable = true,referencedColumnName =
-    // "repairId")
-    // private tbRepair tbRepair;
+    public void setTbCostCenter(tbCostCenter  tbCostCenter) {
+        this.tbCostCenter = tbCostCenter;
+    }
 
     public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
                     Double devReceivedPrice, Double devLeftPrice, 
-                    tbCostCenter cc_id,
+                    tbCostCenter tbCostCenter,
                     // String cc_id,
-                    tbEmployee emp_id,
+                    tbEmployee tbEmployee,
                     LocalDate devUpdate, tbDeviceType dt_id
                     ){
         this.devPeaNo = devPeaNo;
@@ -91,10 +79,9 @@ public class tbDevice {
         this.devReceivedDate = devReceivedDate;
         this.devReceivedPrice = devReceivedPrice;
         this.devLeftPrice = devLeftPrice;
-        this.tbCostCenter = cc_id;
-        this.tbEmployee = emp_id;
+        this.tbCostCenter = tbCostCenter;
+        this.tbEmployee = tbEmployee;
         this.devUpdate = devUpdate;
         this.tbDeviceType = dt_id;
     }
-
 }

@@ -1,6 +1,8 @@
 package com.PEA.webAsset.Share.DeviceService;
 
+import com.PEA.webAsset.Entity.tbCostCenter;
 import com.PEA.webAsset.Entity.tbDevice;
+import com.PEA.webAsset.Exeption.InvalidDataException;
 import com.PEA.webAsset.Repository.CostCenterRepository;
 import com.PEA.webAsset.Repository.DeviceRepository;
 import com.PEA.webAsset.Repository.EmployeeRepository;
@@ -22,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.DataFormatter;
 
@@ -99,122 +102,196 @@ public class DeviceService {
 
     public List<tbDevice> saveDevice(MultipartFile file) throws IOException {
 
-        LocalDate dateNow = LocalDate.now();
-        String dateNowFormat = dateNow.format(dateFormat);
-        // LocalDate dateReceived = LocalDate.parse(dateNowFormat, dateFormat);
         int index = 0;
         DataFormatter formatter = new DataFormatter();
-        try {
-            List<tbDevice> deviceList = new ArrayList<tbDevice>();
-
-            XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            List<tbDevice> deviceList = new ArrayList<>();
             XSSFSheet worksheet = workbook.getSheetAt(0);
 
-            for (index++; index < worksheet.getPhysicalNumberOfRows(); index++) {
-                tbDevice device = new tbDevice();
+            // Start from the second row (index 1) to skip the header
+            for (index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
                 XSSFRow row = worksheet.getRow(index);
+
+                // Check if the row is null or if Column A (Cell(0)) is empty
+                if (row == null || row.getCell(0) == null || row.getCell(0).getCellType() == CellType.BLANK) {
+                    break; // Stop processing if Column A is empty
+                }
+                tbDevice device = new tbDevice();
+
                 Double receivedPrice;
                 Cell c10 = row.getCell(10);
-                if (c10 == null || c10.getCellType() == CellType.BLANK) {
-                    receivedPrice = (double) 0;
-                } else {
-                    receivedPrice = (double) row.getCell(10).getNumericCellValue();
-                }
+                receivedPrice = (c10 == null || c10.getCellType() == CellType.BLANK)
+                        ? 0.0
+                        : row.getCell(10).getNumericCellValue();
+                // if (index > 0) {
+                // if (receivedPrice >= 1) {
 
-                if (index > 0) {
-                    if (receivedPrice >= 1) {
+                // String peaNo;
+                // String description;
+                // String serialNo;
+                // String recievedDate;
+                // Double leftPrice;
+                // String ccLongCode;
+                // String userId;
+                // // Long id = (long) row.getCell(0).getNumericCellValue();
+                // Cell c2 = row.getCell(2);
+                // if (c2 == null || c2.getCellType() == CellType.BLANK) {
+                // peaNo = "";
+                // System.out.println("peaNo is BLANK at " + index);
+                // } else {
+                // peaNo = formatter.formatCellValue(row.getCell(2));
+                // }
+                // Cell c3 = row.getCell(3);
+                // if (c3 == null || c3.getCellType() == CellType.BLANK) {
+                // userId = "";
+                // System.out.println("userId is BLANK at " + index);
+                // } else {
+                // userId = formatter.formatCellValue(row.getCell(3));
+                // }
+                // Cell c4 = row.getCell(4);
+                // if (c4 == null || c4.getCellType() == CellType.BLANK) {
+                // description = "";
+                // System.out.println("description is BLANK at " + index);
+                // } else {
+                // description = formatter.formatCellValue(row.getCell(4));
+                // }
+                // Cell c5 = row.getCell(5);
+                // if (c5 == null || c5.getCellType() == CellType.BLANK) {
+                // serialNo = "";
+                // System.out.println("serialNo is BLANK at " + index);
+                // } else {
+                // //serialNo = (String) row.getCell(5).getStringCellValue();
+                // serialNo = formatter.formatCellValue(row.getCell(5));
+                // }
+                // Cell c9 = row.getCell(9);
+                // if (c9 == null || c9.getCellType() == CellType.BLANK) {
+                // recievedDate = "";
+                // System.out.println("recievedDate is BLANK at " + index);
+                // } else {
+                // recievedDate = formatter.formatCellValue(row.getCell(9));
+                // }
+                // Cell c11 = row.getCell(11);
+                // if (c11 == null || c11.getCellType() == CellType.BLANK) {
+                // leftPrice = (double) 1;
+                // System.out.println("leftPrice is BLANK at " + index);
+                // } else {
+                // leftPrice = (double) row.getCell(11).getNumericCellValue();
+                // }
+                // Cell c12 = row.getCell(12);
+                // if (c12 == null || c12.getCellType() == CellType.BLANK) {
+                // ccLongCode = "";
+                // System.out.println("ccLongCode is BLANK at " + index);
+                // } else {
+                // ccLongCode = formatter.formatCellValue(row.getCell(12));
+                // }
 
-                        String peaNo;
-                        String description;
-                        String serialNo;
-                        String recievedDate;
-                        Double leftPrice;
-                        String ccId;
-                        String userId;
-                        // Long id = (long) row.getCell(0).getNumericCellValue();
-                        Cell c2 = row.getCell(2);
-                        if (c2 == null || c2.getCellType() == CellType.BLANK) {
-                            peaNo = "";
-                            System.out.println("peaNo is BLANK at " + index);
-                        } else {
-                            peaNo = formatter.formatCellValue(row.getCell(2));
-                        }
-                        Cell c3 = row.getCell(3);
-                        if (c3 == null || c3.getCellType() == CellType.BLANK) {
-                            userId = "";
-                            System.out.println("userId is BLANK at " + index);
-                        } else {
-                            userId = formatter.formatCellValue(row.getCell(3));
-                        }
-                        Cell c4 = row.getCell(4);
-                        if (c4 == null || c4.getCellType() == CellType.BLANK) {
-                            description = "";
-                            System.out.println("description is BLANK at " + index);
-                        } else {
-                            description = formatter.formatCellValue(row.getCell(4));
-                        }
-                        Cell c5 = row.getCell(5);
-                        if (c5 == null || c5.getCellType() == CellType.BLANK) {
-                            serialNo = "";
-                            System.out.println("serialNo is BLANK at " + index);
-                        } else {
-                            //serialNo = (String) row.getCell(5).getStringCellValue();
-                            serialNo = formatter.formatCellValue(row.getCell(5));
-                        }
-                        Cell c9 = row.getCell(9);
-                        if (c9 == null || c9.getCellType() == CellType.BLANK) {
-                            recievedDate = "";
-                            System.out.println("recievedDate is BLANK at " + index);
-                        } else {
-                            recievedDate = formatter.formatCellValue(row.getCell(9));
-                        }
-                        Cell c11 = row.getCell(11);
-                        if (c11 == null || c11.getCellType() == CellType.BLANK) {
-                            leftPrice = (double) 1;
-                            System.out.println("leftPrice is BLANK at " + index);
-                        } else {
-                            leftPrice = (double) row.getCell(11).getNumericCellValue();
-                        }
-                        Cell c12 = row.getCell(12);
-                        if (c12 == null || c12.getCellType() == CellType.BLANK) {
-                            ccId = "";
-                            System.out.println("ccId is BLANK at " + index);
-                        } else {
-                            ccId = formatter.formatCellValue(row.getCell(12));
-                        }
-                        // String peaNo = row.getCell(2).getStringCellValue();
-                        // String description = row.getCell(4).getStringCellValue();
-                        // String serialNo = row.getCell(5).getStringCellValue();
-                        // String recievedDate = row.getCell(9).getStringCellValue();
-                        // Double leftPrice = (double) row.getCell(11).getNumericCellValue();
-                        // String ccId = row.getCell(12).getStringCellValue();
+                // // System.out.println("id >" + id);
+                // System.out.println("serialNo >" + serialNo);
+                // System.out.println("peaNo >" + peaNo);
+                // System.out.println("description >" + description);
+                // System.out.println("ccLongCode >" + ccLongCode);
 
-                        // System.out.println("id >" + id);
-                        System.out.println("serialNo >" + serialNo);
-                        System.out.println("peaNo >" + peaNo);
-                        System.out.println("description >" + description);
-                        System.out.println("ccId >" + ccId);
+                // // device.setId(id);
+                // device.setDevPeaNo(peaNo);
+                // device.setDevDescription(description);
+                // device.setDevSerialNo(serialNo);
+                // device.setDevReceivedDate(recievedDate);
+                // device.setDevReceivedPrice(receivedPrice);
+                // device.setDevLeftPrice(leftPrice);
+                // device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccLongCode));
+                // device.setTbEmployee(employeeRepository.findByEmpId(userId));
+                // // device.setTbCostCenter(ccLongCode);
+                // // device.setTbEmployee(userId);
+                // deviceList.add(device);
+                // }
+                // }
+                if (index > 0 && receivedPrice >= 1) {
+                    // Extract and validate fields
+                    String peaNo = extractCellValue(formatter, row.getCell(2), "peaNo", index);
+                    String userId = extractCellValue(formatter, row.getCell(3), "userId", index);
+                    String description = extractCellValue(formatter, row.getCell(4), "description", index);
+                    String serialNo = extractCellValue(formatter, row.getCell(5), "serialNo", index);
+                    String receivedDate = extractCellValue(formatter, row.getCell(9), "receivedDate", index);
+                    Double leftPrice = extractCellNumericValue(row.getCell(11), "leftPrice", index);
+                    String ccLongCode = extractCellValue(formatter, row.getCell(12), "ccLongCode", index);
 
-                        // device.setId(id);
-                        device.setDevPeaNo(peaNo);
-                        device.setDevDescription(description);
-                        device.setDevSerialNo(serialNo);
-                        device.setDevReceivedDate(recievedDate);
-                        device.setDevReceivedPrice(receivedPrice);
-                        device.setDevLeftPrice(leftPrice);
-                        device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccId));
-                        device.setTbEmployee(employeeRepository.findByEmpId(userId));
-                        // device.setTbCostCenter(ccId);
-                        // device.setTbEmployee(userId);
-                        deviceList.add(device);
-                    }
+                    Optional<tbCostCenter> optionalCostCenter = costCenterRepository.findByCcLongCode(ccLongCode);
+                    tbCostCenter costCenter = optionalCostCenter
+                    .orElseThrow(() -> new RuntimeException("Cost center not found for code: " + ccLongCode));
+            
+                    // Set fields to the device
+                    device.setDevPeaNo(peaNo);
+                    device.setDevDescription(description);
+                    device.setDevSerialNo(serialNo);
+                    device.setDevReceivedDate(receivedDate);
+                    device.setDevReceivedPrice(receivedPrice);
+                    device.setDevLeftPrice(leftPrice);
+                    // device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccLongCode));
+                    device.setTbCostCenter(costCenter);
+                    device.setTbEmployee(employeeRepository.findByEmpId(userId));
+
+                    deviceList.add(device);
                 }
             }
-            workbook.close();
+            // Validate devices
+            validateDevices(deviceList);
             return deviceList;
         } catch (IOException e) {
-            throw new RuntimeException("Line: " + index + "fail to store excel data: " + e.getMessage());
+            throw new RuntimeException("Line: " + index + " failed to store excel data: " + e.getMessage());
         }
     }
 
+    private void validateDevices(List<tbDevice> devices) {
+        for (tbDevice device : devices) {
+            // Mandatory field validations
+            if (device.getDevPeaNo() == null || device.getDevPeaNo().isEmpty()) {
+                throw new InvalidDataException("Device PEA No is missing or invalid.");
+            }
+
+            if (device.getDevDescription() != null && device.getDevDescription().length() > 500) {
+                throw new InvalidDataException("Device description exceeds the maximum length.");
+            }
+
+            if (device.getDevSerialNo() != null && device.getDevSerialNo().length() > 255) {
+                throw new InvalidDataException("Device serial number exceeds the maximum length.");
+            }
+
+            if (device.getDevReceivedDate() == null || device.getDevReceivedDate().isEmpty()) {
+                throw new InvalidDataException("Device received date is missing or invalid.");
+            }
+
+            if (device.getDevReceivedPrice() == null || device.getDevReceivedPrice() <= 0) {
+                throw new InvalidDataException("Device received price must be greater than 0.");
+            }
+
+            // Nullable field validations (Optional or logical checks)
+            if (device.getDevLeftPrice() != null && device.getDevLeftPrice() < 0) {
+                throw new InvalidDataException("Device left price cannot be negative.");
+            }
+
+            if (device.getTbCostCenter() != null && device.getTbCostCenter().getCcLongCode() == null) {
+                throw new InvalidDataException("Cost center is invalid (missing required details).");
+            }
+
+            if (device.getTbEmployee() != null && device.getTbEmployee().getEmpId() == null) {
+                throw new InvalidDataException("Employee is invalid (missing required details).");
+            }
+        }
+    }
+
+    private String extractCellValue(DataFormatter formatter, Cell cell, String fieldName, int index) {
+        if (cell == null || cell.getCellType() == CellType.BLANK) {
+            System.out.println(fieldName + " is BLANK at row " + index);
+            return "";
+        }
+        return formatter.formatCellValue(cell);
+    }
+
+    private Double extractCellNumericValue(Cell cell, String fieldName, int index) {
+        if (cell == null || cell.getCellType() == CellType.BLANK) {
+            System.out.println(fieldName + " is BLANK at row " + index);
+            return 0.0;
+        }
+        return cell.getNumericCellValue();
+    }
 }

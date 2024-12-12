@@ -2,6 +2,9 @@ package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbEmployee;
 import com.PEA.webAsset.Repository.EmployeeRepository;
+import com.PEA.webAsset.Service.EmployeeService;
+import com.PEA.webAsset.Share.ResponseMessage;
+import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 
 import java.util.*;
 
@@ -14,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin("*")
 @RestController
@@ -23,6 +27,13 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    private final EmployeeService employeeService;
+
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/getEmp")
     public List<tbEmployee> getEmpAll() {
@@ -55,7 +66,6 @@ public class EmployeeController {
 
         }
     }
-
 
     @GetMapping("/getEmpSor")
     public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
@@ -110,5 +120,32 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseMessage> uploadEmployees(@RequestParam("file") MultipartFile file) {
+        String message;
+
+        // Validate file type (e.g., Excel)
+        if (!ExcelHelper.hasExcelFormat(file)) {
+            message = "Please upload a valid Excel file!";
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseMessage(message));
+        }
+
+        try {
+            // Process and save the uploaded file
+            List<tbEmployee> employees = employeeService.saveEmployeesFromFile(file);
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseMessage(message + " (" + employees.size() + " records processed)"));
+        } catch (RuntimeException e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseMessage(message));
+        }
     }
 }

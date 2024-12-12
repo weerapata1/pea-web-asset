@@ -5,15 +5,13 @@ import lombok.*;
 import  jakarta.persistence.*;
 //import javax.validation.constraints.NotNull;
 
-
-
 @Data
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-@Entity(name = "tb_employees")
-@Table(name = "tb_employees")
+@Entity(name = "tb_employee")
+@Table(name = "tb_employee")
 @ToString
 public class tbEmployee {
     @Id
@@ -21,7 +19,7 @@ public class tbEmployee {
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "emp_seq")
     private Long id;
 
-//    @Column(name = "empId", unique = true, nullable = false)
+    @Column(name = "emp_id", unique = true, nullable = false)
     private String empId; // รหัสพนักงาน
 
     private String empName; // ชื่อพนักงาน
@@ -33,8 +31,11 @@ public class tbEmployee {
     // private String CostCenter; // ชื่อศุนย์ต้นทุน ไม่ผูก
 
     @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cc_id", insertable = true, nullable = true )
-    private tbCostCenter CostCenter;
+    @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
+    private tbCostCenter costCenter;
+
+    @Transient
+    private String costCenterCode;
 
     @ManyToOne(targetEntity = tbEmpRule.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "emp_rule_id", insertable = true, nullable = true )
@@ -42,12 +43,12 @@ public class tbEmployee {
 
     // private String empCcShortName; //
 
-    public tbEmployee(String empId, String empName, String empRole, String empDepFull, tbCostCenter CostCenter , tbEmpRule EmpRule) {
+    public tbEmployee(String empId, String empName, String empRole, String empDepFull, tbCostCenter costCenter , tbEmpRule EmpRule) {
         this.empId = empId;
         this.empName = empName;
         this.empDepFull = empDepFull;
         this.empRole = empRole;
-        this.CostCenter = CostCenter;
+        this.costCenter = costCenter;
         this.EmpRule = EmpRule;
     }
 

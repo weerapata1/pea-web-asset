@@ -19,6 +19,7 @@ public class tbCostCenter {
     @Column(name = "cc_id")
     private  Long cc_id;
 
+    @Column(name = "cc_long_code", unique = true)
     private String ccLongCode; //
 
     private String ccBusA; //
@@ -36,5 +37,4 @@ public class tbCostCenter {
         this.ccShortName = ccShortName;
         this.ccFullName = ccFullName;
     }
-
 }
