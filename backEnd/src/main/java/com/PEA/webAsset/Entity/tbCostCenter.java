@@ -16,8 +16,8 @@ public class tbCostCenter {
     @Id
     @SequenceGenerator(name = "cost_seq",sequenceName = "cost_seq")
     @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "cost_seq")
-    @Column(name = "cc_id")
-    private  Long cc_id;
+    @Column(name = "tb_cost_center_id")
+    private  Long tbCostCenterId;
 
     @Column(name = "cc_long_code", unique = true)
     private String ccLongCode; //

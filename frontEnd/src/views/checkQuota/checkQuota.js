@@ -172,12 +172,12 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        console.log("param dt_id - ", this.setAssetComType);
+        console.log("param tb_device_type_id - ", this.setAssetComType);
         let params = [];
 
         params = {
           region: this.modelCC["ccLongCode"],
-          dt_id: this.setAssetComType,
+          tb_device_type_id: this.setAssetComType,
         };
 
         if (this.checked7 == false) {

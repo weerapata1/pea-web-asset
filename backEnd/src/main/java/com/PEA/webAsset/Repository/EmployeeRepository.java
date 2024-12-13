@@ -21,20 +21,20 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
 
     Optional<tbEmployee> findEmpByEmpId(String empId);
 
-    @Query(value = "SELECT * from tb_employees e " +
-    // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
-                    "WHERE e.cc_id LIKE CONCAT(:ccLong,'%')", nativeQuery = true)
+    @Query(value = "SELECT * from tb_employee e " +
+    // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                    "WHERE e.cc_long_code LIKE CONCAT(:ccLong,'%')", nativeQuery = true)
     Page<tbEmployee> findEmployeeByCcId(@Param("ccLong") String ccLong, Pageable pageable);
 
 //    test
-    // @Query(value = "SELECT id FROM tb_employees ",nativeQuery = true)
+    // @Query(value = "SELECT id FROM tb_employee ",nativeQuery = true)
     // Collection<Object[]> findAllUsersWithPagination();
 
 //    Optional<tbEmployee> FindByEmployeeId(String empId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE tb_employees " +
+    @Query(value = "UPDATE tb_employee " +
             "SET  emp_rule_id = \"2\" " +
             "WHERE emp_rule_id IS NULL;" ,nativeQuery = true)
     void updateEmpRule();

@@ -684,28 +684,40 @@ public class DeviceController {
     }
   }
 
-  @GetMapping("/redirectgoogle")
-  public Map<String, String> redirectGoogle() {
-    Map<String, String> response = new HashMap<>();
-    response.put("redirectUrl", "https://www.google.com");
-    return response;
-  }
+  // @GetMapping("/searchWithWord")
+  // public ResponseEntity<Map<String, Object>> Pattern1(
+  //     // @RequestParam(defaultValue = "0") int page,
+  //     // @RequestParam(defaultValue = "30") int size,
+  //     @RequestParam("region") String region,
+  //     @RequestParam("textSearch") String textSearch,
+  //     @RequestParam("setAssetType") String setAssetType) {
+  //   try {
+  //     List<tbDevice> device = new ArrayList<tbDevice>();
+  //     Pageable paging = Pageable.unpaged();
+  //     Page<tbDevice> pageTuts = null;
 
-  @GetMapping("/test")
-  public String testEndpoint() {
-    return "CORS is working!";
-  }
+  //     if (region.equals("E3") || region.equals("E3010")) {
+  //       if (setAssetType.equals("53")) {
+  //         System.out.println("searchWithWord-53");
+  //         pageTuts = (region.length() > 0)
+  //             ? deviceRepository.findDeviceByCcIdAndTextSearch53zc(
+  //                 region,
+  //                 textSearch,
+  //                 paging)
+  //             : null;
 
   @GetMapping("/getDevice53unpageByccId")
-  public ResponseEntity<Map<String, Object>> getDevice53unpageByccId(
+  public ResponseEntity<Map<String, Object>> Pattern2(
+    
       @RequestParam("region") String region,
-      @RequestParam("dt_id") String dt_id) {
+      @RequestParam("tb_device_type_id") String tb_device_type_id) {
     try {
+      System.out.println("/getDevice53unpageByccId");
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccId(
-          region, dt_id, paging);
+          region, tb_device_type_id, paging);
       device = pageTuts.getContent();
 
       Map<String, Object> response = new HashMap<>();
@@ -722,14 +734,14 @@ public class DeviceController {
   @GetMapping("/getDevice53unpageByccIdOnly7Year")
   public ResponseEntity<Map<String, Object>> getDevice53unpageByccIdOnly7Year(
       @RequestParam("region") String region,
-      @RequestParam("dt_id") String dt_id) {
+      @RequestParam("tb_device_type_id") String tb_device_type_id) {
     try {
 
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccIdOnly7Year(
-          region, dt_id, paging);
+          region, tb_device_type_id, paging);
       device = pageTuts.getContent();
       System.out.println("Device : " + device);
 

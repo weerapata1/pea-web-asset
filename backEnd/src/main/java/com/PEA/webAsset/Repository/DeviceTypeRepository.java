@@ -6,5 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface DeviceTypeRepository extends JpaRepository<tbDeviceType, Long> {
-    tbDeviceType findByDtId(Long dtId);
+    tbDeviceType findByTbDeviceTypeId(Long tbDeviceTypeId);
 }

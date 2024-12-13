@@ -1,5 +1,6 @@
 package com.PEA.webAsset.Controller;
 
+import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Entity.tbEmployee;
 import com.PEA.webAsset.Repository.EmployeeRepository;
 import com.PEA.webAsset.Service.EmployeeService;
@@ -7,6 +8,7 @@ import com.PEA.webAsset.Share.ResponseMessage;
 import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,9 +37,9 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/getEmp")
-    public List<tbEmployee> getEmpAll() {
-        return employeeRepository.findAll();
+    @GetMapping("/getEmpAll")
+    public Collection<tbEmployee> getEmpAll() {
+        return employeeRepository.findAll().stream().collect(Collectors.toList());
     }
 
 //    @GetMapping("/getEmpId")
@@ -45,13 +47,12 @@ public class EmployeeController {
 //        return employeeRepository.findByEmpId(empId);
 //    }
 
-    @GetMapping("/getEmployeeIdTest")
-    public HttpEntity<Optional<tbEmployee>> getEmployeeIdTest(@RequestBody tbEmployee emp){
-        Optional<tbEmployee> find = employeeRepository.findEmpByEmpId(emp.getEmpId());
+    // @GetMapping("/getEmployeeIdTest")
+    // public HttpEntity<Optional<tbEmployee>> getEmployeeIdTest(@RequestBody tbEmployee emp){
+    //     Optional<tbEmployee> find = employeeRepository.findEmpByEmpId(emp.getEmpId());
 
-
-        return new ResponseEntity<>(find,HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(find,HttpStatus.OK);
+    // }
 
     @GetMapping("/getEmployeeId")
     public ResponseEntity<Object> getEmployeeId(@RequestParam("empId") String empId) {

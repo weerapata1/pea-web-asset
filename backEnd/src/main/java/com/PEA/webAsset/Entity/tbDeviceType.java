@@ -13,8 +13,8 @@ public class tbDeviceType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "dt_srq")
     @SequenceGenerator(name = "dt_srq" ,sequenceName = "dt_srq")
-    @Column(name = "dt_id")
-    private Long dtId;
+    @Column(name = "tb_device_type_id")
+    private Long tbDeviceTypeId;
 
     @Column(name = "dt_name")
     private String deviceTypeName;

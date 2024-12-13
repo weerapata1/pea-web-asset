@@ -50,7 +50,7 @@ public class tbRepair {
     private tbRepairStatus repairStatus; //สถานะการส่งซ่อม
 
     @ManyToOne(targetEntity = tbDevice.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "device_id",insertable=true, referencedColumnName = "id")
+    @JoinColumn(name = "tb_device_id",insertable=true, referencedColumnName = "tb_device_id")
     private tbDevice device; //เครื่องที่ส่งซ่อม
 //
 //    @ManyToOne(targetEntity = tbEmployee.class,fetch = FetchType.EAGER)

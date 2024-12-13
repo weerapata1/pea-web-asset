@@ -19,9 +19,9 @@ public class tbDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")
     @SequenceGenerator(name = "dev_seq", sequenceName = "dev_seq")
-    @Column(name = "id", unique = true)
+    @Column(name = "tb_device_id", unique = true)
 
-    private Long id;
+    private Long tbDeviceId;
 
     private String devPeaNo;
    
@@ -54,7 +54,7 @@ public class tbDevice {
     //
     // Join tbDeviceType.class------------------------------
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "dt_id", insertable = true, referencedColumnName = "dt_id", nullable = true)
+    @JoinColumn(name = "tb_device_type_id", insertable = true, referencedColumnName = "tb_device_type_id", nullable = true)
     private tbDeviceType tbDeviceType;
 
     private String devConcatPriceDate;
@@ -71,7 +71,7 @@ public class tbDevice {
                     tbCostCenter tbCostCenter,
                     // String cc_id,
                     tbEmployee tbEmployee,
-                    LocalDate devUpdate, tbDeviceType dt_id
+                    LocalDate devUpdate, tbDeviceType tb_device_type_id
                     ){
         this.devPeaNo = devPeaNo;
         this.devDescription = devDescription;
@@ -82,6 +82,6 @@ public class tbDevice {
         this.tbCostCenter = tbCostCenter;
         this.tbEmployee = tbEmployee;
         this.devUpdate = devUpdate;
-        this.tbDeviceType = dt_id;
+        this.tbDeviceType = tb_device_type_id;
     }
 }

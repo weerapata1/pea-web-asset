@@ -47,7 +47,7 @@ public class EmployeeService {
                 tbEmployee employee = new tbEmployee();
 
                 // Map specific columns to fields
-                employee.setId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column A: ID
+                employee.setTbEmployeeId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column A: ID
                 employee.setEmpId(ExcelHelper.extractCellValue(formatter, row.getCell(1))); // Column B: Employee ID
                 employee.setEmpName(ExcelHelper.extractCellValue(formatter, row.getCell(2))); // Column C: Employee Name
                 employee.setEmpRole(ExcelHelper.extractCellValue(formatter, row.getCell(3))); // Column D: Employee Role

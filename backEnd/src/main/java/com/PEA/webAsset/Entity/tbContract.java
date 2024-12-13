@@ -18,8 +18,8 @@ public class tbContract {
     @Id
     @GeneratedValue(generator = "cont_id", strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "cont_id", sequenceName = "cont_id")
-    @Column(name = "cont_id", nullable = false)
-    private Long cont_id;
+    @Column(name = "tb_contract_id", nullable = false)
+    private Long tbContractId;
 
     private String contract_concat; // มูลค่าแรกเข้า-วันที่ได้รับ
     private String contract_description; // รายละเอียดของสัญญา
@@ -29,7 +29,7 @@ public class tbContract {
 
     // Join tbDeviceType.class------------------------------
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "dt_id", insertable = true, referencedColumnName = "dt_id", nullable = true)
+    @JoinColumn(name = "tb_device_type_id", insertable = true, referencedColumnName = "tb_device_type_id", nullable = true)
     private tbDeviceType tbDeviceType;
 
     private String partner; // บ.คู่สัญญา

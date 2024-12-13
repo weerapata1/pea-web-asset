@@ -806,7 +806,7 @@ export default {
     };
 
     axios
-      .get("http://localhost:8080/api/dev/searchNoWordUnpage/", { params })
+      .get("http://localhost:8080/api/dev/searchNoWordUnpage", { params })
       .then((resp) => {
         this.getAllResult = resp;
 
