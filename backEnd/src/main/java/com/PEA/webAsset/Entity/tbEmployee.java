@@ -24,7 +24,7 @@ public class tbEmployee {
 
     private String empName; // ชื่อพนักงาน
 
-    private String empRole;  //ตำแหน่ง
+    private String empRank;  //ตำแหน่ง
 
     private String empDepFull; // ชื่อแผนก
 
@@ -37,19 +37,21 @@ public class tbEmployee {
     @Transient
     private String costCenterCode;
 
-    @ManyToOne(targetEntity = tbEmpRule.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "emp_rule_id", insertable = true, nullable = true )
-    private tbEmpRule EmpRule;
+    @ManyToOne(targetEntity = tbEmpRole.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "emp_role_id", insertable = true, nullable = true )
+    private tbEmpRole empRole;
 
     // private String empCcShortName; //
 
-    public tbEmployee(String empId, String empName, String empRole, String empDepFull, tbCostCenter costCenter , tbEmpRule EmpRule) {
+
+    public tbEmployee(String empId, String empName, tbEmpRole empRole, String empDepFull, tbCostCenter costCenter , String empRank) {
         this.empId = empId;
         this.empName = empName;
         this.empDepFull = empDepFull;
         this.empRole = empRole;
         this.costCenter = costCenter;
-        this.EmpRule = EmpRule;
+        this.empRank = empRank;
+
     }
 
 

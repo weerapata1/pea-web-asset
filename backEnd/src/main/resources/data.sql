@@ -2251,3 +2251,10 @@ INSERT INTO `tb_device_compare`(`compare_id`, `dev_concat_price_date`, `dev_desc
 INSERT INTO `tb_device_compare`(`compare_id`, `dev_concat_price_date`, `dev_description`, `dev_received_date`, `dev_received_price`, `device_type`) VALUES (1023, '11000-2566.6.26', 'เครื่องPOS-SCANNER BARCODE แบบ2D HONEYWELL บ.14/66', '2566.6.26', 11000, 6);
 INSERT INTO `tb_device_compare`(`compare_id`, `dev_concat_price_date`, `dev_description`, `dev_received_date`, `dev_received_price`, `device_type`) VALUES (1024, '30096.22-2567.2.3', 'NOTEBOOK-เช่า HP รุ่น HP 245 G9 สิ้นสุด 02/02/2570', '2567.2.3', 30096.22, 1);
 INSERT INTO `tb_device_compare`(`compare_id`, `dev_concat_price_date`, `dev_description`, `dev_received_date`, `dev_received_price`, `device_type`) VALUES (1025, '34500-2567.7.18', 'คอมพิวเตอร์โน้ตบุ๊ค', '2567.7.18', 34500, 1);
+-- tb_Equipment_location
+INSERT INTO `tb_equipment_location`(`id`, `Loc_name`) VALUES (1, 'ในแผนก ผคข.');
+INSERT INTO `tb_equipment_location`(`id`, `Loc_name`) VALUES (2, 'ห้องให้บันได');
+INSERT INTO `tb_equipment_location`(`id`, `Loc_name`) VALUES (3, 'ห้องเก็บของอาคาร 4');
+-- tb_emp_role
+INSERT INTO `tb_emp_role`(`id`, `role_name`) VALUES (1, 'admin');
+INSERT INTO `tb_emp_role`(`id`, `role_name`) VALUES (2, 'user');

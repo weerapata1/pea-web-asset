@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.PEA.webAsset.Repository.EmpRoleRepository;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -23,11 +24,13 @@ import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final CostCenterRepository costCenterRepository;
+    private final EmpRoleRepository empRoleRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, CostCenterRepository costCenterRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, CostCenterRepository costCenterRepository, EmpRoleRepository empRoleRepository) {
         this.employeeRepository = employeeRepository;
         this.costCenterRepository = costCenterRepository;
+        this.empRoleRepository = empRoleRepository;
     }
 
     public List<tbEmployee> saveEmployeesFromFile(MultipartFile file) {
@@ -50,8 +53,9 @@ public class EmployeeService {
                 employee.setId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column A: ID
                 employee.setEmpId(ExcelHelper.extractCellValue(formatter, row.getCell(1))); // Column B: Employee ID
                 employee.setEmpName(ExcelHelper.extractCellValue(formatter, row.getCell(2))); // Column C: Employee Name
-                employee.setEmpRole(ExcelHelper.extractCellValue(formatter, row.getCell(3))); // Column D: Employee Role
+                employee.setEmpRank(ExcelHelper.extractCellValue(formatter, row.getCell(3))); // Column D: Employee Rank
                 employee.setEmpDepFull(ExcelHelper.extractCellValue(formatter, row.getCell(4))); // Column E: Department Full Name
+
 
                 // Handle Cost Center (Column F)
                 String costCenterCode = ExcelHelper.extractCellValue(formatter, row.getCell(5)); // Column F: Cost Center Code
@@ -62,6 +66,7 @@ public class EmployeeService {
                                     () -> new RuntimeException("Cost center not found for code: " + costCenterCode));
                     employee.setCostCenter(costCenter); // Associate the Cost Center
                 }
+                employee.setEmpRole(empRoleRepository.findEmpRuleById(ChkDepartment(costCenterCode)));
 
                 employees.add(employee);
             }
@@ -71,5 +76,9 @@ public class EmployeeService {
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse Excel file: " + e.getMessage());
         }
+    }
+    private Long ChkDepartment(String costCenterCode){
+        return  costCenterCode.equals("E301023060") ? 1L : 2L;
+
     }
 }

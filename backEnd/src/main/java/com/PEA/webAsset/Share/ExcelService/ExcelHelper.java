@@ -43,7 +43,7 @@ public class ExcelHelper {
                 tbEmployee employee = new tbEmployee();
                 employee.setEmpId(formatter.formatCellValue(row.getCell(0))); // Column A: empId
                 employee.setEmpName(formatter.formatCellValue(row.getCell(1))); // Column B: empName
-                employee.setEmpRole(formatter.formatCellValue(row.getCell(2))); // Column C: empRole
+                employee.setEmpRank(formatter.formatCellValue(row.getCell(2))); // Column C: empRole
                 String costCenterCode = formatter.formatCellValue(row.getCell(3)); // Column D: costCenterCode
 
                 // Store the costCenterCode temporarily in the employee object

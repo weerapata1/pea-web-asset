@@ -2,8 +2,10 @@ package com.PEA.webAsset.Repository;
 
 import com.PEA.webAsset.Entity.tbDevice;
 
+import java.util.Collection;
 import java.util.List;
 
+import com.PEA.webAsset.Entity.tbRepair;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +15,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface DeviceRepository extends JpaRepository<tbDevice, Long> {
+
+        Collection<tbDevice> findByDevPeaNo(String peaNo);
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +

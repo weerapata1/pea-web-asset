@@ -98,6 +98,10 @@ public class DeviceController {
   public tbDevice getDeviceByPeaNo(@RequestParam("PeaNo") String PeaNo) {
     return deviceRepository.findAllByDevPeaNo(PeaNo);
   }
+  @GetMapping("/getDeviceByPeaNo/{peaNo}")
+  public tbDevice getDeviceByPeaNoWithPathVariable(@PathVariable(name= "peaNo") String peaNo) {
+    return deviceRepository.findAllByDevPeaNo(peaNo);
+  }
 
   @GetMapping("/getAll53")
   public ResponseEntity<Object> getAll53(@RequestParam("ccLong") String ccLong) {

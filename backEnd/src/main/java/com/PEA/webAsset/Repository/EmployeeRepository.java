@@ -11,6 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.Optional;
 
 
@@ -38,4 +39,8 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
             "SET  emp_rule_id = \"2\" " +
             "WHERE emp_rule_id IS NULL;" ,nativeQuery = true)
     void updateEmpRule();
+
+    @Query(value = "SELECT * FROM tb_employees e " +
+            "WHERE e.emp_rule_id = :rule_id ",nativeQuery = true)
+    Collection<tbEmployee> findEmpRule(@Param("rule_id")Long rule_id);
 }
