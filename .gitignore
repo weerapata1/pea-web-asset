@@ -1,0 +1,6 @@
+### VS Code ###
+.vscode/
+.history/
+.idea/
+.vs/
+./backEnd/src/main/resources/application.properties

@@ -5,19 +5,22 @@ import com.PEA.webAsset.Entity.tbEmployee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
 
 
 @RepositoryRestResource
-public interface EmployeeRepository extends JpaRepository<tbEmployee, String>, CrudRepository<tbEmployee ,String> {
+public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
+
     tbEmployee findByEmpId(String empId);
 
+    Optional<tbEmployee> findEmpByEmpId(String empId);
 
     @Query(value = "SELECT * from tb_employees e " +
     // "LEFT JOIN tb_employees e ON d.emp_id = e.emp_id " +
@@ -29,4 +32,15 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, String>, C
     // Collection<Object[]> findAllUsersWithPagination();
 
 //    Optional<tbEmployee> FindByEmployeeId(String empId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE tb_employees " +
+            "SET  emp_rule_id = \"2\" " +
+            "WHERE emp_rule_id IS NULL;" ,nativeQuery = true)
+    void updateEmpRule();
+
+    @Query(value = "SELECT * FROM tb_employees e " +
+            "WHERE e.emp_rule_id = :rule_id ",nativeQuery = true)
+    Collection<tbEmployee> findEmpRule(@Param("rule_id")Long rule_id);
 }

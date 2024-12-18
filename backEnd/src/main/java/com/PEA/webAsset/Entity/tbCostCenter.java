@@ -2,27 +2,29 @@ package com.PEA.webAsset.Entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import  jakarta.persistence.*;
+
+import java.util.Set;
 
 @Data
 @Getter
 @Setter
-@Table(name = "tb_cost_center_test")
-@Entity(name = "tb_cost_center_test")
-// @Table(name = "tb_cost_center_test")
-// @Entity(name = "tb_cost_center_test")
+@Table(name = "tb_cost_center")
+@Entity(name = "tb_cost_center")
 @EqualsAndHashCode
 @NoArgsConstructor
-public class tbCostCenterTest {
+@ToString
+public class tbCostCenter {
     @Id
 //    @SequenceGenerator(name = "cost_seq",sequenceName = "cost_seq")
 //    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "cost_seq")
-//    private Long costCenterId;
-
     @Column(name = "cc_id")
+    private  Long cc_id;
+
+    @Column(name = "cc_long_code", unique = true)
     private String ccLongCode; //
 
-    private String ccShortCode; //
+    private String ccBusA; //
 
     private String ccAgencyName;// ชื่อสังกัด
 
@@ -30,12 +32,18 @@ public class tbCostCenterTest {
 
     private String ccFullName; //
 
-    public tbCostCenterTest(String ccLongCode, String ccShortCode, String ccAgencyName, String ccShortName, String ccFullName){
+
+
+
+    @OneToMany(mappedBy = "tbCostCenter",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<tbDevice> tbDeviceSet;
+
+    // ccBusA Eq. cost center business area
+    public tbCostCenter(String ccLongCode, String ccBusA, String ccAgencyName, String ccShortName, String ccFullName){
         this.ccLongCode = ccLongCode;
-        this.ccShortCode = ccShortCode;
+        this.ccBusA = ccBusA;
         this.ccAgencyName = ccAgencyName;
         this.ccShortName = ccShortName;
         this.ccFullName = ccFullName;
     }
-    
 }

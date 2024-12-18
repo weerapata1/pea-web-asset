@@ -2,7 +2,7 @@ package com.PEA.webAsset.Entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import  jakarta.persistence.*;
 
 @Data @Getter @Setter
 @Table(name = "tb_device_compare")

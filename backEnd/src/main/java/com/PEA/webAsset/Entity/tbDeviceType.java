@@ -2,7 +2,7 @@ package com.PEA.webAsset.Entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import  jakarta.persistence.*;
 
 @Data @Getter @Setter
 @Table(name = "tb_device_type")
@@ -23,5 +23,7 @@ public class tbDeviceType {
     // @OneToMany(mappedBy = "tbDeviceType")
     // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
-
+    tbDeviceType(String deviceTypeName){
+        this.deviceTypeName = deviceTypeName;
+    }
 }

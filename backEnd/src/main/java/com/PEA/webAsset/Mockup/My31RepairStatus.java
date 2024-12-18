@@ -1,5 +1,5 @@
 // package com.PEA.webAsset.Mockup;
-
+//
 // import com.PEA.webAsset.Entity.tbRepairStatus;
 // import com.PEA.webAsset.Repository.RepairRepository;
 // import com.PEA.webAsset.Repository.RepairStatusRepository;
@@ -9,17 +9,16 @@
 // import org.springframework.boot.ApplicationRunner;
 // import org.springframework.context.annotation.Bean;
 // import org.springframework.stereotype.Component;
-
+//
 // import java.util.stream.Stream;
-
+//
 // @Component
 // public class My31RepairStatus implements ApplicationRunner {
-//     private static final Logger logger = LoggerFactory.getLogger(My31RepairStatus.class);
-
+//
 //     @Override
 //     public void run(ApplicationArguments args) throws Exception {
 //     }
-
+//
 //     @Bean
 //     public ApplicationRunner MyRepair(RepairRepository repairRepository, RepairStatusRepository repairStatusRepository
 //                                       ){

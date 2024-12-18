@@ -16,10 +16,10 @@ public class WebAssetApplication extends SpringBootServletInitializer {
 
 	private static final Logger logger = LoggerFactory.getLogger(WebAssetApplication.class);
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(WebAssetApplication.class);
-	}
+	// @Override
+	// protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	// 	return application.sources(WebAssetApplication.class);
+	// }
 	public static void main(String[] args) {
 		SpringApplication.run(WebAssetApplication.class, args);
 
