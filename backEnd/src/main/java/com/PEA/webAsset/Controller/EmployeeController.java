@@ -1,7 +1,9 @@
 package com.PEA.webAsset.Controller;
 
+import com.PEA.webAsset.Entity.tbCostCenter;
 import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Entity.tbEmployee;
+import com.PEA.webAsset.Repository.CostCenterRepository;
 import com.PEA.webAsset.Repository.EmployeeRepository;
 import com.PEA.webAsset.Service.EmployeeService;
 import com.PEA.webAsset.Share.ResponseMessage;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,10 +34,12 @@ public class EmployeeController {
     private EmployeeRepository employeeRepository;
 
     private final EmployeeService employeeService;
+    private final CostCenterRepository costCenterRepository;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, CostCenterRepository costCenterRepository) {
         this.employeeService = employeeService;
+        this.costCenterRepository = costCenterRepository;
     }
 
     @GetMapping("/getEmpAll")
@@ -42,26 +47,30 @@ public class EmployeeController {
         return employeeRepository.findAll().stream().collect(Collectors.toList());
     }
 
-//    @GetMapping("/getEmpId")
-//    public tbEmployee getEmpId(@RequestParam("empId") String empId) {
-//        return employeeRepository.findByEmpId(empId);
-//    }
+    // @GetMapping("/getEmpId")
+    // public tbEmployee getEmpId(@RequestParam("empId") String empId) {
+    // return employeeRepository.findByEmpId(empId);
+    // }
 
     // @GetMapping("/getEmployeeIdTest")
-    // public HttpEntity<Optional<tbEmployee>> getEmployeeIdTest(@RequestBody tbEmployee emp){
-    //     Optional<tbEmployee> find = employeeRepository.findEmpByEmpId(emp.getEmpId());
+    // public HttpEntity<Optional<tbEmployee>> getEmployeeIdTest(@RequestBody
+    // tbEmployee emp){
+    // Optional<tbEmployee> find =
+    // employeeRepository.findEmpByEmpId(emp.getEmpId());
 
-    //     return new ResponseEntity<>(find,HttpStatus.OK);
+    // return new ResponseEntity<>(find,HttpStatus.OK);
     // }
 
     @GetMapping("/getEmployeeId")
     public ResponseEntity<Object> getEmployeeId(@RequestParam("empId") String empId) {
         String message = "data";
         try {
-            tbEmployee employee = employeeRepository.findEmpByEmpId(empId).orElseThrow(() -> new ResourceNotFoundException("NotFound"));
-            return new ResponseEntity<>(employee,HttpStatus.OK);
-//            return new ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        }catch (ResourceNotFoundException e){
+            tbEmployee employee = employeeRepository.findEmpByEmpId(empId)
+                    .orElseThrow(() -> new ResourceNotFoundException("NotFound"));
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+            // return new ResponseEntity.status(HttpStatus.OK).body(new
+            // ResponseMessage(message));
+        } catch (ResourceNotFoundException e) {
             System.out.println("notFound");
             return new ResponseEntity<>("notFound", HttpStatus.OK);
 
@@ -70,7 +79,7 @@ public class EmployeeController {
 
     @GetMapping("/getEmpSor")
     public ResponseEntity<Map<String, Object>> getEmpSor(@RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "3") int size) {
+            @RequestParam(defaultValue = "3") int size) {
         try {
             List<tbEmployee> employee = new ArrayList<tbEmployee>();
             Pageable paging = PageRequest.of(page, size);
@@ -89,8 +98,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/getEmpByccLongCode")
-    public ResponseEntity<Map<String, Object>> Patternunpage(@RequestParam("region") String region
-    ) {
+    public ResponseEntity<Map<String, Object>> Patternunpage(@RequestParam("region") String region) {
         System.out.println(region);
         try {
             List<tbEmployee> employee = new ArrayList<tbEmployee>();
@@ -110,23 +118,22 @@ public class EmployeeController {
     }
 
     @PutMapping("/updateRule")
-    public ResponseEntity<tbEmployee> updateRule(){
+    public ResponseEntity<tbEmployee> updateRule() {
         try {
             employeeRepository.updateEmpRule();
             System.out.println("update user rule without admin");
 
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-//            throw new RuntimeException(e.getMessage());
+            // throw new RuntimeException(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseMessage> uploadEmployees(@RequestParam("file") MultipartFile file) {
         String message;
-
         // Validate file type (e.g., Excel)
         if (!ExcelHelper.hasExcelFormat(file)) {
             message = "Please upload a valid Excel file!";
@@ -134,7 +141,6 @@ public class EmployeeController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseMessage(message));
         }
-
         try {
             // Process and save the uploaded file
             List<tbEmployee> employees = employeeService.saveEmployeesFromFile(file);
@@ -147,6 +153,18 @@ public class EmployeeController {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseMessage(message));
+        }
+    }
+
+    @GetMapping("/test-cost-center")
+    public ResponseEntity<?> testCostCenter(@RequestParam("code") String ccLongCode) {
+        Optional<tbCostCenter> costCenter = costCenterRepository.findByCcLongCode(ccLongCode);
+
+        if (costCenter.isPresent()) {
+            return ResponseEntity.ok("Cost Center Found: " + costCenter.get().getCcLongCode());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Cost center not found for code: " + ccLongCode);
         }
     }
 }

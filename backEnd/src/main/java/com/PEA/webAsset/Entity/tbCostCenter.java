@@ -19,7 +19,7 @@ public class tbCostCenter {
     @Column(name = "tb_cost_center_id")
     private  Long tbCostCenterId;
 
-    @Column(name = "cc_long_code", unique = true)
+    @Column(name = "cc_long_code", unique = true, nullable = false)
     private String ccLongCode; //
 
     private String ccBusA; //

@@ -47,20 +47,24 @@ public class EmployeeService {
                 tbEmployee employee = new tbEmployee();
 
                 // Map specific columns to fields
-                employee.setTbEmployeeId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column A: ID
+                employee.setTbEmployeeId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column
+                                                                                                                   // A:
+                                                                                                                   // ID
                 employee.setEmpId(ExcelHelper.extractCellValue(formatter, row.getCell(1))); // Column B: Employee ID
                 employee.setEmpName(ExcelHelper.extractCellValue(formatter, row.getCell(2))); // Column C: Employee Name
                 employee.setEmpRole(ExcelHelper.extractCellValue(formatter, row.getCell(3))); // Column D: Employee Role
-                employee.setEmpDepFull(ExcelHelper.extractCellValue(formatter, row.getCell(4))); // Column E: Department Full Name
+                employee.setEmpDepFull(ExcelHelper.extractCellValue(formatter, row.getCell(4))); // Column E: Department
+                                                                                                 // Full Name
 
                 // Handle Cost Center (Column F)
-                String costCenterCode = ExcelHelper.extractCellValue(formatter, row.getCell(5)); // Column F: Cost Center Code
+                String costCenterCode = ExcelHelper.extractCellValue(formatter, row.getCell(5)); // Column F: Cost
+                                                                                                 // Center Code
                 if (costCenterCode != null && !costCenterCode.isEmpty()) {
                     // Use the costCenterCode to fetch the associated tbCostCenter
                     tbCostCenter costCenter = costCenterRepository.findByCcLongCode(costCenterCode)
                             .orElseThrow(
                                     () -> new RuntimeException("Cost center not found for code: " + costCenterCode));
-                    employee.setCostCenter(costCenter); // Associate the Cost Center
+                    employee.setCostCenter(costCenter);
                 }
 
                 employees.add(employee);
