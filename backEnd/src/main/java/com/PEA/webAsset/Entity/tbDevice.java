@@ -44,6 +44,20 @@ public class tbDevice {
 
     private Double devLeftPrice;
 
+    private String devConcatPriceDate;
+
+    @Column(columnDefinition="tinyint(1) default 0")
+    private Boolean isDeleted;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
+    private LocalDate devUpdate;
+
+    // Join tbCommitment.class------------------------------
+    // @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "cont_id", insertable = true)
+    // private tbCommitment tbCommitment;
+
+
     // Join tbCostCenter.class------------------------------
     @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
@@ -53,25 +67,20 @@ public class tbDevice {
     // Join tbEmployee.class------------------------------
     @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", nullable = true) // Reference emp_id in tbEmployee
+
     private tbEmployee tbEmployee;
     // private String tbEmployee;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
-    private LocalDate devUpdate;
     //
     // Join tbDeviceType.class------------------------------
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "tb_device_type_id", insertable = true, referencedColumnName = "tb_device_type_id", nullable = true)
     private tbDeviceType tbDeviceType;
 
-    private String devConcatPriceDate;
+//    @OneToMany   // join tbContract
+    @OneToOne(mappedBy = "installedFor")
+    private tbEquipment equipment;
 
-    @Column(columnDefinition="tinyint(1) default 0")
-    private Boolean isDeleted;
-
-    public void setTbCostCenter(tbCostCenter  tbCostCenter) {
-        this.tbCostCenter = tbCostCenter;
-    }
 
     public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
                     Double devReceivedPrice, Double devLeftPrice, 

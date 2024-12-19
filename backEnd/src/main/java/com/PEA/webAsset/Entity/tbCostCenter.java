@@ -4,6 +4,8 @@ import lombok.*;
 
 import  jakarta.persistence.*;
 
+import java.util.Set;
+
 @Data
 @Getter
 @Setter
@@ -19,6 +21,11 @@ public class tbCostCenter {
     @Column(name = "tb_cost_center_id")
     private  Long tbCostCenterId;
 
+//    @SequenceGenerator(name = "cost_seq",sequenceName = "cost_seq")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY ,generator = "cost_seq")
+    @Column(name = "cc_id")
+    private  Long cc_id;
+
     @Column(name = "cc_long_code", unique = true, nullable = false)
     private String ccLongCode; //
 
@@ -30,6 +37,11 @@ public class tbCostCenter {
 
     private String ccFullName; //
 
+
+    @OneToMany(mappedBy = "tbCostCenter",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<tbDevice> tbDeviceSet;
+
+    // ccBusA Eq. cost center business area
     public tbCostCenter(String ccLongCode, String ccBusA, String ccAgencyName, String ccShortName, String ccFullName){
         this.ccLongCode = ccLongCode;
         this.ccBusA = ccBusA;

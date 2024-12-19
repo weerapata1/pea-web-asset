@@ -7,8 +7,10 @@ import jakarta.persistence.PersistenceContext;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import com.PEA.webAsset.Entity.tbRepair;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +25,8 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
         public interface CustomDeviceRepository {
                 void bulkInsertDevices(List<Object[]> devices);
         }
+
+        Collection<tbDevice> findByDevPeaNo(String peaNo);
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +

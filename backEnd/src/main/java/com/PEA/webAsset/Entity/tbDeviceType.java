@@ -23,5 +23,7 @@ public class tbDeviceType {
     // @OneToMany(mappedBy = "tbDeviceType")
     // private List<tbDevice> tbDevices = new ArrayList<tbDevice>();
 
-
+    tbDeviceType(String deviceTypeName){
+        this.deviceTypeName = deviceTypeName;
+    }
 }
