@@ -12,9 +12,16 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name = "tb_device")
+// @Table(name = "tb_device")
 @Entity(name = "tb_device")
 @ToString
+@Table(
+    name = "tb_device",
+    indexes = {
+        @Index(name = "idx_cc_long_code", columnList = "cc_long_code"), // Index for cc_id
+        @Index(name = "idx_emp_id", columnList = "emp_id") // Index for emp_id
+    }
+)
 public class tbDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")

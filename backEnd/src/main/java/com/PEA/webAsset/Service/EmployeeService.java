@@ -3,6 +3,7 @@ package com.PEA.webAsset.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -67,7 +68,18 @@ public class EmployeeService {
                     employee.setCostCenter(costCenter);
                 }
 
-                employees.add(employee);
+                // employees.add(employee);
+                Optional<tbEmployee> existingEmployee = employeeRepository.findEmpByEmpId(employee.getEmpId());
+                if (existingEmployee.isPresent()) {
+                    // Optionally update the existing record instead of throwing an error
+                    tbEmployee existing = existingEmployee.get();
+                    existing.setEmpName(employee.getEmpName());
+                    existing.setEmpRole(employee.getEmpRole());
+                    existing.setEmpDepFull(employee.getEmpDepFull());
+                    employeeRepository.save(existing);
+                } else {
+                    employeeRepository.save(employee);
+                }
             }
 
             // Save employees to the database

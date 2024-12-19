@@ -134,6 +134,7 @@ public class EmployeeController {
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseMessage> uploadEmployees(@RequestParam("file") MultipartFile file) {
         String message;
+        System.out.println("process /emp/upload");
         // Validate file type (e.g., Excel)
         if (!ExcelHelper.hasExcelFormat(file)) {
             message = "Please upload a valid Excel file!";

@@ -17,7 +17,7 @@ import java.util.Optional;
 @RepositoryRestResource
 public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
 
-    tbEmployee findByEmpId(String empId);
+    // tbEmployee findByEmpId(String empId);
 
     Optional<tbEmployee> findEmpByEmpId(String empId);
 

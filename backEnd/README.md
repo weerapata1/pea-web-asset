@@ -1,4 +1,5 @@
 # pea-web-asset
  
-<!-- run with seed -->
-<!-- ./mvnw spring-boot:run -Dspring-boot.run.arguments=--seed -->
+run with seed
+
+./mvnw spring-boot:run -Dspring-boot.run.arguments=--seed
