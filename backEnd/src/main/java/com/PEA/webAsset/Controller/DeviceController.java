@@ -98,8 +98,9 @@ public class DeviceController {
   public tbDevice getDeviceByPeaNo(@RequestParam("PeaNo") String PeaNo) {
     return deviceRepository.findAllByDevPeaNo(PeaNo);
   }
+
   @GetMapping("/getDeviceByPeaNo/{peaNo}")
-  public tbDevice getDeviceByPeaNoWithPathVariable(@PathVariable(name= "peaNo") String peaNo) {
+  public tbDevice getDeviceByPeaNoWithPathVariable(@PathVariable(name = "peaNo") String peaNo) {
     return deviceRepository.findAllByDevPeaNo(peaNo);
   }
 
@@ -343,7 +344,6 @@ public class DeviceController {
 
     String message;
 
-    // Validate if the file is an Excel file
     if (!ExcelHelper.hasExcelFormat(file)) {
       message = "Please upload a valid Excel file!";
       return ResponseEntity
@@ -352,10 +352,9 @@ public class DeviceController {
     }
 
     try {
-      // Parse and save the Excel data
+      System.err.println("try to saveDevice");
       List<tbDevice> deviceList = deviceService.saveDevice(file);
 
-      // Check if the list is empty (e.g., no valid rows in Excel)
       if (deviceList.isEmpty()) {
         message = "The uploaded file contains no valid data!";
         return ResponseEntity
@@ -363,22 +362,18 @@ public class DeviceController {
             .body(new ResponseMessage(message));
       }
 
-      // Save all devices to the database
       deviceRepository.saveAll(deviceList);
 
-      // Success message
       message = "Uploaded the file successfully: " + file.getOriginalFilename();
       return ResponseEntity
           .status(HttpStatus.OK)
           .body(new ResponseMessage(message));
     } catch (InvalidDataException e) {
-      // Custom exception handling for invalid data
       message = "The file contains invalid data: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.UNPROCESSABLE_ENTITY)
           .body(new ResponseMessage(message));
     } catch (Exception e) {
-      // General error handling
       message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -386,31 +381,36 @@ public class DeviceController {
     }
   }
 
+  @PostMapping("/test-upload")
+  public ResponseEntity<String> testUpload(@RequestParam("file") MultipartFile file) {
+    return ResponseEntity.ok("File received: " + file.getOriginalFilename());
+  }
+
   // @PostMapping("/posT")
   // public ResponseEntity<ResponseMessage> posT(
-  //     @RequestParam("dev_serialNo") String dev_serialNo,
-  //     @RequestParam("dev_note") String dev_note,
-  //     @RequestParam("dev_description") String dev_description,
-  //     @RequestParam("dev_peaNo") String dev_peaNo,
-  //     @RequestParam("tbCostCenter") String tbCostCenter) {
-  //   String message;
-  //   try {
-  //     deviceService.postDevice(
-  //         dev_serialNo,
-  //         dev_note,
-  //         dev_description,
-  //         dev_peaNo,
-  //         tbCostCenter);
-  //     message = "POST OK \n";
-  //     return ResponseEntity
-  //         .status(HttpStatus.CREATED)
-  //         .body(new ResponseMessage(message));
-  //   } catch (Exception e) {
-  //     message = "POST NOT OK : " + e.getMessage();
-  //     return ResponseEntity
-  //         .status(HttpStatus.BAD_REQUEST)
-  //         .body(new ResponseMessage(message));
-  //   }
+  // @RequestParam("dev_serialNo") String dev_serialNo,
+  // @RequestParam("dev_note") String dev_note,
+  // @RequestParam("dev_description") String dev_description,
+  // @RequestParam("dev_peaNo") String dev_peaNo,
+  // @RequestParam("tbCostCenter") String tbCostCenter) {
+  // String message;
+  // try {
+  // deviceService.postDevice(
+  // dev_serialNo,
+  // dev_note,
+  // dev_description,
+  // dev_peaNo,
+  // tbCostCenter);
+  // message = "POST OK \n";
+  // return ResponseEntity
+  // .status(HttpStatus.CREATED)
+  // .body(new ResponseMessage(message));
+  // } catch (Exception e) {
+  // message = "POST NOT OK : " + e.getMessage();
+  // return ResponseEntity
+  // .status(HttpStatus.BAD_REQUEST)
+  // .body(new ResponseMessage(message));
+  // }
   // }
 
   @PutMapping("/updateDevice")
@@ -540,16 +540,16 @@ public class DeviceController {
 
   @GetMapping("/getDevice53unpageByccId")
   public ResponseEntity<Map<String, Object>> Pattern2(
-    
+
       @RequestParam("region") String region,
-      @RequestParam("tb_device_type_id") String tb_device_type_id) {
+      @RequestParam("device_type_id") String device_type_id) {
     try {
       System.out.println("/getDevice53unpageByccId");
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccId(
-          region, tb_device_type_id, paging);
+          region, device_type_id, paging);
       device = pageTuts.getContent();
 
       Map<String, Object> response = new HashMap<>();
@@ -566,14 +566,14 @@ public class DeviceController {
   @GetMapping("/getDevice53unpageByccIdOnly7Year")
   public ResponseEntity<Map<String, Object>> getDevice53unpageByccIdOnly7Year(
       @RequestParam("region") String region,
-      @RequestParam("tb_device_type_id") String tb_device_type_id) {
+      @RequestParam("device_type_id") String device_type_id) {
     try {
 
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccIdOnly7Year(
-          region, tb_device_type_id, paging);
+          region, device_type_id, paging);
       device = pageTuts.getContent();
       System.out.println("Device : " + device);
 

@@ -19,8 +19,8 @@ public class tbContract {
     @Id
     @GeneratedValue(generator = "cont_id", strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "cont_id", sequenceName = "cont_id")
-    @Column(name = "tb_contract_id", nullable = false)
-    private Long tbContractId;
+    @Column(name = "contract_id", nullable = false)
+    private Long contractId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
     private LocalDate dateOfAcquisition; // วันที่ได้รับ
@@ -38,7 +38,7 @@ public class tbContract {
 
     // Join tbDeviceType.class------------------------------
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "tb_device_type_id", insertable = true, referencedColumnName = "tb_device_type_id", nullable = true)
+    @JoinColumn(name = "device_type_id", insertable = true, referencedColumnName = "device_type_id", nullable = true)
     private tbDeviceType tbDeviceType;
 
     private String partner; // บ.คู่สัญญา

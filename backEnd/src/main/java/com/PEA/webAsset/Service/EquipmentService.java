@@ -42,7 +42,7 @@ public class EquipmentService {
             newEquipment.setReceiveDate(DateService.localDateNow());
             newEquipment.setEquipmentDescription((row.getCell(6).getStringCellValue()));
             newEquipment.setSerialNumber((row.getCell(7).getStringCellValue()));
-            newEquipment.setDeviceType(deviceTypeRepository.findByDtId(dType));
+            newEquipment.setDeviceType(deviceTypeRepository.findByDeviceTypeId(dType));
             newEquipment.setEquipmentLocation(equipmentLocationRepository.findLocById(locId));
 
             equipmentList.add(newEquipment);

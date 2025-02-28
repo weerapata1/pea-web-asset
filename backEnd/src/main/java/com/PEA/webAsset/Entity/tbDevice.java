@@ -24,11 +24,9 @@ import java.time.LocalDate;
 )
 public class tbDevice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")
-    @SequenceGenerator(name = "dev_seq", sequenceName = "dev_seq")
-    @Column(name = "tb_device_id", unique = true)
-
-    private Long tbDeviceId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "device_id", unique = true)
+    private Long deviceId;
 
     private String devPeaNo;
    
@@ -46,6 +44,9 @@ public class tbDevice {
 
     private String devConcatPriceDate;
 
+    @Column(name = "cc_long_code_string", nullable = true)
+    private String ccLongCodeString;
+
     @Column(columnDefinition="tinyint(1) default 0")
     private Boolean isDeleted;
 
@@ -59,7 +60,8 @@ public class tbDevice {
 
 
     // Join tbCostCenter.class------------------------------
-    @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
+    // @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
     private tbCostCenter tbCostCenter;
     // private String tbCostCenter;
@@ -70,24 +72,22 @@ public class tbDevice {
 
     private tbEmployee tbEmployee;
     // private String tbEmployee;
-
     //
     // Join tbDeviceType.class------------------------------
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "tb_device_type_id", insertable = true, referencedColumnName = "tb_device_type_id", nullable = true)
+    @JoinColumn(name = "device_type_id", insertable = true, referencedColumnName = "device_type_id", nullable = true)
     private tbDeviceType tbDeviceType;
 
 //    @OneToMany   // join tbContract
     @OneToOne(mappedBy = "installedFor")
     private tbEquipment equipment;
 
-
     public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
                     Double devReceivedPrice, Double devLeftPrice, 
                     tbCostCenter tbCostCenter,
                     // String cc_id,
                     tbEmployee tbEmployee,
-                    LocalDate devUpdate, tbDeviceType tb_device_type_id
+                    LocalDate devUpdate, tbDeviceType device_type_id
                     ){
         this.devPeaNo = devPeaNo;
         this.devDescription = devDescription;
@@ -98,6 +98,6 @@ public class tbDevice {
         this.tbCostCenter = tbCostCenter;
         this.tbEmployee = tbEmployee;
         this.devUpdate = devUpdate;
-        this.tbDeviceType = tb_device_type_id;
+        this.tbDeviceType = device_type_id;
     }
 }

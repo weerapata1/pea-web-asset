@@ -60,16 +60,13 @@ public class ExcelHelper {
     }
 
     public static String extractCellValue(DataFormatter formatter, Cell cell, String fieldName, int rowIndex) {
-        // Check if the cell is null or blank
         if (cell == null || cell.getCellType() == CellType.BLANK) {
             if (fieldName != null) {
-                // throw new RuntimeException("Missing or empty " + fieldName + " in row: " + rowIndex);
                 System.out.println("Warning: Missing or empty " + fieldName + " in row: " + rowIndex);
             } else {
-                return ""; // Return empty string if validation is not required
+                return ""; 
             }
         }
-        // Use DataFormatter to format and return the cell value as a String
         return formatter.formatCellValue(cell).trim();
     }
     

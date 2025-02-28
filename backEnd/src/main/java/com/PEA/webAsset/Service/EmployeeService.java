@@ -51,7 +51,7 @@ public class EmployeeService {
                 tbEmployee employee = new tbEmployee();
 
                 // Map specific columns to fields
-                employee.setTbEmployeeId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column
+                // employee.setEmpId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column
                                                                                                                    // A:
                                                                                                                    // ID
                 employee.setEmpId(ExcelHelper.extractCellValue(formatter, row.getCell(1))); // Column B: Employee ID

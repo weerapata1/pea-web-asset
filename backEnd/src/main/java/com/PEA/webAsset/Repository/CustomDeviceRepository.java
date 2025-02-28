@@ -6,6 +6,7 @@ import java.sql.Types;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -19,11 +20,12 @@ public interface CustomDeviceRepository {
         @PersistenceContext
         private EntityManager entityManager;
 
+        @Transactional
         @Override
         public void bulkInsertDevices(List<Object[]> devices) {
-            String sql = "INSERT INTO tb_device (dev_pea_no, dev_description, dev_serial_no, dev_received_date, dev_received_price, dev_left_price, cc_long_code, emp_id) "
+            String sql = "INSERT INTO tb_device (dev_pea_no, dev_description, dev_serial_no, dev_received_date, dev_received_price, dev_left_price, cc_long_code, emp_id, cc_long_code_string) "
                     +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             entityManager.unwrap(Session.class).doWork(connection -> {
                 try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -34,8 +36,9 @@ public interface CustomDeviceRepository {
                         ps.setObject(4, device[3], Types.VARCHAR); // dev_received_date
                         ps.setObject(5, device[4], Types.DOUBLE); // dev_received_price
                         ps.setObject(6, device[5], Types.DOUBLE); // dev_left_price
-                        ps.setObject(7, device[6], Types.BIGINT); // cc_id
+                        ps.setObject(7, device[6], Types.VARCHAR); // cc_id
                         ps.setObject(8, device[7], Types.BIGINT); // emp_id (nullable)
+                        ps.setObject(9, device[8], Types.VARCHAR); // cc_long_code_string
                         ps.addBatch();
                     }
                     ps.executeBatch(); // Execute the batch

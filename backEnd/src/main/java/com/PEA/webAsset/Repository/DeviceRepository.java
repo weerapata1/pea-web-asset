@@ -308,6 +308,11 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
         Page<tbDevice> findDeviceByCcIdAndTextSearch1allzc(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
+        // @Modifying
+        // @Query(value = "INSERT INTO tb_device (dev_pea_no, dev_description, dev_serial_no, dev_received_date, dev_received_price, dev_left_price, dev_cc_long_code, emp_id) "
+        //                 +
+        //                 "VALUES (:peaNo, :description, :serialNo, :receivedDate, :receivedPrice, :leftPrice, :ccLongCode, :empId)", nativeQuery = true)
+        // void bulkInsertDevices(@Param("devices") List<Object[]> devices);
         void bulkInsertDevices(List<Object[]> devices);
 
 }

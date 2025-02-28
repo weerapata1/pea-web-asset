@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +35,13 @@ import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import com.PEA.webAsset.Share.ExcelService.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 @Service
 public class DeviceService {
+    private static final Logger logger = LoggerFactory.getLogger(DeviceService.class);
     LocalDateTime now = LocalDateTime.now();
     DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm:ss");
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yy");
@@ -115,39 +121,63 @@ public class DeviceService {
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
             XSSFSheet worksheet = workbook.getSheetAt(0);
-
+            XSSFRow row1 = worksheet.getRow(1);
+            int lastCellNum = row1.getLastCellNum();
+            System.out.println("row1 lastCellNum" + lastCellNum);
             // Start from the second row (index 1) to skip the header
-            for (index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
-                XSSFRow row = worksheet.getRow(index);
 
-                // Check if the row is null or if Column A (Cell(0)) is empty
+            for (index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
+
+                XSSFRow row = worksheet.getRow(index);
+                System.out.println("Row " + index + " has " + row.getLastCellNum() + " cells.");
+
                 if (row == null || row.getCell(0) == null || row.getCell(0).getCellType() == CellType.BLANK) {
                     break; // Stop processing if Column A is empty
                 }
-                // tbDevice device = new tbDevice();
 
                 Double receivedPrice;
-                Cell c10 = row.getCell(10);
+                Cell c10 = row.getCell(lastCellNum - 3);
                 receivedPrice = (c10 == null || c10.getCellType() == CellType.BLANK)
                         ? 0.0
-                        : row.getCell(10).getNumericCellValue();
+                        : row.getCell(lastCellNum - 3).getNumericCellValue();
 
+                System.out.println("Row " + index + " receivedPrice " + receivedPrice);
                 if (index > 0 && receivedPrice >= 1) {
-                    // Extract and validate fields
-                    String peaNo = ExcelHelper.extractCellValue(formatter, row.getCell(2), "peaNo", index);
 
-                    String description = ExcelHelper.extractCellValue(formatter, row.getCell(4), "description", index);
-                    String serialNo = ExcelHelper.extractCellValue(formatter, row.getCell(5), "serialNo", index);
-                    String receivedDate = ExcelHelper.extractCellValue(formatter, row.getCell(9), "receivedDate",
+                    String peaNo = "";
+                    String userId = "";
+                    String description = "";
+                    String serialNo = "";
+                    String receivedDate = "";
+                    Double leftPrice = 0.0;
+                    String ccLongCode = "";
+
+                    peaNo = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 11), "peaNo", index);
+                    System.out.println("Row " + index + " peaNo " + peaNo);
+
+                    userId = ExcelHelper.extractCellValue(formatter,
+                            row.getCell(lastCellNum - 10, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK), "userId", index);
+                    System.out.println("Row " + index + " userId " + userId);
+
+                    description = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 9),
+                            "description", index);
+                    System.out.println("Row " + index + " description " + description);
+
+                    serialNo = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 8), "serialNo", index);
+                    System.out.println("Row " + index + " serialNo " + serialNo);
+
+                    receivedDate = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 4),
+                            "receivedDate", index);
+                    System.out.println("Row " + index + " receivedDate " + receivedDate);
+
+                    Double valueDD = ExcelHelper.extractCellNumericValue(row.getCell(lastCellNum - 2), "leftPrice",
                             index);
-                    Double leftPrice = ExcelHelper.extractCellNumericValue(row.getCell(11), "leftPrice", index);
+                    leftPrice = valueDD;
+                    System.out.println("Row " + index + " leftPrice " + leftPrice);
 
-                    String ccLongCode = ExcelHelper.extractCellValue(formatter, row.getCell(12), "ccLongCode", index);
-                    String userId = ExcelHelper.extractCellValue(formatter, row.getCell(3), "userId", index);
-
-                    Optional<tbCostCenter> optionalCostCenter = costCenterRepository.findByCcLongCode(ccLongCode);
-                    tbCostCenter costCenter = optionalCostCenter
-                            .orElseThrow(() -> new RuntimeException("Cost center not found for code: " + ccLongCode));
+                    ccLongCode = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 1), "ccLongCode",
+                            index);
+                    System.out.println("Row " + index + " ccLongCode " + ccLongCode);    
 
                     tbEmployee employee = null;
                     if (userId != null && !userId.trim().isEmpty()) {
@@ -155,8 +185,11 @@ public class DeviceService {
                         employee = optionalEmployee.orElse(null); // Allow employee to be null if not found
                     }
 
-                    description = (description != null && !description.trim().isEmpty()) ? description : null;
-                    serialNo = (serialNo != null && !serialNo.trim().isEmpty()) ? serialNo : null;
+                    tbCostCenter costCenter = null;
+                    if (ccLongCode != null && !ccLongCode.trim().isEmpty()) {
+                        Optional<tbCostCenter> optionalCostCenter = costCenterRepository.findByCcLongCode(ccLongCode);
+                        costCenter = optionalCostCenter.orElse(null); // Allow employee to be null if not found
+                    }
 
                     deviceBatch.add(new Object[] {
                             peaNo,
@@ -165,20 +198,24 @@ public class DeviceService {
                             receivedDate,
                             receivedPrice,
                             leftPrice,
-                            costCenter.getTbCostCenterId(), // Use Cost Center ID
-                            employee != null ? employee.getTbEmployeeId() : null // Use Employee ID if available, else
-                                                                                 // null
+                            costCenter != null ? costCenter.getCcLongCode() : null, // Use Cost Center ID
+                            employee != null ? employee.getEmpId() : null, // Use Employee ID if available, else
+                            ccLongCode, // null
                     });
                 }
+                // System.out.println("deviceBatch " + deviceBatch);
+                // for (Object[] objArray : deviceBatch) {
+                //     logger.info("Device Entry: {}", Arrays.toString(objArray));
+                // }
             }
-            // // Validate devices
             validateDevices(deviceList);
 
-            // Perform bulk insert
             deviceRepository.bulkInsertDevices(deviceBatch);
 
             return deviceList;
-        } catch (IOException e) {
+        } catch (
+
+        IOException e) {
             throw new RuntimeException("Line: " + index + " failed to store excel data: " + e.getMessage());
         }
     }
@@ -218,6 +255,10 @@ public class DeviceService {
             if (device.getTbEmployee() != null && device.getTbEmployee().getEmpId() == null) {
                 throw new InvalidDataException("Employee is invalid (missing required details).");
             }
+
+            if (device.getCcLongCodeString() != null && device.getCcLongCodeString().isEmpty()) {
+                throw new InvalidDataException("CcLongCodeString is missing (but it nullable).");
+            }
         }
     }
 
@@ -236,19 +277,19 @@ public class DeviceService {
 
     // @Transactional
     // public void bulkInsertDevices(List<tbDevice> deviceList) {
-    //     List<Object[]> deviceBatch = deviceList.stream()
-    //             .map(device -> new Object[] {
-    //                     device.getDevPeaNo(),
-    //                     device.getDevDescription(),
-    //                     device.getDevSerialNo(),
-    //                     device.getDevReceivedDate(),
-    //                     device.getDevReceivedPrice(),
-    //                     device.getDevLeftPrice(),
-    //                     device.getTbCostCenter().getTbCostCenterId(),
-    //                     device.getTbEmployee().getTbEmployeeId()
-    //             })
-    //             .collect(Collectors.toList());
-    //     deviceRepository.bulkInsertDevices(deviceBatch);
+    // List<Object[]> deviceBatch = deviceList.stream()
+    // .map(device -> new Object[] {
+    // device.getDevPeaNo(),
+    // device.getDevDescription(),
+    // device.getDevSerialNo(),
+    // device.getDevReceivedDate(),
+    // device.getDevReceivedPrice(),
+    // device.getDevLeftPrice(),
+    // device.getTbCostCenter().getTbCostCenterId(),
+    // device.getTbEmployee().getTbEmployeeId()
+    // })
+    // .collect(Collectors.toList());
+    // deviceRepository.bulkInsertDevices(deviceBatch);
     // }
 
 }
