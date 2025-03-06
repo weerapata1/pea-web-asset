@@ -377,56 +377,64 @@
                     <tr>
                       <td>cost_center_name</td>
                       <td>
-                        <v-text-field v-model="formData.cost_center_name" />
+                        <v-text-field v-model="editedItem.ccLongCodeString" />
                       </td>
                     </tr>
                     <tr>
                       <td>date</td>
-                      <td><v-text-field v-model="formData.date" /></td>
+                      <td><v-text-field v-model="editedItem.date" /></td>
                     </tr>
                     <tr>
                       <td>type_other</td>
-                      <td><v-text-field v-model="formData.type_other" /></td>
+                      <td><v-text-field v-model="editedItem.type_other" /></td>
                     </tr>
                     <tr>
                       <td>brand</td>
-                      <td><v-text-field v-model="formData.brand" /></td>
+                      <td><v-text-field v-model="editedItem.brand" /></td>
                     </tr>
                     <tr>
                       <td>model</td>
-                      <td><v-text-field v-model="formData.model" /></td>
+                      <td>
+                        <v-text-field v-model="editedItem.devDescription" />
+                      </td>
                     </tr>
                     <tr>
                       <td>contract</td>
-                      <td><v-text-field v-model="formData.contract" /></td>
+                      <td><v-text-field v-model="editedItem.contract" /></td>
                     </tr>
                     <tr>
                       <td>serial</td>
-                      <td><v-text-field v-model="formData.serial" /></td>
+                      <td><v-text-field v-model="editedItem.devSerialNo" /></td>
                     </tr>
                     <tr>
                       <td>pea_no</td>
-                      <td><v-text-field v-model="formData.pea_no" /></td>
+                      <td><v-text-field v-model="editedItem.devPeaNo" /></td>
                     </tr>
                     <tr>
                       <td>problem</td>
-                      <td><v-text-field v-model="formData.problem" /></td>
+                      <td><v-text-field v-model="editedItem.problem" /></td>
                     </tr>
                     <tr>
                       <td>emp_name</td>
-                      <td><v-text-field v-model="formData.emp_name" /></td>
+                      <td>
+                        <v-text-field v-model="editedItem.tbEmployee.empName" />
+                      </td>
                     </tr>
                     <tr>
                       <td>emp_role</td>
-                      <td><v-text-field v-model="formData.emp_role" /></td>
+                      <td>
+                        <v-text-field v-model="editedItem.tbEmployee.empRank" />
+                      </td>
                     </tr>
                     <tr>
                       <td>emp_id</td>
-                      <td><v-text-field v-model="formData.emp_id" /></td>
+                      <td>
+                        <v-text-field v-model="editedItem.tbEmployee.empId" />
+                      </td>
                     </tr>
                     <tr>
                       <td>tel</td>
-                      <td><v-text-field v-model="formData.tel" /></td>
+                      <td><v-text-field v-model="editedItem.tel" /></td>
                     </tr>
                     <tr>
                       <td>inspector_name</td>

@@ -155,7 +155,7 @@
               :enable-download="true"
               :preview-modal="true"
               :paginate-elements-by-height="1400"
-              filename=modelCC
+              filename="modelCC"
               :pdf-quality="2"
               :manual-pagination="false"
               pdf-format="a4"

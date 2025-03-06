@@ -125,7 +125,7 @@ export default {
       this.itemsCC = response.data.costCenter;
     });
 
-    axios.get("http://localhost:8080/emp/getEmp").then((response) => {
+    axios.get("http://localhost:8080/emp/getEmpAll").then((response) => {
       this.itemsEmp = response.data;
     });
   },
@@ -172,14 +172,14 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        console.log("param device_type_id - ", this.setAssetComType);
+        // console.log("param device_type_id - ", this.setAssetComType);
         let params = [];
 
         params = {
           region: this.modelCC["ccLongCode"],
           device_type_id: this.setAssetComType,
         };
-
+        console.log("param device_type_id - ", params.device_type_id , " region ", params.region);
         if (this.checked7 == false) {
           await axios
             .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
