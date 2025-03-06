@@ -33,6 +33,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 // @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/dev")
@@ -601,38 +604,71 @@ public class DeviceController {
     return "Hello World";
   }
 
-  String requestData2 = "{\r\n" + //
-      "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
-      "    \"templateName\": \"output\",\r\n" + //
-      "    \"pdfVersion\": \"1.7\",\r\n" + //
-      "    \"data\": {\r\n" + //
-      "        \"cost_center_name\": \"กฟส.กทล.\",\r\n" + //
-      "        \"date\": \"19 มิ.ย. 2567\",\r\n" + //
-      "        \"type_other\": \"\",\r\n" + //
-      "        \"brand\": \"HP\",\r\n" + //
-      "        \"model\": \"ProDesk 600 G5\",\r\n" + //
-      "        \"contract\": \"บ.75/2563\",\r\n" + //
-      "        \"serial\": \"4CE03526C6\",\r\n" + //
-      "        \"pea_no\": \"5330404643\",\r\n" + //
-      "        \"problem\": \"ฮาร์ดิสชำรุด\",\r\n" + //
-      "        \"emp_name\": \"นายอนุสรณ์ อมรรัตนศักดิ์\",\r\n" + //
-      "        \"emp_role\": \"พบค.7\",\r\n" + //
-      "        \"emp_id\": \"499857\",\r\n" + //
-      "        \"tel\": \"(22)14890\",\r\n" + //
-      "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" + //
-      "        \"inspector_role\": \"นรค.7\",\r\n" + //
-      "        \"inspector_date\": \"19 มิ.ย. 2567\",\r\n" + //
-      "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" + //
-      "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" + //
-      "        \"dep_head_date\": \"19 มิ.ย. 2567\"\r\n" + //
-      "    }\r\n" + //
-      "}";
+  // String requestData2 = "{\r\n" + //
+  //     "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
+  //     "    \"templateName\": \"output\",\r\n" + //
+  //     "    \"pdfVersion\": \"1.7\",\r\n" + //
+  //     "    \"data\": {\r\n" + //
+  //     "        \"cost_center_name\": \"กฟส.กทล.\",\r\n" + //
+  //     "        \"date\": \"19 มิ.ย. 2567\",\r\n" + //
+  //     "        \"type_other\": \"\",\r\n" + //
+  //     "        \"brand\": \"HP\",\r\n" + //
+  //     "        \"model\": \"ProDesk 600 G5\",\r\n" + //
+  //     "        \"contract\": \"บ.75/2563\",\r\n" + //
+  //     "        \"serial\": \"4CE03526C6\",\r\n" + //
+  //     "        \"pea_no\": \"5330404643\",\r\n" + //
+  //     "        \"problem\": \"ฮาร์ดิสชำรุด\",\r\n" + //
+  //     "        \"emp_name\": \"นายอนุสรณ์ อมรรัตนศักดิ์\",\r\n" + //
+  //     "        \"emp_role\": \"พบค.7\",\r\n" + //
+  //     "        \"emp_id\": \"499857\",\r\n" + //
+  //     "        \"tel\": \"(22)14890\",\r\n" + //
+  //     "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" + //
+  //     "        \"inspector_role\": \"นรค.7\",\r\n" + //
+  //     "        \"inspector_date\": \"19 มิ.ย. 2567\",\r\n" + //
+  //     "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" + //
+  //     "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" + //
+  //     "        \"dep_head_date\": \"19 มิ.ย. 2567\"\r\n" + //
+  //     "    }\r\n" + //
+  //     "}";
 
   @CrossOrigin(origins = "http://localhost:8000")
   @PostMapping("/redirectPdfProducer")
   public ResponseEntity<byte[]> redirectPdfProducer(@RequestBody String requestData) {
     String targetUrl = "http://172.30.211.224:42/api/pdf-producer";
     System.err.println("Received Request Data: " + requestData);
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    
+    // JsonNode rootNode = objectMapper.readTree(requestData);
+  
+    // String costCenterName = rootNode.path("tbCostCenter").path("ccFullName").asText();
+
+    String requestData2 = "{\r\n" + //
+    "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
+    "    \"templateName\": \"output\",\r\n" + //
+    "    \"pdfVersion\": \"1.7\",\r\n" + //
+    "    \"data\": {\r\n" + //
+    "        \"cost_center_name\": \"requestData\",\r\n" + //
+    "        \"date\": \"19 มิ.ย. 2567\",\r\n" + //
+    "        \"type_other\": \"\",\r\n" + //
+    "        \"brand\": \"HP\",\r\n" + //
+    "        \"model\": \"ProDesk 600 G5\",\r\n" + //
+    "        \"contract\": \"บ.75/2563\",\r\n" + //
+    "        \"serial\": \"4CE03526C6\",\r\n" + //
+    "        \"pea_no\": \"5330404643\",\r\n" + //
+    "        \"problem\": \"ฮาร์ดิสชำรุด\",\r\n" + //
+    "        \"emp_name\": \"นายอนุสรณ์ อมรรัตนศักดิ์\",\r\n" + //
+    "        \"emp_role\": \"พบค.7\",\r\n" + //
+    "        \"emp_id\": \"499857\",\r\n" + //
+    "        \"tel\": \"(22)14890\",\r\n" + //
+    "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" + //
+    "        \"inspector_role\": \"นรค.7\",\r\n" + //
+    "        \"inspector_date\": \"19 มิ.ย. 2567\",\r\n" + //
+    "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" + //
+    "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" + //
+    "        \"dep_head_date\": \"19 มิ.ย. 2567\"\r\n" + //
+    "    }\r\n" + //
+    "}";
 
     // Initialize RestTemplate and headers
     RestTemplate restTemplate = new RestTemplate();
@@ -647,7 +683,7 @@ public class DeviceController {
       System.err.println("Sending Data to External API: " + requestData);
 
       // Create HttpEntity with the modified requestData and headers
-      HttpEntity<String> entity = new HttpEntity<>(requestData2, headers);
+      HttpEntity<String> entity = new HttpEntity<>(requestData, headers);
 
       // Send the request to the external API
       ResponseEntity<byte[]> response = restTemplate.exchange(targetUrl,

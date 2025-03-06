@@ -188,7 +188,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "WHERE d.cc_long_code LIKE CONCAT(:region,'%') " +
-                        "AND d.tb_device_type_id = :tb_device_type_id " +
+                        "AND d.device_type_id = :tb_device_type_id " +
                         "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
         Page<tbDevice> getDevice53unpageByccId(@Param("region") String region,
                         @Param("tb_device_type_id") String tb_device_type_id,
@@ -197,7 +197,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "WHERE d.cc_long_code LIKE CONCAT(:region,'%') " +
-                        "AND d.tb_device_type_id = :tb_device_type_id " +
+                        "AND d.device_type_id = :tb_device_type_id " +
                         "AND year(d.dev_received_date) >= 2558 " +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
         Page<tbDevice> getDevice53unpageByccIdOnly7Year(@Param("region") String region,

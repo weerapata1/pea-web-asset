@@ -21,7 +21,7 @@ public interface CostCenterRepository extends JpaRepository<tbCostCenter, Long> 
 
     @Query(value = "SELECT * from tb_cost_center c " +
             // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
-            "WHERE c.cc_id LIKE '%0' " + "OR c.cc_full_name LIKE '%สถานี%'", nativeQuery = true)
+            "WHERE c.cc_long_code LIKE '%0' " + "OR c.cc_full_name LIKE '%สถานี%'", nativeQuery = true)
     Page<tbCostCenter> onlyUse(Pageable pageable);
 
 }
