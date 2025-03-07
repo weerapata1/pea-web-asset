@@ -33,6 +33,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -173,9 +175,9 @@ public class DeviceController {
     // System.out.println("setAssetType=" + setAssetType + " region=" + region);
 
     try {
-      List<tbDevice> device = new ArrayList<tbDevice>();
+      List<Object[]> device = new ArrayList<Object[]>();
       Pageable paging = Pageable.unpaged();
-      Page<tbDevice> pageTuts = null;
+      Page<Object[]> pageTuts = null;
       if (region.equals("E3") || region.equals("E3010")) {
         System.out.println("setAssetType=" + setAssetType + " region=" + region);
         if (setAssetType.equals("53")) {
@@ -248,9 +250,9 @@ public class DeviceController {
       @RequestParam("textSearch") String textSearch,
       @RequestParam("setAssetType") String setAssetType) {
     try {
-      List<tbDevice> device = new ArrayList<tbDevice>();
+      List<Object[]> device = new ArrayList<Object[]>();
       Pageable paging = Pageable.unpaged();
-      Page<tbDevice> pageTuts = null;
+      Page<Object[]> pageTuts = null;
 
       if (region.equals("E3") || region.equals("E3010")) {
         if (setAssetType.equals("53")) {
@@ -638,35 +640,54 @@ public class DeviceController {
     System.err.println("Received Request Data: " + requestData);
 
     ObjectMapper objectMapper = new ObjectMapper();
-    
-    // JsonNode rootNode = objectMapper.readTree(requestData);
+    JsonNode rootNode = null;
+
+    try {
+      rootNode = objectMapper.readTree(requestData);
+    } catch (JsonMappingException e) {
+     
+      e.printStackTrace();
+    } catch (JsonProcessingException e) {
+     
+      e.printStackTrace();
+    }
   
-    // String costCenterName = rootNode.path("tbCostCenter").path("ccFullName").asText();
+    String costCenterName = rootNode.path("tbCostCenter").path("ccFullName").asText();
+    String date = rootNode.path("date").asText();
+    String brand = rootNode.path("brand").asText(); // Extracted from devDescription
+    String model = rootNode.path("model").asText(); // Extracted from devDescription
+    String serial = rootNode.path("devSerialNo").asText();
+    String peaNo = rootNode.path("devPeaNo").asText();
+    String problem = rootNode.path("problem").asText();
+    String empName = rootNode.path("tbEmployee").path("empName").asText();
+    String empRole = rootNode.path("tbEmployee").path("empRole").asText("N/A");
+    String empId = rootNode.path("tbEmployee").path("empId").asText();
+    String tel = rootNode.path("tel").asText();
 
     String requestData2 = "{\r\n" + //
     "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
     "    \"templateName\": \"output\",\r\n" + //
     "    \"pdfVersion\": \"1.7\",\r\n" + //
     "    \"data\": {\r\n" + //
-    "        \"cost_center_name\": \"requestData\",\r\n" + //
-    "        \"date\": \"19 มิ.ย. 2567\",\r\n" + //
-    "        \"type_other\": \"\",\r\n" + //
-    "        \"brand\": \"HP\",\r\n" + //
-    "        \"model\": \"ProDesk 600 G5\",\r\n" + //
-    "        \"contract\": \"บ.75/2563\",\r\n" + //
-    "        \"serial\": \"4CE03526C6\",\r\n" + //
-    "        \"pea_no\": \"5330404643\",\r\n" + //
-    "        \"problem\": \"ฮาร์ดิสชำรุด\",\r\n" + //
-    "        \"emp_name\": \"นายอนุสรณ์ อมรรัตนศักดิ์\",\r\n" + //
-    "        \"emp_role\": \"พบค.7\",\r\n" + //
-    "        \"emp_id\": \"499857\",\r\n" + //
-    "        \"tel\": \"(22)14890\",\r\n" + //
-    "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" + //
-    "        \"inspector_role\": \"นรค.7\",\r\n" + //
-    "        \"inspector_date\": \"19 มิ.ย. 2567\",\r\n" + //
-    "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" + //
-    "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" + //
-    "        \"dep_head_date\": \"19 มิ.ย. 2567\"\r\n" + //
+    "        \"cost_center_name\": \"" + costCenterName + "\",\r\n" +
+    "        \"date\": \"" + date + "\",\r\n" +
+    "        \"type_other\": \"\",\r\n" +
+    "        \"brand\": \"" + brand + "\",\r\n" +
+    "        \"model\": \"" + model + "\",\r\n" +
+    "        \"contract\": \"บ.75/2563\",\r\n" +
+    "        \"serial\": \"" + serial + "\",\r\n" +
+    "        \"pea_no\": \"" + peaNo + "\",\r\n" +
+    "        \"problem\": \"" + problem + "\",\r\n" +
+    "        \"emp_name\": \"" + empName + "\",\r\n" +
+    "        \"emp_role\": \"" + empRole + "\",\r\n" +
+    "        \"emp_id\": \"" + empId + "\",\r\n" +
+    "        \"tel\": \"" + tel + "\",\r\n" +
+    "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" +
+    "        \"inspector_role\": \"นรค.7\",\r\n" +
+    "        \"inspector_date\": \""+ date + "\",\r\n" +
+    "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" +
+    "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" +
+    "        \"dep_head_date\": \""+ date + "\"\r\n" +
     "    }\r\n" + //
     "}";
 

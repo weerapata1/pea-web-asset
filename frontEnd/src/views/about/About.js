@@ -37,12 +37,6 @@ export default {
       event: {},
       events: [],
       headers: [
-        // {
-        //   align: "start",
-        //   value: "",
-        //   width: "1%",
-        //   text:"select-all"
-        // },
         {
           text: "เลขทรัพย์สิน",
           align: "start",
@@ -64,6 +58,7 @@ export default {
         },
         {
           text: "วันที่โอนเข้าเป็นทุน",
+          // value: "devReceivedDate",
           value: "devReceivedDate",
           class: "primary--text",
           // width: "7%"
@@ -82,25 +77,29 @@ export default {
         },
         {
           text: "ชื่อผู้ครอบครอง",
-          value: "tbEmployee.empName",
+          // value: "tbEmployee.empName",
+          value: "empName",
           class: "primary--text",
           // width: "20%",
         },
         {
           text: "รหัสพนักงาน",
-          value: "tbEmployee.empId",
+          // value: "tbEmployee.empId",
+          value: "empId",
           class: "primary--text",
           // width: "3%"
         },
         {
           text: "สังกัด",
-          value: "tbCostCenterTest.ccShortName",
+          // value: "tbCostCenter.ccShortName",
+          value: "ccShortName",
           class: "primary--text",
           // width: "5%",
         },
         {
           text: "ศูนย์ต้นทุน",
-          value: "tbCostCenterTest.ccLongCode",
+          // value: "tbCostCenter.ccLongCode",
+          value: "ccLongCode",
           class: "primary--text",
           // width: "5%",
         },
@@ -133,13 +132,13 @@ export default {
           },
         },
         ศูนย์ต้นทุน: {
-          field: "tbCostCenterTest.ccLongCode",
+          field: "tbCostCenter.ccLongCode",
           callback: (value) => {
             return `${value}`;
           },
         },
         สังกัด: {
-          field: "tbCostCenterTest.ccShortName",
+          field: "tbCostCenter.ccShortName",
           callback: (value) => {
             return `${value}`;
           },
@@ -257,19 +256,43 @@ export default {
 
       editedIndex: -1,
       editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        ccLongCodeString: "",
+        devConcatPriceDate: "",
+        devDescription: "",
+        devLeftPrice: 0,
+        devNote: "",
+        devPeaNo: "",
+        devReceivedDate: null, // Use a proper date format if needed
+        devReceivedPrice: 0,
+        devSerialNo: "",
+        devUpdate: "",
+        deviceId: null,
+        equipment: "",
+        isDeleted: false,
+        tbCostCenter: {
+          costCenter: "",
+          costCenterCode: "",
+        },
+        tbDeviceType: {
+          deviceTypeId: "",
+          deviceTypeName: "",
+        },
+        tbEmployee: {
+          empDepFull: "",
+          empId: "",
+          empName: "",
+          empRank: "",
+          empRole: "",
+        },
+        date: new Date().toISOString().split("T")[0],
       },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
+      // defaultItem: {
+      //   name: "",
+      //   calories: 0,
+      //   fat: 0,
+      //   carbs: 0,
+      //   protein: 0,
+      // },
       groupSelected: [],
       qrcode_value2: [],
       result: [],
@@ -809,12 +832,27 @@ export default {
       .get("http://localhost:8080/api/dev/searchNoWordUnpage", { params })
       .then((resp) => {
         this.getAllResult = resp;
-
-        this.data1 = resp.data.dataExcel;
-
-        this.itemsPerPage = resp.data.itemsPerPage;
+        console.log("data mounted ", this.getAllResult);
+        // this.data1 = resp.data.dataExcel;
+        this.data1 = Array.isArray(resp.data.dataExcel) ? resp.data.dataExcel : [];
+        this.data1 = this.data1.map(item => ({
+          id: item[0],
+          devDescription: item[1],
+          devPeaNo: item[2],
+          devSerialNo: item[3],
+          empId: item[4],
+          devReceivedDate: item[5], // Convert Thai date format
+          devReceivedPrice: item[6],
+          devLeftPrice: item[7],
+          ccLongCode: item[8],
+          ccFullName: item[9],
+          ccShortName: item[10],
+          empName: item[11]
+        }));
+        // this.itemsPerPage = resp.data.itemsPerPage;
         this.totalItems = resp.data.totalItems;
         console.log("at mounted ", this.getAllResult.data.totalItems);
+        console.log("at mounted data ", this.data1);
         this.myloadingvariable = false;
       })
 
@@ -822,34 +860,14 @@ export default {
         console.log(error.resp);
       });
 
-    // axios.get('http://localhost:8080/api/dev/test')
-    // .then(response => {
-    //     console.log(response.data);
-    // })
-    // .catch(error => {
-    //     console.error("There was an error with the test request!", error);
-    // });
   },
 
   created() {
-    //this.myloadingvariable = true;
-    // console.log("at created");
-    // this.getEventsData(); // NEW - call getEventData() when the instance is created
-    //this.myloadingvariable = false;
+
   },
   // NEW
 
   methods: {
-    // async getEventsData() {
-    //   // NEW - Use the eventService to call the getEvents() method
-    //   DataService.getEvents().then(
-    //     ((events) => {
-    //       console.log("inside method dataservice", JSON.stringify(events));
-    //       this.$set(this, "events", events);
-    //     }).bind(this)
-
-    //   );
-    // },
     getItemPerPage(val) {
       this.itemsPerPage = val;
       console.log("setItemPerPage ", this.itemsPerPage);
@@ -953,35 +971,6 @@ export default {
         console.log("itemsPerPage", this.itemsPerPage);
         //ถ้าไม่ใส่คำค้น
         if (this.textSearch.length == 0) {
-          // if (this.itemsPerPage > 0) {
-          //   params = {
-          //     page: 0,
-          //     size: this.itemsPerPage,
-          //     region: selectedBranch.branch,
-          //     setAssetType: setAssetType2.assetType,
-          //   };
-          //   // console.log("Pattern2 ", params);
-          //   axios
-          //     .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
-          //     .then((resp) => {
-          //       this.getAllResult = resp.data;
-          //       console.log(
-          //         "getAllByPattern2",
-          //         JSON.stringify(this.getAllResult),
-          //         " resp.data.itemsPerPage ",
-          //         resp.data.itemsPerPage
-          //       );
-
-          //       this.data1 = resp.data.data1;
-          //       this.itemsPerPage = resp.data.itemsPerPage;
-          //       this.totalItems = resp.data.totalItems;
-          //       this.myloadingvariable = false;
-          //     })
-          //     .catch((error) => {
-          //       console.log(error.resp);
-          //     });
-          // }
-          // else if (this.itemsPerPage == -1) {
           params = {
             region: selectedBranch.branch,
             setAssetType: setAssetType2.assetType,
@@ -998,7 +987,22 @@ export default {
                 JSON.stringify(this.getAllResult)
               );
 
-              this.data1 = resp.data.dataExcel;
+              // this.data1 = resp.data.dataExcel;
+              this.data1 = Array.isArray(resp.data.dataExcel) ? resp.data.dataExcel : [];
+              this.data1 = this.data1.map(item => ({
+                id: item[0],
+                devDescription: item[1],
+                devPeaNo: item[2],
+                devSerialNo: item[3],
+                empId: item[4],
+                devReceivedDate: item[5], // Convert Thai date format
+                devReceivedPrice: item[6],
+                devLeftPrice: item[7],
+                ccLongCode: item[8],
+                ccFullName: item[9],
+                ccShortName: item[10],
+                empName: item[11]
+              }));
               // this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
               this.myloadingvariable = false;
@@ -1023,10 +1027,26 @@ export default {
             .get("http://localhost:8080/api/dev/searchWithWord", { params })
             .then((resp) => {
               this.getAllResult = resp.data;
-              console.log("searchWithWord", JSON.stringify(this.getAllResult));
+              // console.log("searchWithWord-AllResult ", JSON.stringify(this.getAllResult));
 
-              this.data1 = resp.data.data1;
-              this.itemsPerPage = resp.data.itemsPerPage;
+              // this.data1 = resp.data.data1;
+              this.data1 = Array.isArray(resp.data.data1) ? resp.data.data1 : [];
+              this.data1 = this.data1.map(item => ({
+                id: item[0],
+                devDescription: item[1],
+                devPeaNo: item[2],
+                devSerialNo: item[3],
+                empId: item[4],
+                devReceivedDate: item[5], // Convert Thai date format
+                devReceivedPrice: item[6],
+                devLeftPrice: item[7],
+                ccLongCode: item[8],
+                ccFullName: item[9],
+                ccShortName: item[10],
+                empName: item[11]
+              }));
+              console.log("searchWithWord-AllResult ", this.data1);
+              // this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
               this.myloadingvariable = false;
             })
@@ -1045,38 +1065,6 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        // if (this.setAssetType.length == 0) {
-        //   this.setAssetType = JSON.stringify({ assetType: 53 });
-        // }
-        // this.myloadingvariable = true;
-        // let selectedBranch = JSON.parse(this.appendBranch);
-        // let setAssetType = JSON.parse(this.setAssetType);
-        // // console.log("setAssetType ",this.setAssetType);
-        // let params = [];
-        // params = {
-        //   region: selectedBranch.branch,
-        //   setAssetType: setAssetType.assetType,
-        // };
-        // let response = await axios
-        //   .get("http://localhost:8080/api/dev/getAllByPattern2unpage", {
-        //     params,
-        //   })
-        //   .then((resp) => {
-        //     this.getAllResult = resp.data;
-        //     console.log(
-        //       "getAllByPattern2unpage",
-        //       JSON.stringify(this.getAllResult)
-        //     );
-
-        //     this.dataExcel = resp.data.dataExcel;
-        //     this.itemsPerPage = resp.data.itemsPerPage;
-        //     this.totalItems = resp.data.totalItems;
-        //     this.myloadingvariable = false;
-        //     return this.dataExcel;
-        //   })
-        //   .catch((error) => {
-        //     console.log(error.resp);
-        //   });
 
         this.dataExcel = this.data1;
         this.myloadingvariable = false;
@@ -1095,7 +1083,7 @@ export default {
     editItem(item) {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      console.log(this.editedItem);
+      console.log("editedItem ", this.editedItem);
       (this.qrcode_value =
         // JSON.parse([
         JSON.stringify({
@@ -1107,8 +1095,8 @@ export default {
           received_date: this.editedItem["devReceivedDate"],
           price_recieve: this.editedItem["devReceivedPrice"],
           price_left: this.editedItem["devLeftPrice"],
-          cc_short_name: this.editedItem["tbCostCenterTest"]["ccShortName"],
-          cost_center: this.editedItem["tbCostCenterTest"]["ccLongCode"],
+          cc_short_name: this.editedItem["tbCostCenter"]["ccShortName"],
+          cost_center: this.editedItem["tbCostCenter"]["ccLongCode"],
         })),
         (this.dialog = true);
     },
@@ -1116,6 +1104,8 @@ export default {
     showFixForm(item) {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      this.editedItem.date = this.formatDateToThai(new Date());
+      console.log("editedItem in dialogFixForm ", this.editedItem);
       this.dialogFixForm = true;
     },
 
@@ -1146,36 +1136,6 @@ export default {
           console.error("Error occurred while generating PDF:", error);
         });
 
-      // axios
-      //   .post("http://localhost:8080/api/dev/redirectPdfProducer", data, {
-      //     responseType: "blob", // Important
-      //   })
-      //   .then((response) => {
-      //     const blob = new Blob([response.data], { type: "application/pdf" });
-      //     const link = document.createElement("a");
-      //     link.href = window.URL.createObjectURL(blob);
-      //     link.download = "generated.pdf";
-      //     link.click();
-      //   })
-      //   .catch((error) => {
-      //     console.error("There was an error redirecting!", error);
-      //   });
-
-      // axios
-      //   .get("http://localhost:8080/api/dev/redirectgoogle")
-      //   .then((response) => {
-      //     // Assuming the API returns an object with a key 'redirectUrl'
-      //     const redirectUrl = response.data.redirectUrl;
-      //     if (redirectUrl) {
-      //       // Redirect the browser to the URL
-      //       window.location.href = redirectUrl;
-      //     } else {
-      //       console.error("Redirect URL not found in the response.");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error("There was an error with the test request!", error);
-      //   });
     },
 
     sendpostmanecho() {
@@ -1229,9 +1189,7 @@ export default {
       this.detail_value = [];
       this.groupSelected = e;
       console.log(this.groupSelected.length);
-      // this.qrcode_value2 = JSON.stringify(this.groupSelected);
-      // user_id: this.editedItem["tbEmployee"]["empId"],
-      // user_name: this.editedItem["tbEmployee"]["empName"],
+
       let i = 0;
       this.result = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
       this.result2 = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
@@ -1242,13 +1200,9 @@ export default {
         if (this.groupSelected[i].tbEmployee !== null) {
           this.result[i].empId = this.groupSelected[i].tbEmployee.empId;
           this.result[i].empName = this.groupSelected[i].tbEmployee.empName;
-          // this.result2[i].empId = this.groupSelected[i].tbEmployee.empId;
-          // this.result2[i].empName = this.groupSelected[i].tbEmployee.empName;
         } else {
           this.result[i].empId = "ไม่ระบุ";
           this.result[i].empName = "ไม่ระบุ";
-          // this.result2[i].empId = "ไม่ระบุ";
-          // this.result2[i].empName = "ไม่ระบุ";
         }
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
@@ -1264,12 +1218,12 @@ export default {
         this.result[i].devLeftPrice = this.groupSelected[i].devLeftPrice;
 
         this.result[i].ccLongCode =
-          this.groupSelected[i].tbCostCenterTest.ccLongCode;
+          this.groupSelected[i].tbCostCenter.ccLongCode;
 
         this.result[i].ccShortName =
-          this.groupSelected[i].tbCostCenterTest.ccShortName;
+          this.groupSelected[i].tbCostCenter.ccShortName;
         this.result2[i].ccShortName =
-          this.groupSelected[i].tbCostCenterTest.ccShortName;
+          this.groupSelected[i].tbCostCenter.ccShortName;
 
         this.result[i].devDescription = this.groupSelected[i].devDescription;
       }
@@ -1312,7 +1266,7 @@ export default {
     },
 
     genFixFormReport() {
-     console.log("this.editedItem",this.editedItem);
+      console.log("this.editedItem", this.editedItem);
       if (this.editedItem == null) {
         this.alert = true;
         window.setInterval(() => {
@@ -1322,13 +1276,17 @@ export default {
       } else {
         // Make a POST request to the Spring Boot endpoint
         axios
-          .post("http://localhost:8080/api/dev/redirectPdfProducer", this.editedItem, {
-            responseType: "blob", // Important: To handle the response as a binary blob (PDF)
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/pdf",
-            },
-          })
+          .post(
+            "http://localhost:8080/api/dev/redirectPdfProducer",
+            this.editedItem,
+            {
+              responseType: "blob", // Important: To handle the response as a binary blob (PDF)
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/pdf",
+              },
+            }
+          )
           .then((response) => {
             // Create a blob from the response
             const fileBlob = new Blob([response.data], {
@@ -1353,7 +1311,26 @@ export default {
           });
       }
     },
+
+    formatDateToThai(date) {
+      if (!date) return "";
+
+      const thaiDate = new Date(date);
+
+      // Convert to Buddhist Era (B.E.) year
+      const thaiYear = thaiDate.getFullYear() + 543;
+
+      // Format the date in Thai
+      return thaiDate
+        .toLocaleDateString("th-TH", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+        .replace(thaiDate.getFullYear(), thaiYear); // Replace the Western year with B.E. year
+    },
   },
+
   computed: {
     likesAllFruit() {
       return this.selectedFruits.length === this.fruits.length;

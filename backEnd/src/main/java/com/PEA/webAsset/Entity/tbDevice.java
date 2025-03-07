@@ -12,14 +12,13 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-// @Table(name = "tb_device")
 @Entity(name = "tb_device")
 @ToString
 @Table(
     name = "tb_device",
     indexes = {
-        @Index(name = "idx_cc_long_code", columnList = "cc_long_code"), // Index for cc_id
-        @Index(name = "idx_emp_id", columnList = "emp_id") // Index for emp_id
+        @Index(name = "idx_cc_long_code", columnList = "cc_long_code"), 
+        @Index(name = "idx_emp_id", columnList = "emp_id") 
     }
 )
 public class tbDevice {
@@ -53,39 +52,25 @@ public class tbDevice {
     @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
     private LocalDate devUpdate;
 
-    // Join tbCommitment.class------------------------------
-    // @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "cont_id", insertable = true)
-    // private tbCommitment tbCommitment;
-
-
-    // Join tbCostCenter.class------------------------------
-    // @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
     private tbCostCenter tbCostCenter;
-    // private String tbCostCenter;
 
-    // Join tbEmployee.class------------------------------
     @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", nullable = true) // Reference emp_id in tbEmployee
 
     private tbEmployee tbEmployee;
-    // private String tbEmployee;
-    //
-    // Join tbDeviceType.class------------------------------
+
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "device_type_id", insertable = true, referencedColumnName = "device_type_id", nullable = true)
     private tbDeviceType tbDeviceType;
 
-//    @OneToMany   // join tbContract
     @OneToOne(mappedBy = "installedFor")
     private tbEquipment equipment;
 
     public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
                     Double devReceivedPrice, Double devLeftPrice, 
                     tbCostCenter tbCostCenter,
-                    // String cc_id,
                     tbEmployee tbEmployee,
                     LocalDate devUpdate, tbDeviceType device_type_id
                     ){

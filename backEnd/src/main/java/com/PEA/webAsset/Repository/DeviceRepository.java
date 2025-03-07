@@ -51,32 +51,55 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
         Page<tbDevice> findDeviceByEmpIdOrEmpNameAndCC(@Param("empId") String empId, @Param("empName") String empName,
                         @Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // , cc_short_name "LEFT JOIN tb_cost_center My01CostC ON d.cc_long_code =
-        // My01Costc.cc_long_code " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE d.cc_long_code LIKE CONCAT(:ccLong,'%') " +
                         "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId53(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcId53(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE d.cc_long_code LIKE CONCAT(:ccLong,'%')" +
                         "AND d.dev_left_price = 1 " +
                         "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId153(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcId153(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.cc_long_code LIKE CONCAT(:ccLong,'%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcId(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.cc_long_code LIKE CONCAT(:ccLong,'%'))" +
                         "AND (d.dev_left_price = 1)", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId1all(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcId1all(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
@@ -91,29 +114,36 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "OR c.cc_full_name LIKE CONCAT('%',:textSearch,'%') " +
                         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearch(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearch(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_pea_no, d.dev_description, d.dev_serial_no, d.dev_received_date, " +
+                        "d.dev_received_price, d.dev_left_price, d.cc_long_code AS device_cc_long_code, " +
+                        "c.cc_long_code AS cost_center_cc_long_code, c.cc_full_name, c.cc_short_name, " +
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
-                        "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR d.dev_pea_no LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR d.dev_serial_no LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR d.emp_id LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR e.emp_name LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR d.dev_received_date LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR CAST(d.dev_received_price as CHAR) LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR CAST(d.dev_left_price as CHAR) LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR d.cc_long_code LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR c.cc_full_name LIKE CONCAT('%',:textSearch,'%') " +
-                        "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
-                        "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%')) " +
+                        "WHERE (d.dev_description LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR d.dev_pea_no LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR d.dev_serial_no LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR d.emp_id LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR e.emp_name LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR d.dev_received_date LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR CAST(d.dev_received_price AS CHAR) LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR CAST(d.dev_left_price AS CHAR) LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR c.cc_full_name LIKE CONCAT('%', :textSearch, '%') " +
+                        "OR c.cc_short_name LIKE CONCAT('%', :textSearch, '%')) " +
+                        "AND (d.cc_long_code LIKE CONCAT(:ccLong, '%')) " +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearch53(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearch53(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
@@ -130,10 +160,14 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%')) " +
                         "AND d.dev_left_price = 1 " +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearch153(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearch153(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
@@ -149,7 +183,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%')) " +
                         "AND d.dev_left_price = 1 ", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearch1all(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearch1all(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
@@ -206,33 +240,55 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
 
         tbDevice findAllByDevPeaNo(String devPeaNo);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // , cc_short_name "LEFT JOIN tb_cost_center My01CostC ON d.cc_long_code =
-        // My01Costc.cc_long_code " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%')" +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId53zc(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcId53zc(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%') " +
                         "AND d.dev_left_price = 1 " +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId153zc(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcId153zc(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-
-        // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%')", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdzc(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcIdzc(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                        "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%') " +
                         "AND (d.dev_left_price = 1)", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcId1allzc(@Param("ccLong") String ccLong, Pageable pageable);
+        Page<Object[]> findDeviceByCcId1allzc(@Param("ccLong") String ccLong, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
@@ -248,10 +304,14 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%') " +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearch53zc(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearch53zc(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
@@ -268,10 +328,14 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%') " +
                         "AND d.dev_left_price = 1 " +
                         "AND ((d.dev_pea_no LIKE '53%') OR (d.dev_pea_no LIKE '501%'))", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearch153zc(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearch153zc(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
@@ -286,10 +350,14 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "OR c.cc_full_name LIKE CONCAT('%',:textSearch,'%') " +
                         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%')", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearchzc(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearchzc(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
-        @Query(value = "SELECT * from tb_device d " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
+                        "c.cc_full_name, c.cc_short_name, e.emp_name " + //
+                        "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE (d.dev_description LIKE CONCAT('%',:textSearch,'%') " +
@@ -305,13 +373,16 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "OR c.cc_short_name LIKE CONCAT('%',:textSearch,'%')) " +
                         "AND (d.cc_long_code LIKE CONCAT(:ccLong,'%') OR d.cc_long_code LIKE 'ZC%') " +
                         "AND d.dev_left_price = 1 ", nativeQuery = true)
-        Page<tbDevice> findDeviceByCcIdAndTextSearch1allzc(@Param("ccLong") String ccLong,
+        Page<Object[]> findDeviceByCcIdAndTextSearch1allzc(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
         // @Modifying
-        // @Query(value = "INSERT INTO tb_device (dev_pea_no, dev_description, dev_serial_no, dev_received_date, dev_received_price, dev_left_price, dev_cc_long_code, emp_id) "
-        //                 +
-        //                 "VALUES (:peaNo, :description, :serialNo, :receivedDate, :receivedPrice, :leftPrice, :ccLongCode, :empId)", nativeQuery = true)
+        // @Query(value = "INSERT INTO tb_device (dev_pea_no, dev_description,
+        // dev_serial_no, dev_received_date, dev_received_price, dev_left_price,
+        // dev_cc_long_code, emp_id) "
+        // +
+        // "VALUES (:peaNo, :description, :serialNo, :receivedDate, :receivedPrice,
+        // :leftPrice, :ccLongCode, :empId)", nativeQuery = true)
         // void bulkInsertDevices(@Param("devices") List<Object[]> devices);
         void bulkInsertDevices(List<Object[]> devices);
 

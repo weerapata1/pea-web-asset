@@ -2,7 +2,7 @@ import VTooltip from 'v-tooltip'
 
 // Sidebar on the right. Used as a local plugin in DashboardLayout.vue
 import SideBar from './components/SidebarPlugin'
-import Notifications from './components/NotificationPlugin'
+// import Notifications from './components/NotificationPlugin'
 import GlobalComponents from './globalComponents'
 //import GlobalDirectives from './globalDirectives'
 
@@ -15,7 +15,7 @@ export default {
     install(Vue){
         Vue.use(VTooltip)
         Vue.use(SideBar)
-        Vue.use(Notifications)
+        // Vue.use(Notifications)
         Vue.use(GlobalComponents)
 //        Vue.use(GlobalDirectives)
 

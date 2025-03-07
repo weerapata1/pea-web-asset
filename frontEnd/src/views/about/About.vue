@@ -417,19 +417,19 @@
                     <tr>
                       <td>emp_name</td>
                       <td>
-                        <v-text-field v-model="editedItem.tbEmployee.empName" />
+                        <v-text-field v-if="editedItem.tbEmployee" v-model="editedItem.tbEmployee.empName" />
                       </td>
                     </tr>
                     <tr>
                       <td>emp_role</td>
                       <td>
-                        <v-text-field v-model="editedItem.tbEmployee.empRank" />
+                        <v-text-field v-if="editedItem.tbEmployee" v-model="editedItem.tbEmployee.empRank" />
                       </td>
                     </tr>
                     <tr>
                       <td>emp_id</td>
                       <td>
-                        <v-text-field v-model="editedItem.tbEmployee.empId" />
+                        <v-text-field v-if="editedItem.tbEmployee" v-model="editedItem.tbEmployee.empId" />
                       </td>
                     </tr>
                     <tr>

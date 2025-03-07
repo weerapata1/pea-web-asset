@@ -24,6 +24,7 @@
     "material-design-icons": "^3.0.1",
     "moment": "^2.29.4",
     "openssl-self-signed-certificate": "^1.1.6",
+    "pdfmake": "^0.2.5",
     "pdfreader": "^3.0.0",
     "pdfvuer": "^1.10.0",
     "qrcode.vue": "^1.7.0",
