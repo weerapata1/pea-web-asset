@@ -76,6 +76,9 @@
       "vue/multi-word-component-names": "off"
     }
   },
+  "resolutions": {
+    "vue": "2.7.16"
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
