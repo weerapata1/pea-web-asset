@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -606,33 +607,6 @@ public class DeviceController {
     return "Hello World";
   }
 
-  // String requestData2 = "{\r\n" + //
-  //     "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
-  //     "    \"templateName\": \"output\",\r\n" + //
-  //     "    \"pdfVersion\": \"1.7\",\r\n" + //
-  //     "    \"data\": {\r\n" + //
-  //     "        \"cost_center_name\": \"กฟส.กทล.\",\r\n" + //
-  //     "        \"date\": \"19 มิ.ย. 2567\",\r\n" + //
-  //     "        \"type_other\": \"\",\r\n" + //
-  //     "        \"brand\": \"HP\",\r\n" + //
-  //     "        \"model\": \"ProDesk 600 G5\",\r\n" + //
-  //     "        \"contract\": \"บ.75/2563\",\r\n" + //
-  //     "        \"serial\": \"4CE03526C6\",\r\n" + //
-  //     "        \"pea_no\": \"5330404643\",\r\n" + //
-  //     "        \"problem\": \"ฮาร์ดิสชำรุด\",\r\n" + //
-  //     "        \"emp_name\": \"นายอนุสรณ์ อมรรัตนศักดิ์\",\r\n" + //
-  //     "        \"emp_role\": \"พบค.7\",\r\n" + //
-  //     "        \"emp_id\": \"499857\",\r\n" + //
-  //     "        \"tel\": \"(22)14890\",\r\n" + //
-  //     "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" + //
-  //     "        \"inspector_role\": \"นรค.7\",\r\n" + //
-  //     "        \"inspector_date\": \"19 มิ.ย. 2567\",\r\n" + //
-  //     "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" + //
-  //     "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" + //
-  //     "        \"dep_head_date\": \"19 มิ.ย. 2567\"\r\n" + //
-  //     "    }\r\n" + //
-  //     "}";
-
   @CrossOrigin(origins = "http://localhost:8000")
   @PostMapping("/redirectPdfProducer")
   public ResponseEntity<byte[]> redirectPdfProducer(@RequestBody String requestData) {
@@ -652,16 +626,16 @@ public class DeviceController {
       e.printStackTrace();
     }
   
-    String costCenterName = rootNode.path("tbCostCenter").path("ccFullName").asText();
+    String costCenterName = rootNode.path("ccFullName").asText();
     String date = rootNode.path("date").asText();
     String brand = rootNode.path("brand").asText(); // Extracted from devDescription
     String model = rootNode.path("model").asText(); // Extracted from devDescription
     String serial = rootNode.path("devSerialNo").asText();
     String peaNo = rootNode.path("devPeaNo").asText();
     String problem = rootNode.path("problem").asText();
-    String empName = rootNode.path("tbEmployee").path("empName").asText();
-    String empRole = rootNode.path("tbEmployee").path("empRole").asText("N/A");
-    String empId = rootNode.path("tbEmployee").path("empId").asText();
+    String empName = rootNode.path("empName").asText();
+    String empRole = rootNode.path("empRole").asText();
+    String empId = rootNode.path("empId").asText();
     String tel = rootNode.path("tel").asText();
 
     String requestData2 = "{\r\n" + //
@@ -691,37 +665,30 @@ public class DeviceController {
     "    }\r\n" + //
     "}";
 
-    // Initialize RestTemplate and headers
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
     headers.setAccept(Collections.singletonList(org.springframework.http.MediaType.APPLICATION_PDF));
+    headers.setContentDisposition(ContentDisposition.inline().filename("generated.pdf").build());
 
-    // Here you can modify the requestData if needed before forwarding
-    // Example: you can parse requestData into a JSON object and modify fields
     try {
-      // Log the prepared request data
-      System.err.println("Sending Data to External API: " + requestData);
 
-      // Create HttpEntity with the modified requestData and headers
-      HttpEntity<String> entity = new HttpEntity<>(requestData, headers);
+      System.err.println("Sending Data to External API: " + requestData2);
 
-      // Send the request to the external API
+      HttpEntity<String> entity = new HttpEntity<>(requestData2, headers);
+
       ResponseEntity<byte[]> response = restTemplate.exchange(targetUrl,
           HttpMethod.POST, entity, byte[].class);
 
-      // Log the response status and headers
       System.err.println("Response Status: " + response.getStatusCode());
       System.err.println("Response Headers: " + response.getHeaders());
 
-      // Set the response headers for the client
       HttpHeaders responseHeaders = new HttpHeaders();
       responseHeaders.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
 
-      // Return the response as a PDF
-      return ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
+      // return ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
+      return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.OK);
     } catch (Exception e) {
-      // Log the exception for debugging
       System.err.println("Error occurred while redirecting PDF producer request: "
           + e.getMessage());
       e.printStackTrace();
