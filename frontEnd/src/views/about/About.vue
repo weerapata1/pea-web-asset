@@ -377,7 +377,7 @@
                     <tr>
                       <td>cost_center_name</td>
                       <td>
-                        <v-text-field v-model="editedItem.ccLongCodeString" />
+                        <v-text-field v-model="editedItem.ccLongCode" />
                       </td>
                     </tr>
                     <tr>
@@ -390,7 +390,7 @@
                     </tr>
                     <tr>
                       <td>brand</td>
-                      <td><v-text-field v-model="editedItem.brand" /></td>
+                      <td><v-text-field v-model="editedItem.brand"/></td>
                     </tr>
                     <tr>
                       <td>model</td>
@@ -417,19 +417,19 @@
                     <tr>
                       <td>emp_name</td>
                       <td>
-                        <v-text-field v-if="editedItem.tbEmployee" v-model="editedItem.tbEmployee.empName" />
+                        <v-text-field v-if="editedItem.empName" v-model="editedItem.empName" />
                       </td>
                     </tr>
                     <tr>
                       <td>emp_role</td>
                       <td>
-                        <v-text-field v-if="editedItem.tbEmployee" v-model="editedItem.tbEmployee.empRank" />
+                        <v-text-field v-if="editedItem.empRank" v-model="editedItem.empRank" />
                       </td>
                     </tr>
                     <tr>
                       <td>emp_id</td>
                       <td>
-                        <v-text-field v-if="editedItem.tbEmployee" v-model="editedItem.tbEmployee.empId" />
+                        <v-text-field v-if="editedItem.empId" v-model="editedItem.empId" />
                       </td>
                     </tr>
                     <tr>

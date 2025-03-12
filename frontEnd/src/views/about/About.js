@@ -847,7 +847,8 @@ export default {
           ccLongCode: item[8],
           ccFullName: item[9],
           ccShortName: item[10],
-          empName: item[11]
+          empName: item[11],
+          empRank: item[12]
         }));
         // this.itemsPerPage = resp.data.itemsPerPage;
         this.totalItems = resp.data.totalItems;
@@ -1083,20 +1084,21 @@ export default {
     editItem(item) {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      console.log("editedItem ", this.editedItem);
+      console.log("editedItem-qr ", this.editedItem);
       (this.qrcode_value =
         // JSON.parse([
         JSON.stringify({
           pea_no: this.editedItem["devPeaNo"],
           description: this.editedItem["devDescription"],
           serial: this.editedItem["devSerialNo"],
-          user_id: this.editedItem["tbEmployee"]["empId"],
-          user_name: this.editedItem["tbEmployee"]["empName"],
+          user_id: this.editedItem["empId"],
+          user_name: this.editedItem["empName"],
           received_date: this.editedItem["devReceivedDate"],
           price_recieve: this.editedItem["devReceivedPrice"],
           price_left: this.editedItem["devLeftPrice"],
-          cc_short_name: this.editedItem["tbCostCenter"]["ccShortName"],
-          cost_center: this.editedItem["tbCostCenter"]["ccLongCode"],
+          cc_short_name: this.editedItem["ccShortName"],
+          cost_center: this.editedItem["ccLongCode"],
+          empRank:this.editedItem["empRank"],
         })),
         (this.dialog = true);
     },
@@ -1266,41 +1268,46 @@ export default {
     },
 
     genFixFormReport() {
-      console.log("this.editedItem", this.editedItem);
+      console.log("this.editedItem-genFixFormReport", this.editedItem);
       if (this.editedItem == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
-          // console.log("hide alert after 3 seconds");
+          
         }, 3000);
       } else {
-        // Make a POST request to the Spring Boot endpoint
+     
         axios
           .post(
             "http://localhost:8080/api/dev/redirectPdfProducer",
             this.editedItem,
             {
-              responseType: "blob", // Important: To handle the response as a binary blob (PDF)
+              responseType: "blob", 
               headers: {
                 "Content-Type": "application/json",
                 Accept: "application/pdf",
               },
             }
           )
-          .then((response) => {
-            // Create a blob from the response
-            const fileBlob = new Blob([response.data], {
-              type: "application/pdf",
-            });
-            const fileURL = URL.createObjectURL(fileBlob);
+          // .then((response) => {
 
-            // Create a temporary anchor element to download the PDF
-            const link = document.createElement("a");
-            link.href = fileURL;
-            link.setAttribute("download", "generated.pdf"); // Filename for the download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+          //   const fileBlob = new Blob([response.data], {
+          //     type: "application/pdf",
+          //   });
+          //   const fileURL = URL.createObjectURL(fileBlob);
+
+          //   const link = document.createElement("a");
+          //   link.href = fileURL;
+          //   link.setAttribute("download", "generated.pdf");
+          //   document.body.appendChild(link);
+          //   link.click();
+          //   document.body.removeChild(link);
+          // })
+          .then((response) => {
+            const blob = new Blob([response.data], { type: "application/pdf" });
+            const url = URL.createObjectURL(blob);
+            window.open(url, "_blank");
+            this.closeFixForm();
           })
           .catch((error) => {
             console.error("Error generating PDF:", error);
