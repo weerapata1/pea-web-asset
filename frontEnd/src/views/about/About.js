@@ -823,6 +823,9 @@ export default {
   mounted() {
     this.myloadingvariable = true;
 
+    this.appendBranch = JSON.stringify({"branch":"E3010"});
+    console.log("appendBranch-mount, " + this.appendBranch);
+
     let params = {
       region: "E301000000",
       setAssetType: 53,
@@ -834,8 +837,10 @@ export default {
         this.getAllResult = resp;
         console.log("data mounted ", this.getAllResult);
         // this.data1 = resp.data.dataExcel;
-        this.data1 = Array.isArray(resp.data.dataExcel) ? resp.data.dataExcel : [];
-        this.data1 = this.data1.map(item => ({
+        this.data1 = Array.isArray(resp.data.dataExcel)
+          ? resp.data.dataExcel
+          : [];
+        this.data1 = this.data1.map((item) => ({
           id: item[0],
           devDescription: item[1],
           devPeaNo: item[2],
@@ -848,7 +853,7 @@ export default {
           ccFullName: item[9],
           ccShortName: item[10],
           empName: item[11],
-          empRank: item[12]
+          empRank: item[12],
         }));
         // this.itemsPerPage = resp.data.itemsPerPage;
         this.totalItems = resp.data.totalItems;
@@ -860,12 +865,9 @@ export default {
       .catch((error) => {
         console.log(error.resp);
       });
-
   },
 
-  created() {
-
-  },
+  created() {},
   // NEW
 
   methods: {
@@ -989,8 +991,10 @@ export default {
               );
 
               // this.data1 = resp.data.dataExcel;
-              this.data1 = Array.isArray(resp.data.dataExcel) ? resp.data.dataExcel : [];
-              this.data1 = this.data1.map(item => ({
+              this.data1 = Array.isArray(resp.data.dataExcel)
+                ? resp.data.dataExcel
+                : [];
+              this.data1 = this.data1.map((item) => ({
                 id: item[0],
                 devDescription: item[1],
                 devPeaNo: item[2],
@@ -1002,7 +1006,7 @@ export default {
                 ccLongCode: item[8],
                 ccFullName: item[9],
                 ccShortName: item[10],
-                empName: item[11]
+                empName: item[11],
               }));
               // this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
@@ -1031,8 +1035,10 @@ export default {
               // console.log("searchWithWord-AllResult ", JSON.stringify(this.getAllResult));
 
               // this.data1 = resp.data.data1;
-              this.data1 = Array.isArray(resp.data.data1) ? resp.data.data1 : [];
-              this.data1 = this.data1.map(item => ({
+              this.data1 = Array.isArray(resp.data.data1)
+                ? resp.data.data1
+                : [];
+              this.data1 = this.data1.map((item) => ({
                 id: item[0],
                 devDescription: item[1],
                 devPeaNo: item[2],
@@ -1044,7 +1050,7 @@ export default {
                 ccLongCode: item[8],
                 ccFullName: item[9],
                 ccShortName: item[10],
-                empName: item[11]
+                empName: item[11],
               }));
               console.log("searchWithWord-AllResult ", this.data1);
               // this.itemsPerPage = resp.data.itemsPerPage;
@@ -1066,7 +1072,6 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-
         this.dataExcel = this.data1;
         this.myloadingvariable = false;
         console.log("dataExcel : ", this.dataExcel);
@@ -1098,7 +1103,7 @@ export default {
           price_left: this.editedItem["devLeftPrice"],
           cc_short_name: this.editedItem["ccShortName"],
           cost_center: this.editedItem["ccLongCode"],
-          empRank:this.editedItem["empRank"],
+          empRank: this.editedItem["empRank"],
         })),
         (this.dialog = true);
     },
@@ -1137,7 +1142,6 @@ export default {
         .catch((error) => {
           console.error("Error occurred while generating PDF:", error);
         });
-
     },
 
     sendpostmanecho() {
@@ -1273,16 +1277,14 @@ export default {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
-          
         }, 3000);
       } else {
-     
         axios
           .post(
             "http://localhost:8080/api/dev/redirectPdfProducer",
             this.editedItem,
             {
-              responseType: "blob", 
+              responseType: "blob",
               headers: {
                 "Content-Type": "application/json",
                 Accept: "application/pdf",
