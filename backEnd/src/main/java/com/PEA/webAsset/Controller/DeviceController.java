@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 // @CrossOrigin("*")
+// @CrossOrigin(origins = {"http://172.21.1.51:8000","http://localhost:8000"})
 @RestController
 @RequestMapping("/api/dev")
 public class DeviceController {
@@ -722,7 +723,8 @@ public class DeviceController {
       "    }\r\n" + //
       "}";
 
-  @CrossOrigin(origins = "http://localhost:8000")
+  // @CrossOrigin(origins = "http://localhost:8000")
+  @CrossOrigin(origins = "http://172.21.1.51:8000")
   @PostMapping("/redirectPdfProducer")
   public ResponseEntity<byte[]> redirectPdfProducer(@RequestBody String requestData) {
     String targetUrl = "http://172.30.211.224:42/api/pdf-producer";

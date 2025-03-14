@@ -806,7 +806,8 @@ export default {
     };
 
     axios
-      .get("http://localhost:8080/api/dev/searchNoWordUnpage/", { params })
+      // .get("http://localhost:8080/api/dev/searchNoWordUnpage/", { params })
+      .get("http://172.21.1.51:8080/api/dev/searchNoWordUnpage/", { params })
       .then((resp) => {
         this.getAllResult = resp;
 
@@ -988,7 +989,8 @@ export default {
           };
           console.log("searchNoWordUnpage-", params);
           axios
-            .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
+            // .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
+              .get("http://172.21.1.51:8080/api/dev/searchNoWordUnpage", {
               params,
             })
             .then((resp) => {
@@ -1020,7 +1022,8 @@ export default {
           console.log("searchFunction ", params);
 
           axios
-            .get("http://localhost:8080/api/dev/searchWithWord", { params })
+            // .get("http://localhost:8080/api/dev/searchWithWord", { params })
+            .get("http://172.21.1.51:8080/api/dev/searchWithWord", { params })
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log("searchWithWord", JSON.stringify(this.getAllResult));
@@ -1129,7 +1132,8 @@ export default {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:8080/api/proxy-pdf-producer",
+        // url: "http://localhost:8080/api/proxy-pdf-producer",
+        url: "http://172.21.1.51:8080/api/proxy-pdf-producer",
         headers: {
           Accept: "application/pdf",
           "Content-Type": "application/json",
@@ -1185,7 +1189,8 @@ export default {
       };
 
       axios
-        .post("http://localhost:8080/api/postmanecho", data, {
+        // .post("http://localhost:8080/api/postmanecho", data, {
+        .post("http://172.21.1.51:8080/api/postmanecho", data, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -1322,7 +1327,8 @@ export default {
       } else {
         // Make a POST request to the Spring Boot endpoint
         axios
-          .post("http://localhost:8080/api/dev/redirectPdfProducer", this.editedItem, {
+          // .post("http://localhost:8080/api/dev/redirectPdfProducer", this.editedItem, {
+          .post("http://172.21.1.51:8080/api/dev/redirectPdfProducer", this.editedItem, {
             responseType: "blob", // Important: To handle the response as a binary blob (PDF)
             headers: {
               "Content-Type": "application/json",

@@ -5,7 +5,7 @@ import moment from "moment";
 
 // let url = "http://localhost:8080";
 // let urlRepair = "http://localhost:8080/repair";
-let url = "http://localhost:172.21.1.51:8080";
+let url = "http://172.21.1.51:8080";
 let urlRepair = "http://172.21.1.51:8080/repair";
 
 moment.locale("th");

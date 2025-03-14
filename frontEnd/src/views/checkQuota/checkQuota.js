@@ -121,11 +121,13 @@ export default {
   },
 
   mounted() {
-    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+    // axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+    axios.get("http://172.21.1.51:8080/cc/getAllCCOnlyUse").then((response) => {
       this.itemsCC = response.data.costCenter;
     });
 
-    axios.get("http://localhost:8080/emp/getEmp").then((response) => {
+    // axios.get("http://localhost:8080/emp/getEmp").then((response) => {
+    axios.get("http://172.21.1.51:8080/emp/getEmp").then((response) => {
       this.itemsEmp = response.data;
     });
   },
@@ -182,7 +184,8 @@ export default {
 
         if (this.checked7 == false) {
           await axios
-            .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
+            // .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
+            .get("http://172.21.1.51:8080/api/dev/getDevice53unpageByccId", {
               params,
             })
             .then((resp2) => {
@@ -202,7 +205,8 @@ export default {
         } else {
           await axios
             .get(
-              "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              // "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              "http://172.21.1.51:8080/api/dev/getDevice53unpageByccIdOnly7Year",
               {
                 params,
               }
@@ -232,7 +236,8 @@ export default {
           region: ccLong,
         };
         await axios
-          .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
+          // .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
+          .get("http://172.21.1.51:8080/emp/getEmpByccLongCode", { params })
           .then((resp2) => {
             // this.getEmployeeResult = resp.data;
             // console.log(
