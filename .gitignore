@@ -4,3 +4,4 @@
 .idea/
 .vs/
 ./backEnd/src/main/resources/application.properties
+backEnd/src/main/resources/application.properties
