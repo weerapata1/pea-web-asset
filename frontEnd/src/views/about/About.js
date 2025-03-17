@@ -298,26 +298,28 @@ export default {
       result: [],
       selected: [],
 
-      fruits: [
-        { header: "เขต" },
-        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
-        // { divider: true },
-        { header: "หน้างาน" },
-        { id: "2", name: "กฟจ.อบ.", value: "E3011" },
-        { id: "3", name: "กฟจ.ศก.", value: "E302" },
-        { id: "4", name: "กฟจ.ยส.", value: "E303" },
-        { id: "5", name: "กฟจ.มค.", value: "E304" },
-        { id: "6", name: "กฟจ.กส.", value: "E305" },
-        { id: "7", name: "กฟจ.รอ.", value: "E306" },
-        { id: "8", name: "กฟจ.มห.", value: "E307" },
-        { id: "9", name: "กฟจ.อจ.", value: "E308" },
-        { id: "10", name: "กฟอ.สล.", value: "E309" },
-        { id: "11", name: "กฟอ.สดจ.", value: "E310" },
-        { id: "12", name: "กฟอ.กล.", value: "E311" },
-        { id: "13", name: "กฟอ.ดอ.", value: "E312" },
-        { id: "14", name: "กฟอ.วรช.", value: "E313" },
-        { id: "15", name: "กฟอ.ตผ.", value: "E314" },
-      ],
+      // fruits: [
+      //   { header: "เขต" },
+      //   { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
+      //   // { divider: true },
+      //   { header: "หน้างาน" },
+      //   { id: "2", name: "กฟจ.อบ.", value: "E3011" },
+      //   { id: "3", name: "กฟจ.ศก.", value: "E302" },
+      //   { id: "4", name: "กฟจ.ยส.", value: "E303" },
+      //   { id: "5", name: "กฟจ.มค.", value: "E304" },
+      //   { id: "6", name: "กฟจ.กส.", value: "E305" },
+      //   { id: "7", name: "กฟจ.รอ.", value: "E306" },
+      //   { id: "8", name: "กฟจ.มห.", value: "E307" },
+      //   { id: "9", name: "กฟจ.อจ.", value: "E308" },
+      //   { id: "10", name: "กฟอ.สล.", value: "E309" },
+      //   { id: "11", name: "กฟอ.สดจ.", value: "E310" },
+      //   { id: "12", name: "กฟอ.กล.", value: "E311" },
+      //   { id: "13", name: "กฟอ.ดอ.", value: "E312" },
+      //   { id: "14", name: "กฟอ.วรช.", value: "E313" },
+      //   { id: "15", name: "กฟอ.ตผ.", value: "E314" },
+      //   { id: "15", name: "กฟส.กร.", value: "E315" },
+      //   { id: "15", name: "กฟส.กวช.", value: "E316" },
+      // ],
 
       optionBranches: [
         {
@@ -340,7 +342,8 @@ export default {
           children: [
             {
               id: "reg1",
-              label: "กอก.",
+              // label: "กอก.",
+              label: "กสข.",
               value: "E30100",
               icon: "mdi-home-assistant",
               // isNew: true,
@@ -365,31 +368,37 @@ export default {
             },
             {
               id: "reg5",
-              label: "กกค.",
+              // label: "กกค.",
+              label: "กรย.",
               value: "E301013",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg6",
-              label: "ฝบพ.",
+              // label: "ฝบพ.",
+              label: "ฝสบ.",
               value: "E30102",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg7",
-              label: "กบญ.",
+              // label: "กบญ.",
+              label: "กบฟ.",
               value: "E301021",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg8",
-              label: "กซข.",
-              value: "E301022",
+              // label: "กซข.",
+              // value: "E301022",
+              label: "กบพ.",
+              value: "E301024",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg9",
-              label: "กรท.",
+              // label: "กรท.",
+              label: "กดส.",
               value: "E301023",
               icon: "mdi-home-assistant",
             },
@@ -413,22 +422,23 @@ export default {
             },
             {
               id: "reg13",
-              label: "กรส.",
-              value: "E301033",
+              label: "กสฟ.",
+              // value: "E301033",E301034
+              value: "E301034",
               icon: "mdi-home-assistant",
             },
           ],
         },
         {
           id: "ubn",
-          label: "จุดรวมงาน กฟจ.อบ.",
+          label: "กฟส.อบ. (L)",
           value: "E3011",
           icon: "mdi-home-circle",
           children: [
             {
               id: "ub1",
               label: "กฟจ.อบ.",
-              value: "E3011",
+              value: "E301101",
               icon: "mdi-home-assistant",
             },
             {
@@ -447,7 +457,7 @@ export default {
         },
         {
           id: "ssk",
-          label: "จุดรวมงาน กฟจ.ศก.",
+          label: "กฟส.ศก. (L)",
           value: "E302",
           icon: "mdi-home-circle",
           children: [
@@ -475,17 +485,17 @@ export default {
               value: "E3024",
               icon: "mdi-home-assistant",
             },
-            {
-              id: "ssk5",
-              label: "กฟส.กร.",
-              value: "E3025",
-              icon: "mdi-home-assistant",
-            },
+            // {
+            //   id: "ssk5",
+            //   label: "กฟส.กร.",
+            //   value: "E3025",
+            //   icon: "mdi-home-assistant",
+            // },
           ],
         },
         {
           id: "yst",
-          label: "จุดรวมงาน กฟจ.ยส.",
+          label: "กฟส.ยส. (M)",
           value: "E303",
           icon: "mdi-home-circle",
           children: [
@@ -511,7 +521,7 @@ export default {
         },
         {
           id: "mhk",
-          label: "จุดรวมงาน กฟจ.มค.",
+          label: "กฟส.มค. (L)",
           value: "E304",
           icon: "mdi-home-circle",
           children: [
@@ -551,17 +561,17 @@ export default {
               value: "E3046",
               icon: "mdi-home-assistant",
             },
-            {
-              id: "mhk7",
-              label: "กฟส.กวช.",
-              value: "E3047",
-              icon: "mdi-home-assistant",
-            },
+            // {
+            //   id: "mhk7",
+            //   label: "กฟส.กวช.",
+            //   value: "E3047",
+            //   icon: "mdi-home-assistant",
+            // },
           ],
         },
         {
           id: "kls",
-          label: "จุดรวมงาน กฟจ.กส.",
+          label: "กฟส.กส. (L)",
           value: "E305",
           icon: "mdi-home-circle",
           children: [
@@ -587,7 +597,7 @@ export default {
         },
         {
           id: "roe",
-          label: "จุดรวมงาน กฟจ.รอ.",
+          label: "กฟส.รอ. (L)",
           value: "E306",
           icon: "mdi-home-circle",
           children: [
@@ -619,7 +629,7 @@ export default {
         },
         {
           id: "mdh",
-          label: "จุดรวมงาน กฟจ.มห.",
+          label: "กฟส.มดห. (M)",
           value: "E307",
           icon: "mdi-home-circle",
           children: [
@@ -639,7 +649,7 @@ export default {
         },
         {
           id: "anc",
-          label: "จุดรวมงาน กฟจ.อจ.",
+          label: "กฟส.อจ. (M)",
           value: "E308",
           icon: "mdi-home-circle",
           children: [
@@ -659,7 +669,7 @@ export default {
         },
         {
           id: "slp",
-          label: "จุดรวมงาน กฟอ.สล.",
+          label: "กฟส.สล. (M)",
           value: "E309",
           icon: "mdi-home-circle",
           children: [
@@ -679,7 +689,7 @@ export default {
         },
         {
           id: "sdj",
-          label: "จุดรวมงาน กฟอ.สดจ.",
+          label: "กฟส.สดจ. (M)",
           value: "E310",
           icon: "mdi-home-circle",
           children: [
@@ -699,7 +709,7 @@ export default {
         },
         {
           id: "ktl",
-          label: "จุดรวมงาน กฟอ.กล.",
+          label: "กฟส.กทล. (L)",
           value: "E311",
           icon: "mdi-home-circle",
           children: [
@@ -719,7 +729,7 @@ export default {
         },
         {
           id: "dud",
-          label: "จุดรวมงาน กฟอ.ดอ.",
+          label: "กฟส.ดอ. (L)",
           value: "E312",
           icon: "mdi-home-circle",
           children: [
@@ -745,7 +755,7 @@ export default {
         },
         {
           id: "wch",
-          label: "จุดรวมงาน กฟอ.วรช.",
+          label: "กฟส.วรช. (M)",
           value: "E313",
           icon: "mdi-home-circle",
           children: [
@@ -765,7 +775,7 @@ export default {
         },
         {
           id: "tpp",
-          label: "จุดรวมงาน กฟอ.ตผ.",
+          label: "กฟส.ตผ. (M)",
           value: "E314",
           icon: "mdi-home-circle",
           children: [
@@ -782,6 +792,13 @@ export default {
               icon: "mdi-home-assistant",
             },
           ],
+        },
+        { id: "ktm", label: "กฟส.กร. (M)", value: "E315", icon: "mdi-home-circle" },
+        {
+          id: "kan",
+          label: "กฟส.กวช. (M) ",
+          value: "E316",
+          icon: "mdi-home-circle",
         },
       ],
 
@@ -823,7 +840,7 @@ export default {
   mounted() {
     this.myloadingvariable = true;
 
-    this.appendBranch = JSON.stringify({"branch":"E3010"});
+    this.appendBranch = JSON.stringify({ branch: "E3010" });
     console.log("appendBranch-mount, " + this.appendBranch);
 
     let params = {
@@ -880,30 +897,30 @@ export default {
     //   console.log("at hide_alert");
     //   // `event` is the native DOM event
     // },
-    toggleBranch() {
-      this.$nextTick(() => {
-        if (this.likesAllFruit) {
-          this.selectedFruits = [];
-          this.appendBranch = [];
-          console.log("b-");
-        } else {
-          this.selectedFruits = this.fruits.slice();
-          this.jsonObj = JSON.parse(this.jsonStrBranch);
-          this.jsonObj["branch"] = "E3";
-          // this.jsonObj["branch"].push("E3");
-          this.appendBranch = JSON.stringify(this.jsonObj);
-          console.log("b- " + this.appendBranch);
-          // console.log("fruits" + this.fruits[0]["name"]);
-        }
-      });
-    },
-    toggleBranch2(Fruits) {
-      this.jsonObj = JSON.parse(this.jsonStrBranch);
-      this.jsonObj["branch"] = [];
-      this.jsonObj["branch"] = Fruits;
-      this.appendBranch = JSON.stringify(this.jsonObj);
-      console.log("b-" + this.appendBranch);
-    },
+    // toggleBranch() {
+    //   this.$nextTick(() => {
+    //     if (this.likesAllFruit) {
+    //       this.selectedFruits = [];
+    //       this.appendBranch = [];
+    //       console.log("b-");
+    //     } else {
+    //       this.selectedFruits = this.fruits.slice();
+    //       this.jsonObj = JSON.parse(this.jsonStrBranch);
+    //       this.jsonObj["branch"] = "E3";
+    //       // this.jsonObj["branch"].push("E3");
+    //       this.appendBranch = JSON.stringify(this.jsonObj);
+    //       console.log("b- " + this.appendBranch);
+    //       // console.log("fruits" + this.fruits[0]["name"]);
+    //     }
+    //   });
+    // },
+    // toggleBranch2(Fruits) {
+    //   this.jsonObj = JSON.parse(this.jsonStrBranch);
+    //   this.jsonObj["branch"] = [];
+    //   this.jsonObj["branch"] = Fruits;
+    //   this.appendBranch = JSON.stringify(this.jsonObj);
+    //   console.log("b-" + this.appendBranch);
+    // },
     // toggleType() {
     //   this.$nextTick(() => {
     //     if (this.likesAllTypeSearch) {

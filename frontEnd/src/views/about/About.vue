@@ -27,45 +27,8 @@
       </div>
       <v-form>
         <v-row>
-          <v-col cols="12" sm="6" md="4">
+          <v-col cols="12" sm="5" md="3">
             <v-container fluid class="mt-2 mr-0 pr-0">
-              <!-- item-value="fruits.name" -->
-              <!-- multiple -->
-              <!-- <v-row>
-                <v-select
-                  v-model="selectedFruits"
-                  :items="fruits"
-                  item-value="value"
-                  item-text="name"
-                  label="การไฟฟ้าในสังกัด กฟฉ.2"
-                  @change="toggleBranch2"
-                >
-                  <template v-slot:prepend-item>
-                    <v-list-item
-                      ripple
-                      @mousedown.prevent
-                      @click="toggleBranch"
-                    >
-                      <v-list-item-action>
-                        <v-icon
-                          :color="
-                            selectedFruits.length > 0 ? 'indigo darken-4' : ''
-                          "
-                        >
-                          {{ icon }}
-                        </v-icon>
-                      </v-list-item-action>
-                      <v-list-item-content>
-                        <v-list-item-title> Select All </v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                    <v-divider class="mt-2"></v-divider>
-                  </template>
-                </v-select>
-              </v-row> -->
-              <!-- prepend-icon="mdi-home" -->
-
-              <!-- <div> -->
               <treeselect
                 :multiple="false"
                 :options="optionBranches"
@@ -108,7 +71,7 @@
           <v-col cols="12" sm="4" md="2">
             <v-container fluid>
               <v-row>
-                <!-- item-value="fruits.name" -->
+
                 <v-select
                   v-model="selectedAssetType"
                   :items="assetType"
