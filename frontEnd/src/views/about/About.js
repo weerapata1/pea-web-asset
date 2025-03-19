@@ -845,7 +845,8 @@ export default {
     };
 
     axios
-      .get("http://localhost:8080/api/dev/searchNoWordUnpage", { params })
+      // .get("http://localhost:8080/api/dev/searchNoWordUnpage", { params })
+      .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, { params })
       .then((resp) => {
         this.getAllResult = resp;
         console.log("data mounted ", this.getAllResult);
@@ -993,7 +994,8 @@ export default {
           };
           console.log("searchNoWordUnpage-", params);
           axios
-            .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
+            // .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
+              .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, {
               params,
             })
             .then((resp) => {
@@ -1043,7 +1045,8 @@ export default {
           console.log("searchFunction ", params);
 
           axios
-            .get("http://localhost:8080/api/dev/searchWithWord", { params })
+            // .get("http://localhost:8080/api/dev/searchWithWord", { params })
+            .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchWithWord`, { params })
             .then((resp) => {
               this.getAllResult = resp.data;
               // console.log("searchWithWord-AllResult ", JSON.stringify(this.getAllResult));
@@ -1144,7 +1147,8 @@ export default {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:8080/api/proxy-pdf-producer",
+        // url: "http://localhost:8080/api/proxy-pdf-producer",
+        url: `${process.env.VUE_APP_BASE_URL}/api/proxy-pdf-producer`,
         headers: {
           Accept: "application/pdf",
           "Content-Type": "application/json",
@@ -1169,7 +1173,8 @@ export default {
       };
 
       axios
-        .post("http://localhost:8080/api/postmanecho", data, {
+        // .post("http://localhost:8080/api/postmanecho", data, {
+        .post(`${process.env.VUE_APP_BASE_URL}/api/postmanecho`, data, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -1299,7 +1304,8 @@ export default {
       } else {
         axios
           .post(
-            "http://localhost:8080/api/dev/redirectPdfProducer",
+            // "http://localhost:8080/api/dev/redirectPdfProducer",
+            `${process.env.VUE_APP_BASE_URL}/api/dev/redirectPdfProducer`,
             this.editedItem,
             {
               responseType: "blob",

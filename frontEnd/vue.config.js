@@ -5,6 +5,7 @@ module.exports = {
     //   "Access-Control-Allow-Methods":"DELETE, POST, GET, OPTIONS",
     //   "Access-Control-Allow-Headers":"Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
     // },
+    host: 'localhost',
     port: 8000,
     proxy:
      {

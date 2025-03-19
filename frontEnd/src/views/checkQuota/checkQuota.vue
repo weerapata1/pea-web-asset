@@ -1,7 +1,7 @@
 <template>
-  <!-- <div style="min-height: 100vh;"> -->
-  <v-container fluid fill-height>
-    <v-layout v-if="loading" align-center justify-center>
+  <v-container fluid class="pa-4 ma-0 fill-height">
+
+    <v-layout v-if="loading" align-center justify-center style="width: 100%;">
       <v-progress-circular
         indeterminate
         color="primary"
@@ -11,7 +11,7 @@
     ></v-layout>
     <!-- </v-container> -->
 
-    <v-layout v-else>
+    <v-layout v-else column style="width: 100%;">
       <div>
         <div>
           <v-alert

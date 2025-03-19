@@ -9,7 +9,7 @@ import {
 
 // let url = "http://localhost:8080";
 // let urlRepair = "http://localhost:8080/repair";
-let url = "http://172.21.1.51:8080";
+let url = `${process.env.VUE_APP_BASE_URL}`;
 
 const fBody = {
   empSends: "null",

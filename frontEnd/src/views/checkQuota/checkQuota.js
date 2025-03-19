@@ -147,7 +147,8 @@ export default {
     async loadEmpData() {
       this.loadingEmp = true;
       try {
-        const response = await axios.get("http://localhost:8080/emp/getEmpAll");
+        // const response = await axios.get("http://localhost:8080/emp/getEmpAll");
+        const response = await axios.get(`${process.env.VUE_APP_BASE_URL}/emp/getEmpAll`);
         this.itemsEmp = response.data;
       } catch (error) {
         console.error(error);
@@ -158,7 +159,8 @@ export default {
     async loadCCData() {
       this.loadingCC = true;
       try {
-        const response = await axios.get("http://localhost:8080/cc/getAllCCOnlyUse");
+        // const response = await axios.get("http://localhost:8080/cc/getAllCCOnlyUse");
+        const response = await axios.get(`${process.env.VUE_APP_BASE_URL}/cc/getAllCCOnlyUse`);
         this.itemsCC = response.data.costCenter;
         console.log("itemsCC ", this.itemsCC);
       } catch (error) {
@@ -219,7 +221,8 @@ export default {
         console.log("param device_type_id - ", params.device_type_id , " region ", params.region);
         if (this.checked7 == false) {
           await axios
-            .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
+            // .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
+            .get(`${process.env.VUE_APP_BASE_URL}/api/dev/getDevice53unpageByccId`, {
               params,
             })
             .then((resp2) => {
@@ -239,7 +242,8 @@ export default {
         } else {
           await axios
             .get(
-              "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              // "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              `${process.env.VUE_APP_BASE_URL}/api/dev/getDevice53unpageByccIdOnly7Year`,
               {
                 params,
               }
@@ -269,7 +273,8 @@ export default {
           region: ccLong,
         };
         await axios
-          .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
+          // .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
+          .get(`${process.env.VUE_APP_BASE_URL}/emp/getEmpByccLongCode`, { params })
           .then((resp2) => {
             // this.getEmployeeResult = resp.data;
             // console.log(

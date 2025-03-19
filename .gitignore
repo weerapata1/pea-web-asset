@@ -4,3 +4,7 @@
 .idea/
 .vs/
 ./backEnd/src/main/resources/application.properties
+
+*.properties
+*.env
+*.env.production
