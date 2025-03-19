@@ -8,3 +8,4 @@
 *.properties
 *.env
 *.env.production
+backEnd/src/main/resources/application.properties
