@@ -24,6 +24,7 @@
                 :item-text="getItemEmp"
                 label="รหัสพนักงาน"
                 item-value="empId"
+                :loading="loadingEmp"
                 @change="(event) => updateCCFromEmp(modelEmp)"
                 return-object
               >
@@ -37,6 +38,7 @@
                 :item-text="getItemCC"
                 label="การไฟฟ้า"
                 item-value="ccLongCode"
+                :loading="loadingCC"
                 @change="(event) => updateCC(modelCC)"
                 return-object
               >

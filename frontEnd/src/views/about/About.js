@@ -120,25 +120,25 @@ export default {
         มูลค่าการได้มา: "devReceivedPrice",
         มูลค่าตามบัญชี: "devLeftPrice",
         ชื่อผู้ครอบครอง: {
-          field: "tbEmployee.empName",
+          field: "empName",
           callback: (value) => {
             return `${value}`;
           },
         },
         รหัสพนักงาน: {
-          field: "tbEmployee.empId",
+          field: "empId",
           callback: (value) => {
             return `${value}`;
           },
         },
         ศูนย์ต้นทุน: {
-          field: "tbCostCenter.ccLongCode",
+          field: "ccLongCode",
           callback: (value) => {
             return `${value}`;
           },
         },
         สังกัด: {
-          field: "tbCostCenter.ccShortName",
+          field: "ccShortName",
           callback: (value) => {
             return `${value}`;
           },
@@ -268,6 +268,9 @@ export default {
         devUpdate: "",
         deviceId: null,
         equipment: "",
+        model: "",
+        contract: "",
+        problem: "",
         isDeleted: false,
         tbCostCenter: {
           costCenter: "",
@@ -286,40 +289,33 @@ export default {
         },
         date: new Date().toISOString().split("T")[0],
       },
-      // defaultItem: {
-      //   name: "",
-      //   calories: 0,
-      //   fat: 0,
-      //   carbs: 0,
-      //   protein: 0,
-      // },
+
+      formData: {
+        cost_center_name: "กฟส.กทล.",
+        date: "19 มิ.ย. 2567",
+        type_other: "",
+        brand: "HP",
+        model: "ProDesk 600 G5",
+        contract: "บ.75/2563",
+        serial: "4CE03526C6",
+        pea_no: "5330404643",
+        problem: "ฮาร์ดิสชำรุด",
+        emp_name: "นายอนุสรณ์ อมรรัตนศักดิ์",
+        emp_role: "พบค.7",
+        emp_id: "499857",
+        tel: "(22)14890",
+        inspector_name: "นายภาณุวิชญ์ ธานีวัฒน์",
+        inspector_role: "นรค.7",
+        inspector_date: "19 มิ.ย. 2567",
+        dep_head_name: "นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ",
+        dep_head_role: "หผ.คข.กดส.ฉ.2",
+        dep_head_date: "19 มิ.ย. 2567",
+      },
+
       groupSelected: [],
       qrcode_value2: [],
       result: [],
       selected: [],
-
-      // fruits: [
-      //   { header: "เขต" },
-      //   { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
-      //   // { divider: true },
-      //   { header: "หน้างาน" },
-      //   { id: "2", name: "กฟจ.อบ.", value: "E3011" },
-      //   { id: "3", name: "กฟจ.ศก.", value: "E302" },
-      //   { id: "4", name: "กฟจ.ยส.", value: "E303" },
-      //   { id: "5", name: "กฟจ.มค.", value: "E304" },
-      //   { id: "6", name: "กฟจ.กส.", value: "E305" },
-      //   { id: "7", name: "กฟจ.รอ.", value: "E306" },
-      //   { id: "8", name: "กฟจ.มห.", value: "E307" },
-      //   { id: "9", name: "กฟจ.อจ.", value: "E308" },
-      //   { id: "10", name: "กฟอ.สล.", value: "E309" },
-      //   { id: "11", name: "กฟอ.สดจ.", value: "E310" },
-      //   { id: "12", name: "กฟอ.กล.", value: "E311" },
-      //   { id: "13", name: "กฟอ.ดอ.", value: "E312" },
-      //   { id: "14", name: "กฟอ.วรช.", value: "E313" },
-      //   { id: "15", name: "กฟอ.ตผ.", value: "E314" },
-      //   { id: "15", name: "กฟส.กร.", value: "E315" },
-      //   { id: "15", name: "กฟส.กวช.", value: "E316" },
-      // ],
 
       optionBranches: [
         {
@@ -804,27 +800,27 @@ export default {
 
       value: ["reg"],
       fieldValid: false,
-      formData: {
-        cost_center_name: "กฟส.กทล.",
-        date: "19 มิ.ย. 2567",
-        type_other: "",
-        brand: "HP",
-        model: "ProDesk 600 G5",
-        contract: "บ.75/2563",
-        serial: "4CE03526C6",
-        pea_no: "5330404643",
-        problem: "ฮาร์ดิสชำรุด",
-        emp_name: "นายอนุสรณ์ อมรรัตนศักดิ์",
-        emp_role: "พบค.7",
-        emp_id: "499857",
-        tel: "(22)14890",
-        inspector_name: "นายภาณุวิชญ์ ธานีวัฒน์",
-        inspector_role: "นรค.7",
-        inspector_date: "19 มิ.ย. 2567",
-        dep_head_name: "นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ",
-        dep_head_role: "หผ.คข.กดส.ฉ.2",
-        dep_head_date: "19 มิ.ย. 2567",
-      },
+      // formData: {
+      //   cost_center_name: "กฟส.กทล.",
+      //   date: "19 มิ.ย. 2567",
+      //   type_other: "",
+      //   brand: "HP",
+      //   model: "ProDesk 600 G5",
+      //   contract: "บ.75/2563",
+      //   serial: "4CE03526C6",
+      //   pea_no: "5330404643",
+      //   problem: "ฮาร์ดิสชำรุด",
+      //   emp_name: "นายอนุสรณ์ อมรรัตนศักดิ์",
+      //   emp_role: "พบค.7",
+      //   emp_id: "499857",
+      //   tel: "(22)14890",
+      //   inspector_name: "นายภาณุวิชญ์ ธานีวัฒน์",
+      //   inspector_role: "นรค.7",
+      //   inspector_date: "19 มิ.ย. 2567",
+      //   dep_head_name: "นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ",
+      //   dep_head_role: "หผ.คข.กดส.ฉ.2",
+      //   dep_head_date: "19 มิ.ย. 2567",
+      // },
     };
   },
 
@@ -1024,6 +1020,7 @@ export default {
                 ccFullName: item[9],
                 ccShortName: item[10],
                 empName: item[11],
+                empRank: item[12],
               }));
               // this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
@@ -1068,6 +1065,7 @@ export default {
                 ccFullName: item[9],
                 ccShortName: item[10],
                 empName: item[11],
+                empRank: item[12],
               }));
               console.log("searchWithWord-AllResult ", this.data1);
               // this.itemsPerPage = resp.data.itemsPerPage;
@@ -1129,6 +1127,9 @@ export default {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.editedItem.date = this.formatDateToThai(new Date());
+      this.editedItem.type_other = "-";
+      this.editedItem.brand = "-";
+      this.editedItem.contract = "-";
       console.log("editedItem in dialogFixForm ", this.editedItem);
       this.dialogFixForm = true;
     },

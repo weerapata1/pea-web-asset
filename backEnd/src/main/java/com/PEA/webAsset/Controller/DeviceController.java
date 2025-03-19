@@ -626,34 +626,36 @@ public class DeviceController {
       e.printStackTrace();
     }
   
-    String costCenterName = rootNode.path("ccFullName").asText();
+    String costCenterName = rootNode.path("ccShortName").asText();
     String date = rootNode.path("date").asText();
     String brand = rootNode.path("brand").asText(); // Extracted from devDescription
     String model = rootNode.path("model").asText(); // Extracted from devDescription
     String serial = rootNode.path("devSerialNo").asText();
     String peaNo = rootNode.path("devPeaNo").asText();
     String problem = rootNode.path("problem").asText();
+    String contract = rootNode.path("contract").asText();
     String empName = rootNode.path("empName").asText();
-    String empRole = rootNode.path("empRole").asText();
+    String empRank = rootNode.path("empRank").asText();
     String empId = rootNode.path("empId").asText();
+    String type_other = rootNode.path("type_other").asText();
     String tel = rootNode.path("tel").asText();
 
     String requestData2 = "{\r\n" + //
-    "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
+    "    \"templateProjectPath\": \"sample/ams/506027-fixform-2025.dito\",\r\n" + //
     "    \"templateName\": \"output\",\r\n" + //
     "    \"pdfVersion\": \"1.7\",\r\n" + //
     "    \"data\": {\r\n" + //
     "        \"cost_center_name\": \"" + costCenterName + "\",\r\n" +
     "        \"date\": \"" + date + "\",\r\n" +
-    "        \"type_other\": \"\",\r\n" +
+    "        \"type_other\": \"" + type_other + "\",\r\n" +
     "        \"brand\": \"" + brand + "\",\r\n" +
     "        \"model\": \"" + model + "\",\r\n" +
-    "        \"contract\": \"บ.75/2563\",\r\n" +
+    "        \"contract\": \"" + contract + "\",\r\n" +
     "        \"serial\": \"" + serial + "\",\r\n" +
     "        \"pea_no\": \"" + peaNo + "\",\r\n" +
     "        \"problem\": \"" + problem + "\",\r\n" +
     "        \"emp_name\": \"" + empName + "\",\r\n" +
-    "        \"emp_role\": \"" + empRole + "\",\r\n" +
+    "        \"emp_role\": \"" + empRank + "\",\r\n" +
     "        \"emp_id\": \"" + empId + "\",\r\n" +
     "        \"tel\": \"" + tel + "\",\r\n" +
     "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" +

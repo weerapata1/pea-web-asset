@@ -13,6 +13,8 @@ export default {
       itemsEmp: [],
       getDeviceResult: [],
       getEmployeeResult: [],
+      loadingEmp: false,
+      loadingCC: false,
       deviceheaders: [
         {
           text: "เลขทรัพย์สิน",
@@ -111,6 +113,11 @@ export default {
     };
   },
 
+  created() {
+    this.loadItemsEmp();
+    this.loadItemsCC();
+  },
+
   watch: {
     dialog: function (val) {
       if (val) {
@@ -121,16 +128,41 @@ export default {
   },
 
   mounted() {
-    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
-      this.itemsCC = response.data.costCenter;
-    });
+    // axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+    //   this.itemsCC = response.data.costCenter;
+    // });
 
-    axios.get("http://localhost:8080/emp/getEmpAll").then((response) => {
-      this.itemsEmp = response.data;
-    });
+    // axios.get("http://localhost:8080/emp/getEmpAll").then((response) => {
+    //   this.itemsEmp = response.data;
+    // });
+    this.loadEmpData();
+    this.loadCCData();
   },
 
   methods: {
+    async loadEmpData() {
+      this.loadingEmp = true;
+      try {
+        const response = await axios.get("http://localhost:8000/api/employee");
+        this.itemsEmp = response.data;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingEmp = false;
+      }
+    },
+    async loadCCData() {
+      this.loadingCC = true;
+      try {
+        const response = await axios.get("http://localhost:8000/api/cc");
+        this.itemsCC = response.data;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingCC = false;
+      }
+    },
+
     getItemEmp(itemEmp) {
       return `${itemEmp.empId}` + " " + `${itemEmp.empName}`;
     },
@@ -148,9 +180,9 @@ export default {
     updateCC(modelCC) {
       console.log(modelCC.ccLongCode);
 
-      this.modelCC = modelCC;
-      // how can I have here the index value?
-      this.modelEmp = null;
+      // this.modelCC = modelCC;
+
+      // this.modelEmp = null;
     },
 
     updateCCFromEmp(modelEmp) {
