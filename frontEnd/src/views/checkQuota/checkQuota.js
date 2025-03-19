@@ -125,6 +125,8 @@ export default {
         console.log("clear password");
       }
     },
+    loadingEmp: 'updateOverallLoading',
+    loadingCC: 'updateOverallLoading',
   },
 
   mounted() {
@@ -135,15 +137,17 @@ export default {
     // axios.get("http://localhost:8080/emp/getEmpAll").then((response) => {
     //   this.itemsEmp = response.data;
     // });
-    this.loadEmpData();
-    this.loadCCData();
+
+    // this.loadEmpData();
+    // this.loadCCData();
+    this.loadAllData();
   },
 
   methods: {
     async loadEmpData() {
       this.loadingEmp = true;
       try {
-        const response = await axios.get("http://localhost:8000/api/employee");
+        const response = await axios.get("http://localhost:8080/emp/getEmpAll");
         this.itemsEmp = response.data;
       } catch (error) {
         console.error(error);
@@ -154,8 +158,9 @@ export default {
     async loadCCData() {
       this.loadingCC = true;
       try {
-        const response = await axios.get("http://localhost:8000/api/cc");
-        this.itemsCC = response.data;
+        const response = await axios.get("http://localhost:8080/cc/getAllCCOnlyUse");
+        this.itemsCC = response.data.costCenter;
+        console.log("itemsCC ", this.itemsCC);
       } catch (error) {
         console.error(error);
       } finally {
@@ -168,19 +173,13 @@ export default {
     },
 
     getItemCC(itemsCC) {
-      return (
-        `${itemsCC.ccShortName}` +
-        " " +
-        `${itemsCC.ccLongCode}` +
-        " " +
-        `${itemsCC.ccFullName}`
-      );
+      return `${itemsCC.ccShortName}` + " " + `${itemsCC.ccLongCode}` + " " + `${itemsCC.ccFullName}`;
     },
 
     updateCC(modelCC) {
       console.log(modelCC.ccLongCode);
 
-      // this.modelCC = modelCC;
+      this.modelCC = modelCC;
 
       // this.modelEmp = null;
     },
@@ -194,6 +193,12 @@ export default {
       console.log("result " + result.ccLongCode);
       this.modelCC = result;
       // how can I have here the index value?
+    },
+
+    async loadAllData() {
+      this.loading = true;
+      await Promise.all([this.loadEmpData(), this.loadCCData()]);
+      this.loading = false;
     },
 
     async checkQuota() {
@@ -432,5 +437,11 @@ export default {
     //   return item.includes("พชง") || item.includes("ชชง")  ? 'style-1' : 'style-2'
     //   //return 'style-1';
     // },
+  },
+
+  computed: {
+    loading() {
+      return this.loadingEmp || this.loadingCC;
+    },
   },
 };
