@@ -340,7 +340,7 @@
                     <tr>
                       <td>cost_center_name</td>
                       <td>
-                        <v-text-field v-model="editedItem.ccLongCode" />
+                        <v-text-field v-model="editedItem.ccShortName" />
                       </td>
                     </tr>
                     <tr>
