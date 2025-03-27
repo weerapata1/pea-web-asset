@@ -227,9 +227,6 @@ public class DeviceController {
         }
       }
       device = pageTuts.getContent();
-      // System.out.println(pageTuts);
-
-      // System.out.println(device);
 
       Map<String, Object> response = new HashMap<>();
       response.put("currentPage", pageTuts.getNumber());
@@ -257,7 +254,7 @@ public class DeviceController {
 
       if (region.equals("E3") || region.equals("E3010")) {
         if (setAssetType.equals("53")) {
-          System.out.println("searchWithWord-53");
+          System.out.println("searchWithWord-53zc");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch53zc(
                   region,
@@ -291,7 +288,7 @@ public class DeviceController {
         }
       } else {
         if (setAssetType.equals("53")) {
-          System.out.println("searchWithWord-53");
+          System.out.println("searchWithWord-53-53");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch53(
                   region,

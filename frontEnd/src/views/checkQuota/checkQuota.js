@@ -125,8 +125,8 @@ export default {
         console.log("clear password");
       }
     },
-    loadingEmp: 'updateOverallLoading',
-    loadingCC: 'updateOverallLoading',
+    // loadingEmp: 'updateOverallLoading',
+    // loadingCC: 'updateOverallLoading',
   },
 
   mounted() {
@@ -138,9 +138,9 @@ export default {
     //   this.itemsEmp = response.data;
     // });
 
-    // this.loadEmpData();
+    this.loadEmpData();
     // this.loadCCData();
-    this.loadAllData();
+    // this.loadAllData();
   },
 
   methods: {
@@ -197,11 +197,11 @@ export default {
       // how can I have here the index value?
     },
 
-    async loadAllData() {
-      this.loading = true;
-      await Promise.all([this.loadEmpData(), this.loadCCData()]);
-      this.loading = false;
-    },
+    // async loadAllData() {
+    //   this.loading = true;
+    //   await Promise.all([this.loadEmpData(), this.loadCCData()]);
+    //   this.loading = false;
+    // },
 
     async checkQuota() {
       if (this.modelCC == null) {

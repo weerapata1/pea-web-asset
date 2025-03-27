@@ -117,9 +117,14 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
         Page<Object[]> findDeviceByCcIdAndTextSearch(@Param("ccLong") String ccLong,
                         @Param("textSearch") String textSearch, Pageable pageable);
 
-        @Query(value = "SELECT d.device_id, d.dev_pea_no, d.dev_description, d.dev_serial_no, d.dev_received_date, " +
-                        "d.dev_received_price, d.dev_left_price, d.cc_long_code AS device_cc_long_code, " +
-                        "c.cc_long_code AS cost_center_cc_long_code, c.cc_full_name, c.cc_short_name, " +
+        // @Query(value = "SELECT d.device_id, d.dev_pea_no, d.dev_description,
+        // d.dev_serial_no, d.dev_received_date, " +
+        // "d.dev_received_price, d.dev_left_price, d.cc_long_code AS
+        // device_cc_long_code, " +
+        // "c.cc_full_name, c.cc_short_name, e.emp_name, e.emp_rank " +
+        @Query(value = "SELECT d.device_id, d.dev_description, d.dev_pea_no, d.dev_serial_no, " +
+                        "d.emp_id, d.dev_received_date, d.dev_received_price, d.dev_left_price, " + //
+                        "d.cc_long_code as device_cc_long_code, " + // -- Avoid conflic
                         "c.cc_full_name, c.cc_short_name, e.emp_name, e.emp_rank " + //
                         "FROM tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +

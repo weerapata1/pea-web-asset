@@ -789,7 +789,12 @@ export default {
             },
           ],
         },
-        { id: "ktm", label: "กฟส.กร. (M)", value: "E315", icon: "mdi-home-circle" },
+        {
+          id: "ktm",
+          label: "กฟส.กร. (M)",
+          value: "E315",
+          icon: "mdi-home-circle",
+        },
         {
           id: "kan",
           label: "กฟส.กวช. (M) ",
@@ -846,7 +851,9 @@ export default {
 
     axios
       // .get("http://localhost:8080/api/dev/searchNoWordUnpage", { params })
-      .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, { params })
+      .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, {
+        params,
+      })
       .then((resp) => {
         this.getAllResult = resp;
         console.log("data mounted ", this.getAllResult);
@@ -995,14 +1002,15 @@ export default {
           console.log("searchNoWordUnpage-", params);
           axios
             // .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
-              .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, {
+            .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, {
               params,
             })
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log(
                 "searchNoWordUnpage-" + params["region"],
-                JSON.stringify(this.getAllResult)
+                // JSON.stringify(this.getAllResult)
+                this.getAllResult
               );
 
               // this.data1 = resp.data.dataExcel;
@@ -1046,10 +1054,16 @@ export default {
 
           axios
             // .get("http://localhost:8080/api/dev/searchWithWord", { params })
-            .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchWithWord`, { params })
+            .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchWithWord`, {
+              params,
+            })
             .then((resp) => {
               this.getAllResult = resp.data;
-              // console.log("searchWithWord-AllResult ", JSON.stringify(this.getAllResult));
+              console.log(
+                "searchWithWord-AllResult ",
+                // JSON.stringify(this.getAllResult)
+                this.getAllResult
+              );
 
               // this.data1 = resp.data.data1;
               this.data1 = Array.isArray(resp.data.data1)
@@ -1070,7 +1084,7 @@ export default {
                 empName: item[11],
                 empRank: item[12],
               }));
-              console.log("searchWithWord-AllResult ", this.data1);
+              // console.log("searchWithWord-AllResult ", this.data1);
               // this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
               this.myloadingvariable = false;
