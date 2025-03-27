@@ -47,6 +47,27 @@ public class EmployeeController {
         return employeeRepository.findAll().stream().collect(Collectors.toList());
     }
 
+    @GetMapping("/getEmpAll2")
+    public ResponseEntity<Map<String, Object>> getEmpAll2() {
+        try {
+          List<Object[]> device = new ArrayList<Object[]>();
+          Pageable paging = Pageable.unpaged();
+    
+          Page<Object[]> pageTuts = employeeRepository.getEmpAll2(paging);
+          device = pageTuts.getContent();
+    
+          Map<String, Object> response = new HashMap<>();
+          response.put("currentPage", pageTuts.getNumber());
+          response.put("totalItems", pageTuts.getTotalElements());
+          response.put("totalPages", pageTuts.getTotalPages());
+          response.put("data1", device);
+          // response.put("itemsPerPage", size);
+          return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+          return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+      }
+
     // @GetMapping("/getEmpId")
     // public tbEmployee getEmpId(@RequestParam("empId") String empId) {
     // return employeeRepository.findByEmpId(empId);
@@ -113,9 +134,9 @@ public class EmployeeController {
     public ResponseEntity<Map<String, Object>> Patternunpage(@RequestParam("region") String region) {
         System.out.println(region);
         try {
-            List<tbEmployee> employee = new ArrayList<tbEmployee>();
+            List<Object[]> employee = new ArrayList<Object[]>();
             Pageable paging = Pageable.unpaged();
-            Page<tbEmployee> pageTuts = employeeRepository.findEmployeeByCcId(region, paging);
+            Page<Object[]> pageTuts = employeeRepository.findEmployeeByCcId(region, paging);
 
             employee = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();

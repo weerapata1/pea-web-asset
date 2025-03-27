@@ -22,10 +22,10 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
 
     Optional<tbEmployee> findEmpByEmpId(String empId);
 
-    @Query(value = "SELECT * from tb_employee e " +
+    @Query(value = "SELECT e.emp_id, e.emp_name, e.emp_dep_full, e.emp_rank, e.cc_long_code from tb_employee e " +
     // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                     "WHERE e.cc_long_code LIKE CONCAT(:ccLong,'%')", nativeQuery = true)
-    Page<tbEmployee> findEmployeeByCcId(@Param("ccLong") String ccLong, Pageable pageable);
+    Page<Object[]> findEmployeeByCcId(@Param("ccLong") String ccLong, Pageable pageable);
 
 //    test
     // @Query(value = "SELECT id FROM tb_employee ",nativeQuery = true)
@@ -43,4 +43,9 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
     @Query(value = "SELECT * FROM tb_employees e " +
             "WHERE e.emp_rule_id = :rule_id ",nativeQuery = true)
     Collection<tbEmployee> findEmpRule(@Param("rule_id")Long rule_id);
+
+
+    @Query(value = "SELECT e.emp_id, e.emp_name, e.emp_dep_full, e.emp_rank, e.cc_long_code " +
+    "FROM tb_employee e ", nativeQuery = true)
+    Page<Object[]> getEmpAll2(Pageable pageable);
 }
