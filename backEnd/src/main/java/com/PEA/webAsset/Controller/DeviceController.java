@@ -548,10 +548,10 @@ public class DeviceController {
       @RequestParam("device_type_id") String device_type_id) {
     try {
       System.out.println("/getDevice53unpageByccId");
-      List<tbDevice> device = new ArrayList<tbDevice>();
+      List<Object[]> device = new ArrayList<Object[]>();
       Pageable paging = Pageable.unpaged();
 
-      Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccId(
+      Page<Object[]> pageTuts = deviceRepository.getDevice53unpageByccId(
           region, device_type_id, paging);
       device = pageTuts.getContent();
 

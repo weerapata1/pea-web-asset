@@ -31,7 +31,7 @@ export default {
         },
         {
           text: "ชื่อผู้ครอบครอง",
-          value: "tbEmployee.empName",
+          value: "empName",
           class: "primary--text",
           // width: "25%"
         },
@@ -263,7 +263,17 @@ export default {
               }
             )
             .then((resp2) => {
-              this.getDeviceResult = resp2.data.dataDevice;
+              // this.getDeviceResult = resp2.data.dataDevice;
+              
+              this.getDeviceResult = resp2.data.dataDevice.map((item) => ({
+                devPeaNo: item[0],
+                devDescription: item[1],
+                empName: item[2],
+                devReceivedDate: item[3],
+              }));
+
+              console.log("getDeviceResult ", this.getDeviceResult);
+
               this.totalDeviceResult = resp2.data.totalItems;
             })
             .catch((error) => {

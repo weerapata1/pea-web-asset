@@ -224,12 +224,12 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
 
         tbDevice findDeviceByDevPeaNo(String devPeaNo);
 
-        @Query(value = "SELECT * from tb_device d " +
-        // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+        @Query(value = "SELECT d.dev_pea_no, d.dev_description, e.emp_name, d.dev_received_date from tb_device d " +
+                        "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "WHERE d.cc_long_code LIKE CONCAT(:region,'%') " +
                         "AND d.device_type_id = :tb_device_type_id " +
                         "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
-        Page<tbDevice> getDevice53unpageByccId(@Param("region") String region,
+        Page<Object[]> getDevice53unpageByccId(@Param("region") String region,
                         @Param("tb_device_type_id") String tb_device_type_id,
                         Pageable pageable);
 
