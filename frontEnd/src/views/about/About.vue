@@ -42,21 +42,11 @@
                   slot-scope="{ node, labelClassName }"
                   :class="labelClassName"
                 >
-                  <!-- shouldShowCount, @select="treeselectChange"
-                      count,
-                      countClassName, -->
                   <v-icon>{{ node.raw.icon }}</v-icon>
-                  <!-- 1 {{ node.raw.icon }} 2 |  -->
-                  <!-- {{ node.isBranch ? "Br" : "Lf" }} :  -->
                   | {{ node.label }}
-                  <!-- {{ node.label }} -->
-                  <!-- <span v-if="shouldShowCount" :class="countClassName"
-                      >({{ count }})</span
-                    > -->
                 </label>
               </treeselect>
               <treeselect-value :value="value" />
-              <!-- </div> -->
             </v-container>
           </v-col>
 
@@ -71,7 +61,6 @@
           <v-col cols="12" sm="4" md="2">
             <v-container fluid>
               <v-row>
-
                 <v-select
                   v-model="selectedAssetType"
                   :items="assetType"
@@ -340,66 +329,75 @@
                     <tr>
                       <td>cost_center_name</td>
                       <td>
-                        <v-text-field v-model="editedItem.ccShortName" />
+                        <v-text-field v-model="formData.ccShortName" />
                       </td>
                     </tr>
                     <tr>
                       <td>date</td>
-                      <td><v-text-field v-model="editedItem.date" /></td>
+                      <td><v-text-field v-model="formData.date" /></td>
                     </tr>
                     <tr>
                       <td>type_other</td>
-                      <td><v-text-field v-model="editedItem.type_other" /></td>
+                      <td><v-text-field v-model="formData.type_other" /></td>
                     </tr>
                     <tr>
                       <td>brand</td>
-                      <td><v-text-field v-model="editedItem.brand"/></td>
+                      <td><v-text-field v-model="formData.brand" /></td>
                     </tr>
                     <tr>
                       <td>model</td>
                       <td>
-                        <v-text-field v-model="editedItem.devDescription" />
+                        <v-text-field v-model="formData.devDescription" />
                       </td>
                     </tr>
                     <tr>
                       <td>contract</td>
-                      <td><v-text-field v-model="editedItem.contract" /></td>
+                      <td><v-text-field v-model="formData.contract" /></td>
                     </tr>
                     <tr>
                       <td>serial</td>
-                      <td><v-text-field v-model="editedItem.devSerialNo" /></td>
+                      <td><v-text-field v-model="formData.devSerialNo" /></td>
                     </tr>
                     <tr>
                       <td>pea_no</td>
-                      <td><v-text-field v-model="editedItem.devPeaNo" /></td>
+                      <td><v-text-field v-model="formData.devPeaNo" /></td>
                     </tr>
                     <tr>
                       <td>problem</td>
-                      <td><v-text-field v-model="editedItem.problem" /></td>
+                      <td><v-text-field v-model="formData.problem" /></td>
                     </tr>
                     <tr>
                       <td>emp_name</td>
                       <td>
-                        <v-text-field v-if="editedItem.empName" v-model="editedItem.empName" />
+                        <v-text-field
+                          v-if="formData.empName"
+                          v-model="formData.empName"
+                        />
                       </td>
                     </tr>
                     <tr>
                       <td>emp_role</td>
                       <td>
-                        <v-text-field v-if="editedItem.empRank" v-model="editedItem.empRank" />
+                        <v-text-field
+                          v-if="formData.empRank"
+                          v-model="formData.empRank"
+                        />
                       </td>
                     </tr>
                     <tr>
                       <td>emp_id</td>
                       <td>
-                        <v-text-field v-if="editedItem.empId" v-model="editedItem.empId" />
+                        <v-text-field
+                          v-if="formData.empId"
+                          v-model="formData.empId"
+                        />
                       </td>
                     </tr>
                     <tr>
                       <td>tel</td>
-                      <td><v-text-field v-model="editedItem.tel" /></td>
+                      <td><v-text-field v-model="formData.tel" /></td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td>inspector_name</td>
                       <td>
                         <v-text-field v-model="formData.inspector_name" />
@@ -409,6 +407,38 @@
                       <td>inspector_role</td>
                       <td>
                         <v-text-field v-model="formData.inspector_role" />
+                      </td>
+                    </tr> -->
+                    <tr>
+                      <td>ผู้ตรวจสอบ (inspector)</td>
+                      <td>
+                        <treeselect
+                          :multiple="false"
+                          :options="inspectorList"
+                          placeholder="โปรดเลือกผู้ตรวจสอบ"
+                          :class="treeselectClass"
+                          v-model="selectedInspector"
+                          @select="handleInspectorSelect"
+                        >
+                          <label
+                            slot="option-label"
+                            slot-scope="{ node, labelClassName }"
+                            :class="labelClassName"
+                          >
+                            <v-icon small>{{ node.raw.icon }}</v-icon>
+                            | {{ node.label }}
+                          </label>
+                        </treeselect>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>ตำแหน่งผู้ตรวจสอบ (role)</td>
+                      <td>
+                        <v-text-field
+                          v-model="formData.inspector_role"
+                          readonly
+                          placeholder="จะเติมอัตโนมัติจากการเลือกผู้ตรวจสอบ"
+                        />
                       </td>
                     </tr>
                     <tr>
@@ -464,7 +494,7 @@
             margin: [10, 10, 10, 10],
           }"
         >
-        <section slot="pdf-content">
+          <section slot="pdf-content">
             <h2>เอกสารแจ้งซ่อม</h2>
 
             <!-- <div class="section">
@@ -627,7 +657,7 @@
                 </div> -->
           </section>
         </VueHtml2pdf>
-    </template>
+      </template>
 
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon medium class="mr-2" @click="editItem(item)">

@@ -291,25 +291,25 @@ export default {
       },
 
       formData: {
-        cost_center_name: "กฟส.กทล.",
-        date: "19 มิ.ย. 2567",
-        type_other: "",
-        brand: "HP",
-        model: "ProDesk 600 G5",
-        contract: "บ.75/2563",
-        serial: "4CE03526C6",
-        pea_no: "5330404643",
-        problem: "ฮาร์ดิสชำรุด",
-        emp_name: "นายอนุสรณ์ อมรรัตนศักดิ์",
-        emp_role: "พบค.7",
-        emp_id: "499857",
-        tel: "(22)14890",
-        inspector_name: "นายภาณุวิชญ์ ธานีวัฒน์",
-        inspector_role: "นรค.7",
-        inspector_date: "19 มิ.ย. 2567",
-        dep_head_name: "นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ",
-        dep_head_role: "หผ.คข.กดส.ฉ.2",
-        dep_head_date: "19 มิ.ย. 2567",
+        ccShortName: "-",
+        date: "-",
+        type_other: "-",
+        brand: "-",
+        devDescription: "-",
+        contract: "-",
+        serial: "-",
+        pea_no: "-",
+        problem: "-",
+        emp_name: "-",
+        emp_role: "-",
+        emp_id: "-",
+        tel: "-",
+        inspector_name: "-",
+        inspector_role: "-",
+        inspector_date: "-",
+        dep_head_name: "-",
+        dep_head_role: "-",
+        dep_head_date: "-",
       },
 
       groupSelected: [],
@@ -805,27 +805,9 @@ export default {
 
       value: ["reg"],
       fieldValid: false,
-      // formData: {
-      //   cost_center_name: "กฟส.กทล.",
-      //   date: "19 มิ.ย. 2567",
-      //   type_other: "",
-      //   brand: "HP",
-      //   model: "ProDesk 600 G5",
-      //   contract: "บ.75/2563",
-      //   serial: "4CE03526C6",
-      //   pea_no: "5330404643",
-      //   problem: "ฮาร์ดิสชำรุด",
-      //   emp_name: "นายอนุสรณ์ อมรรัตนศักดิ์",
-      //   emp_role: "พบค.7",
-      //   emp_id: "499857",
-      //   tel: "(22)14890",
-      //   inspector_name: "นายภาณุวิชญ์ ธานีวัฒน์",
-      //   inspector_role: "นรค.7",
-      //   inspector_date: "19 มิ.ย. 2567",
-      //   dep_head_name: "นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ",
-      //   dep_head_role: "หผ.คข.กดส.ฉ.2",
-      //   dep_head_date: "19 มิ.ย. 2567",
-      // },
+
+      selectedInspector: null,
+      inspectorList: [],
     };
   },
 
@@ -897,58 +879,7 @@ export default {
       console.log("setItemPerPage ", this.itemsPerPage);
       this.searchFunction();
     },
-    // hide_alert: function() {
-    //   console.log("at hide_alert");
-    //   // `event` is the native DOM event
-    // },
-    // toggleBranch() {
-    //   this.$nextTick(() => {
-    //     if (this.likesAllFruit) {
-    //       this.selectedFruits = [];
-    //       this.appendBranch = [];
-    //       console.log("b-");
-    //     } else {
-    //       this.selectedFruits = this.fruits.slice();
-    //       this.jsonObj = JSON.parse(this.jsonStrBranch);
-    //       this.jsonObj["branch"] = "E3";
-    //       // this.jsonObj["branch"].push("E3");
-    //       this.appendBranch = JSON.stringify(this.jsonObj);
-    //       console.log("b- " + this.appendBranch);
-    //       // console.log("fruits" + this.fruits[0]["name"]);
-    //     }
-    //   });
-    // },
-    // toggleBranch2(Fruits) {
-    //   this.jsonObj = JSON.parse(this.jsonStrBranch);
-    //   this.jsonObj["branch"] = [];
-    //   this.jsonObj["branch"] = Fruits;
-    //   this.appendBranch = JSON.stringify(this.jsonObj);
-    //   console.log("b-" + this.appendBranch);
-    // },
-    // toggleType() {
-    //   this.$nextTick(() => {
-    //     if (this.likesAllTypeSearch) {
-    //       this.selectedTypeSearch = [];
-    //       this.appendType = [];
-    //       console.log("t-");
-    //     } else {
-    //       this.selectedTypeSearch = this.typeSearch.slice();
-    //       this.jsonObj = JSON.parse(this.jsonStrType);
-    //       this.jsonObj["type"] = [];
-    //       this.jsonObj["type"].push("*");
-    //       this.appendType = JSON.stringify(this.jsonObj);
-    //       console.log("t-" + this.appendType);
-    //       // console.log("fruits" + this.fruits[0]["name"]);
-    //     }
-    //   });
-    // },
-    // toggleType2(TypeSearch) {
-    //   this.jsonObj = JSON.parse(this.jsonStrType);
-    //   this.jsonObj["type"] = [];
-    //   this.jsonObj["type"] = TypeSearch;
-    //   this.appendType = JSON.stringify(this.jsonObj);
-    //   console.log("t-" + this.appendType);
-    // },
+
     treeselectChange: function (node) {
       // alert("changed ", value);
       console.log(node.value);
@@ -957,6 +888,10 @@ export default {
       this.jsonObj["branch"] = node.value;
       this.appendBranch = JSON.stringify(this.jsonObj);
       console.log("b-" + this.appendBranch);
+    },
+
+    handleInspectorSelect(node){
+      console.log(node.value);
     },
 
     toggleAssetType(assetType) {
@@ -982,9 +917,6 @@ export default {
         if (this.setAssetType.length == 0) {
           this.setAssetType = JSON.stringify({ assetType: 53 });
         }
-        // this.setAssetType.length === 0
-        //   ? (this.setAssetType2 = JSON.stringify({ assetType: 53 }))
-        //   : (this.setAssetType2 = JSON.parse(this.setAssetType));
 
         this.myloadingvariable = true;
         let selectedBranch = JSON.parse(this.appendBranch);
@@ -1140,14 +1072,69 @@ export default {
         (this.dialog = true);
     },
 
+    getInspectorList() {
+      // selectedInspector: null,
+      // inspectorList: [],
+      this.myloadingvariable = true;
+      axios
+        .get(`${process.env.VUE_APP_BASE_URL}/api/emp/getInspectorList`)
+        .then((resp) => {
+          this.getAllResult = resp.data;
+          console.log(
+            "inspectorList ",
+            this.getAllResult
+          );
+
+          this.inspectorList = Array.isArray(resp.data.data)
+            ? resp.data.data
+            : [];
+          this.inspectorList = this.inspectorList.map((item) => ({
+            empId: item[0],
+            empName: item[1],
+            empRank: item[2],
+          }));
+          this.totalItems = resp.data.totalItems;
+          this.myloadingvariable = false;
+        })
+        .catch((error) => {
+          console.log(error.resp);
+        });
+    },
+
     showFixForm(item) {
+
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      // console.log("editedItem in dialogFixForm ", this.editedItem);
       this.editedItem.date = this.formatDateToThai(new Date());
       this.editedItem.type_other = "-";
       this.editedItem.brand = "-";
       this.editedItem.contract = "-";
-      console.log("editedItem in dialogFixForm ", this.editedItem);
+
+      // this.formData = this.editedItem;
+
+      this.formData = {
+        ccShortName: item.ccShortName || "-",
+        date: this.editedItem.date,
+        type_other: "-",
+        brand: "-",
+        devDescription: item.devDescription || "-",
+        contract: "-",
+        devSerialNo: item.devSerialNo || "-",
+        devPeaNo: item.devPeaNo || "-",
+        empName: item.empName || "-",
+        empRank: item.empRank || "-",
+        empId: item.empId || "-",
+        tel: item.tel || "-",
+        // inspector_name: "-",
+        // inspector_role: "-",
+        inspector_date: "-",
+        // dep_head_name: "-",
+        // dep_head_role: "-",
+        dep_head_date: "-",
+      };
+
+      console.log("formData in dialogFixForm ", this.formData);
       this.dialogFixForm = true;
     },
 
@@ -1286,17 +1273,7 @@ export default {
       }
     },
 
-    // genQR_Code() {},
-
     generateReport() {
-      // var opt = {
-      //   margin:       [30, 0, 30, 0], //top, left, buttom, right
-      //   // filename:    name + '.pdf',
-      //   // image:        { type: 'jpeg', quality: 0.98 },
-      //   // html2canvas:  { dpi: 192, scale: 2, letterRendering: true},
-      //   // jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait'},
-      //   // pageBreak: { mode: 'css', after:'.break-page'}
-      //   };
       if (this.groupSelected.length == 0) {
         this.alert2 = true;
         window.setInterval(() => {
@@ -1329,20 +1306,6 @@ export default {
               },
             }
           )
-          // .then((response) => {
-
-          //   const fileBlob = new Blob([response.data], {
-          //     type: "application/pdf",
-          //   });
-          //   const fileURL = URL.createObjectURL(fileBlob);
-
-          //   const link = document.createElement("a");
-          //   link.href = fileURL;
-          //   link.setAttribute("download", "generated.pdf");
-          //   document.body.appendChild(link);
-          //   link.click();
-          //   document.body.removeChild(link);
-          // })
           .then((response) => {
             const blob = new Blob([response.data], { type: "application/pdf" });
             const url = URL.createObjectURL(blob);
@@ -1361,10 +1324,7 @@ export default {
 
     formatDateToThai(date) {
       if (!date) return "";
-
       const thaiDate = new Date(date);
-
-      // Convert to Buddhist Era (B.E.) year
       const thaiYear = thaiDate.getFullYear() + 543;
 
       // Format the date in Thai
