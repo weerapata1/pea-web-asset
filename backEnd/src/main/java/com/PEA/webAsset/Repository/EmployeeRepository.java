@@ -48,4 +48,11 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
     @Query(value = "SELECT e.emp_id, e.emp_name, e.emp_dep_full, e.emp_rank, e.cc_long_code " +
     "FROM tb_employee e ", nativeQuery = true)
     Page<Object[]> getEmpAll2(Pageable pageable);
+
+    @Query(value = "SELECT e.emp_id, e.emp_name, e.emp_rank from tb_employee e " +
+    // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
+                    "WHERE e.cc_long_code LIKE 'E301023060' OR e.cc_long_code LIKE 'E301023070'", nativeQuery = true)
+    Page<Object[]> getInspectorList(Pageable pageable);
+
+
 }

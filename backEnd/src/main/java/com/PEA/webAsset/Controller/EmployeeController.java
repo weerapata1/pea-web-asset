@@ -50,23 +50,23 @@ public class EmployeeController {
     @GetMapping("/getEmpAll2")
     public ResponseEntity<Map<String, Object>> getEmpAll2() {
         try {
-          List<Object[]> device = new ArrayList<Object[]>();
-          Pageable paging = Pageable.unpaged();
-    
-          Page<Object[]> pageTuts = employeeRepository.getEmpAll2(paging);
-          device = pageTuts.getContent();
-    
-          Map<String, Object> response = new HashMap<>();
-          response.put("currentPage", pageTuts.getNumber());
-          response.put("totalItems", pageTuts.getTotalElements());
-          response.put("totalPages", pageTuts.getTotalPages());
-          response.put("data1", device);
-          // response.put("itemsPerPage", size);
-          return new ResponseEntity<>(response, HttpStatus.OK);
+            List<Object[]> device = new ArrayList<Object[]>();
+            Pageable paging = Pageable.unpaged();
+
+            Page<Object[]> pageTuts = employeeRepository.getEmpAll2(paging);
+            device = pageTuts.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            response.put("data1", device);
+            // response.put("itemsPerPage", size);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-          return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-      }
+    }
 
     // @GetMapping("/getEmpId")
     // public tbEmployee getEmpId(@RequestParam("empId") String empId) {
@@ -119,13 +119,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/getEmpRule")
-    public ResponseEntity getEmpRuleByEmpId(){
-        try{
+    public ResponseEntity getEmpRuleByEmpId() {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body(employeeRepository.findEmpRule(1L));
 
-        }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("fail : "+e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("fail : " + e.getMessage());
         }
 
     }
@@ -199,6 +198,27 @@ public class EmployeeController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Cost center not found for code: " + ccLongCode);
+        }
+    }
+
+    @GetMapping("/getInspectorList")
+    public ResponseEntity<Map<String, Object>> getInspectorList() {
+        try {
+            List<Object[]> inspectorList = new ArrayList<Object[]>();
+            Pageable paging = Pageable.unpaged();
+
+            Page<Object[]> pageTuts = employeeRepository.getInspectorList(paging);
+            inspectorList = pageTuts.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("currentPage", pageTuts.getNumber());
+            response.put("totalItems", pageTuts.getTotalElements());
+            response.put("totalPages", pageTuts.getTotalPages());
+            response.put("data", inspectorList);
+            // response.put("itemsPerPage", size);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
