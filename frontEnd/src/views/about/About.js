@@ -808,6 +808,17 @@ export default {
 
       selectedInspector: null,
       inspectorList: [],
+      // selectedDepHead: {
+      //   id: "",
+      //   label: "",
+      //   role: "",
+      //   icon: "mdi-account",
+      //   depId: "",
+      // },
+      selectedDepHead: null,
+      depHeadList: [],
+      depHeadItem: null,
+      depHead: null,
     };
   },
 
@@ -868,6 +879,8 @@ export default {
       .catch((error) => {
         console.log(error.resp);
       });
+
+    this.getInspectorList();
   },
 
   created() {},
@@ -890,8 +903,46 @@ export default {
       console.log("b-" + this.appendBranch);
     },
 
-    handleInspectorSelect(node){
-      console.log(node.value);
+    handleInspectorSelect(node) {
+      console.log(node);
+      this.formData.inspector_name = node.label;
+      this.formData.inspector_role = node.role || "-";
+      this.autoSetDepHeadSelect(node.depId);
+    },
+
+    handleDepHeadSelect(selectedNode) {
+      // console.log(selectedNode);
+
+      this.depHeadItem = this.depHeadList.find(
+        (item) => item.depId === selectedNode.depId
+      );
+      console.log("depHeadItem ",this.depHeadItem);
+
+      if (this.depHeadItem) {
+        this.selectedDepHead = this.depHeadItem;
+        console.log("selectedDepHead ", this.selectedDepHead);
+
+        this.formData.dep_head_name = this.depHeadItem.label;
+        this.formData.dep_head_role = this.depHeadItem.role || "-";
+      } else {
+        this.selectedDepHead = null;
+        this.formData.dep_head_name = "-";
+        this.formData.dep_head_role = "-";
+      }
+    },
+
+    autoSetDepHeadSelect(depId) {
+      this.depHead = this.depHeadList.find((item) => item.depId === depId);
+      console.log("depHead-auto ", this.depHead);
+      if (this.depHead) {
+        this.selectedDepHead = this.depHead; // ✅ match by object reference
+        this.formData.dep_head_name = this.depHead.label;
+        this.formData.dep_head_role = this.depHead.role || "-";
+      } else {
+        this.selectedDepHead = null;
+        this.formData.dep_head_name = "-";
+        this.formData.dep_head_role = "-";
+      }
     },
 
     toggleAssetType(assetType) {
@@ -1073,26 +1124,43 @@ export default {
     },
 
     getInspectorList() {
-      // selectedInspector: null,
-      // inspectorList: [],
       this.myloadingvariable = true;
       axios
-        .get(`${process.env.VUE_APP_BASE_URL}/api/emp/getInspectorList`)
+        .get(`${process.env.VUE_APP_BASE_URL}/emp/getInspectorList`)
         .then((resp) => {
           this.getAllResult = resp.data;
-          console.log(
-            "inspectorList ",
-            this.getAllResult
-          );
+          console.log("inspectorList ", this.getAllResult);
 
           this.inspectorList = Array.isArray(resp.data.data)
             ? resp.data.data
             : [];
-          this.inspectorList = this.inspectorList.map((item) => ({
-            empId: item[0],
-            empName: item[1],
-            empRank: item[2],
+          console.log("inspectorList ", this.inspectorList);
+
+          this.inspectorList = this.inspectorList
+            .filter((item) => item[2] !== "หผ.")
+            .map((item) => ({
+              id: item[0],
+              label: item[1],
+              role: item[2],
+              depId: item[3],
+              icon: "mdi-account",
+            }));
+
+          this.depHeadList = Array.isArray(resp.data.data)
+            ? resp.data.data
+            : [];
+          console.log("depHeadList ", this.depHeadList);
+
+          this.depHeadList = this.depHeadList
+          .filter((item) => item[2] == "หผ.")
+          .map((item) => ({
+            id: item[0],
+            label: item[1],
+            role: item[2],
+            depId: item[3],
+            icon: "mdi-account",
           }));
+
           this.totalItems = resp.data.totalItems;
           this.myloadingvariable = false;
         })
@@ -1102,7 +1170,6 @@ export default {
     },
 
     showFixForm(item) {
-
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
       // console.log("editedItem in dialogFixForm ", this.editedItem);
@@ -1286,8 +1353,8 @@ export default {
     },
 
     genFixFormReport() {
-      console.log("this.editedItem-genFixFormReport", this.editedItem);
-      if (this.editedItem == null) {
+      console.log("this.editedItem-genFixFormReport", this.formData);
+      if (this.formData == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
@@ -1297,7 +1364,7 @@ export default {
           .post(
             // "http://localhost:8080/api/dev/redirectPdfProducer",
             `${process.env.VUE_APP_BASE_URL}/api/dev/redirectPdfProducer`,
-            this.editedItem,
+            this.formData,
             {
               responseType: "blob",
               headers: {

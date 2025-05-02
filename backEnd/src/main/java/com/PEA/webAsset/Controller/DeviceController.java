@@ -636,6 +636,10 @@ public class DeviceController {
     String empId = rootNode.path("empId").asText();
     String type_other = rootNode.path("type_other").asText();
     String tel = rootNode.path("tel").asText();
+    String inspector_name = rootNode.path("inspector_name").asText();
+    String inspector_role = rootNode.path("inspector_role").asText();
+    String dep_head_name = rootNode.path("dep_head_name").asText();
+    String dep_head_role = rootNode.path("dep_head_role").asText();
 
     String requestData2 = "{\r\n" + //
     "    \"templateProjectPath\": \"sample/ams/506027-fixform-2025.dito\",\r\n" + //
@@ -655,11 +659,11 @@ public class DeviceController {
     "        \"emp_role\": \"" + empRank + "\",\r\n" +
     "        \"emp_id\": \"" + empId + "\",\r\n" +
     "        \"tel\": \"" + tel + "\",\r\n" +
-    "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" +
-    "        \"inspector_role\": \"นรค.7\",\r\n" +
+    "        \"inspector_name\": \"" + inspector_name + "\",\r\n" +
+    "        \"inspector_role\": \"" + inspector_role + "\",\r\n" +
     "        \"inspector_date\": \""+ date + "\",\r\n" +
-    "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" +
-    "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" +
+    "        \"dep_head_name\": \"" + dep_head_name + "\",\r\n" +
+    "        \"dep_head_role\": \"" + dep_head_role + "\",\r\n" +
     "        \"dep_head_date\": \""+ date + "\"\r\n" +
     "    }\r\n" + //
     "}";

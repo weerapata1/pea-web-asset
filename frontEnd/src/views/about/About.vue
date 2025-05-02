@@ -426,7 +426,7 @@
                             :class="labelClassName"
                           >
                             <v-icon small>{{ node.raw.icon }}</v-icon>
-                            | {{ node.label }}
+                            | {{ node.id }} {{ node.label }} {{ node.raw.role }}
                           </label>
                         </treeselect>
                       </td>
@@ -447,13 +447,47 @@
                         <v-text-field v-model="formData.inspector_date" />
                       </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td>dep_head_name</td>
                       <td><v-text-field v-model="formData.dep_head_name" /></td>
                     </tr>
                     <tr>
                       <td>dep_head_role</td>
                       <td><v-text-field v-model="formData.dep_head_role" /></td>
+                    </tr> -->
+                    <tr>
+                      <td>หัวหน้าผู้ตรวจสอบ</td>
+                      <td>
+                        <treeselect
+                          :multiple="false"
+                          :options="depHeadList"
+                          placeholder="โปรดเลือกผู้ตรวจสอบ"
+                          :class="treeselectClass"
+                          v-model="selectedDepHead"
+                          @select="handleDepHeadSelect"
+                          :normalizer="(node) => ({ id: node.id, label: node.label })"
+                        >
+                          <label
+                            slot="option-label"
+                            slot-scope="{ node, labelClassName }"
+                            :class="labelClassName"
+                          >
+                          <v-icon small>{{ node.raw.icon }}</v-icon>
+                          | {{ node.raw.depId }} {{ node.label }} {{ node.raw.role }}
+                          <!-- <p>Selected: {{ selectedDepHead?.role || '-' }}</p> -->
+                          </label>
+                        </treeselect>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>ตำแหน่งหัวหน้าผู้ตรวจสอบ</td>
+                      <td>
+                        <v-text-field
+                          v-model="formData.dep_head_role"
+                          readonly
+                          placeholder="จะเติมอัตโนมัติจากการเลือกผู้ตรวจสอบ"
+                        />
+                      </td>
                     </tr>
                     <tr>
                       <td>dep_head_date</td>
