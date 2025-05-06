@@ -366,6 +366,10 @@
                       <td>problem</td>
                       <td><v-text-field v-model="formData.problem" /></td>
                     </tr>
+                    <tr v-if="showErrorProblem" class="error-box">
+                      <td></td>
+                      <td>Problem is required.</td>
+                    </tr>
                     <tr>
                       <td>emp_name</td>
                       <td>
@@ -431,6 +435,10 @@
                         </treeselect>
                       </td>
                     </tr>
+                    <tr v-if="showErrorInspector" class="error-box">
+                      <td></td>
+                      <td>กรุณาเลือกผู้ตรวจสอบ</td>
+                    </tr>
                     <tr>
                       <td>ตำแหน่งผู้ตรวจสอบ (role)</td>
                       <td>
@@ -465,19 +473,25 @@
                           :class="treeselectClass"
                           v-model="selectedDepHead"
                           @select="handleDepHeadSelect"
-                          :normalizer="(node) => ({ id: node.id, label: node.label })"
+                          :normalizer="
+                            (node) => ({ id: node.id, label: node.label })
+                          "
                         >
                           <label
                             slot="option-label"
                             slot-scope="{ node, labelClassName }"
                             :class="labelClassName"
                           >
-                          <v-icon small>{{ node.raw.icon }}</v-icon>
-                          | {{ node.raw.depId }} {{ node.label }} {{ node.raw.role }}
-                          <!-- <p>Selected: {{ selectedDepHead?.role || '-' }}</p> -->
+                            <v-icon small>{{ node.raw.icon }}</v-icon>
+                            | {{ node.id }} {{ node.label }} {{ node.raw.role }}
+                            <!-- <p>Selected: {{ selectedDepHead?.role || '-' }}</p> -->
                           </label>
                         </treeselect>
                       </td>
+                    </tr>
+                    <tr v-if="showErrorDepHead" class="error-box">
+                      <td></td>
+                      <td>กรุณาเลือกหัวหน้าผู้ตรวจสอบ</td>
                     </tr>
                     <tr>
                       <td>ตำแหน่งหัวหน้าผู้ตรวจสอบ</td>

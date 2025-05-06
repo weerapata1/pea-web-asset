@@ -640,9 +640,10 @@ public class DeviceController {
     String inspector_role = rootNode.path("inspector_role").asText();
     String dep_head_name = rootNode.path("dep_head_name").asText();
     String dep_head_role = rootNode.path("dep_head_role").asText();
+    String inspect_dep_name = rootNode.path("inspect_dep_name").asText();
 
     String requestData2 = "{\r\n" + //
-    "    \"templateProjectPath\": \"sample/ams/506027-fixform-2025.dito\",\r\n" + //
+    "    \"templateProjectPath\": \"sample/ams/506027-fixform-2025v2.dito\",\r\n" + //
     "    \"templateName\": \"output\",\r\n" + //
     "    \"pdfVersion\": \"1.7\",\r\n" + //
     "    \"data\": {\r\n" + //
@@ -664,7 +665,8 @@ public class DeviceController {
     "        \"inspector_date\": \""+ date + "\",\r\n" +
     "        \"dep_head_name\": \"" + dep_head_name + "\",\r\n" +
     "        \"dep_head_role\": \"" + dep_head_role + "\",\r\n" +
-    "        \"dep_head_date\": \""+ date + "\"\r\n" +
+    "        \"dep_head_date\": \""+ date + "\",\r\n" +
+    "        \"inspect_dep_name\": \""+ inspect_dep_name + "\"\r\n" +
     "    }\r\n" + //
     "}";
 

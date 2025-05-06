@@ -304,12 +304,13 @@ export default {
         emp_role: "-",
         emp_id: "-",
         tel: "-",
-        inspector_name: "-",
-        inspector_role: "-",
+        inspector_name: "",
+        inspector_role: "",
         inspector_date: "-",
-        dep_head_name: "-",
-        dep_head_role: "-",
+        dep_head_name: "",
+        dep_head_role: "",
         dep_head_date: "-",
+        inspect_dep_name:"",
       },
 
       groupSelected: [],
@@ -819,6 +820,9 @@ export default {
       depHeadList: [],
       depHeadItem: null,
       depHead: null,
+      showErrorProblem: false,
+      showErrorInspector: false,
+      showErrorDepHead: false,
     };
   },
 
@@ -907,7 +911,8 @@ export default {
       console.log(node);
       this.formData.inspector_name = node.label;
       this.formData.inspector_role = node.role || "-";
-      this.autoSetDepHeadSelect(node.depId);
+      this.formData.inspect_dep_name = node.depName;
+      // this.autoSetDepHeadSelect(node.depId);
     },
 
     handleDepHeadSelect(selectedNode) {
@@ -916,14 +921,15 @@ export default {
       this.depHeadItem = this.depHeadList.find(
         (item) => item.depId === selectedNode.depId
       );
-      console.log("depHeadItem ",this.depHeadItem);
+      console.log("depHeadItem ", this.depHeadItem);
 
       if (this.depHeadItem) {
         this.selectedDepHead = this.depHeadItem;
         console.log("selectedDepHead ", this.selectedDepHead);
+        const role_full = this.depHeadItem.role + " " + this.depHeadItem.depName; 
 
         this.formData.dep_head_name = this.depHeadItem.label;
-        this.formData.dep_head_role = this.depHeadItem.role || "-";
+        this.formData.dep_head_role = role_full || "-";
       } else {
         this.selectedDepHead = null;
         this.formData.dep_head_name = "-";
@@ -936,13 +942,14 @@ export default {
       console.log("depHead-auto ", this.depHead);
       if (this.depHead) {
         this.selectedDepHead = this.depHead; // ✅ match by object reference
-        this.formData.dep_head_name = this.depHead.label;
-        this.formData.dep_head_role = this.depHead.role || "-";
-      } else {
-        this.selectedDepHead = null;
-        this.formData.dep_head_name = "-";
-        this.formData.dep_head_role = "-";
+        // this.formData.dep_head_name = this.selectedDepHead.label;
+        this.formData.dep_head_role = this.selectedDepHead.role || "-";
       }
+      // else {
+      //   this.selectedDepHead = null;
+      //   this.formData.dep_head_name = "-";
+      //   this.formData.dep_head_role = "-";
+      // }
     },
 
     toggleAssetType(assetType) {
@@ -1143,6 +1150,7 @@ export default {
               label: item[1],
               role: item[2],
               depId: item[3],
+              depName: item[4],
               icon: "mdi-account",
             }));
 
@@ -1152,14 +1160,15 @@ export default {
           console.log("depHeadList ", this.depHeadList);
 
           this.depHeadList = this.depHeadList
-          .filter((item) => item[2] == "หผ.")
-          .map((item) => ({
-            id: item[0],
-            label: item[1],
-            role: item[2],
-            depId: item[3],
-            icon: "mdi-account",
-          }));
+            .filter((item) => item[2] == "หผ.")
+            .map((item) => ({
+              id: item[0],
+              label: item[1],
+              role: item[2],
+              depId: item[3],
+              depName: item[4],
+              icon: "mdi-account",
+            }));
 
           this.totalItems = resp.data.totalItems;
           this.myloadingvariable = false;
@@ -1193,15 +1202,16 @@ export default {
         empRank: item.empRank || "-",
         empId: item.empId || "-",
         tel: item.tel || "-",
-        // inspector_name: "-",
-        // inspector_role: "-",
+        inspector_name: "",
+        inspector_role: "",
         inspector_date: "-",
-        // dep_head_name: "-",
-        // dep_head_role: "-",
+        dep_head_name: "",
+        dep_head_role: "",
         dep_head_date: "-",
+        inspect_dep_name:"",
       };
 
-      console.log("formData in dialogFixForm ", this.formData);
+      console.log("formData dialogFixForm ", this.formData);
       this.dialogFixForm = true;
     },
 
@@ -1268,6 +1278,11 @@ export default {
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
+        this.selectedInspector = null;
+        this.selectedDepHead = null;
+        this.showErrorProblem = false;
+        this.showErrorInspector = null;
+        this.showErrorDepHead = null;
       });
     },
 
@@ -1353,13 +1368,23 @@ export default {
     },
 
     genFixFormReport() {
-      console.log("this.editedItem-genFixFormReport", this.formData);
+      this.showErrorProblem = false,
+      this.showErrorInspector = false,
+      this.showErrorDepHead = false,
+      console.log("genFixFormReport", this.formData);
+      console.log("formData.inspector_name", this.formData.inspector_name);
       if (this.formData == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
         }, 3000);
-      } else {
+      } else if (this.formData.problem == "" || this.formData.problem == undefined) {
+        this.showErrorProblem = true;
+      } else if (this.formData.inspector_name == "" || this.formData.inspector_name == undefined) {
+        this.showErrorInspector = true;
+      }else if (this.formData.dep_head_name == "" || this.formData.dep_head_name == undefined) {
+        this.showErrorDepHead = true;
+      }else {
         axios
           .post(
             // "http://localhost:8080/api/dev/redirectPdfProducer",
