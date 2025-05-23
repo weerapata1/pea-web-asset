@@ -1,6 +1,7 @@
 package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbDevice;
+import com.PEA.webAsset.Entity.TempDevice;
 import com.PEA.webAsset.Exeption.InvalidDataException;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
@@ -351,7 +352,7 @@ public class DeviceController {
       message = "Please upload a valid Excel file!";
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message));
     }
 
     try {
@@ -362,7 +363,7 @@ public class DeviceController {
         message = "The uploaded file contains no valid data!";
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(new ResponseMessage(message));
+            .body(new ResponseMessage(false, message));
       }
 
       deviceRepository.saveAll(deviceList);
@@ -370,17 +371,17 @@ public class DeviceController {
       message = "Uploaded the file successfully: " + file.getOriginalFilename();
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(true, message));
     } catch (InvalidDataException e) {
       message = "The file contains invalid data: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.UNPROCESSABLE_ENTITY)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message));
     } catch (Exception e) {
       message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message));
     }
   }
 
@@ -432,12 +433,12 @@ public class DeviceController {
       message = "update is OK";
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(true, message));
     } catch (ResourceNotFoundException e) {
       message = "Not found ";
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message));
     }
   }
 
@@ -453,7 +454,7 @@ public class DeviceController {
     message = "Please upload an excel file!";
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
-        .body(new ResponseMessage(message));
+        .body(new ResponseMessage(false, message));
   }
 
   @GetMapping("/getExcelData2")
@@ -616,13 +617,13 @@ public class DeviceController {
     try {
       rootNode = objectMapper.readTree(requestData);
     } catch (JsonMappingException e) {
-     
+
       e.printStackTrace();
     } catch (JsonProcessingException e) {
-     
+
       e.printStackTrace();
     }
-  
+
     String costCenterName = rootNode.path("ccShortName").asText();
     String date = rootNode.path("date").asText();
     String brand = rootNode.path("brand").asText(); // Extracted from devDescription
@@ -643,32 +644,32 @@ public class DeviceController {
     String inspect_dep_name = rootNode.path("inspect_dep_name").asText();
 
     String requestData2 = "{\r\n" + //
-    "    \"templateProjectPath\": \"sample/ams/506027-fixform-2025v2.dito\",\r\n" + //
-    "    \"templateName\": \"output\",\r\n" + //
-    "    \"pdfVersion\": \"1.7\",\r\n" + //
-    "    \"data\": {\r\n" + //
-    "        \"cost_center_name\": \"" + costCenterName + "\",\r\n" +
-    "        \"date\": \"" + date + "\",\r\n" +
-    "        \"type_other\": \"" + type_other + "\",\r\n" +
-    "        \"brand\": \"" + brand + "\",\r\n" +
-    "        \"model\": \"" + model + "\",\r\n" +
-    "        \"contract\": \"" + contract + "\",\r\n" +
-    "        \"serial\": \"" + serial + "\",\r\n" +
-    "        \"pea_no\": \"" + peaNo + "\",\r\n" +
-    "        \"problem\": \"" + problem + "\",\r\n" +
-    "        \"emp_name\": \"" + empName + "\",\r\n" +
-    "        \"emp_role\": \"" + empRank + "\",\r\n" +
-    "        \"emp_id\": \"" + empId + "\",\r\n" +
-    "        \"tel\": \"" + tel + "\",\r\n" +
-    "        \"inspector_name\": \"" + inspector_name + "\",\r\n" +
-    "        \"inspector_role\": \"" + inspector_role + "\",\r\n" +
-    "        \"inspector_date\": \""+ date + "\",\r\n" +
-    "        \"dep_head_name\": \"" + dep_head_name + "\",\r\n" +
-    "        \"dep_head_role\": \"" + dep_head_role + "\",\r\n" +
-    "        \"dep_head_date\": \""+ date + "\",\r\n" +
-    "        \"inspect_dep_name\": \""+ inspect_dep_name + "\"\r\n" +
-    "    }\r\n" + //
-    "}";
+        "    \"templateProjectPath\": \"sample/ams/506027-fixform-2025v2.dito\",\r\n" + //
+        "    \"templateName\": \"output\",\r\n" + //
+        "    \"pdfVersion\": \"1.7\",\r\n" + //
+        "    \"data\": {\r\n" + //
+        "        \"cost_center_name\": \"" + costCenterName + "\",\r\n" +
+        "        \"date\": \"" + date + "\",\r\n" +
+        "        \"type_other\": \"" + type_other + "\",\r\n" +
+        "        \"brand\": \"" + brand + "\",\r\n" +
+        "        \"model\": \"" + model + "\",\r\n" +
+        "        \"contract\": \"" + contract + "\",\r\n" +
+        "        \"serial\": \"" + serial + "\",\r\n" +
+        "        \"pea_no\": \"" + peaNo + "\",\r\n" +
+        "        \"problem\": \"" + problem + "\",\r\n" +
+        "        \"emp_name\": \"" + empName + "\",\r\n" +
+        "        \"emp_role\": \"" + empRank + "\",\r\n" +
+        "        \"emp_id\": \"" + empId + "\",\r\n" +
+        "        \"tel\": \"" + tel + "\",\r\n" +
+        "        \"inspector_name\": \"" + inspector_name + "\",\r\n" +
+        "        \"inspector_role\": \"" + inspector_role + "\",\r\n" +
+        "        \"inspector_date\": \"" + date + "\",\r\n" +
+        "        \"dep_head_name\": \"" + dep_head_name + "\",\r\n" +
+        "        \"dep_head_role\": \"" + dep_head_role + "\",\r\n" +
+        "        \"dep_head_date\": \"" + date + "\",\r\n" +
+        "        \"inspect_dep_name\": \"" + inspect_dep_name + "\"\r\n" +
+        "    }\r\n" + //
+        "}";
 
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
@@ -691,7 +692,8 @@ public class DeviceController {
       HttpHeaders responseHeaders = new HttpHeaders();
       responseHeaders.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
 
-      // return ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
+      // return
+      // ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
       return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.OK);
     } catch (Exception e) {
       System.err.println("Error occurred while redirecting PDF producer request: "

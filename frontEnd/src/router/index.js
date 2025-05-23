@@ -7,6 +7,7 @@ import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
 // import repairForm from '../views/repairForm/repairForm.vue'
 // import ListRepair from '../views/listRepair/listRepair.vue'
 import checkQuota from '../views/checkQuota/checkQuota.vue'
+import Upload from '../views/upload/upload.vue'
 // import login from '../views/logIn/logIn.vue'
 // import preRepairComponent from '../views/preRepair/preRepair.vue'
 
@@ -69,6 +70,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: checkQuota
+  },
+    {
+    path: '/upload',
+    name: 'upload',
+    component: Upload
   },
 ]
 

@@ -172,7 +172,7 @@ public class EmployeeController {
             message = "Please upload a valid Excel file!";
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseMessage(message));
+                    .body(new ResponseMessage(false, message));
         }
         try {
             // Process and save the uploaded file
@@ -180,12 +180,12 @@ public class EmployeeController {
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseMessage(message + " (" + employees.size() + " records processed)"));
+                    .body(new ResponseMessage(true, message + " (" + employees.size() + " records processed)"));
         } catch (RuntimeException e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage(message));
+                    .body(new ResponseMessage(false, message));
         }
     }
 

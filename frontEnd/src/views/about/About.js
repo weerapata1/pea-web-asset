@@ -28,7 +28,7 @@ Vue.component("treeselect", Treeselect);
 // import the styles
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
-// import router from "../../router";
+import dateService from "../../services/dateService";
 
 export default {
   name: "EventsList",
@@ -1182,7 +1182,7 @@ export default {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
       // console.log("editedItem in dialogFixForm ", this.editedItem);
-      this.editedItem.date = this.formatDateToThai(new Date());
+      this.editedItem.date = dateService.formatDateToThai(new Date())
       this.editedItem.type_other = "-";
       this.editedItem.brand = "-";
       this.editedItem.contract = "-";
@@ -1414,20 +1414,6 @@ export default {
       }
     },
 
-    formatDateToThai(date) {
-      if (!date) return "";
-      const thaiDate = new Date(date);
-      const thaiYear = thaiDate.getFullYear() + 543;
-
-      // Format the date in Thai
-      return thaiDate
-        .toLocaleDateString("th-TH", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })
-        .replace(thaiDate.getFullYear(), thaiYear); // Replace the Western year with B.E. year
-    },
   },
 
   computed: {
