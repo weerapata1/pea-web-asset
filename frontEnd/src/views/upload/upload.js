@@ -84,6 +84,13 @@ export default {
       uploadFinish: false,
       uploadFinishtime: Date.now(),
       uploadSuccess: false,
+      noMatchTableItems: [],
+      noMatchTableHeaders: [
+        { text: "Description", value: "devDescription" },
+        { text: "Received Date", value: "devReceivedDate" },
+        { text: "Received Price", value: "devReceivedPrice" },
+        { text: "Concat Price Date", value: "devConcatPriceDate" },
+      ],
     };
   },
 
@@ -229,10 +236,8 @@ export default {
               const parts = String(rawDate).trim().split(".");
               if (parts.length === 3) {
                 const [day, month, year] = parts;
-                return `${year}.${month.padStart(2, "0")}.${day.padStart(
-                  2,
-                  "0"
-                )}`;
+                const thaiYear = parseInt(year) + 543;
+                return `${thaiYear}.${parseInt(month)}.${parseInt(day)}`;
               }
               return ""; // or keep rawDate if you prefer
             };
@@ -265,7 +270,14 @@ export default {
               for (const [thaiKey, backendKey] of Object.entries(
                 this.headerMap
               )) {
-                mapped[backendKey] = row[thaiKey] ?? "";
+                // mapped[backendKey] = row[thaiKey] ?? "";
+                const value = row[thaiKey] ?? "";
+
+                if (backendKey === "devReceivedDate") {
+                  mapped[backendKey] = formatCapDate(value);
+                } else {
+                  mapped[backendKey] = value;
+                }
               }
               return mapped;
             });
@@ -317,7 +329,7 @@ export default {
           } else {
             this.uploadSuccess = false;
             console.log("📦 success result:", success);
-            this.$toast.error(message);
+            console.error("❌ error message uploadData:", message);
           }
         })
 
@@ -328,13 +340,125 @@ export default {
             "Unknown error occurred";
 
           console.error("❌ Upload failed:", error);
-          this.$toast.error(message);
+          console.error("❌ error message uploadData:", message);
           this.loading = false;
         });
     },
 
-    processDB(){
+    async processDB() {
+      try {
+        this.loading = true;
+        // Step 1
+        const result1 = await this.queryStep1();
+        console.log("Step 1 done:", result1);
 
+        // Step 2
+        const result2 = await this.queryStep2();
+        console.log("Step 2 done:", result2);
+
+        // Step 3
+        const result3 = await this.queryStep3();
+        // console.log("Step 3 done:", result3);
+        this.noMatchTableItems = result3.data.items;
+        console.log("Step 3 done:", this.noMatchTableItems);
+
+        // All steps done
+
+        this.loading = false;
+      } catch (error) {
+        console.error("Error during query steps:", error);
+      }
+    },
+
+    async queryStep1() {
+      try {
+        const resp = await axios.post(
+          `${process.env.VUE_APP_BASE_URL}/api/dev/temp_concat`
+        );
+
+        const { success, message } = resp.data;
+
+        if (success) {
+          this.uploadSuccess = true;
+          console.log("📦 success queryStep1:", success);
+        } else {
+          this.uploadSuccess = false;
+          console.log("📦 failed queryStep1:", message);
+        }
+
+        return resp.data; // ✅ this ensures result1 gets a value
+      } catch (error) {
+        const message =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Unknown error occurred queryStep1";
+
+        console.error("❌ set concat failed:", error);
+        console.error("❌ error message Step1:", message);
+        this.loading = false;
+        throw error; // ❗ rethrow to allow processDB to handle it if needed
+      }
+    },
+
+    async queryStep2() {
+      // Use result from Step 1
+      try {
+        const resp = await axios.post(
+          `${process.env.VUE_APP_BASE_URL}/api/dev/update_temp_device_type`
+        );
+
+        const { success, message } = resp.data;
+
+        if (success) {
+          this.uploadSuccess = true;
+          console.log("📦 success queryStep2:", success);
+        } else {
+          this.uploadSuccess = false;
+          console.log("📦 failed queryStep2:", message);
+        }
+
+        return resp.data; // ✅ this ensures result1 gets a value
+      } catch (error) {
+        const message =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Unknown error occurred queryStep2";
+
+        console.error("❌ set concat failed:", error);
+        console.error("❌ error message Step2:", message);
+        this.loading = false;
+        throw error; // ❗ rethrow to allow processDB to handle it if needed
+      }
+    },
+
+    async queryStep3() {
+      try {
+        const resp = await axios.get(
+          `${process.env.VUE_APP_BASE_URL}/api/dev/check_no_match`
+        );
+
+        const { success, message } = resp.data;
+
+        if (success) {
+          this.uploadSuccess = true;
+          console.log("📦 success queryStep3:", success);
+        } else {
+          this.uploadSuccess = false;
+          console.log("📦 failed queryStep3:", message);
+        }
+
+        return resp.data; // ✅ this ensures result1 gets a value
+      } catch (error) {
+        const message =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Unknown error occurred queryStep3";
+
+        console.error("❌ set concat failed:", error);
+        console.error("❌ error message Step3:", message);
+        this.loading = false;
+        throw error; // ❗ rethrow to allow processDB to handle it if needed
+      }
     },
   },
 

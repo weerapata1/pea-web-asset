@@ -3,6 +3,7 @@ package com.PEA.webAsset.Controller;
 import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Entity.TempDevice;
 import com.PEA.webAsset.Exeption.InvalidDataException;
+import com.PEA.webAsset.Interface.TempDeviceInterface;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
 import com.PEA.webAsset.Repository.CostCenterRepository;
@@ -82,22 +83,63 @@ public class TempDeviceController {
   public ResponseEntity<ResponseMessage> tempUpload(@RequestBody List<TempDevice> tempDevices) {
     String message;
     if (tempDevices == null || tempDevices.isEmpty()) {
-        message = "The uploaded data is empty!";
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(new ResponseMessage(false, message));
+      message = "The uploaded data is empty!";
+      return ResponseEntity
+          .status(HttpStatus.NO_CONTENT)
+          .body(new ResponseMessage(false, message, null));
     }
     try {
-        tempDeviceRepository.bulkInsertDevices(tempDevices);
-        message = "Uploaded the data successfully. Records: " + tempDevices.size();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new ResponseMessage(true, message));
+      tempDeviceRepository.bulkInsertDevices(tempDevices);
+      message = "Uploaded the data successfully. Records: " + tempDevices.size();
+      return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(new ResponseMessage(true, message, null));
     } catch (Exception e) {
-        message = "Could not upload the data. Error: " + e.getMessage();
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ResponseMessage(false, message));
+      message = "Could not upload the data. Error: " + e.getMessage();
+      return ResponseEntity
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponseMessage(false, message, null));
     }
   }
+
+  @PostMapping("/temp_concat")
+  public ResponseEntity<ResponseMessage> tempConcat() {
+    int rowsAffected = tempDeviceRepository.updateConcatPriceDate();
+    String message = "Updated concat " + rowsAffected + " rows.";
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(new ResponseMessage(true, message, null));
+  }
+
+  @PostMapping("/update_temp_device_type")
+  public ResponseEntity<ResponseMessage> updateTempDeviceType() {
+    int rowsAffected = tempDeviceRepository.updateTempDeviceType();
+    String message = "Updated device type " + rowsAffected + " rows.";
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(new ResponseMessage(true, message, null));
+  }
+
+  @GetMapping("/check_no_match")
+  public ResponseEntity<ResponseMessage> checkNoMatch() {
+    try {
+      Pageable paging = Pageable.unpaged();
+      Page<TempDeviceInterface.TempDeviceSummary> pageResult = tempDeviceRepository.checkNoMatch(paging);
+
+      Map<String, Object> response = new HashMap<>();
+      response.put("items", pageResult.getContent());
+      response.put("totalItems", pageResult.getTotalElements());
+      response.put("totalPages", pageResult.getTotalPages());
+      response.put("currentPage", pageResult.getNumber());
+
+      String message = "Fetched " + pageResult.getNumberOfElements() + " records.";
+        return ResponseEntity.ok(new ResponseMessage(true, message, response));
+
+    } catch (Exception e) {
+      return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ResponseMessage(false, "Error fetching data", null));
+    }
+  }
+
 }

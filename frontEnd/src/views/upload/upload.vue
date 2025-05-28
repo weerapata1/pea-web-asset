@@ -138,13 +138,27 @@
                   id="processButton"
                   color="primary"
                 >
-                  <v-icon medium class="mr-2 v-white"> mdi-database-clock-outline </v-icon>
+                  <v-icon medium class="mr-2 v-white">
+                    mdi-database-clock-outline
+                  </v-icon>
                   Process DB</v-btn
                 >
               </div>
             </v-container>
           </v-col></v-row
         >
+      </div>
+      <div>
+        <v-card class="mt-5" v-if="noMatchTableItems.length > 0">
+          <v-card-title>Unmatched Device Entries</v-card-title>
+          <v-data-table
+            :headers="noMatchTableHeaders"
+            :items="noMatchTableItems"
+            class="elevation-5 mytable ma-0 pa-0 w-100"
+            dense
+            :items-per-page="10"
+          ></v-data-table>
+        </v-card>
       </div>
     </v-layout>
   </v-container>

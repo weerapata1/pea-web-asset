@@ -352,7 +352,7 @@ public class DeviceController {
       message = "Please upload a valid Excel file!";
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
-          .body(new ResponseMessage(false, message));
+          .body(new ResponseMessage(false, message, null));
     }
 
     try {
@@ -363,7 +363,7 @@ public class DeviceController {
         message = "The uploaded file contains no valid data!";
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(new ResponseMessage(false, message));
+            .body(new ResponseMessage(false, message, null));
       }
 
       deviceRepository.saveAll(deviceList);
@@ -371,17 +371,17 @@ public class DeviceController {
       message = "Uploaded the file successfully: " + file.getOriginalFilename();
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseMessage(true, message));
+          .body(new ResponseMessage(true, message, null));
     } catch (InvalidDataException e) {
       message = "The file contains invalid data: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.UNPROCESSABLE_ENTITY)
-          .body(new ResponseMessage(false, message));
+          .body(new ResponseMessage(false, message, null));
     } catch (Exception e) {
       message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new ResponseMessage(false, message));
+          .body(new ResponseMessage(false, message, null));
     }
   }
 
@@ -389,33 +389,6 @@ public class DeviceController {
   public ResponseEntity<String> testUpload(@RequestParam("file") MultipartFile file) {
     return ResponseEntity.ok("File received: " + file.getOriginalFilename());
   }
-
-  // @PostMapping("/posT")
-  // public ResponseEntity<ResponseMessage> posT(
-  // @RequestParam("dev_serialNo") String dev_serialNo,
-  // @RequestParam("dev_note") String dev_note,
-  // @RequestParam("dev_description") String dev_description,
-  // @RequestParam("dev_peaNo") String dev_peaNo,
-  // @RequestParam("tbCostCenter") String tbCostCenter) {
-  // String message;
-  // try {
-  // deviceService.postDevice(
-  // dev_serialNo,
-  // dev_note,
-  // dev_description,
-  // dev_peaNo,
-  // tbCostCenter);
-  // message = "POST OK \n";
-  // return ResponseEntity
-  // .status(HttpStatus.CREATED)
-  // .body(new ResponseMessage(message));
-  // } catch (Exception e) {
-  // message = "POST NOT OK : " + e.getMessage();
-  // return ResponseEntity
-  // .status(HttpStatus.BAD_REQUEST)
-  // .body(new ResponseMessage(message));
-  // }
-  // }
 
   @PutMapping("/updateDevice")
   public ResponseEntity<ResponseMessage> updateDevice(
@@ -433,12 +406,12 @@ public class DeviceController {
       message = "update is OK";
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseMessage(true, message));
+          .body(new ResponseMessage(true, message, null));
     } catch (ResourceNotFoundException e) {
       message = "Not found ";
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
-          .body(new ResponseMessage(false, message));
+          .body(new ResponseMessage(false, message, null));
     }
   }
 
@@ -454,7 +427,7 @@ public class DeviceController {
     message = "Please upload an excel file!";
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
-        .body(new ResponseMessage(false, message));
+        .body(new ResponseMessage(false, message, null));
   }
 
   @GetMapping("/getExcelData2")

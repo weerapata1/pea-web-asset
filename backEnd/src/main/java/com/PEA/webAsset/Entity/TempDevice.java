@@ -43,4 +43,6 @@ public class TempDevice {
     private Timestamp updateAt;
 
     private String empId;
+
+    private Long deviceTypeId;
 }
