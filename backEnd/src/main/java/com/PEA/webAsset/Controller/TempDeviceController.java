@@ -3,6 +3,7 @@ package com.PEA.webAsset.Controller;
 import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Entity.TempDevice;
 import com.PEA.webAsset.Exeption.InvalidDataException;
+import com.PEA.webAsset.Interface.SyncResultDTO;
 import com.PEA.webAsset.Interface.TempDeviceInterface;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
@@ -14,6 +15,7 @@ import com.PEA.webAsset.Share.DeviceService.DeviceService;
 import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 import com.PEA.webAsset.Share.ExcelService.ExcelService;
 import com.PEA.webAsset.Share.ResponseMessage;
+import com.PEA.webAsset.Service.TempDeviceService;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
@@ -69,14 +71,18 @@ public class TempDeviceController {
   @Autowired
   TempDeviceRepository tempDeviceRepository;
 
+  @Autowired
+  TempDeviceService tempDeviceService;
+
   public TempDeviceController(DeviceRepository deviceRepository, ContractRepository commitmentRepository,
       CostCenterRepository costCenterRepository, ExcelService excelService,
-      TempDeviceRepository tempDeviceRepository) {
+      TempDeviceRepository tempDeviceRepository, TempDeviceService tempDeviceService) {
     this.deviceRepository = deviceRepository;
     this.costCenterRepository = costCenterRepository;
     this.commitmentRepository = commitmentRepository;
     this.excelService = excelService;
     this.tempDeviceRepository = tempDeviceRepository;
+    this.tempDeviceService = tempDeviceService;
   }
 
   @PostMapping("/temp_upload")
@@ -133,13 +139,24 @@ public class TempDeviceController {
       response.put("currentPage", pageResult.getNumber());
 
       String message = "Fetched " + pageResult.getNumberOfElements() + " records.";
-        return ResponseEntity.ok(new ResponseMessage(true, message, response));
+      return ResponseEntity.ok(new ResponseMessage(true, message, response));
 
     } catch (Exception e) {
       return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ResponseMessage(false, "Error fetching data", null));
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponseMessage(false, "Error fetching data", null));
     }
+  }
+
+  @PostMapping("/insert_update_master")
+  public ResponseEntity<ResponseMessage> insertUpdateMaster() {
+    // deviceService.insertUpdateFromTemp();
+    SyncResultDTO insertedRows = tempDeviceService.insertUpdateFromTemp();
+    // int rowsAffected = tempDeviceService.insertUpdateFromTemp();
+    // String message = "insertUpdateFromTemp " + insertedRows + " records.";
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(new ResponseMessage(true, "insertUpdateFromTemp complete", insertedRows));
   }
 
 }

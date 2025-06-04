@@ -2,6 +2,7 @@ package com.PEA.webAsset.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
@@ -42,15 +43,20 @@ public class TempDeviceRepositoryImpl implements CustomTempDeviceRepository {
     @Transactional
     @Override
     public void bulkInsertDevices(List<TempDevice> devices) {
-        String sql = "INSERT INTO temp_device (dev_pea_no, dev_description, dev_serial_no, dev_received_date, dev_received_price, dev_left_price, cc_long_code, emp_id, update_at) "
-                +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        // LocalDate today = LocalDate.now();
+        String truncateSql = "TRUNCATE TABLE temp_device";
+        String insertSql = "INSERT INTO temp_device (dev_pea_no, dev_description, dev_serial_no, dev_received_date, dev_received_price, dev_left_price, cc_long_code, emp_id, update_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         Timestamp now = Timestamp.valueOf(LocalDateTime.now());
         System.out.println("now " + now);
 
         entityManager.unwrap(Session.class).doWork(connection -> {
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            try (
+                    Statement truncateStatement = connection.createStatement();
+                    PreparedStatement ps = connection.prepareStatement(insertSql)) {
+
+                truncateStatement.execute(truncateSql);
+
                 for (TempDevice device : devices) {
                     // System.out.println("nowFormatted " + nowFormatted);
                     ps.setString(1, device.getDevPeaNo());

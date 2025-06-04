@@ -3,9 +3,10 @@ package com.PEA.webAsset.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import  jakarta.persistence.*;
+import jakarta.persistence.*;
 //import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Setter
@@ -14,21 +15,19 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @Entity(name = "tb_device")
 @ToString
-@Table(
-    name = "tb_device",
-    indexes = {
-        @Index(name = "idx_cc_long_code", columnList = "cc_long_code"), 
-        @Index(name = "idx_emp_id", columnList = "emp_id") 
-    }
-)
+@Table(name = "tb_device", indexes = {
+        @Index(name = "idx_cc_long_code", columnList = "cc_long_code"),
+        @Index(name = "idx_emp_id", columnList = "emp_id")
+})
 public class tbDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "device_id", unique = true)
     private Long deviceId;
 
+    @Column(name = "dev_pea_no", unique = true)
     private String devPeaNo;
-   
+
     private String devDescription;
 
     private String devSerialNo;
@@ -46,11 +45,14 @@ public class tbDevice {
     @Column(name = "cc_long_code_string", nullable = true)
     private String ccLongCodeString;
 
-    @Column(columnDefinition="tinyint(1) default 0")
+    @Column(columnDefinition = "tinyint(1) default 0")
     private Boolean isDeleted;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
-    private LocalDate devUpdate;
+    // @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
+    // private LocalDate devUpdate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateModified;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
@@ -68,12 +70,11 @@ public class tbDevice {
     @OneToOne(mappedBy = "installedFor")
     private tbEquipment equipment;
 
-    public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
-                    Double devReceivedPrice, Double devLeftPrice, 
-                    tbCostCenter tbCostCenter,
-                    tbEmployee tbEmployee,
-                    LocalDate devUpdate, tbDeviceType device_type_id
-                    ){
+    public tbDevice(String devPeaNo, String devDescription, String devSerialNo, String devReceivedDate,
+            Double devReceivedPrice, Double devLeftPrice,
+            tbCostCenter tbCostCenter,
+            tbEmployee tbEmployee,
+            LocalDateTime dateModified, tbDeviceType device_type_id) {
         this.devPeaNo = devPeaNo;
         this.devDescription = devDescription;
         this.devSerialNo = devSerialNo;
@@ -82,7 +83,7 @@ public class tbDevice {
         this.devLeftPrice = devLeftPrice;
         this.tbCostCenter = tbCostCenter;
         this.tbEmployee = tbEmployee;
-        this.devUpdate = devUpdate;
+        this.dateModified = dateModified;
         this.tbDeviceType = device_type_id;
     }
 }

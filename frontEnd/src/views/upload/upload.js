@@ -91,6 +91,8 @@ export default {
         { text: "Received Price", value: "devReceivedPrice" },
         { text: "Concat Price Date", value: "devConcatPriceDate" },
       ],
+      insertedCount: undefined,
+      softDeletedCount: undefined,
     };
   },
 
@@ -267,6 +269,10 @@ export default {
 
             const mappedRecords = allValidRecords.map((row) => {
               const mapped = {};
+              mapped["devPeaNo"] = `${row["สินทรัพย์"] ?? ""}-${
+                row["SNo."] ?? ""
+              }`.trim();
+
               for (const [thaiKey, backendKey] of Object.entries(
                 this.headerMap
               )) {
@@ -275,7 +281,8 @@ export default {
 
                 if (backendKey === "devReceivedDate") {
                   mapped[backendKey] = formatCapDate(value);
-                } else {
+                } else if (backendKey !== "devPeaNo") {
+                  // Prevent overwriting custom mapping above
                   mapped[backendKey] = value;
                 }
               }
@@ -362,6 +369,15 @@ export default {
         this.noMatchTableItems = result3.data.items;
         console.log("Step 3 done:", this.noMatchTableItems);
 
+        // Step 4
+        const result4 = await this.queryStep4();
+        // this.noMatchTableItems = result3.data.items;
+        // console.log("Step 4 done:", result4);
+        this.insertedCount = result4.data.insertedCount;
+        this.softDeletedCount = result4.data.softDeletedCount;
+        console.log("Step 4 done:", result4);
+        console.log("insertedCount:", this.insertedCount);
+        console.log("softDeletedCount:", this.softDeletedCount);
         // All steps done
 
         this.loading = false;
@@ -454,8 +470,39 @@ export default {
           error?.message ||
           "Unknown error occurred queryStep3";
 
-        console.error("❌ set concat failed:", error);
+        console.error("❌ checking no match entries failed:", error);
         console.error("❌ error message Step3:", message);
+        this.loading = false;
+        throw error; // ❗ rethrow to allow processDB to handle it if needed
+      }
+    },
+
+    async queryStep4() {
+      console.log("inprogress queryStep4");
+      try {
+        const resp = await axios.post(
+          `${process.env.VUE_APP_BASE_URL}/api/dev/insert_update_master`
+        );
+
+        const { success, message } = resp.data;
+
+        if (success) {
+          this.uploadSuccess = true;
+          console.log("📦 success queryStep4:", success);
+        } else {
+          this.uploadSuccess = false;
+          console.log("📦 failed queryStep4:", message);
+        }
+
+        return resp.data; // ✅ this ensures result1 gets a value
+      } catch (error) {
+        const message =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Unknown error occurred queryStep4";
+
+        console.error("❌ insert or update to master failed:", error);
+        console.error("❌ error message Step4:", message);
         this.loading = false;
         throw error; // ❗ rethrow to allow processDB to handle it if needed
       }

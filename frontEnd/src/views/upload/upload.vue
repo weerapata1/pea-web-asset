@@ -160,6 +160,25 @@
           ></v-data-table>
         </v-card>
       </div>
+      <div>
+        <!-- <v-row v-if="insertedCount"> -->
+          <v-row v-if="insertedCount !== undefined && insertedCount !== null">
+          <v-col cols="12">
+            <div class="">
+              ทรัพย์สินที่เพิ่มเข้าไปใหม่ {{ insertedCount }} รายการ
+            </div>
+          </v-col>
+        </v-row>
+      </div>
+      <div>
+        <v-row v-if="softDeletedCount">
+          <v-col cols="12">
+            <div class="">
+              ทรัพย์สินที่หายไปจากการอัพเดทไฟล์ครั้งล่าสุด {{ softDeletedCount }} รายการ
+            </div>
+          </v-col>
+        </v-row>
+      </div>
     </v-layout>
   </v-container>
 </template>
