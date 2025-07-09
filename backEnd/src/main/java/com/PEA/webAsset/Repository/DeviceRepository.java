@@ -30,7 +30,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
-                        "WHERE d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%'", nativeQuery = true)
+                        "WHERE is_deleted = 0 AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
         Page<tbDevice> findAll53(Pageable pageable);
 
         @Query(value = "SELECT * from tb_device d " +
@@ -59,6 +59,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
                         "LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
                         "WHERE d.cc_long_code LIKE CONCAT(:ccLong,'%') " +
+                        "AND is_deleted = 0 " +
                         "AND (d.dev_pea_no LIKE '53%' OR d.dev_pea_no LIKE '501%')", nativeQuery = true)
         Page<Object[]> findDeviceByCcId53(@Param("ccLong") String ccLong, Pageable pageable);
 

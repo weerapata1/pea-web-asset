@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 @Entity(name = "temp_device")
 @Table(name = "temp_device", indexes = {
         @Index(name = "idx_cc_long_code", columnList = "cc_long_code"),
-        @Index(name = "idx_emp_id", columnList = "emp_id")
+        @Index(name = "idx_emp_id", columnList = "emp_id"),
+        @Index(name = "idx_dev_pea_no", columnList = "dev_pea_no")
 })
 public class TempDevice {
     @Id
@@ -23,6 +24,7 @@ public class TempDevice {
     @Column(name = "device_id", unique = true)
     private Long deviceId;
 
+    @Column(name = "dev_pea_no", unique = true)
     private String devPeaNo;
 
     private String devDescription;
@@ -45,4 +47,12 @@ public class TempDevice {
     private String empId;
 
     private Long deviceTypeId;
+
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
+    // private tbCostCenter tbCostCenter;
+
+    // @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", nullable = true) // Reference emp_id in tbEmployee
+    // private tbEmployee tbEmployee;
 }
