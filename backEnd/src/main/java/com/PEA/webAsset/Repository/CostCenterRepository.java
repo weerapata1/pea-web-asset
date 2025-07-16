@@ -14,7 +14,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface CostCenterRepository extends JpaRepository<tbCostCenter, Long> {
     
-    // @Query("SELECT c FROM tbCostCenter c WHERE c.ccLongCode = :ccLongCode")
     Optional<tbCostCenter> findByCcLongCode(String ccLongCode);
 
     tbCostCenter findCcIdByCcFullName(String ccFullName);

@@ -20,8 +20,10 @@ TempDeviceRepository tempDeviceRepository;
         // tempDeviceRepository.insertFromTemp(); // Step 2: Insert new records
         int insertedCount = tempDeviceRepository.insertFromTemp();
 
+        int insertedCount2 = tempDeviceRepository.insertFromTemp2();
+
         int softDelete = tempDeviceRepository.softDeleteMissingDevices();
 
-        return new SyncResultDTO(insertedCount, softDelete);
+        return new SyncResultDTO(insertedCount, insertedCount2, softDelete);
     }
 }

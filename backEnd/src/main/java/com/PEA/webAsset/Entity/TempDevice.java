@@ -39,20 +39,22 @@ public class TempDevice {
 
     private String devConcatPriceDate;
 
-    private String ccLongCode;
+    @Column(name = "cc_long_code_string", nullable = true)
+    private String ccLongCodeString;
 
     @Column(name = "update_at")
     private Timestamp updateAt;
 
-    private String empId;
+    @Column(name = "emp_id_string", nullable = true)
+    private String empIdString;
 
     private Long deviceTypeId;
 
-    // @ManyToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
-    // private tbCostCenter tbCostCenter;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
+    private tbCostCenter tbCostCenter;
 
-    // @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", nullable = true) // Reference emp_id in tbEmployee
-    // private tbEmployee tbEmployee;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", nullable = true) // Reference emp_id in tbEmployee
+    private tbEmployee tbEmployee;
 }

@@ -78,8 +78,8 @@ export default {
         "Cap.date": "devReceivedDate",
         มูลค่าการได้มา: "devReceivedPrice",
         มูลค่าตามบัญชี: "devLeftPrice",
-        "ศ.ต้นทุน": "ccLongCode",
-        "Pers.No.": "empId",
+        "ศ.ต้นทุน": "ccLongCodeString",
+        "Pers.No.": "empIdString",
       },
       uploadFinish: false,
       uploadFinishtime: Date.now(),
@@ -92,6 +92,7 @@ export default {
         { text: "Concat Price Date", value: "devConcatPriceDate" },
       ],
       insertedCount: undefined,
+      insertedCount2: undefined,
       softDeletedCount: undefined,
     };
   },
@@ -374,9 +375,11 @@ export default {
         // this.noMatchTableItems = result3.data.items;
         // console.log("Step 4 done:", result4);
         this.insertedCount = result4.data.insertedCount;
+        this.insertedCount2 = result4.data.insertedCount2;
         this.softDeletedCount = result4.data.softDeletedCount;
         console.log("Step 4 done:", result4);
         console.log("insertedCount:", this.insertedCount);
+        console.log("insertedCount2:", this.insertedCount2);
         console.log("softDeletedCount:", this.softDeletedCount);
         // All steps done
 

@@ -165,7 +165,7 @@
           <v-row v-if="insertedCount !== undefined && insertedCount !== null">
           <v-col cols="12">
             <div class="">
-              ทรัพย์สินที่เพิ่มเข้าไปใหม่ {{ insertedCount }} รายการ
+              ทรัพย์สินที่เพิ่มเข้าไปใหม่ {{ insertedCount + insertedCount2 }} รายการ
             </div>
           </v-col>
         </v-row>
