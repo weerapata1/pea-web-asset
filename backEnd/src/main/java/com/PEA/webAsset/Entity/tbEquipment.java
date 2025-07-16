@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @Table(name = "tbEquipment")
 @ToString
-public class tbEquipment {
+public class tbEquipment { //use for store in depart
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "equipment_seq")
     @SequenceGenerator(name = "equipment_seq",sequenceName = "equipment_seq")

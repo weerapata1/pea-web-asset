@@ -11,6 +11,9 @@ import java.util.Collection;
 @RepositoryRestResource
 public interface RepairRepository extends JpaRepository<tbRepair ,Long> {
 
+    @Query(value = "Select Count(repair_id) from tb_repair ",nativeQuery = true)
+    String findSequentOfRepair();
+
 //    @Query(value = "SELECT * FROM tbRepair t" +
 //            "WHERE r.emp_id = :empId",nativeQuery = true)
 //    Collection<tbRepair> findByEmpId(@Param("empId")String empId);

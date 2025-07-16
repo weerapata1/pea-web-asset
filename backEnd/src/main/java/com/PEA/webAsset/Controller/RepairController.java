@@ -78,10 +78,15 @@ public class RepairController {
 //    public Collection<tbRepair> getByLocation(@RequestParam("location") String location) {
 //        return repairRepository.findDeviceRepairByLocation(location);
 //    }
+    @GetMapping("/sequent")
+    public String getSeq(){
+        return repairRepository.findSequentOfRepair();
+    }
 
     @PostMapping("/createRepairReport/{peaNo}")
     public ResponseEntity createRepairReport(@RequestBody tbRepair repair, @PathVariable(name= "peaNo") String peaNo){
         try {
+
             if(CategoryOfItEquipment(peaNo)){
                 Optional<tbDevice> deviceTemp = Optional.ofNullable(this.deviceRepository.findAllByDevPeaNo(peaNo));
                 if(deviceTemp.isPresent()){

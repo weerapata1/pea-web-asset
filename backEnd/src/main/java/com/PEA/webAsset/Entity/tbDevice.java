@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Table(name = "tb_device")
 @Entity(name = "tb_device")
 @ToString
-public class tbDevice {
+public class tbDevice { // use for
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")
     @SequenceGenerator(name = "dev_seq", sequenceName = "dev_seq")

@@ -19,11 +19,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class tbRepair {
+//    @Id
+//    @GenericGenerator( name = "user_id_seq", type = CustomIdGenerator.class, parameters = {
+//            @org.hibernate.annotations.Parameter( name = CustomIdGenerator.VALUE_PREFIX_PARAMETER, value = "rp--" ),
+//            @org.hibernate.annotations.Parameter( name = CustomIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%06d" ) } )
+//    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "user_id_seq" )
+//
     @Id
-    @GenericGenerator( name = "user_id_seq", type = CustomIdGenerator.class, parameters = {
-            @org.hibernate.annotations.Parameter( name = CustomIdGenerator.VALUE_PREFIX_PARAMETER, value = "rp-67-" ),
-            @org.hibernate.annotations.Parameter( name = CustomIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%06d" ) } )
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "user_id_seq" )
+    @SequenceGenerator(name = "repairId",sequenceName = "repairId")
+    @GeneratedValue(strategy = GenerationType.AUTO ,generator = "repairId")
+    private Long repairId;
 
     @Column(name = "repair_no_id")
     private String repairNoId;
