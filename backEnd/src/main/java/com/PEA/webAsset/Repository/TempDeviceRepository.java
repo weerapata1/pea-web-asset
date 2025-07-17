@@ -78,30 +78,30 @@ public interface TempDeviceRepository extends JpaRepository<TempDevice, Long>, C
         // @Modifying
         // @Transactional
         // @Query(value = "INSERT INTO tb_device (\r\n" + //
-        //                 "  dev_pea_no,\r\n" + //
-        //                 "  dev_description,\r\n" + //
-        //                 "  dev_received_date,\r\n" + //
-        //                 "  dev_received_price,\r\n" + //
-        //                 "  dev_concat_price_date,\r\n" + //
-        //                 "  is_deleted,\r\n" + //
-        //                 "  date_modified\r\n" + //
-        //                 ")\r\n" + //
-        //                 "SELECT \r\n" + //
-        //                 "  t.dev_pea_no,\r\n" + //
-        //                 "  t.dev_description,\r\n" + //
-        //                 "  t.dev_received_date,\r\n" + //
-        //                 "  t.dev_received_price,\r\n" + //
-        //                 "  t.dev_concat_price_date,\r\n" + //
-        //                 "  0,\r\n" + //
-        //                 "  CURRENT_TIMESTAMP()\r\n" + //
-        //                 "FROM temp_device t\r\n" + //
-        //                 "ON DUPLICATE KEY UPDATE\r\n" + //
-        //                 "  tb_device.dev_description = VALUES(dev_description),\r\n" + //
-        //                 "  tb_device.dev_received_date = VALUES(dev_received_date),\r\n" + //
-        //                 "  tb_device.dev_received_price = VALUES(dev_received_price),\r\n" + //
-        //                 "  tb_device.dev_concat_price_date = VALUES(dev_concat_price_date),\r\n" + //
-        //                 "  tb_device.is_deleted = 0,\r\n" + //
-        //                 "  tb_device.date_modified = CURRENT_TIMESTAMP();", nativeQuery = true)
+        // " dev_pea_no,\r\n" + //
+        // " dev_description,\r\n" + //
+        // " dev_received_date,\r\n" + //
+        // " dev_received_price,\r\n" + //
+        // " dev_concat_price_date,\r\n" + //
+        // " is_deleted,\r\n" + //
+        // " date_modified\r\n" + //
+        // ")\r\n" + //
+        // "SELECT \r\n" + //
+        // " t.dev_pea_no,\r\n" + //
+        // " t.dev_description,\r\n" + //
+        // " t.dev_received_date,\r\n" + //
+        // " t.dev_received_price,\r\n" + //
+        // " t.dev_concat_price_date,\r\n" + //
+        // " 0,\r\n" + //
+        // " CURRENT_TIMESTAMP()\r\n" + //
+        // "FROM temp_device t\r\n" + //
+        // "ON DUPLICATE KEY UPDATE\r\n" + //
+        // " tb_device.dev_description = VALUES(dev_description),\r\n" + //
+        // " tb_device.dev_received_date = VALUES(dev_received_date),\r\n" + //
+        // " tb_device.dev_received_price = VALUES(dev_received_price),\r\n" + //
+        // " tb_device.dev_concat_price_date = VALUES(dev_concat_price_date),\r\n" + //
+        // " tb_device.is_deleted = 0,\r\n" + //
+        // " tb_device.date_modified = CURRENT_TIMESTAMP();", nativeQuery = true)
         // int upsertFromTempDevice();
 
         @Modifying
@@ -121,7 +121,7 @@ public interface TempDeviceRepository extends JpaRepository<TempDevice, Long>, C
         @Query(value = "INSERT INTO tb_device (\r\n" + //
                         " cc_long_code_string,date_modified,dev_concat_price_date,\r\n" + //
                         " dev_description,dev_left_price,dev_pea_no,\r\n" + //
-                        " dev_received_date,dev_received_price,dev_serial_no,\r\n" + //                        
+                        " dev_received_date,dev_received_price,dev_serial_no,\r\n" + //
                         " emp_id_string,is_deleted,cc_long_code,device_type_id,emp_id)\r\n" + //
                         " SELECT\r\n" + //
                         " t.cc_long_code,CURRENT_TIMESTAMP,t.dev_concat_price_date,\r\n" + //
@@ -138,7 +138,7 @@ public interface TempDeviceRepository extends JpaRepository<TempDevice, Long>, C
         @Query(value = "INSERT INTO tb_device (\r\n" + //
                         " cc_long_code_string,date_modified,dev_concat_price_date,\r\n" + //
                         " dev_description,dev_left_price,dev_pea_no,\r\n" + //
-                        " dev_received_date,dev_received_price,dev_serial_no,\r\n" + //                        
+                        " dev_received_date,dev_received_price,dev_serial_no,\r\n" + //
                         " emp_id_string,is_deleted,cc_long_code,device_type_id,emp_id)\r\n" + //
                         " SELECT\r\n" + //
                         " t.cc_long_code,CURRENT_TIMESTAMP,t.dev_concat_price_date,\r\n" + //
@@ -151,11 +151,25 @@ public interface TempDeviceRepository extends JpaRepository<TempDevice, Long>, C
                         " AND NOT EXISTS (SELECT 1 FROM tb_employee e WHERE e.emp_id = t.emp_id);", nativeQuery = true)
         int insertFromTemp2();
 
+        // @Modifying
+        // @Query(value = "START TRANSACTION;\r\n" + //
+        // " LOCK TABLES tb_device WRITE, temp_device READ;\r\n" + //
+        // " UPDATE tb_device SET tb_device.is_deleted = 1,\r\n" + //
+        // " tb_device.date_modified = CURRENT_TIMESTAMP()\r\n" + //
+        // " WHERE tb_device.dev_pea_no NOT IN (SELECT temp_device.dev_pea_no FROM
+        // temp_device)\r\n" + //
+        // " AND tb_device.is_deleted = 0 LIMIT 10000;\r\n" + //
+        // " UNLOCK TABLES; COMMIT;", nativeQuery = true)
+        // int softDeleteMissingDevices();
+
+        @Transactional
         @Modifying
-        @Query(value = "UPDATE tb_device d\r\n" + //
+        @Query(value = "UPDATE tb_device d \r\n" + //
                         " SET d.is_deleted = 1,\r\n" + //
                         " d.date_modified = CURRENT_TIMESTAMP()\r\n" + //
-                        " WHERE NOT EXISTS (\r\n" + //
-                        " SELECT 1 FROM temp_device t WHERE t.dev_pea_no = d.dev_pea_no)", nativeQuery = true)
+                        " WHERE d.dev_pea_no NOT IN (\r\n" + //
+                        " SELECT t.dev_pea_no FROM temp_device t)\r\n" + //
+                        " AND d.is_deleted = 0\r\n" + //
+                        " LIMIT 10000;", nativeQuery = true)
         int softDeleteMissingDevices();
 }

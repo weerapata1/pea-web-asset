@@ -45,7 +45,8 @@ export default {
         "ค่าเสื่อมสะสม",
         "มูลค่าตามบัญชี",
         "Pers.No.",
-        "เลขที่ผลิตภัณฑ์",
+        // "เลขที่ผลิตภัณฑ์",
+        "Serial No.",
       ],
       tableItems: [],
       tableHeaders: [
@@ -74,7 +75,8 @@ export default {
       headerMap: {
         สินทรัพย์: "devPeaNo",
         คำอธิบายของสินทรัพย์: "devDescription",
-        เลขที่ผลิตภัณฑ์: "devSerialNo",
+        // เลขที่ผลิตภัณฑ์: "devSerialNo",
+        "Serial no.": "devSerialNo",
         "Cap.date": "devReceivedDate",
         มูลค่าการได้มา: "devReceivedPrice",
         มูลค่าตามบัญชี: "devLeftPrice",
@@ -248,7 +250,8 @@ export default {
             this.tableItems = previewRows.map((item) => ({
               devPeaNo: `${item["สินทรัพย์"] ?? ""}-${item["SNo."] ?? ""}`,
               dev_description: item["คำอธิบายของสินทรัพย์"] ?? "",
-              dev_serial_no: item["เลขที่ผลิตภัณฑ์"] ?? "",
+              // dev_serial_no: item["เลขที่ผลิตภัณฑ์"] ?? "",
+              dev_serial_no: item["Serial no."] ?? "",
               emp_id: item["Pers.No."] ?? "",
               cc_long_code: item["ศ.ต้นทุน"] ?? "",
               dev_received_price: item["มูลค่าการได้มา"] ?? "",
