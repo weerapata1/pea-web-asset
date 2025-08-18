@@ -3,13 +3,13 @@ package com.PEA.webAsset.Controller;
 import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Entity.tbRepair;
 import com.PEA.webAsset.Repository.*;
+import com.PEA.webAsset.Service.RepairService;
 import com.PEA.webAsset.Share.DateService.DateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -78,40 +78,42 @@ public class RepairController {
 //    public Collection<tbRepair> getByLocation(@RequestParam("location") String location) {
 //        return repairRepository.findDeviceRepairByLocation(location);
 //    }
-    @GetMapping("/sequent")
-    public String getSeq(){
-        return repairRepository.findSequentOfRepair();
-    }
+
 
     @PostMapping("/createRepairReport/{peaNo}")
-    public ResponseEntity createRepairReport(@RequestBody tbRepair repair, @PathVariable(name= "peaNo") String peaNo){
-        try {
+    public String gemPerfix(){
+        return RepairService.GeneratePrefixNumber();
 
-            if(CategoryOfItEquipment(peaNo)){
-                Optional<tbDevice> deviceTemp = Optional.ofNullable(this.deviceRepository.findAllByDevPeaNo(peaNo));
-                if(deviceTemp.isPresent()){
-                    tbRepair newRepair = new tbRepair();
-                    newRepair.setSendPhoneNum(repair.getSendPhoneNum());
-                    newRepair.setSendDate(DateService.localDateNow());
-                    newRepair.setDamageDetail(repair.getDamageDetail());
-                    newRepair.setRepairStatus(repairStatusRepository.findStatusById(1L));
-                    newRepair.setDevice(deviceRepository.findAllByDevPeaNo(peaNo));
-
-                    tbRepair newRepairs = repairRepository.save(newRepair);
-                    return new ResponseEntity<>(newRepairs ,HttpStatus.CREATED);
-                }
-                else {
-                    System.out.println("Can not Create Repair Device Is Not Found " + peaNo);
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not Create Repair Device Is Not Found " + peaNo);
-                }
-            }else {
-                System.out.println("Can not Create Repair PEA_Number Is Not Collect " + peaNo);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not Create Repair PEA_Number Is Not Collect " + peaNo);
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException("can not createRepairReport : " + e.getMessage());
-        }
+//    public ResponseEntity createRepairReport(@RequestBody tbRepair repair, @PathVariable(name= "peaNo") String peaNo){
+//        String seqTemp = RepairService.GeneratePrefixNumber();
+//        try {
+//
+//            if(CategoryOfItEquipment(peaNo)){
+//                Optional<tbDevice> deviceTemp = Optional.ofNullable(this.deviceRepository.findAllByDevPeaNo(peaNo));
+//                if(deviceTemp.isPresent()){
+//                    tbRepair newRepair = new tbRepair();
+//                    newRepair.setSendPhoneNum(repair.getSendPhoneNum());
+//                    newRepair.setRepairNoId(seqTemp);
+//                    newRepair.setSendDate(DateService.localDateNow());
+//                    newRepair.setDamageDetail(repair.getDamageDetail());
+//                    newRepair.setRepairStatus(repairStatusRepository.findStatusById(1L));
+//                    newRepair.setDevice(deviceRepository.findAllByDevPeaNo(peaNo));
+//
+//                    tbRepair newRepairs = repairRepository.save(newRepair);
+//                    return new ResponseEntity<>(newRepairs ,HttpStatus.CREATED);
+//                }
+//                else {
+//                    System.out.println("Can not Create Repair Device Is Not Found " + peaNo);
+//                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not Create Repair Device Is Not Found " + peaNo);
+//                }
+//            }else {
+//                System.out.println("Can not Create Repair PEA_Number Is Not Collect " + peaNo);
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can not Create Repair PEA_Number Is Not Collect " + peaNo);
+//            }
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException("can not createRepairReport : " + e.getMessage());
+//        }
 
     }
 

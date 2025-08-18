@@ -12,7 +12,7 @@ import java.util.Collection;
 public interface RepairRepository extends JpaRepository<tbRepair ,Long> {
 
     @Query(value = "Select Count(repair_id) from tb_repair ",nativeQuery = true)
-    String findSequentOfRepair();
+    Long findSequentOfRepair();
 
 //    @Query(value = "SELECT * FROM tbRepair t" +
 //            "WHERE r.emp_id = :empId",nativeQuery = true)

@@ -44,6 +44,7 @@ export default {
   },
   data() {
     return {
+      e6: 1,
       valid: false,
       dialogNote: false,
       dialogRechk: false,
