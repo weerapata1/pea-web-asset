@@ -31,11 +31,11 @@ public class tbEquipment { //use for store in depart
     private Boolean isActivated;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "installedFor", insertable = true, referencedColumnName = "id")
+    @JoinColumn(name = "installedFor", insertable = true, referencedColumnName = "device_id")
     private tbDevice installedFor;
 
     @ManyToOne(targetEntity = tbDeviceType.class,fetch = FetchType.EAGER)
-    @JoinColumn(name = "deviceType", insertable = true, referencedColumnName = "dt_id")
+    @JoinColumn(name = "deviceType", insertable = true, referencedColumnName = "device_type_id")
     private tbDeviceType deviceType;
 
     @ManyToOne(targetEntity = tbEquipmentLocation.class, fetch = FetchType.EAGER)

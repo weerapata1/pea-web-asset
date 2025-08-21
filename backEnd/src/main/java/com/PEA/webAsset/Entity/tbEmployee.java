@@ -14,11 +14,13 @@ import  jakarta.persistence.*;
 @Table(name = "tb_employee")
 @ToString
 public class tbEmployee {
+    // @Id
+    // @SequenceGenerator(name = "emp_seq", sequenceName = "emp_seq")
+    // @GeneratedValue(strategy = GenerationType.AUTO,generator = "emp_seq")
+    // @Column(name = "employee_id", unique = true, nullable = false)
+    // private Long employeeId;
+    
     @Id
-    @SequenceGenerator(name = "emp_seq", sequenceName = "emp_seq")
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "emp_seq")
-    private Long id;
-
     @Column(name = "emp_id", unique = true, nullable = false)
     private String empId; // รหัสพนักงาน
 
@@ -53,6 +55,5 @@ public class tbEmployee {
         this.empRank = empRank;
 
     }
-
 
 }

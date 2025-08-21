@@ -1,6 +1,7 @@
 package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbDevice;
+import com.PEA.webAsset.Entity.TempDevice;
 import com.PEA.webAsset.Exeption.InvalidDataException;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,6 +34,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 // @CrossOrigin("*")
 @RestController
@@ -98,8 +105,9 @@ public class DeviceController {
   public tbDevice getDeviceByPeaNo(@RequestParam("PeaNo") String PeaNo) {
     return deviceRepository.findAllByDevPeaNo(PeaNo);
   }
+
   @GetMapping("/getDeviceByPeaNo/{peaNo}")
-  public tbDevice getDeviceByPeaNoWithPathVariable(@PathVariable(name= "peaNo") String peaNo) {
+  public tbDevice getDeviceByPeaNoWithPathVariable(@PathVariable(name = "peaNo") String peaNo) {
     return deviceRepository.findAllByDevPeaNo(peaNo);
   }
 
@@ -162,61 +170,6 @@ public class DeviceController {
     }
   }
 
-  // @GetMapping("/getAllByPattern2")
-  // public ResponseEntity<Map<String, Object>> Pattern2(
-  // @RequestParam(defaultValue = "0") int page,
-  // @RequestParam(defaultValue = "30") int size,
-  // @RequestParam("region") String region,
-  // @RequestParam("setAssetType") String setAssetType
-  // ) {
-  // System.out.println("setAssetType " + setAssetType);
-
-  // try {
-  // List<tbDevice> device = new ArrayList<tbDevice>();
-  // Pageable paging = PageRequest.of(page, size);
-  // Page<tbDevice> pageTuts = null;findDeviceByCcId53
-  // if (setAssetType.equals("53")) {
-  // System.out.println("Pattern2-53");
-  // pageTuts =
-  // (region.length() > 0)
-  // ? deviceRepository.findDeviceByCcId53(region, paging)
-  // : null;
-  // } else if (setAssetType.equals("153")) {
-  // System.out.println("Pattern2-153");
-  // pageTuts =
-  // (region.length() > 0)
-  // ? deviceRepository.findDeviceByCcId153(region, paging)
-  // : null;
-  // } else if (setAssetType.equals("all")) {
-  // System.out.println("Pattern2-all");
-  // pageTuts =
-  // (region.length() > 0)
-  // ? deviceRepository.findDeviceByCcId(region, paging)
-  // : null;
-  // } else if (setAssetType.equals("1all")) {
-  // System.out.println("Pattern2-1all");
-  // pageTuts =
-  // (region.length() > 0)
-  // ? deviceRepository.findDeviceByCcId1all(region, paging)
-  // : null;
-  // }
-  // device = pageTuts.getContent();
-  // System.out.println(pageTuts);
-
-  // System.out.println(device);
-
-  // Map<String, Object> response = new HashMap<>();
-  // response.put("currentPage", pageTuts.getNumber());
-  // response.put("totalItems", pageTuts.getTotalElements());
-  // response.put("totalPages", pageTuts.getTotalPages());
-  // response.put("data1", device);
-  // response.put("itemsPerPage", size);
-  // return new ResponseEntity<>(response, HttpStatus.OK);
-  // } catch (Exception e) {
-  // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-  // }
-  // }
-
   @GetMapping("/searchNoWordUnpage")
   public ResponseEntity<Map<String, Object>> Patternunpage(
       @RequestParam("region") String region,
@@ -224,9 +177,9 @@ public class DeviceController {
     // System.out.println("setAssetType=" + setAssetType + " region=" + region);
 
     try {
-      List<tbDevice> device = new ArrayList<tbDevice>();
+      List<Object[]> device = new ArrayList<Object[]>();
       Pageable paging = Pageable.unpaged();
-      Page<tbDevice> pageTuts = null;
+      Page<Object[]> pageTuts = null;
       if (region.equals("E3") || region.equals("E3010")) {
         System.out.println("setAssetType=" + setAssetType + " region=" + region);
         if (setAssetType.equals("53")) {
@@ -275,9 +228,6 @@ public class DeviceController {
         }
       }
       device = pageTuts.getContent();
-      // System.out.println(pageTuts);
-
-      // System.out.println(device);
 
       Map<String, Object> response = new HashMap<>();
       response.put("currentPage", pageTuts.getNumber());
@@ -299,13 +249,13 @@ public class DeviceController {
       @RequestParam("textSearch") String textSearch,
       @RequestParam("setAssetType") String setAssetType) {
     try {
-      List<tbDevice> device = new ArrayList<tbDevice>();
+      List<Object[]> device = new ArrayList<Object[]>();
       Pageable paging = Pageable.unpaged();
-      Page<tbDevice> pageTuts = null;
+      Page<Object[]> pageTuts = null;
 
       if (region.equals("E3") || region.equals("E3010")) {
         if (setAssetType.equals("53")) {
-          System.out.println("searchWithWord-53");
+          System.out.println("searchWithWord-53zc");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch53zc(
                   region,
@@ -339,7 +289,7 @@ public class DeviceController {
         }
       } else {
         if (setAssetType.equals("53")) {
-          System.out.println("searchWithWord-53");
+          System.out.println("searchWithWord-53-53");
           pageTuts = (region.length() > 0)
               ? deviceRepository.findDeviceByCcIdAndTextSearch53(
                   region,
@@ -392,154 +342,52 @@ public class DeviceController {
     }
   }
 
-  // @GetMapping("/getAllByPattern")
-  // public ResponseEntity<Map<String, Object>> getAllByPattern(
-  // @RequestParam(defaultValue = "0") int page,
-  // @RequestParam(defaultValue = "30") int size,
-  // @RequestParam("test1") String test1[]
-  // ) {
-  // String peaNo = test1[0];
-  // String empId = test1[1];
-  // String empName = test1[2];
-  // String ccLong = test1[3];
-
-  // try {
-  // List<tbDevice> device = new ArrayList<tbDevice>();
-  // Pageable paging = PageRequest.of(page, size);
-
-  // Page<tbDevice> XX = deviceRepository.findDeviceByPeaNoOrEmpIdOrEmpNameAndCC(
-  // peaNo,
-  // empId,
-  // empName,
-  // ccLong,
-  // paging
-  // );
-  // Page<tbDevice> YY = deviceRepository.findDeviceByEmpIdOrEmpNameAndCC(
-  // empId,
-  // empName,
-  // ccLong,
-  // paging
-  // );
-  // Page<tbDevice> pageTuts = (peaNo.length() > 0) ? XX : YY;
-
-  // System.out.println("paging : " + paging);
-
-  // device = pageTuts.getContent();
-  // Map<String, Object> response = new HashMap<>();
-  // response.put("currentPage", pageTuts.getNumber());
-  // response.put("totalItems", pageTuts.getTotalElements());
-  // response.put("totalPages", pageTuts.getTotalPages());
-  // response.put("data1", device);
-  // return new ResponseEntity<>(response, HttpStatus.OK);
-  // } catch (Exception e) {
-  // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-  // }
-  // }
-
-  // @PostMapping("/upload")
-  // public ResponseEntity<ResponseMessage> importExcelFile(
-  // @RequestParam("file") MultipartFile files)
-  // throws IOException {
-  // String message = "";
-  // if (ExcelHelper.hasExcelFormat(files)) {
-  // try {
-  // List<tbDevice> deviceList = deviceService.saveDevice(files);
-  // deviceRepository.saveAll(deviceList);
-
-  // message = "Uploaded the file successfully: " +
-  // files.getOriginalFilename() +
-  // "\n";
-  // return ResponseEntity
-  // .status(HttpStatus.OK)
-  // .body(new ResponseMessage(message));
-  // } catch (Exception e) {
-  // message = "Could not upload the file: " +
-  // files.getOriginalFilename() +
-  // e.getMessage();
-  // return ResponseEntity
-  // .status(HttpStatus.EXPECTATION_FAILED)
-  // .body(new ResponseMessage(message));
-  // }
-  // }
-  // message = "Please upload an excel file!";
-  // return ResponseEntity
-  // .status(HttpStatus.BAD_REQUEST)
-  // .body(new ResponseMessage(message));
-  // }
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> importExcelFile(
       @RequestParam("file") MultipartFile file) throws IOException {
 
     String message;
 
-    // Validate if the file is an Excel file
     if (!ExcelHelper.hasExcelFormat(file)) {
       message = "Please upload a valid Excel file!";
       return ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message, null));
     }
 
     try {
-      // Parse and save the Excel data
+      System.err.println("try to saveDevice");
       List<tbDevice> deviceList = deviceService.saveDevice(file);
 
-      // Check if the list is empty (e.g., no valid rows in Excel)
       if (deviceList.isEmpty()) {
         message = "The uploaded file contains no valid data!";
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(new ResponseMessage(message));
+            .body(new ResponseMessage(false, message, null));
       }
 
-      // Save all devices to the database
       deviceRepository.saveAll(deviceList);
 
-      // Success message
       message = "Uploaded the file successfully: " + file.getOriginalFilename();
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(true, message, null));
     } catch (InvalidDataException e) {
-      // Custom exception handling for invalid data
       message = "The file contains invalid data: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.UNPROCESSABLE_ENTITY)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message, null));
     } catch (Exception e) {
-      // General error handling
       message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
       return ResponseEntity
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message, null));
     }
   }
 
-  @PostMapping("/posT")
-  public ResponseEntity<ResponseMessage> posT(
-      @RequestParam("dev_serialNo") String dev_serialNo,
-      @RequestParam("dev_note") String dev_note,
-      @RequestParam("dev_description") String dev_description,
-      @RequestParam("dev_peaNo") String dev_peaNo,
-      @RequestParam("tbCostCenter") String tbCostCenter) {
-    String message;
-    try {
-      deviceService.postDevice(
-          dev_serialNo,
-          dev_note,
-          dev_description,
-          dev_peaNo,
-          tbCostCenter);
-      message = "POST OK \n";
-      return ResponseEntity
-          .status(HttpStatus.CREATED)
-          .body(new ResponseMessage(message));
-    } catch (Exception e) {
-      message = "POST NOT OK : " + e.getMessage();
-      return ResponseEntity
-          .status(HttpStatus.BAD_REQUEST)
-          .body(new ResponseMessage(message));
-    }
+  @PostMapping("/test-upload")
+  public ResponseEntity<String> testUpload(@RequestParam("file") MultipartFile file) {
+    return ResponseEntity.ok("File received: " + file.getOriginalFilename());
   }
 
   @PutMapping("/updateDevice")
@@ -558,12 +406,12 @@ public class DeviceController {
       message = "update is OK";
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(true, message, null));
     } catch (ResourceNotFoundException e) {
       message = "Not found ";
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
-          .body(new ResponseMessage(message));
+          .body(new ResponseMessage(false, message, null));
     }
   }
 
@@ -579,7 +427,7 @@ public class DeviceController {
     message = "Please upload an excel file!";
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
-        .body(new ResponseMessage(message));
+        .body(new ResponseMessage(false, message, null));
   }
 
   @GetMapping("/getExcelData2")
@@ -652,27 +500,6 @@ public class DeviceController {
             ? deviceRepository.findDeviceForExcel53search(region, textSearch)
             : null;
       }
-      // else if (setAssetType.equals("153")) {
-      // System.out.println("Pattern2-153");
-      // pageTuts = (region.length() > 0)
-      // ? deviceRepository.findDeviceByCcIdAndTextSearch153(region, textSearch,
-      // paging)
-      // : null;
-      // }else if (setAssetType.equals("all")) {
-      // System.out.println("Pattern2-all");
-      // pageTuts = (region.length() > 0)
-      // ? deviceRepository.findDeviceByCcIdAndTextSearch(region, textSearch, paging)
-      // : null;
-      // } else if (setAssetType.equals("1all")) {
-      // System.out.println("Pattern2-all");
-      // pageTuts = (region.length() > 0)
-      // ? deviceRepository.findDeviceByCcIdAndTextSearch1all(region, textSearch,
-      // paging)
-      // : null;
-      // }
-
-      // device = pageTuts.getContent();
-      // System.out.println(pageTuts);
 
       System.out.println(device);
 
@@ -688,28 +515,18 @@ public class DeviceController {
     }
   }
 
-  @GetMapping("/redirectgoogle")
-  public Map<String, String> redirectGoogle() {
-    Map<String, String> response = new HashMap<>();
-    response.put("redirectUrl", "https://www.google.com");
-    return response;
-  }
-
-  @GetMapping("/test")
-  public String testEndpoint() {
-    return "CORS is working!";
-  }
-
   @GetMapping("/getDevice53unpageByccId")
-  public ResponseEntity<Map<String, Object>> getDevice53unpageByccId(
+  public ResponseEntity<Map<String, Object>> Pattern2(
+
       @RequestParam("region") String region,
-      @RequestParam("dt_id") String dt_id) {
+      @RequestParam("device_type_id") String device_type_id) {
     try {
-      List<tbDevice> device = new ArrayList<tbDevice>();
+      System.out.println("/getDevice53unpageByccId");
+      List<Object[]> device = new ArrayList<Object[]>();
       Pageable paging = Pageable.unpaged();
 
-      Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccId(
-          region, dt_id, paging);
+      Page<Object[]> pageTuts = deviceRepository.getDevice53unpageByccId(
+          region, device_type_id, paging);
       device = pageTuts.getContent();
 
       Map<String, Object> response = new HashMap<>();
@@ -726,14 +543,14 @@ public class DeviceController {
   @GetMapping("/getDevice53unpageByccIdOnly7Year")
   public ResponseEntity<Map<String, Object>> getDevice53unpageByccIdOnly7Year(
       @RequestParam("region") String region,
-      @RequestParam("dt_id") String dt_id) {
+      @RequestParam("device_type_id") String device_type_id) {
     try {
 
       List<tbDevice> device = new ArrayList<tbDevice>();
       Pageable paging = Pageable.unpaged();
 
       Page<tbDevice> pageTuts = deviceRepository.getDevice53unpageByccIdOnly7Year(
-          region, dt_id, paging);
+          region, device_type_id, paging);
       device = pageTuts.getContent();
       System.out.println("Device : " + device);
 
@@ -761,70 +578,97 @@ public class DeviceController {
     return "Hello World";
   }
 
-  String requestData2 = "{\r\n" + //
-      "    \"templateProjectPath\": \"sample/ams/506027-fixform.dito\",\r\n" + //
-      "    \"templateName\": \"output\",\r\n" + //
-      "    \"pdfVersion\": \"1.7\",\r\n" + //
-      "    \"data\": {\r\n" + //
-      "        \"cost_center_name\": \"กฟส.กทล.\",\r\n" + //
-      "        \"date\": \"19 มิ.ย. 2567\",\r\n" + //
-      "        \"type_other\": \"\",\r\n" + //
-      "        \"brand\": \"HP\",\r\n" + //
-      "        \"model\": \"ProDesk 600 G5\",\r\n" + //
-      "        \"contract\": \"บ.75/2563\",\r\n" + //
-      "        \"serial\": \"4CE03526C6\",\r\n" + //
-      "        \"pea_no\": \"5330404643\",\r\n" + //
-      "        \"problem\": \"ฮาร์ดิสชำรุด\",\r\n" + //
-      "        \"emp_name\": \"นายอนุสรณ์ อมรรัตนศักดิ์\",\r\n" + //
-      "        \"emp_role\": \"พบค.7\",\r\n" + //
-      "        \"emp_id\": \"499857\",\r\n" + //
-      "        \"tel\": \"(22)14890\",\r\n" + //
-      "        \"inspector_name\": \"นายภาณุวิชญ์ ธานีวัฒน์\",\r\n" + //
-      "        \"inspector_role\": \"นรค.7\",\r\n" + //
-      "        \"inspector_date\": \"19 มิ.ย. 2567\",\r\n" + //
-      "        \"dep_head_name\": \"นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ\",\r\n" + //
-      "        \"dep_head_role\": \"หผ.คข.กดส.ฉ.2\",\r\n" + //
-      "        \"dep_head_date\": \"19 มิ.ย. 2567\"\r\n" + //
-      "    }\r\n" + //
-      "}";
-
   @CrossOrigin(origins = "http://localhost:8000")
   @PostMapping("/redirectPdfProducer")
   public ResponseEntity<byte[]> redirectPdfProducer(@RequestBody String requestData) {
     String targetUrl = "http://172.30.211.224:42/api/pdf-producer";
     System.err.println("Received Request Data: " + requestData);
 
-    // Initialize RestTemplate and headers
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode rootNode = null;
+
+    try {
+      rootNode = objectMapper.readTree(requestData);
+    } catch (JsonMappingException e) {
+
+      e.printStackTrace();
+    } catch (JsonProcessingException e) {
+
+      e.printStackTrace();
+    }
+
+    String costCenterName = rootNode.path("ccShortName").asText();
+    String date = rootNode.path("date").asText();
+    String brand = rootNode.path("brand").asText(); // Extracted from devDescription
+    String model = rootNode.path("model").asText(); // Extracted from devDescription
+    String serial = rootNode.path("devSerialNo").asText();
+    String peaNo = rootNode.path("devPeaNo").asText();
+    String problem = rootNode.path("problem").asText();
+    String contract = rootNode.path("contract").asText();
+    String empName = rootNode.path("empName").asText();
+    String empRank = rootNode.path("empRank").asText();
+    String empId = rootNode.path("empId").asText();
+    String type_other = rootNode.path("type_other").asText();
+    String tel = rootNode.path("tel").asText();
+    String inspector_name = rootNode.path("inspector_name").asText();
+    String inspector_role = rootNode.path("inspector_role").asText();
+    String dep_head_name = rootNode.path("dep_head_name").asText();
+    String dep_head_role = rootNode.path("dep_head_role").asText();
+    String inspect_dep_name = rootNode.path("inspect_dep_name").asText();
+
+    String requestData2 = "{\r\n" + //
+        "    \"templateProjectPath\": \"sample/ams/506027-fixform-2025v2.dito\",\r\n" + //
+        "    \"templateName\": \"output\",\r\n" + //
+        "    \"pdfVersion\": \"1.7\",\r\n" + //
+        "    \"data\": {\r\n" + //
+        "        \"cost_center_name\": \"" + costCenterName + "\",\r\n" +
+        "        \"date\": \"" + date + "\",\r\n" +
+        "        \"type_other\": \"" + type_other + "\",\r\n" +
+        "        \"brand\": \"" + brand + "\",\r\n" +
+        "        \"model\": \"" + model + "\",\r\n" +
+        "        \"contract\": \"" + contract + "\",\r\n" +
+        "        \"serial\": \"" + serial + "\",\r\n" +
+        "        \"pea_no\": \"" + peaNo + "\",\r\n" +
+        "        \"problem\": \"" + problem + "\",\r\n" +
+        "        \"emp_name\": \"" + empName + "\",\r\n" +
+        "        \"emp_role\": \"" + empRank + "\",\r\n" +
+        "        \"emp_id\": \"" + empId + "\",\r\n" +
+        "        \"tel\": \"" + tel + "\",\r\n" +
+        "        \"inspector_name\": \"" + inspector_name + "\",\r\n" +
+        "        \"inspector_role\": \"" + inspector_role + "\",\r\n" +
+        "        \"inspector_date\": \"" + date + "\",\r\n" +
+        "        \"dep_head_name\": \"" + dep_head_name + "\",\r\n" +
+        "        \"dep_head_role\": \"" + dep_head_role + "\",\r\n" +
+        "        \"dep_head_date\": \"" + date + "\",\r\n" +
+        "        \"inspect_dep_name\": \"" + inspect_dep_name + "\"\r\n" +
+        "    }\r\n" + //
+        "}";
+
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
     headers.setAccept(Collections.singletonList(org.springframework.http.MediaType.APPLICATION_PDF));
+    headers.setContentDisposition(ContentDisposition.inline().filename("generated.pdf").build());
 
-    // Here you can modify the requestData if needed before forwarding
-    // Example: you can parse requestData into a JSON object and modify fields
     try {
-      // Log the prepared request data
-      System.err.println("Sending Data to External API: " + requestData);
 
-      // Create HttpEntity with the modified requestData and headers
+      System.err.println("Sending Data to External API: " + requestData2);
+
       HttpEntity<String> entity = new HttpEntity<>(requestData2, headers);
 
-      // Send the request to the external API
       ResponseEntity<byte[]> response = restTemplate.exchange(targetUrl,
           HttpMethod.POST, entity, byte[].class);
 
-      // Log the response status and headers
       System.err.println("Response Status: " + response.getStatusCode());
       System.err.println("Response Headers: " + response.getHeaders());
 
-      // Set the response headers for the client
       HttpHeaders responseHeaders = new HttpHeaders();
       responseHeaders.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
 
-      // Return the response as a PDF
-      return ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
+      // return
+      // ResponseEntity.status(response.getStatusCode()).headers(responseHeaders).body(response.getBody());
+      return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.OK);
     } catch (Exception e) {
-      // Log the exception for debugging
       System.err.println("Error occurred while redirecting PDF producer request: "
           + e.getMessage());
       e.printStackTrace();

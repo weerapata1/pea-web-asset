@@ -102,3 +102,7 @@ i.v-icon.v-white {
   border: 1px solid red;
   border-radius: 4px;
 }
+
+.v-progress-circular {
+  z-index: 999;
+}

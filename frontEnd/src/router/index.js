@@ -3,10 +3,13 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
-
+import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
+// import repairForm from '../views/repairForm/repairForm.vue'
+// import ListRepair from '../views/listRepair/listRepair.vue'
 import checkQuota from '../views/checkQuota/checkQuota.vue'
-
-
+import Upload from '../views/upload/upload.vue'
+// import login from '../views/logIn/logIn.vue'
+// import preRepairComponent from '../views/preRepair/preRepair.vue'
 
 Vue.use(VueRouter)
 
@@ -24,23 +27,40 @@ Vue.use(VueRouter)
 // }
 
 const routes = [
+  {
+    path: '/',
+    redirect: '/about'  // 👈 Add this redirect
+  },
   // {
   //   path: '/login',
   //   name: 'login',
   //   component: login
   // },
-
+  // {
+  //   path: '/preRepair',
+  //   name: 'preRepair',
+  //   component: preRepairComponent
+  // },
   {
     path: '/repair',
     name: 'Repair',
     component: Repair
   },
+  // {
+  //   path: '/listRepair',
+  //   name: 'listRepair',
+  //   component: ListRepair,
+  //   beforeEnter: guardMyroute,
+  //   meta: { requiresAuth: true },
+  // },
+  {
+    path: '/tracking',
+    name: 'Tracking',
+    component: Tracking
+  },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: About
   },
   {
@@ -51,10 +71,14 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: checkQuota
   },
+    {
+    path: '/upload',
+    name: 'upload',
+    component: Upload
+  },
 ]
 
 const router = new VueRouter({
-  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

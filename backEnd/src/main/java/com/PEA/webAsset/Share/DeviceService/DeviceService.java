@@ -2,6 +2,7 @@ package com.PEA.webAsset.Share.DeviceService;
 
 import com.PEA.webAsset.Entity.tbCostCenter;
 import com.PEA.webAsset.Entity.tbDevice;
+import com.PEA.webAsset.Entity.tbEmployee;
 import com.PEA.webAsset.Exeption.InvalidDataException;
 import com.PEA.webAsset.Repository.CostCenterRepository;
 import com.PEA.webAsset.Repository.DeviceRepository;
@@ -14,7 +15,10 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,50 +26,57 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.DataFormatter;
+import com.PEA.webAsset.Share.ExcelService.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Service
 public class DeviceService {
+    private static final Logger logger = LoggerFactory.getLogger(DeviceService.class);
     LocalDateTime now = LocalDateTime.now();
     DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm:ss");
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yy");
 
+    private final CostCenterRepository costCenterRepository;
+    private final DeviceRepository deviceRepository;
+    private final EmployeeRepository employeeRepository;
+
     @Autowired
-    CostCenterRepository costCenterRepository;
-    @Autowired
-    DeviceRepository deviceRepository;
-    @Autowired
-    EmployeeRepository employeeRepository;
-
-    public void postDevice(String dev_serialNo, String dev_note, String dev_description, String dev_peaNo,
-            String tbCostCenterTest
-    // ,String dateTimeNow ,String dateNow
-    ) {
-        String dateTimeTemp = now.format(dateTimeFormat);
-        String dateTemp = now.format(dateFormat);
-        LocalDateTime dateTime = LocalDateTime.parse(dateTimeTemp, dateTimeFormat);
-        LocalDate date = LocalDate.parse(dateTemp, dateFormat);
-
-        try {
-            tbDevice newDevice = new tbDevice();
-
-            // newDevice.setDevPeaNo(dev_peaNo);
-            // newDevice.setDevSerialNo(dev_serialNo);
-            // newDevice.setDevNote(dev_note);
-            // newDevice.setDevDescription(dev_description);
-            // newDevice.setDevUpdate(dateTime);
-
-            // newDevice.setTbCostCenter(costCenterRepository.findByCcLongCode(tbCostCenter));
-
-            deviceRepository.save(newDevice);
-        } catch (Exception e) {
-            throw new RuntimeException("POST Fail : " + e.getMessage());
-        }
+    public DeviceService(
+            CostCenterRepository costCenterRepository,
+            DeviceRepository deviceRepository,
+            EmployeeRepository employeeRepository) {
+        this.costCenterRepository = costCenterRepository;
+        this.deviceRepository = deviceRepository;
+        this.employeeRepository = employeeRepository;
     }
+
+    // public void postDevice(String dev_serialNo, String dev_note, String
+    // dev_description, String dev_peaNo,
+    // String tbCostCenterTest
+    // // ,String dateTimeNow ,String dateNow
+    // ) {
+    // String dateTimeTemp = now.format(dateTimeFormat);
+    // String dateTemp = now.format(dateFormat);
+    // LocalDateTime dateTime = LocalDateTime.parse(dateTimeTemp, dateTimeFormat);
+    // LocalDate date = LocalDate.parse(dateTemp, dateFormat);
+
+    // try {
+    // tbDevice newDevice = new tbDevice();
+    // deviceRepository.save(newDevice);
+    // } catch (Exception e) {
+    // throw new RuntimeException("POST Fail : " + e.getMessage());
+    // }
+    // }
 
     public void chkCellType(MultipartFile file) throws Exception {
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -100,143 +111,111 @@ public class DeviceService {
         }
     }
 
+    @Transactional
     public List<tbDevice> saveDevice(MultipartFile file) throws IOException {
-
         int index = 0;
         DataFormatter formatter = new DataFormatter();
+
+        List<tbDevice> deviceList = new ArrayList<>();
+        List<Object[]> deviceBatch = new ArrayList<>();
+
         try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
-            List<tbDevice> deviceList = new ArrayList<>();
             XSSFSheet worksheet = workbook.getSheetAt(0);
-
+            XSSFRow row1 = worksheet.getRow(1);
+            int lastCellNum = row1.getLastCellNum();
+            System.out.println("row1 lastCellNum" + lastCellNum);
             // Start from the second row (index 1) to skip the header
-            for (index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
-                XSSFRow row = worksheet.getRow(index);
 
-                // Check if the row is null or if Column A (Cell(0)) is empty
+            for (index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
+
+                XSSFRow row = worksheet.getRow(index);
+                System.out.println("Row " + index + " has " + row.getLastCellNum() + " cells.");
+
                 if (row == null || row.getCell(0) == null || row.getCell(0).getCellType() == CellType.BLANK) {
                     break; // Stop processing if Column A is empty
                 }
-                tbDevice device = new tbDevice();
 
                 Double receivedPrice;
-                Cell c10 = row.getCell(10);
+                Cell c10 = row.getCell(lastCellNum - 3);
                 receivedPrice = (c10 == null || c10.getCellType() == CellType.BLANK)
                         ? 0.0
-                        : row.getCell(10).getNumericCellValue();
-                // if (index > 0) {
-                // if (receivedPrice >= 1) {
+                        : row.getCell(lastCellNum - 3).getNumericCellValue();
 
-                // String peaNo;
-                // String description;
-                // String serialNo;
-                // String recievedDate;
-                // Double leftPrice;
-                // String ccLongCode;
-                // String userId;
-                // // Long id = (long) row.getCell(0).getNumericCellValue();
-                // Cell c2 = row.getCell(2);
-                // if (c2 == null || c2.getCellType() == CellType.BLANK) {
-                // peaNo = "";
-                // System.out.println("peaNo is BLANK at " + index);
-                // } else {
-                // peaNo = formatter.formatCellValue(row.getCell(2));
-                // }
-                // Cell c3 = row.getCell(3);
-                // if (c3 == null || c3.getCellType() == CellType.BLANK) {
-                // userId = "";
-                // System.out.println("userId is BLANK at " + index);
-                // } else {
-                // userId = formatter.formatCellValue(row.getCell(3));
-                // }
-                // Cell c4 = row.getCell(4);
-                // if (c4 == null || c4.getCellType() == CellType.BLANK) {
-                // description = "";
-                // System.out.println("description is BLANK at " + index);
-                // } else {
-                // description = formatter.formatCellValue(row.getCell(4));
-                // }
-                // Cell c5 = row.getCell(5);
-                // if (c5 == null || c5.getCellType() == CellType.BLANK) {
-                // serialNo = "";
-                // System.out.println("serialNo is BLANK at " + index);
-                // } else {
-                // //serialNo = (String) row.getCell(5).getStringCellValue();
-                // serialNo = formatter.formatCellValue(row.getCell(5));
-                // }
-                // Cell c9 = row.getCell(9);
-                // if (c9 == null || c9.getCellType() == CellType.BLANK) {
-                // recievedDate = "";
-                // System.out.println("recievedDate is BLANK at " + index);
-                // } else {
-                // recievedDate = formatter.formatCellValue(row.getCell(9));
-                // }
-                // Cell c11 = row.getCell(11);
-                // if (c11 == null || c11.getCellType() == CellType.BLANK) {
-                // leftPrice = (double) 1;
-                // System.out.println("leftPrice is BLANK at " + index);
-                // } else {
-                // leftPrice = (double) row.getCell(11).getNumericCellValue();
-                // }
-                // Cell c12 = row.getCell(12);
-                // if (c12 == null || c12.getCellType() == CellType.BLANK) {
-                // ccLongCode = "";
-                // System.out.println("ccLongCode is BLANK at " + index);
-                // } else {
-                // ccLongCode = formatter.formatCellValue(row.getCell(12));
-                // }
-
-                // // System.out.println("id >" + id);
-                // System.out.println("serialNo >" + serialNo);
-                // System.out.println("peaNo >" + peaNo);
-                // System.out.println("description >" + description);
-                // System.out.println("ccLongCode >" + ccLongCode);
-
-                // // device.setId(id);
-                // device.setDevPeaNo(peaNo);
-                // device.setDevDescription(description);
-                // device.setDevSerialNo(serialNo);
-                // device.setDevReceivedDate(recievedDate);
-                // device.setDevReceivedPrice(receivedPrice);
-                // device.setDevLeftPrice(leftPrice);
-                // device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccLongCode));
-                // device.setTbEmployee(employeeRepository.findByEmpId(userId));
-                // // device.setTbCostCenter(ccLongCode);
-                // // device.setTbEmployee(userId);
-                // deviceList.add(device);
-                // }
-                // }
+                System.out.println("Row " + index + " receivedPrice " + receivedPrice);
                 if (index > 0 && receivedPrice >= 1) {
-                    // Extract and validate fields
-                    String peaNo = extractCellValue(formatter, row.getCell(2), "peaNo", index);
-                    String userId = extractCellValue(formatter, row.getCell(3), "userId", index);
-                    String description = extractCellValue(formatter, row.getCell(4), "description", index);
-                    String serialNo = extractCellValue(formatter, row.getCell(5), "serialNo", index);
-                    String receivedDate = extractCellValue(formatter, row.getCell(9), "receivedDate", index);
-                    Double leftPrice = extractCellNumericValue(row.getCell(11), "leftPrice", index);
-                    String ccLongCode = extractCellValue(formatter, row.getCell(12), "ccLongCode", index);
 
-                    Optional<tbCostCenter> optionalCostCenter = costCenterRepository.findByCcLongCode(ccLongCode);
-                    tbCostCenter costCenter = optionalCostCenter
-                    .orElseThrow(() -> new RuntimeException("Cost center not found for code: " + ccLongCode));
-            
-                    // Set fields to the device
-                    device.setDevPeaNo(peaNo);
-                    device.setDevDescription(description);
-                    device.setDevSerialNo(serialNo);
-                    device.setDevReceivedDate(receivedDate);
-                    device.setDevReceivedPrice(receivedPrice);
-                    device.setDevLeftPrice(leftPrice);
-                    // device.setTbCostCenter(costCenterRepository.findByCcLongCode(ccLongCode));
-                    device.setTbCostCenter(costCenter);
-                    device.setTbEmployee(employeeRepository.findByEmpId(userId));
+                    String peaNo = "";
+                    String userId = "";
+                    String description = "";
+                    String serialNo = "";
+                    String receivedDate = "";
+                    Double leftPrice = 0.0;
+                    String ccLongCode = "";
 
-                    deviceList.add(device);
+                    peaNo = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 11), "peaNo", index);
+                    System.out.println("Row " + index + " peaNo " + peaNo);
+
+                    userId = ExcelHelper.extractCellValue(formatter,
+                            row.getCell(lastCellNum - 10, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK), "userId", index);
+                    System.out.println("Row " + index + " userId " + userId);
+
+                    description = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 9),
+                            "description", index);
+                    System.out.println("Row " + index + " description " + description);
+
+                    serialNo = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 8), "serialNo", index);
+                    System.out.println("Row " + index + " serialNo " + serialNo);
+
+                    receivedDate = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 4),
+                            "receivedDate", index);
+                    System.out.println("Row " + index + " receivedDate " + receivedDate);
+
+                    Double valueDD = ExcelHelper.extractCellNumericValue(row.getCell(lastCellNum - 2), "leftPrice",
+                            index);
+                    leftPrice = valueDD;
+                    System.out.println("Row " + index + " leftPrice " + leftPrice);
+
+                    ccLongCode = ExcelHelper.extractCellValue(formatter, row.getCell(lastCellNum - 1), "ccLongCode",
+                            index);
+                    System.out.println("Row " + index + " ccLongCode " + ccLongCode);    
+
+                    tbEmployee employee = null;
+                    if (userId != null && !userId.trim().isEmpty()) {
+                        Optional<tbEmployee> optionalEmployee = employeeRepository.findEmpByEmpId(userId);
+                        employee = optionalEmployee.orElse(null); // Allow employee to be null if not found
+                    }
+
+                    tbCostCenter costCenter = null;
+                    if (ccLongCode != null && !ccLongCode.trim().isEmpty()) {
+                        Optional<tbCostCenter> optionalCostCenter = costCenterRepository.findByCcLongCode(ccLongCode);
+                        costCenter = optionalCostCenter.orElse(null); // Allow employee to be null if not found
+                    }
+
+                    deviceBatch.add(new Object[] {
+                            peaNo,
+                            description,
+                            serialNo,
+                            receivedDate,
+                            receivedPrice,
+                            leftPrice,
+                            costCenter != null ? costCenter.getCcLongCode() : null, // Use Cost Center ID
+                            employee != null ? employee.getEmpId() : null, // Use Employee ID if available, else
+                            ccLongCode, // null
+                    });
                 }
+                // System.out.println("deviceBatch " + deviceBatch);
+                // for (Object[] objArray : deviceBatch) {
+                //     logger.info("Device Entry: {}", Arrays.toString(objArray));
+                // }
             }
-            // Validate devices
             validateDevices(deviceList);
+
+            deviceRepository.bulkInsertDevices(deviceBatch);
+
             return deviceList;
-        } catch (IOException e) {
+        } catch (
+
+        IOException e) {
             throw new RuntimeException("Line: " + index + " failed to store excel data: " + e.getMessage());
         }
     }
@@ -276,22 +255,41 @@ public class DeviceService {
             if (device.getTbEmployee() != null && device.getTbEmployee().getEmpId() == null) {
                 throw new InvalidDataException("Employee is invalid (missing required details).");
             }
+
+            if (device.getCcLongCodeString() != null && device.getCcLongCodeString().isEmpty()) {
+                throw new InvalidDataException("CcLongCodeString is missing (but it nullable).");
+            }
         }
     }
 
-    private String extractCellValue(DataFormatter formatter, Cell cell, String fieldName, int index) {
-        if (cell == null || cell.getCellType() == CellType.BLANK) {
-            System.out.println(fieldName + " is BLANK at row " + index);
-            return "";
+    private static final int BATCH_SIZE = 1000;
+
+    public List<tbDevice> saveDevicesInBatch(List<tbDevice> devices) {
+        List<tbDevice> savedDevices = new ArrayList<>();
+        for (int i = 0; i < devices.size(); i += BATCH_SIZE) {
+            int end = Math.min(i + BATCH_SIZE, devices.size());
+            List<tbDevice> batch = devices.subList(i, end);
+            savedDevices.addAll(deviceRepository.saveAll(batch));
+            deviceRepository.flush(); // Flush after every batch
         }
-        return formatter.formatCellValue(cell);
+        return savedDevices;
     }
 
-    private Double extractCellNumericValue(Cell cell, String fieldName, int index) {
-        if (cell == null || cell.getCellType() == CellType.BLANK) {
-            System.out.println(fieldName + " is BLANK at row " + index);
-            return 0.0;
-        }
-        return cell.getNumericCellValue();
-    }
+    // @Transactional
+    // public void bulkInsertDevices(List<tbDevice> deviceList) {
+    // List<Object[]> deviceBatch = deviceList.stream()
+    // .map(device -> new Object[] {
+    // device.getDevPeaNo(),
+    // device.getDevDescription(),
+    // device.getDevSerialNo(),
+    // device.getDevReceivedDate(),
+    // device.getDevReceivedPrice(),
+    // device.getDevLeftPrice(),
+    // device.getTbCostCenter().getTbCostCenterId(),
+    // device.getTbEmployee().getTbEmployeeId()
+    // })
+    // .collect(Collectors.toList());
+    // deviceRepository.bulkInsertDevices(deviceBatch);
+    // }
+
 }

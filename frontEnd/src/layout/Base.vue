@@ -17,7 +17,7 @@
                   <i class="nc-icon nc-square-pin"></i>
                   <p>ระบบติดตามทรัพย์สิน</p>
                 </sidebar-link> -->
-                <sidebar-link to="/preRepair">
+                <!-- <sidebar-link to="/preRepair">
                   <i class="nc-icon nc-settings-gear-64"></i>
                   <p>ขออนุมัติซ่อม</p>
                 </sidebar-link>
@@ -32,7 +32,7 @@
                 <sidebar-link to="/listRepair" >
                   <i class="nc-icon nc-settings-90"></i>
                   <p>รายการซ่อม</p>
-                </sidebar-link>
+                </sidebar-link> -->
                 <sidebar-link to="/checkQuota">
                   <i class="nc-icon nc-bullet-list-67"></i>
                   <p>ตรวจสอบโควต้า</p>

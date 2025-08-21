@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import pdfMake from 'pdfmake'
+// import pdfMake from 'pdfmake'
 import html2canvas from 'html2canvas'
 import AMS from './pea_ams.js'
 // import pdf from 'pdfvuer'
@@ -13,7 +13,7 @@ Vue.use(AMS)
 
 new Vue({
   html2canvas,
-  pdfMake,
+  // pdfMake,
   // pdf,
   router,
   store,

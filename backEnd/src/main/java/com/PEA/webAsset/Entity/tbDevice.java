@@ -1,35 +1,35 @@
 package com.PEA.webAsset.Entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import  jakarta.persistence.*;
+import jakarta.persistence.*;
+
+import java.sql.Timestamp;
 //import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-@EqualsAndHashCode
-@Table(name = "tb_device")
 @Entity(name = "tb_device")
-@ToString
-public class tbDevice { // use for
+@Table(name = "tb_device", indexes = {
+        @Index(name = "idx_cc_long_code", columnList = "cc_long_code"),
+        @Index(name = "idx_emp_id", columnList = "emp_id"),
+        @Index(name = "idx_dev_pea_no", columnList = "dev_pea_no")
+})
+public class tbDevice {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "dev_seq")
-    @SequenceGenerator(name = "dev_seq", sequenceName = "dev_seq")
-    @Column(name = "id", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "device_id", unique = true)
+    private Long deviceId;
 
-    private Long id;
-
+    @Column(name = "dev_pea_no", unique = true)
     private String devPeaNo;
-   
+
     private String devDescription;
 
     private String devSerialNo;
-
-    private String devNote;
 
     private String devReceivedDate;
 
@@ -39,49 +39,38 @@ public class tbDevice { // use for
 
     private String devConcatPriceDate;
 
-    @Column(columnDefinition="tinyint(1) default 0")
-    private Boolean isDeleted;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
-    private LocalDate devUpdate;
-
-    // Join tbCommitment.class------------------------------
-    // @ManyToOne(targetEntity = tbCommitment.class, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "cont_id", insertable = true)
-    // private tbCommitment tbCommitment;
-
-
-    // Join tbCostCenter.class------------------------------
-    @ManyToOne(targetEntity = tbCostCenter.class, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cc_long_code", referencedColumnName = "cc_long_code", nullable = true)
     private tbCostCenter tbCostCenter;
-    // private String tbCostCenter;
 
-    // Join tbEmployee.class------------------------------
     @ManyToOne(targetEntity = tbEmployee.class, optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", nullable = true) // Reference emp_id in tbEmployee
-
     private tbEmployee tbEmployee;
-    // private String tbEmployee;
 
-    //
-    // Join tbDeviceType.class------------------------------
+    @Column(name = "cc_long_code_string", nullable = true)
+    private String ccLongCodeString;
+
+    @Column(name = "emp_id_string", nullable = true)
+    private String empIdString;
+
+    @Column(columnDefinition = "tinyint(1) default 0")
+    private Boolean isDeleted;
+
+    @Column(name = "date_modified")
+    private Timestamp dateModified;
+
     @ManyToOne(targetEntity = tbDeviceType.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "dt_id", insertable = true, referencedColumnName = "dt_id", nullable = true)
+    @JoinColumn(name = "device_type_id", insertable = true, referencedColumnName = "device_type_id", nullable = true)
     private tbDeviceType tbDeviceType;
 
-//    @OneToMany   // join tbContract
     @OneToOne(mappedBy = "installedFor")
     private tbEquipment equipment;
 
-
-    public tbDevice(String devPeaNo ,String devDescription ,String devSerialNo ,String devReceivedDate ,
-                    Double devReceivedPrice, Double devLeftPrice, 
-                    tbCostCenter tbCostCenter,
-                    // String cc_id,
-                    tbEmployee tbEmployee,
-                    LocalDate devUpdate, tbDeviceType dt_id
-                    ){
+    public tbDevice(String devPeaNo, String devDescription, String devSerialNo, String devReceivedDate,
+            Double devReceivedPrice, Double devLeftPrice,
+            tbCostCenter tbCostCenter,
+            tbEmployee tbEmployee,
+            Timestamp dateModified, tbDeviceType device_type_id) {
         this.devPeaNo = devPeaNo;
         this.devDescription = devDescription;
         this.devSerialNo = devSerialNo;
@@ -90,7 +79,7 @@ public class tbDevice { // use for
         this.devLeftPrice = devLeftPrice;
         this.tbCostCenter = tbCostCenter;
         this.tbEmployee = tbEmployee;
-        this.devUpdate = devUpdate;
-        this.tbDeviceType = dt_id;
+        this.dateModified = dateModified;
+        this.tbDeviceType = device_type_id;
     }
 }

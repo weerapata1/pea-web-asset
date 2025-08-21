@@ -24,6 +24,7 @@
     "material-design-icons": "^3.0.1",
     "moment": "^2.29.4",
     "openssl-self-signed-certificate": "^1.1.6",
+    "pdfmake": "^0.2.5",
     "pdfreader": "^3.0.0",
     "pdfvuer": "^1.10.0",
     "qrcode.vue": "^1.7.0",
@@ -43,7 +44,6 @@
     "vuetify": "^2.6.0",
     "vuetify-dialog": "^2.0.17",
     "vuex": "^3.4.0",
-    "xlsx": "^0.18.5",
     "xml2js": "^0.5.0"
   },
   "devDependencies": {
@@ -76,9 +76,6 @@
     "rules": {
       "vue/multi-word-component-names": "off"
     }
-  },
-  "resolutions": {
-    "vue": "2.7.16"
   },
   "browserslist": [
     "> 1%",

@@ -59,11 +59,29 @@ public class ExcelHelper {
         }
     }
 
-    public static String extractCellValue(DataFormatter formatter, Cell cell) {
+    public static String extractCellValue(DataFormatter formatter, Cell cell, String fieldName, int rowIndex) {
         if (cell == null || cell.getCellType() == CellType.BLANK) {
-            return null; // Return null for blank cells
+            if (fieldName != null) {
+                System.out.println("Warning: Missing or empty " + fieldName + " in row: " + rowIndex);
+            } else {
+                return ""; 
+            }
         }
-        return formatter.formatCellValue(cell).trim(); // Trim to remove any extra spaces
+        return formatter.formatCellValue(cell).trim();
+    }
+    
+    public static String extractCellValue(DataFormatter formatter, Cell cell) {
+        return extractCellValue(formatter, cell, null, 0);
+    }
+
+    public static Double extractCellNumericValue(Cell cell, String fieldName, int rowIndex) {
+        if (cell == null || cell.getCellType() == CellType.BLANK) {
+            return 0.0; // Default to 0.0 for numeric values
+        }
+        if (cell.getCellType() != CellType.NUMERIC) {
+            throw new RuntimeException("Invalid numeric value for " + fieldName + " in row: " + rowIndex);
+        }
+        return cell.getNumericCellValue();
     }
 
 }
