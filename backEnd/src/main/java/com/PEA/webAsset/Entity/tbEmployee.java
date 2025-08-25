@@ -53,7 +53,6 @@ public class tbEmployee {
         this.empRole = empRole;
         this.costCenter = costCenter;
         this.empRank = empRank;
-
     }
 
 }

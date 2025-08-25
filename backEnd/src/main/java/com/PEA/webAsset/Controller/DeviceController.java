@@ -687,4 +687,28 @@ public class DeviceController {
       super(message, cause);
     }
   }
+
+  // @PostMapping("/insertRepairRecord")
+  // public ResponseEntity<ResponseMessage> insertRepairRecord(@RequestBody List<TempDevice> tempDevices) {
+  //   String message;
+  //   if (tempDevices == null || tempDevices.isEmpty()) {
+  //     message = "The uploaded data is empty!";
+  //     return ResponseEntity
+  //         .status(HttpStatus.NO_CONTENT)
+  //         .body(new ResponseMessage(false, message, null));
+  //   }
+  //   try {
+  //     tempDeviceRepository.bulkInsertDevices(tempDevices);
+  //     message = "Uploaded the data successfully. Records: " + tempDevices.size();
+  //     return ResponseEntity
+  //         .status(HttpStatus.OK)
+  //         .body(new ResponseMessage(true, message, null));
+  //   } catch (Exception e) {
+  //     message = "Could not upload the data. Error: " + e.getMessage();
+  //     return ResponseEntity
+  //         .status(HttpStatus.INTERNAL_SERVER_ERROR)
+  //         .body(new ResponseMessage(false, message, null));
+  //   }
+  // }
+
 }
