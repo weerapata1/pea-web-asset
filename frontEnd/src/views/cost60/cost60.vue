@@ -8,32 +8,15 @@
         width="8"
       ></v-progress-circular
     ></v-layout>
-    <v-layout v-else column style="width: 100%">
-      <div>
-      </div>
 
-      <v-col cols="12" class="pa-0">
-      </v-col>
+    <v-layout v-else column style="width: 100%;">
       <div>
-        <v-row>
-          <v-col cols="12">
-
-          </v-col></v-row
-        >
-
-      </div>
-      <v-divider class="my-4"></v-divider>
-      <div>
-        
-      </div>
-      <div>
-
-      </div>
-      <div>
-
-      </div>
-      <div>
-        
+        <BarChart
+          :chartData="barData"
+          :options="barOptions"
+          :width="600"
+          :height="350"
+        />
       </div>
     </v-layout>
   </v-container>

@@ -106,3 +106,13 @@ i.v-icon.v-white {
 .v-progress-circular {
   z-index: 999;
 }
+
+.chart-wrapper {
+  width: 100%;          /* fill parent width */
+  height: 400px;        /* default height */
+}
+@media (max-width: 600px) {
+  .chart-wrapper {
+    height: 250px;      /* shrink on small screens */
+  }
+}
