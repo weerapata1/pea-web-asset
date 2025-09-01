@@ -5,23 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79f124e5-fd6a-4e8c-810b-06db3cb470fb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/RepairController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/RepairController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/RepairRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/RepairRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Service/RepairService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Service/RepairService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Base.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/TrackingRepair/TrackingRepair.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/TrackingRepair/TrackingRepair.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/TrackingRepair/TrackingRepair.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/preRepair/preRepair.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/preRepair/preRepair.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/repair/repair.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/repair/repair.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/about/About.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/about/About.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/repair/repair.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/repair/repair.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/repairForm/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/repairForm/repairForm.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/repairForm/repairForm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/repairForm/repairForm.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +34,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JavaScript Debug.localhost:8000.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "Oz__2025",
     "last_opened_file_path": "D:/WorkShop/2025/pea-web-asset/frontEnd",
@@ -54,14 +46,25 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.3.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2025.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="localhost:8000" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8000/">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.localhost:8000" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-WS-243.24978.60" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-WS-252.25557.126" />
       </set>
     </attachedChunks>
   </component>
@@ -75,10 +78,34 @@
       <updated>1676996225233</updated>
       <workItem from="1755503257275" duration="557000" />
       <workItem from="1755504043258" duration="4714000" />
+      <workItem from="1755854459198" duration="164000" />
+      <workItem from="1755854858630" duration="447000" />
+      <workItem from="1756021594271" duration="226000" />
+      <workItem from="1756021953629" duration="92000" />
+      <workItem from="1756022093773" duration="1313000" />
+      <workItem from="1756024732015" duration="241000" />
+      <workItem from="1756025023380" duration="3600000" />
+      <workItem from="1756086772781" duration="7547000" />
+      <workItem from="1756111508273" duration="374000" />
+      <workItem from="1756544773378" duration="847000" />
+      <workItem from="1756632049960" duration="221000" />
+      <workItem from="1756632451804" duration="4260000" />
+      <workItem from="1756696108270" duration="5005000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

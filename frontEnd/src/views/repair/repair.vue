@@ -1,104 +1,90 @@
 <template>
-<!-- ค้าหาเรื่องที่จะซ่อม -> กรอกอาการที่เสีย -> กรอกผู้ติดต่อ -> ตรวจสอบความถูกต้อง -->
-  <v-stepper
-      v-model="e6"
-      vertical
-  >
-    <v-stepper-step
-        :complete="e6 > 1"
-        step="1"
-    >
-      ค้นหาเครื่อง
-      <small>Summarize if needed</small>
-    </v-stepper-step>
-
-    <v-stepper-content step="1">
-      <v-card
-          color="pink lighten-5"
-          class="mb-12"
-          height="200px"
+<!-- Step 1 ค้นหาเรื่องที่จะซ่อม -> Step 2 กรอกอาการที่เสีย -> Step 3 กรอกผู้ติดต่อ -> Step 4 ตรวจสอบความถูกต้อง -->
+      <v-stepper
+          v-model="e6" vertical max-width="80%" max-height="90%" elevation="3"
+          fluid
+          style="margin-left:auto; margin-right:auto; margin-top:5vh; display:block;"
       >
-        <b-form-text>555+</b-form-text>
-      </v-card>
-      <v-btn
-          color="primary"
-          @click="e6 = 2"
-      >
-        Continue
-      </v-btn>
-      <v-btn text>
-        Cancel
-      </v-btn>
-    </v-stepper-content>
+        <v-stepper-step :complete="e6 > 1" step="1">
+          ค้นหาเครื่อง
+        </v-stepper-step>
 
-    <v-stepper-step
-        :complete="e6 > 2"
-        step="2"
-    >
-      อาการชำรุจ
-    </v-stepper-step>
+        <v-stepper-content step="1">
+          <v-card color="orange lighten-5" class="mb-12" height="200px">
+            <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+            >
+              <v-text-field
+                  v-model="devPeaNoSelceted"
+                  label="รหัสทรัพสิน"
+                  required
+              ></v-text-field>
+            </v-form>
+          </v-card>
+          <!-- ปุ่มทดสอบ -->
+<!--          if click Continue button found then go to next step // else alert not found  device item -->
+          <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
+<!--          <v-btn text>Cancel</v-btn>-->
+        </v-stepper-content>
 
-    <v-stepper-content step="2">
-      <v-card
-          color="pink lighten-5"
-          class="mb-12"
-          height="200px"
-      ></v-card>
-      <v-btn
-          color="primary"
-          @click="e6 = 3"
-      >
-        Continue
-      </v-btn>
-      <v-btn text>
-        Cancel
-      </v-btn>
-    </v-stepper-content>
+        <v-stepper-step :complete="e6 > 2" step="2">
+          อาการชำรุจ
+        </v-stepper-step>
 
-    <v-stepper-step
-        :complete="e6 > 3"
-        step="3"
-    >
-      ผู้ติดต่อ
-    </v-stepper-step>
+        <v-stepper-content step="2">
+          <v-card color="pink lighten-5" class="mb-12" height="200px">
+            <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+            >
+              <v-textarea
+                  v-model="damage"
+                  color="teal"
+                  required
+              >
+                <template v-slot:label>
+                  <div>
+                    อาการชำรุจ <small>(optional)</small>
+                  </div>
+                </template>
+              </v-textarea>
+            </v-form>
 
-    <v-stepper-content step="3">
-      <v-card
-          color="pink lighten-5"
-          class="mb-12"
-          height="200px"
-      ></v-card>
-      <v-btn
-          color="primary"
-          @click="e6 = 4"
-      >
-        Continue
-      </v-btn>
-      <v-btn text>
-        Cancel
-      </v-btn>
-    </v-stepper-content>
+          </v-card>
+          <v-btn color="primary" @click="e6 = 3">Continue</v-btn>
+          <v-btn text>Cancel</v-btn>
+        </v-stepper-content>
 
-    <v-stepper-step step="4">
-      ตรวจสอบข้อมูล
-    </v-stepper-step>
-    <v-stepper-content step="4">
-      <v-card
-          color="pink lighten-5"
-          class="mb-12"
-          height="200px"
-      ></v-card>
-      <v-btn
-          color="primary"
-          @click="e6 = 1"
-      >
-        Continue
-      </v-btn>
-      <v-btn text>
-        Cancel
-      </v-btn>
-    </v-stepper-content>
-  </v-stepper>
+        <v-stepper-step :complete="e6 > 3" step="3">
+          ผู้ติดต่อ
+        </v-stepper-step>
+
+        <v-stepper-content step="3">
+          <v-card color="pink lighten-5" class="mb-12" height="200px"></v-card>
+          <v-btn color="primary" @click="e6 = 4">Continue</v-btn>
+          <v-btn text>Cancel</v-btn>
+        </v-stepper-content>
+
+        <v-stepper-step step="4">ตรวจสอบข้อมูล</v-stepper-step>
+        <v-stepper-content step="4">
+          <v-card color="pink lighten-5" class="mb-12" height="200px"></v-card>
+          <v-btn color="primary" @click="e6 = 1">Continue</v-btn>
+          <v-btn text>Cancel</v-btn>
+        </v-stepper-content>
+      </v-stepper>
+
+
+
+
+
+
+
+
+
+
 <!--  <div>-->
 <!--    <v-card class="outside-card" color="purple  lighten-5">-->
 <!--      <v-toolbar flat color="purple" dark>-->

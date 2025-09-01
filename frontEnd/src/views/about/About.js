@@ -1367,6 +1367,7 @@ export default {
       }
     },
 
+    //   validation for repair form
     genFixFormReport() {
       this.showErrorProblem = false,
       this.showErrorInspector = false,

@@ -3,13 +3,10 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
-import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
-// import repairForm from '../views/repairForm/repairForm.vue'
-// import ListRepair from '../views/listRepair/listRepair.vue'
+
 import checkQuota from '../views/checkQuota/checkQuota.vue'
 import Upload from '../views/upload/upload.vue'
-// import login from '../views/logIn/logIn.vue'
-// import preRepairComponent from '../views/preRepair/preRepair.vue'
+
 
 Vue.use(VueRouter)
 
@@ -53,11 +50,7 @@ const routes = [
   //   beforeEnter: guardMyroute,
   //   meta: { requiresAuth: true },
   // },
-  {
-    path: '/tracking',
-    name: 'Tracking',
-    component: Tracking
-  },
+
   {
     path: '/about',
     name: 'About',
