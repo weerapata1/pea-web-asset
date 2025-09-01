@@ -15,7 +15,7 @@
           :chartData="barData"
           :options="barOptions"
           :width="600"
-          :height="350"
+          :height="400"
         />
       </div>
     </v-layout>

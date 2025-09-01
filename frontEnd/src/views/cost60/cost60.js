@@ -27,28 +27,98 @@ export default {
   name: "cost60viewer",
   components: { BarChart },
   data() {
+    const numberWithCommas = (n) => {
+      if (n == null) return "";
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
     return {
-      barData: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [
-          {
-            label: "Sales",
-            backgroundColor: "rgba(128,0,128,0.8)",
-            data: [12, 19, 3, 5, 2, 3],
-          },
-        ],
-      },
+      // barData: {
+      //   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      //   datasets: [
+      //     {
+      //       label: "53051060 - ค่าบำรุงฯ/ซ่อม-IT",
+      //       backgroundColor: "rgba(128,0,128,0.8)",
+      //       data: [12, 19, 3, 5, 2, 3],
+      //     },
+      //   ],
+      // },
+      barData: { labels: [], datasets: [] },
       barOptions: {
         responsive: true,
         maintainAspectRatio: false,
-        legend: { display: true },
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            fontSize: 16, // 🔼 increase legend label font size
+            fontStyle: "bold", // optional
+            fontColor: "#333", // optional       
+          },
+        },
+        title: {
+          display: true,
+          padding: 30,
+          text: "53051060 - ค่าบำรุงฯ/ซ่อม-IT ปี 2568",
+          fontSize: 18, // 🔼 chart title font size
+          fontStyle: "bold",
+        },
         scales: {
           yAxes: [{ ticks: { beginAtZero: true } }],
           xAxes: [{ gridLines: { display: false } }],
         },
+
+        // ✅ Tooltip customization (hover labels)
+        tooltips: {
+          enabled: true,
+          callbacks: {
+            // title is the x-axis label
+            title: (tooltipItems, data) => {
+              const item = tooltipItems[0];
+              return `เดือน: ${data.labels[item.index]}`;
+            },
+            // the main line per dataset
+            label: (tooltipItem, data) => {
+              const ds = data.datasets[tooltipItem.datasetIndex];
+              const val = ds.data[tooltipItem.index];
+              // Customize text here: add unit, format number, etc.
+              return `${ds.label}: ${numberWithCommas(val)} บาท`;
+            },
+            // optional: footer line
+            footer: (tooltipItems, data) => {
+              const item = tooltipItems[0];
+              const ds = data.datasets[item.datasetIndex];
+              return `index: ${item.index}, dataset: ${ds.label}`;
+            },
+          },
+          // optional: custom tooltip background/body font size, etc.
+          bodyFontSize: 14,
+          titleFontSize: 14,
+        },
+
+        // ✅ Value labels on bars (via chartjs-plugin-datalabels)
+        plugins: {
+          datalabels: {
+            // place the label in/near the bar
+            anchor: "end", // 'end' | 'center' | 'start'
+            align: "end", // 'top' | 'right' | 'bottom' | 'left' (bar chart synonyms: 'end', 'center', 'start')
+            offset: 2, // pixels away from bar edge
+            clamp: true, // stay inside the chart area
+            color: "#333",
+            font: {
+              weight: "bold",
+              size: 16,
+            },
+            formatter: (value) => {
+              // you can show raw value, or formatted, or add units
+              return numberWithCommas(value);
+            },
+          },
+        },
       },
       loading: false,
-      records:[],
+      records60: [],
+      barDataAPI: {},
     };
   },
 
@@ -76,18 +146,26 @@ export default {
       try {
         // const response = await axios.get("http://localhost:8080/emp/getEmpAll");
         const response = await axios.get(
-          `${process.env.VUE_APP_BASE_URL}/api/cost/getAllCost60`
+          `${process.env.VUE_APP_BASE_URL}/api/cost/cost60ByMonth`
         );
-        this.records = response.data;
-        console.log(this.records);
-        // this.records60 = response.data.data1.map((item) => ({
-        //   empId: item[0],
-        //   empName: item[1],
-        //   empDep_full: item[2],
-        //   empRank: item[3],
-        //   ccLongCode: item[4],
-        
+        this.records60 = response.data.data.data;
+
+        // this.records60 = response.data.data.map((item) => ({
+        //   recordsPerMonth: item[0],
+        //   valuePerMonth: item[1],
+        //   yearMonth: item[2],
         // }));
+        console.log(this.records60);
+        this.barData = {
+          labels: this.records60.map((i) => this.formatMonth(i.yearMonth)),
+          datasets: [
+            {
+              label: "53051060 - ค่าบำรุงฯ/ซ่อม-IT",
+              backgroundColor: "rgba(128,0,128,0.8)",
+              data: this.records60.map((i) => i.valuePerMonth),
+            },
+          ],
+        };
       } catch (error) {
         console.error(error);
       } finally {
@@ -95,6 +173,13 @@ export default {
       }
 
       this.loading = false;
+    },
+
+    formatMonth(yearMonth) {
+      const [year, month] = yearMonth.split("-"); // "2025", "01"
+      return new Date(year, month - 1).toLocaleString("en-US", {
+        month: "short",
+      });
     },
   },
 };
