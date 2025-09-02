@@ -20,11 +20,14 @@ const fBody = {
   deviceType: "null",
   damage: "null",
   empPhoneNumb: "null",
+  devPeaBrand : "null",
+
 };
 
 export default {
   name: "RepairComponent",
   mixins: [validationMixin],
+    valid: false,
   validations: {
     ccNameSeclected: { required },
     devPeaNoSelceted: { required },
@@ -48,7 +51,7 @@ export default {
       valid: false,
       dialogNote: false,
       dialogRechk: false,
-      
+
       first5char: "",
       ccNameSeclected: "",
       devPeaNoSelceted: "",
@@ -117,7 +120,7 @@ export default {
     axios.get(url + "/cc/getAllCCOnlyUse").then((response) => {
       this.itemCC = response.data.costCenter;
     });
-    
+
   },
 
   methods: {
@@ -175,9 +178,9 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-          
+
       }
-      
+
     },
 
     continues() {
@@ -219,7 +222,7 @@ export default {
               console.log("post Error >> ",error);
               alert("บันทึกไม่สำเร็จ โปรดตรวจสอบข้อมูล");
             });
-      
+
       if (this.resPost == "201") {
         this.clear();
       }

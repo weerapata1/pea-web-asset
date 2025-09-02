@@ -11,18 +11,53 @@
 
         <v-stepper-content step="1">
           <v-card color="orange lighten-5" class="mb-12" height="200px">
-            <v-form
-                ref="form"
-                v-model="valid"
-                lazy-validation
-            >
-              <v-text-field
-                  v-model="devPeaNoSelceted"
-                  label="รหัสทรัพสิน"
-                  required
-              ></v-text-field>
-            </v-form>
+            <v-card-text>
+              <v-form v-model="valid">
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="10">
+                    <v-text-field
+                        v-model="devPeaNoSelceted"
+                        :rules="devPeaNoRule"
+                        :counter="10"
+                        label="เลขทรัพย์สิน"
+                        required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="1">
+                    <v-btn
+                        depressed
+                        color="primary"
+                    >
+                      Primary
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+              </v-form>
+            </v-card-text>
+            <v-card-text>
+
+            </v-card-text>
           </v-card>
+
+<!--          <v-form-->
+<!--              ref="form"-->
+<!--              v-model="valid"-->
+<!--              lazy-validation-->
+<!--          >-->
+<!--            <v-text-field-->
+<!--                v-model="devPeaNoSelceted"-->
+<!--                label="รหัสทรัพสิน"-->
+<!--                required-->
+<!--            ></v-text-field>-->
+<!--            <v-text-field-->
+<!--                v-model="devPeaBrand"-->
+<!--                label="ยี้ห้อผลิตภัณฑ์"-->
+<!--                required-->
+<!--            ></v-text-field>-->
+<!--          </v-form>-->
+
           <!-- ปุ่มทดสอบ -->
 <!--          if click Continue button found then go to next step // else alert not found  device item -->
           <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
