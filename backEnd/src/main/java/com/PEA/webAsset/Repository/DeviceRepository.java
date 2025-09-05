@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.PEA.webAsset.Entity.tbRepair;
+import com.PEA.webAsset.Interface.Cost60Interface;
+import com.PEA.webAsset.Interface.DeviceInterface;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -391,5 +394,36 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
         // :leftPrice, :ccLongCode, :empId)", nativeQuery = true)
         // void bulkInsertDevices(@Param("devices") List<Object[]> devices);
         void bulkInsertDevices(List<Object[]> devices);
+
+        @Query(value = "WITH base AS ( " +
+                        "   SELECT d.device_id, " +
+                        "          d.dev_pea_no, " +
+                        "          d.dev_description, " +
+                        "          d.dev_received_date, " +
+                        "          e.emp_name, " +
+                        "          e.emp_rank, " +
+                        "          c.cc_short_name, " +
+                        "          d.cc_long_code, " +
+                        "          CONCAT(SUBSTRING(d.cc_long_code, 1, CHAR_LENGTH(d.cc_long_code) - 3), '000') AS division_code "
+                        +
+                        "   FROM tb_device d " +
+                        "   LEFT JOIN tb_cost_center c ON d.cc_long_code = c.cc_long_code " +
+                        "   LEFT JOIN tb_employee e    ON d.emp_id = e.emp_id " +
+                        "   WHERE d.device_type_id = 1 " +
+                        ") " +
+                        "SELECT b.device_id, " +
+                        "       b.dev_pea_no, " +
+                        "       b.dev_description, " +
+                        "       b.dev_received_date, " +
+                        "       b.emp_name, " +
+                        "       b.emp_rank, " +
+                        "       b.cc_short_name, " +
+                        "       b.cc_long_code, " +
+                        "       b.division_code, " +
+                        "       COUNT(*) OVER (PARTITION BY b.division_code) AS division_count, " +
+                        "       COUNT(*) OVER (PARTITION BY b.division_code, b.cc_long_code) AS department_count " +
+                        "FROM base b " +
+                        "ORDER BY b.division_code, b.cc_long_code, b.device_id", countQuery = "SELECT COUNT(*) FROM tb_device d WHERE d.device_type_id = 1", nativeQuery = true)
+        Page<DeviceInterface.countDeviceByDep> getDeviceDetailsWithCounts(Pageable pageable);
 
 }

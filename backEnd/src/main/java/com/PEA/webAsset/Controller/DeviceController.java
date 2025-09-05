@@ -3,6 +3,7 @@ package com.PEA.webAsset.Controller;
 import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Entity.TempDevice;
 import com.PEA.webAsset.Exeption.InvalidDataException;
+import com.PEA.webAsset.Interface.DeviceInterface;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
 import com.PEA.webAsset.Repository.CostCenterRepository;
@@ -11,6 +12,8 @@ import com.PEA.webAsset.Repository.DeviceTypeRepository;
 import com.PEA.webAsset.Share.DeviceService.DeviceService;
 import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 import com.PEA.webAsset.Share.ExcelService.ExcelService;
+import com.PEA.webAsset.dto.Cost60ByUserDTO;
+import com.PEA.webAsset.dto.CountDeviceByDepDTO;
 import com.PEA.webAsset.Share.ResponseMessage;
 import java.io.IOException;
 import java.util.*;
@@ -568,11 +571,6 @@ public class DeviceController {
 
   private static final Logger LOGGER = Logger.getLogger(DeviceController.class.getName());
 
-  @PostMapping("/test2")
-  public String getDescription(@RequestBody String json) {
-    return (json);
-  }
-
   @RequestMapping(path = "/something", method = RequestMethod.PUT)
   public @ResponseBody String helloWorld() {
     return "Hello World";
@@ -688,27 +686,40 @@ public class DeviceController {
     }
   }
 
-  // @PostMapping("/insertRepairRecord")
-  // public ResponseEntity<ResponseMessage> insertRepairRecord(@RequestBody List<TempDevice> tempDevices) {
-  //   String message;
-  //   if (tempDevices == null || tempDevices.isEmpty()) {
-  //     message = "The uploaded data is empty!";
-  //     return ResponseEntity
-  //         .status(HttpStatus.NO_CONTENT)
-  //         .body(new ResponseMessage(false, message, null));
-  //   }
-  //   try {
-  //     tempDeviceRepository.bulkInsertDevices(tempDevices);
-  //     message = "Uploaded the data successfully. Records: " + tempDevices.size();
-  //     return ResponseEntity
-  //         .status(HttpStatus.OK)
-  //         .body(new ResponseMessage(true, message, null));
-  //   } catch (Exception e) {
-  //     message = "Could not upload the data. Error: " + e.getMessage();
-  //     return ResponseEntity
-  //         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-  //         .body(new ResponseMessage(false, message, null));
-  //   }
-  // }
+  @GetMapping("/countDeviceByDep")
+  public ResponseEntity<ResponseMessage> countDeviceByDep() {
+    try {
+      List<Object[]> device = new ArrayList<Object[]>();
+      Pageable paging = Pageable.unpaged();
+
+      Page<DeviceInterface.countDeviceByDep> pageResult = deviceRepository.getDeviceDetailsWithCounts(paging);
+      List<CountDeviceByDepDTO> rows = pageResult.getContent().stream()
+          .map(p -> new CountDeviceByDepDTO(
+              p.getDeviceId(),
+              p.getDevPeaNo(),
+              p.getDevDescription(),
+              p.getDevReceivedDate(),
+              p.getEmpName(),
+              p.getEmpRank(),
+              p.getCcShortName(),
+              p.getCcLongCode(),
+              p.getDivisionCode(),
+              p.getDivisionCount(),
+              p.getDepartmentCount()))
+          .collect(java.util.stream.Collectors.toList());
+
+      Map<String, Object> response = new HashMap<>();
+      response.put("currentPage", pageResult.getNumber());
+      response.put("totalItems", pageResult.getTotalElements());
+      response.put("totalPages", pageResult.getTotalPages());
+      response.put("data", rows);
+      // response.put("itemsPerPage", size);
+      return ResponseEntity.ok(new ResponseMessage(true, "Fetched " + rows.size() + " records.", response));
+    } catch (Exception e) {
+      return ResponseEntity
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponseMessage(false, "Error fetching data", e));
+    }
+  }
 
 }

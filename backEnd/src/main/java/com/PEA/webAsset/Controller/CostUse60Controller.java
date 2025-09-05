@@ -8,6 +8,7 @@ import com.PEA.webAsset.Repository.CostUse60Repository;
 import com.PEA.webAsset.Service.EmployeeService;
 import com.PEA.webAsset.Share.ResponseMessage;
 import com.PEA.webAsset.dto.Cost60ByMonthDTO;
+import com.PEA.webAsset.dto.Cost60ByUserDTO;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -36,7 +37,6 @@ public class CostUse60Controller {
         try {
             Pageable paging = Pageable.unpaged();
             Page<Cost60Interface.Cost60ByMonth> pageResult = costUse60Repository.cost60GroupByMonth(paging);
-            // List<Cost60ByMonthDTO> rows = costUse60Repository.cost60GroupByMonth();
 
             List<Cost60ByMonthDTO> rows = pageResult.getContent().stream()
                     .map(p -> new Cost60ByMonthDTO(
@@ -65,13 +65,12 @@ public class CostUse60Controller {
         try {
             Pageable paging = Pageable.unpaged();
             Page<Cost60Interface.Cost60ByUser> pageResult = costUse60Repository.cost60GroupByUser(paging);
-            // List<Cost60ByMonthDTO> rows = costUse60Repository.cost60GroupByMonth();
 
-            List<Cost60ByMonthDTO> rows = pageResult.getContent().stream()
-                    .map(p -> new Cost60ByMonthDTO(
+            List<Cost60ByUserDTO> rows = pageResult.getContent().stream()
+                    .map(p -> new Cost60ByUserDTO(
                             p.getUsername(),
                             p.getValuePerUsername(),
-                            p. getRecordsPerUsername()))
+                            p.getRecordsPerUsername()))
                     .collect(java.util.stream.Collectors.toList());
 
             Map<String, Object> response = new HashMap<>();

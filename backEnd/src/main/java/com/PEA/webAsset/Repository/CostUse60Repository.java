@@ -4,9 +4,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.PEA.webAsset.Entity.tbCostUse60;
 import com.PEA.webAsset.Interface.Cost60Interface;
-import com.PEA.webAsset.dto.Cost60ByMonthDTO;
-
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +32,7 @@ public interface CostUse60Repository extends JpaRepository<tbCostUse60, Long> {
             "GROUP BY username ", countQuery = "SELECT COUNT(*) FROM ( " +
                     "  SELECT 1 " +
                     "  FROM tb_cost_use60 " +
-                    "  GROUP BY username " +
+                    "  GROUP BY username ORDER BY valuePerUsername DESC " +
                     ") x", nativeQuery = true)
     Page<Cost60Interface.Cost60ByUser> cost60GroupByUser(Pageable pageable);
 }

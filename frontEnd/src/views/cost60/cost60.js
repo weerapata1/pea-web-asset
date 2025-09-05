@@ -43,26 +43,27 @@ export default {
       //     },
       //   ],
       // },
-      barData: { labels: [], datasets: [] },
+      barDataByMonth: { labels: [], datasets: [] },
+      barDataByUser: { labels: [], datasets: [] },
       barOptions: {
         responsive: true,
         maintainAspectRatio: false,
         legend: {
           display: true,
-          position: 'bottom',
+          position: "bottom",
           labels: {
             fontSize: 16, // 🔼 increase legend label font size
             fontStyle: "bold", // optional
-            fontColor: "#333", // optional       
+            fontColor: "#333", // optional
           },
         },
-        title: {
-          display: true,
-          padding: 30,
-          text: "53051060 - ค่าบำรุงฯ/ซ่อม-IT ปี 2568",
-          fontSize: 18, // 🔼 chart title font size
-          fontStyle: "bold",
-        },
+        // title: {
+        //   display: true,
+        //   padding: 30,
+        //   text: "53051060 - ค่าบำรุงฯ/ซ่อม-IT ปี 2568",
+        //   fontSize: 18, // 🔼 chart title font size
+        //   fontStyle: "bold",
+        // },
         scales: {
           yAxes: [{ ticks: { beginAtZero: true } }],
           xAxes: [{ gridLines: { display: false } }],
@@ -117,7 +118,8 @@ export default {
         },
       },
       loading: false,
-      records60: [],
+      records60ByMonth: [],
+      records60ByUser: [],
       barDataAPI: {},
     };
   },
@@ -128,8 +130,8 @@ export default {
 
   mounted() {
     // Example: update data later (reactiveProp in BarChart will re-render)
-    this.getAllCost60();
-
+    this.getCost60ByMonth();
+    this.getCost60ByUser();
     // setTimeout(() => {
     //   this.barData = {
     //     ...this.barData,
@@ -141,28 +143,68 @@ export default {
   created() {},
 
   methods: {
-    async getAllCost60() {
+    async getCost60ByMonth() {
       this.loading = true;
       try {
         // const response = await axios.get("http://localhost:8080/emp/getEmpAll");
         const response = await axios.get(
           `${process.env.VUE_APP_BASE_URL}/api/cost/cost60ByMonth`
         );
-        this.records60 = response.data.data.data;
+        this.records60ByMonth = response.data.data.data;
 
         // this.records60 = response.data.data.map((item) => ({
         //   recordsPerMonth: item[0],
         //   valuePerMonth: item[1],
         //   yearMonth: item[2],
         // }));
-        console.log(this.records60);
-        this.barData = {
-          labels: this.records60.map((i) => this.formatMonth(i.yearMonth)),
+        console.log(this.records60ByMonth);
+        this.barDataByMonth = {
+          labels: this.records60ByMonth.map((i) =>
+            this.formatMonth(i.yearMonth)
+          ),
           datasets: [
             {
-              label: "53051060 - ค่าบำรุงฯ/ซ่อม-IT",
+              label: "53051060 - ค่าบำรุงฯ/ซ่อม-IT รายเดือน",
               backgroundColor: "rgba(128,0,128,0.8)",
-              data: this.records60.map((i) => i.valuePerMonth),
+              data: this.records60ByMonth.map((i) => i.valuePerMonth),
+            },
+          ],
+        };
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingEmp = false;
+      }
+
+      this.loading = false;
+    },
+
+    async getCost60ByUser() {
+      this.loading = true;
+      try {
+        // const response = await axios.get("http://localhost:8080/emp/getEmpAll");
+        const response = await axios.get(
+          `${process.env.VUE_APP_BASE_URL}/api/cost/cost60ByUser`
+        );
+        this.records60ByUser = response.data.data.data;
+
+        // this.records60 = response.data.data.map((item) => ({
+        //   recordsPerMonth: item[0],
+        //   valuePerMonth: item[1],
+        //   yearMonth: item[2],
+        // }));
+        this.records60ByUser.sort((a, b) => b.valuePerUser - a.valuePerUser)
+        console.log("ByUser ", this.records60ByUser);
+
+        this.barDataByUser = {
+          labels: this.records60ByUser.map((i) => i.username),
+          datasets: [
+            {
+              label: "53051060 - ค่าบำรุงฯ/ซ่อม-IT ราย User",
+              backgroundColor: "rgba(128,0,128,0.8)",
+              data: this.records60ByUser.map(
+                (i) => Number(i.valuePerUser).toFixed(2) // string with 2 decimals
+              ),
             },
           ],
         };

@@ -9,14 +9,24 @@
       ></v-progress-circular
     ></v-layout>
 
-    <v-layout v-else column style="width: 100%;">
+    <v-layout v-else column style="width: 100%">
       <div>
         <BarChart
-          :chartData="barData"
+          :chartData="barDataByMonth"
           :options="barOptions"
           :width="600"
           :height="400"
         />
+      </div>
+
+      <div class="pt-4 ma-0" style="overflow-x: auto">
+        <div :style="{ minWidth: (records60ByUser.length * 100) + 'px' }">
+          <BarChart
+            :chartData="barDataByUser"
+            :options="barOptions"
+            :height="400"
+          />
+        </div>
       </div>
     </v-layout>
   </v-container>
