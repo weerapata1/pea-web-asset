@@ -1,18 +1,19 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 // import Home from '../views/Home.vue'
-import About from '../views/about/About.vue'
-import Repair from '../views/repair/repair.vue'
-import Tracking from '../views/TrackingRepair/TrackingRepair.vue'
+import About from "../views/about/About.vue";
+import Repair from "../views/repair/repair.vue";
+import Tracking from "../views/TrackingRepair/TrackingRepair.vue";
 // import repairForm from '../views/repairForm/repairForm.vue'
 // import ListRepair from '../views/listRepair/listRepair.vue'
-import checkQuota from '../views/checkQuota/checkQuota.vue'
-import Upload from '../views/upload/upload.vue'
-import cost60 from '../views/cost60/cost60.vue'
+import checkQuota from "../views/checkQuota/checkQuota.vue";
+import Upload from "../views/upload/upload.vue";
+import cost60 from "../views/cost60/cost60.vue";
 // import login from '../views/logIn/logIn.vue'
 // import preRepairComponent from '../views/preRepair/preRepair.vue'
+import deviceByDep from "../views/deviceByDep/deviceByDep.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 // function guardMyroute(to, from, next) {
 //   var isAuthenticated = false;
@@ -29,8 +30,8 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    redirect: '/about'  // 👈 Add this redirect
+    path: "/",
+    redirect: "/about", // 👈 Add this redirect
   },
   // {
   //   path: '/login',
@@ -43,9 +44,9 @@ const routes = [
   //   component: preRepairComponent
   // },
   {
-    path: '/repair',
-    name: 'Repair',
-    component: Repair
+    path: "/repair",
+    name: "Repair",
+    component: Repair,
   },
   // {
   //   path: '/listRepair',
@@ -55,38 +56,43 @@ const routes = [
   //   meta: { requiresAuth: true },
   // },
   {
-    path: '/tracking',
-    name: 'Tracking',
-    component: Tracking
+    path: "/tracking",
+    name: "Tracking",
+    component: Tracking,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About
+    path: "/about",
+    name: "About",
+    component: About,
   },
   {
-    path: '/checkQuota',
-    name: 'checkQuota',
+    path: "/checkQuota",
+    name: "checkQuota",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: checkQuota
+    component: checkQuota,
   },
-    {
-    path: '/upload',
-    name: 'upload',
-    component: Upload
+  {
+    path: "/upload",
+    name: "upload",
+    component: Upload,
   },
-      {
-    path: '/cost60',
-    name: 'cost60',
-    component: cost60
+  {
+    path: "/cost60",
+    name: "cost60",
+    component: cost60,
   },
-]
+  {
+    path: "/deviceByDep",
+    name: "deviceByDep",
+    component: deviceByDep,
+  },
+];
 
 const router = new VueRouter({
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
