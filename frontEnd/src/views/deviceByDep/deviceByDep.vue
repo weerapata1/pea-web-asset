@@ -1,41 +1,99 @@
 <template>
-  <v-container fluid class="pa-4 ma-0 fill-height">
-    <v-layout v-if="loading" align-center justify-center style="width: 100%">
-      <v-progress-circular
-        indeterminate
-        color="primary"
-        size="96"
-        width="8"
-      ></v-progress-circular
-    ></v-layout>
+  <div class="pa-4 ma-2" style="width: 100%">
+    
+    <div v-if="loading" class="d-flex align-center justify-center fill-height">
+      <v-progress-circular indeterminate color="primary" size="96" width="8" />
+    </div>
 
-    <v-layout v-else column style="width: 100%">
-      <v-expansion-panels v-model="expandedRegions" multiple>
+    <v-row v-else>
+      <v-expansion-panels
+        v-model="expandedRegions"
+        class="outlined-panels"
+        focusable
+        multiple
+      >
         <!-- Region -->
         <v-expansion-panel v-for="reg in regions" :key="reg.regionKey">
-          <v-expansion-panel-header>
+          <v-expansion-panel-header class="custom-header">
             <div class="w-100 header-grid">
               <div class="text-left">
-                <b class="black--text">
-                  {{ (reg.firstDept && reg.firstDept.ccShortName) || "—" }}
-                </b>
-                {{
-                  (reg.firstDept && reg.firstDept.ccLongCode) || reg.regionKey
-                }}
+                <!-- <v-chip large color="purple" outlined> -->
+                <v-chip
+                  large
+                  color="white"
+                  class="pl-4 pr-4 purple--text text--darken-2"
+                  style="font-size: 18px"
+                >
+                  <v-icon medium class="mr-2" color="purple darken-2">
+                    mdi-home-city
+                  </v-icon>
+                  <b>
+                    {{ (reg.firstDept && reg.firstDept.ccShortName) || "—" }}
+                  </b>
+                  <span class="ml-2">
+                    {{
+                      (reg.firstDept && reg.firstDept.ccLongCode) ||
+                      reg.regionKey
+                    }}
+                  </span>
+                </v-chip>
               </div>
               <div class="text-left">
-                จำนวน <b class="black--text">{{ reg.totalRecords }}</b> รายการ
+                <v-chip
+                  large
+                  color="white"
+                  class="pl-4 pr-4 indigo--text text--darken-2"
+                  style="font-size: 18px"
+                >
+                  <v-icon medium class="mr-2" color="indigo darken-2">
+                    mdi-laptop
+                  </v-icon>
+                  จำนวนทั้งหมด :
+                  <span class="ml-1 mr-1">
+                    <b>{{ reg.totalRecords }}</b></span
+                  >
+                  รายการ</v-chip
+                >
               </div>
               <div class="text-left">
-                ยังไม่ทดแทน <b class="black--text">{{ reg.newCount }}</b>
+                <!-- <v-badge color="green" overlap> -->
+                <v-chip
+                  large
+                  color="white"
+                  class="pl-4 pr-4 green--text text--darken-3"
+                  style="font-size: 18px"
+                >
+                  <v-icon medium class="mr-2" color="green darken-3">
+                    mdi-desktop-classic </v-icon
+                  >ยังไม่ทดแทน :
+                  <span class="ml-1 mr-1"
+                    ><b>{{ reg.newCount }} </b></span
+                  ></v-chip
+                >
+                <!-- </v-badge> -->
               </div>
               <div class="text-left">
-                ทดแทนแล้ว <b class="black--text">{{ reg.oldCount }}</b>
-                <span v-if="reg.unknownCount">
-                  | ไม่ทราบ {{ reg.unknownCount }}</span
+                <v-chip
+                  large
+                  color="white"
+                  class="pl-4 pr-4 warning--text text--darken-2"
+                  style="font-size: 18px"
+                >
+                  <v-icon medium class="mr-2" color="warning darken-2">
+                    mdi-delete </v-icon
+                  >ทดแทนแล้ว :
+                  <span class="ml-1 mr-1"
+                    ><b>{{ reg.oldCount }}</b></span
+                  >
+                  <span v-if="reg.unknownCount">
+                    | ไม่ทราบ {{ reg.unknownCount }}</span
+                  ></v-chip
                 >
               </div>
             </div>
+            <template v-slot:actions>
+              <v-icon color="grey lighten-3">mdi-chevron-down</v-icon>
+            </template>
           </v-expansion-panel-header>
 
           <v-expansion-panel-content>
@@ -177,8 +235,8 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-    </v-layout>
-  </v-container>
+    </v-row>
+  </div>
 </template>
 
 <script src="./deviceByDep.js"></script>

@@ -3,20 +3,20 @@ import Vue from "vue";
 import JsonExcel from "vue-json-excel";
 Vue.component("downloadExcel", JsonExcel);
 
-import { mdiMicrosoftExcel } from "@mdi/js";
-Vue.component("mdiMicrosoftExcel", mdiMicrosoftExcel);
+import { mdiLaptop } from "@mdi/js";
+Vue.component("mdiLaptop", mdiLaptop);
 
-import { mdiFileFindOutline } from "@mdi/js";
-Vue.component("mdiFileFindOutline", mdiFileFindOutline);
-
-import { mdiMagnify } from "@mdi/js";
-Vue.component("mdiMagnify", mdiMagnify);
-
-import { mdiQrcode } from "@mdi/js";
-Vue.component("mdiQrcode", mdiQrcode);
+import { mdiDesktopClassic } from '@mdi/js';
+Vue.component("mdiDesktopClassic", mdiDesktopClassic);
 
 import Treeselect from "@riophae/vue-treeselect";
 Vue.component("treeselect", Treeselect);
+
+import { mdiDelete } from '@mdi/js';
+Vue.component("mdiDelete", mdiDelete);
+
+import { mdiHomeCity } from '@mdi/js';
+Vue.component("mdiHomeCity", mdiHomeCity);
 
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -47,7 +47,8 @@ export default {
         r._tag = this.tagRowByYear(r);
 
         // region
-        const regionKey = this.getRegionKey(r.ccLongCode);
+        // const regionKey = this.getRegionKey(r.ccLongCode);
+        const regionKey = this.getRegionKeyFromRow(r);
         if (!regionMap.has(regionKey)) {
           regionMap.set(regionKey, {
             regionKey,
@@ -223,13 +224,34 @@ export default {
       return "unknown";
     },
 
-    getRegionKey(ccLongCode) {
-      if (!ccLongCode) return "UNKNOWN";
-      return String(ccLongCode).slice(0, 6);
-    },
-    // For display like "E30101xxxx"
-    getRegionLabel(regionKey) {
-      return `${regionKey}xxxx`;
+    getRegionKeyFromRow(row) {
+      const code = String(row.ccLongCode || "")
+        .toUpperCase()
+        .trim();
+      const short = String(row.ccShortName || "").trim();
+
+      // 1) E3010xxxxx -> E3010xx (first 6 chars)
+      if (code.startsWith("E3010")) {
+        return code.slice(0, 6); // e.g. E30102
+      }
+
+      // 2 & 3) E301x… (x ≠ 0): split by กฟจ
+      if (/^E301/.test(code)) {
+        const x = code.charAt(4);
+        if (x !== "0") {
+          // be lenient: กฟจ or กฟจ. with optional spaces
+          const hasGFJ = /กฟจ\.?/u.test(short);
+          return hasGFJ ? "E301X-GFJ" : "E301X-OTHER";
+        }
+        // if it’s somehow E3010 here, rule 1 would have caught it
+      }
+
+      // Others: E302… E303… -> first 4 chars
+      if (/^E30[2-9]/.test(code)) return code.slice(0, 4);
+
+      // Fallback: E### (first 4), else first 4 of whatever it is
+      const m = code.match(/^E\d{3}/);
+      return m ? m[0] : code.slice(0, 4);
     },
   },
 };
