@@ -1,11 +1,69 @@
 <template>
-  <div class="pa-4 ma-2" style="width: 100%">
-    
+  <div class="py-2 my-2" style="width: 100%">
     <div v-if="loading" class="d-flex align-center justify-center fill-height">
       <v-progress-circular indeterminate color="primary" size="96" width="8" />
     </div>
 
     <v-row v-else>
+        <div>
+          <v-alert
+            :value="alert"
+            color="red"
+            dark
+            border="top"
+            icon="mdi-home"
+            transition="slide-y-transition"
+          >
+            กรุณาเลือกหน่วยงานที่ต้องการตรวจสอบ
+          </v-alert>
+        </div>
+
+        <v-card-text class="px-8 mx-2">
+          <v-form v-model="valid">
+            <v-row>
+            <v-col cols="12" sm="2" md="2">
+              <v-autocomplete
+                color="primary"
+                v-model="modelEmp"
+                :items="itemsEmp"
+                :item-text="getItemEmp"
+                label="รหัสพนักงาน"
+                item-value="empId"
+                :loading="loadingEmp"
+                @change="(event) => updateCCFromEmp(modelEmp)"
+                return-object
+              >
+              </v-autocomplete>
+            </v-col>
+            <v-col cols="12" sm="3" md="3">
+              <v-autocomplete
+                color="primary"
+                v-model="modelCC"
+                :items="itemsCC"
+                :item-text="getItemCC"
+                label="การไฟฟ้า"
+                item-value="ccLongCode"
+                :loading="loadingCC"
+                @change="(event) => updateCC(modelCC)"
+                return-object
+              >
+              </v-autocomplete>
+            </v-col>
+
+            <v-col cols="12" sm="2" md="1" align-self="center">
+              <v-btn
+                elevation="3"
+                @click="checkQuota"
+                id="searchButton"
+                class="custom-button purple--text"
+                ><v-icon medium class="mr-2 v-purple"> mdi-magnify </v-icon
+                ><b>ตรวจสอบ</b>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+
       <v-expansion-panels
         v-model="expandedRegions"
         class="outlined-panels"
@@ -20,8 +78,7 @@
                 <!-- <v-chip large color="purple" outlined> -->
                 <v-chip
                   large
-                  color="white"
-                  class="pl-4 pr-4 purple--text text--darken-2"
+                  class="pl-4 pr-4 purple--text text--darken-2 custom-regname"
                   style="font-size: 18px"
                 >
                   <v-icon medium class="mr-2" color="purple darken-2">
@@ -42,7 +99,7 @@
                 <v-chip
                   large
                   color="white"
-                  class="pl-4 pr-4 indigo--text text--darken-2"
+                  class="pl-4 pr-4 indigo--text text--darken-2 custom-regtotal"
                   style="font-size: 18px"
                 >
                   <v-icon medium class="mr-2" color="indigo darken-2">
@@ -60,7 +117,7 @@
                 <v-chip
                   large
                   color="white"
-                  class="pl-4 pr-4 green--text text--darken-3"
+                  class="pl-4 pr-4 green--text text--darken-3 custom-regnewer"
                   style="font-size: 18px"
                 >
                   <v-icon medium class="mr-2" color="green darken-3">
@@ -76,7 +133,7 @@
                 <v-chip
                   large
                   color="white"
-                  class="pl-4 pr-4 warning--text text--darken-2"
+                  class="pl-4 pr-4 warning--text text--darken-2 custom-regolder"
                   style="font-size: 18px"
                 >
                   <v-icon medium class="mr-2" color="warning darken-2">
@@ -92,7 +149,7 @@
               </div>
             </div>
             <template v-slot:actions>
-              <v-icon color="grey lighten-3">mdi-chevron-down</v-icon>
+              <v-icon color="purple lighten-3">mdi-chevron-down</v-icon>
             </template>
           </v-expansion-panel-header>
 

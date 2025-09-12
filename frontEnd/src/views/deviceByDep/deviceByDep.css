@@ -149,6 +149,31 @@ i.v-icon.v-white {
 }
 
 .v-expansion-panel-header.custom-header {
-  background: linear-gradient(to bottom, #ffffff 50%, rgb(255, 255, 255) 70%, purple 95%);
+  background: linear-gradient(to bottom, #ffffff 50%,#9519ca 150%, purple 200%);
+  color: white;
+}
+
+.v-chip.custom-regname {
+  background: linear-gradient(to bottom, #ffffff 60%, purple 200%) !important;
+  color: white;
+}
+
+.v-chip.custom-regtotal {
+  background: linear-gradient(to bottom, #ffffff 60%, #303F9F 200%) !important;
+  color: white;
+}
+
+.v-chip.custom-regnewer {
+  background: linear-gradient(to bottom, #ffffff 60%, #2E7D32 200%) !important;
+  color: white;
+}
+
+.v-chip.custom-regolder {
+  background: linear-gradient(to bottom, #ffffff 60%, #FFA000 200%) !important;
+  color: white;
+}
+
+.v-btn.custom-button{
+  background: linear-gradient(to bottom, #ffffff 60%, purple 200%) !important;
   color: white;
 }
