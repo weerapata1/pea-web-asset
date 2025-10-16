@@ -9,7 +9,6 @@
                   <i class="nc-icon nc-zoom-split"></i>
                   <p>ระบบตรวจสอบทรัพย์สิน</p>
                 </sidebar-link>
-
                 <sidebar-link to="/checkQuota">
                   <i class="nc-icon nc-bullet-list-67"></i>
                   <p>ตรวจสอบโควต้า</p>
