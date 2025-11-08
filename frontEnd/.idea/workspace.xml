@@ -5,9 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79f124e5-fd6a-4e8c-810b-06db3cb470fb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/DTO/DeviceFind_DTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/DTO/RepairFindWithRepairCodeOrDevPeaNoDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/DTO/RepairRequestsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/DTO/RepairUpdateRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Entity/tbActiveStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/ActiveStatusRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/DeviceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/DeviceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/EquipmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/EquipmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/RepairController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/RepairController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/TempDeviceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Controller/TempDeviceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Entity/tbRepair.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Entity/tbRepair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Interface/SyncResultDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/DTO/SyncResultDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Interface/TempDeviceInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/DTO/TempDeviceInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/DeviceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/DeviceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/RepairRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/RepairRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/RepairStatusRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/RepairStatusRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/TempDeviceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Repository/TempDeviceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Service/RepairService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Service/RepairService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Service/TempDeviceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/java/com/PEA/webAsset/Service/TempDeviceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backEnd/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../backEnd/src/main/resources/data.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/repair/repair.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/repair/repair.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/repair/repair.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/repair/repair.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +56,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;Oz__2025&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/WorkShop/2025/pea-web-asset/frontEnd&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -43,7 +65,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2025.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -60,7 +82,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-WS-252.25557.126" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-WS-252.26830.93" />
       </set>
     </attachedChunks>
   </component>
@@ -89,6 +111,19 @@
       <workItem from="1756696108270" duration="5005000" />
       <workItem from="1756778296582" duration="1323000" />
       <workItem from="1756784997814" duration="2306000" />
+      <workItem from="1756886723659" duration="5193000" />
+      <workItem from="1756967564826" duration="4687000" />
+      <workItem from="1756980901305" duration="592000" />
+      <workItem from="1757181128726" duration="585000" />
+      <workItem from="1759747989516" duration="4356000" />
+      <workItem from="1760539065269" duration="1650000" />
+      <workItem from="1760550487128" duration="783000" />
+      <workItem from="1760554705462" duration="605000" />
+      <workItem from="1760598971627" duration="3974000" />
+      <workItem from="1760698023870" duration="2468000" />
+      <workItem from="1760978630664" duration="29000" />
+      <workItem from="1762141884523" duration="20127000" />
+      <workItem from="1762310731301" duration="60373000" />
     </task>
     <servers />
   </component>
@@ -105,5 +140,23 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/repair/repair.vue</url>
+          <line>28</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/repair/repair.vue</url>
+          <line>108</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

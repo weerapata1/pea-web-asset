@@ -23,7 +23,7 @@ public class RepairService {
                 ?  true :  false;
     }
 
-    public static String GeneratePrefixNumber(){
+    public static String GeneratePrefixAndRepairCode(){
         Long temp = repairRepository.findSequentOfRepair() + 1L;
         String year = String.valueOf(Year.now());
         return "RP-" + year + "-" + chkPreFixNum(temp) + temp;
@@ -41,10 +41,4 @@ public class RepairService {
         return stringTemp;
     }
 
-    //    @GetMapping("/sequent")
-//    public String getSeq(){
-//        Long seqTemp = repairRepository.findSequentOfRepair() + 1;
-//        System.out.println(seqTemp);
-//        return String.valueOf(seqTemp);
-//    }
 }

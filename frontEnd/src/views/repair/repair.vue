@@ -1,292 +1,414 @@
 <template>
-<!-- Step 1 ค้นหาเรื่องที่จะซ่อม -> Step 2 กรอกอาการที่เสีย -> Step 3 กรอกผู้ติดต่อ -> Step 4 ตรวจสอบความถูกต้อง -->
-      <v-stepper
-          v-model="e6" vertical max-width="80%" max-height="90%" elevation="3"
-          fluid
-          style="margin-left:auto; margin-right:auto; margin-top:5vh; display:block;"
-      >
-        <v-stepper-step :complete="e6 > 1" step="1">
-          ค้นหาเครื่อง
-        </v-stepper-step>
+  <!-- Step 1 ค้นหาเรื่องที่จะซ่อม -> Step 2 กรอกอาการที่เสียและรายละเอียด -> Step 3 ตรวจสอบความถูกต้อง -> Step 4 กดบันทึก -->
+  <v-container fluid style="max-width: 98% ">
+    <v-row no-gutters dense>
+      <v-col col="12" sm="2" md="12">
+        <v-stepper v-model="step">
+          <v-stepper-header>
+            <v-stepper-step :complete="step > 1" step="1">
+              <v-icon left>mdi-magnify</v-icon>
+              1 ค้นหาเครื่องที่จะซ่อม
+            </v-stepper-step>
 
-        <v-stepper-content step="1">
-          <v-card color="orange lighten-5" class="mb-12" height="200px">
-            <v-card-text>
-              <v-form v-model="valid">
-              <v-container>
+            <v-divider></v-divider>
+
+            <v-stepper-step :complete="step > 2" step="2">
+              <v-icon left>mdi-file-edit-outline</v-icon>
+              2 กรอกอาการที่เสียและรายละเอียด
+            </v-stepper-step>
+
+            <v-divider></v-divider>
+
+            <v-stepper-step step="3">
+              <v-icon left>mdi-check-outline</v-icon>
+              3 ตรวจสอบความถูกต้อง
+            </v-stepper-step>
+          </v-stepper-header>
+
+          <v-stepper-items>
+            <v-stepper-content step="1">
+              <v-container fluid style="max-width:100%">
                 <v-row>
-                  <v-col cols="12" md="10">
-                    <v-text-field
-                        v-model="devPeaNoSelceted"
-                        :rules="devPeaNoRule"
-                        :counter="10"
-                        label="เลขทรัพย์สิน"
-                        required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="1">
-                    <v-btn
-                        depressed
-                        color="primary"
-                    >
-                      Primary
-                    </v-btn>
-                  </v-col>
+                  <v-card min-width="80%" max-width="100%" min-height="600px" max-height="90%" color="pink lighten-4">
+                    <v-col cols="12" sm="12" md="12">
+                      <v-form ref="form" class="mt-4 ">
+                        <v-text-field
+                            v-model="textSearch"
+                            :rules="devPeaNoRule"
+                            :counter="11"
+                            required
+                            @keyup.enter="searchDeviceByPeaNo"
+                            label="กรอกรหัสทรัพย์สินหรือหมายเลขผลิตภัณฑ์"
+                            placeholder="โปรดกรอกอย่างน้อย 4 ตัวอักษร"
+                            solo
+                        ></v-text-field>
+                      </v-form>
+                    </v-col>
+
+                    <!-- button -->
+                    <v-card-actions class="justify-center mt-n10">
+                      <v-col cols="12" sm="6" md="6">
+                        <v-btn
+                            large
+                            block
+                            color="red lighten-3"
+                            @click="reset"
+                        >
+                          ล้างค่า
+                        </v-btn>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="6">
+                        <v-btn
+                            large
+                            block
+                            color="primary"
+                            @click="searchDeviceByPeaNo"
+                        >
+                          ค้นหา
+                        </v-btn>
+                      </v-col>
+                    </v-card-actions>
+
+                    <v-col cols="12" sm="12" md="12">
+                      <v-data-table
+                          v-model="pickOneDeviceItem"
+                          :headers="headers"
+                          :items="resultSearchDeviceItem"
+                          :single-select="singleSelect"
+                          :loading="loading"
+                          :items-per-page="6"
+                          loading-text="กำลังดึงข้อมูล..."
+                          item-key="devPeaNo"
+                          show-select
+                          class="elevation-1"
+                      >
+                      </v-data-table>
+                    </v-col>
+                  </v-card>
                 </v-row>
               </v-container>
-              </v-form>
-            </v-card-text>
-            <v-card-text>
+              <v-card-actions class="justify-center mt-0">
+                <v-container>
+                  <v-row no-gutters dense align="center" justify="space-around">
+                    <v-col cols="12" sm="3" md="3">
+                      <v-btn
+                          :disabled="(pickOneDeviceItem.length === 0)"
+                          color="green lighten-3"
+                          block
+                          large
+                          @click="step = 2"
+                      >
+                        ต่อไป
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-actions>
+            </v-stepper-content>
 
-            </v-card-text>
-          </v-card>
+            <v-stepper-content step="2">
+              <v-container fluid style="max-width:100%">
+                <v-row no-gutters dense>
+                  <v-card min-width="80%" max-width="100%" min-height="600px" max-height="400px" color="pink lighten-4"
+                          v-scroll.self="onScroll" class="overflow-y-auto">
+                    <v-card-text>
+                      <v-card disabled>
+                        <v-card-title>ข้อมูลเครื่อง</v-card-title>
+                        <v-container fluid style="max-width:100%">
 
-<!--          <v-form-->
-<!--              ref="form"-->
-<!--              v-model="valid"-->
-<!--              lazy-validation-->
-<!--          >-->
-<!--            <v-text-field-->
-<!--                v-model="devPeaNoSelceted"-->
-<!--                label="รหัสทรัพสิน"-->
-<!--                required-->
-<!--            ></v-text-field>-->
-<!--            <v-text-field-->
-<!--                v-model="devPeaBrand"-->
-<!--                label="ยี้ห้อผลิตภัณฑ์"-->
-<!--                required-->
-<!--            ></v-text-field>-->
-<!--          </v-form>-->
+                          <v-row>
+                            <v-col cols="12" sm="3" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devPeaNo || '' "
+                                  label="รหัสทรัพย์สิน"
+                              ></v-text-field>
+                            </v-col>
 
-          <!-- ปุ่มทดสอบ -->
-<!--          if click Continue button found then go to next step // else alert not found  device item -->
-          <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
-<!--          <v-btn text>Cancel</v-btn>-->
-        </v-stepper-content>
+                            <v-col cols="12" sm="6" md="6">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devDescription || '' "
+                                  label="คำอธิบาย"
+                              ></v-text-field>
+                            </v-col>
 
-        <v-stepper-step :complete="e6 > 2" step="2">
-          อาการชำรุจ
-        </v-stepper-step>
+                            <v-col cols="12" sm="3" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devSerialNo || '' "
+                                  label="หมาบเลขผลิตภัณฑ์"
+                              ></v-text-field>
+                            </v-col>
 
-        <v-stepper-content step="2">
-          <v-card color="pink lighten-5" class="mb-12" height="200px">
-            <v-form
-                ref="form"
-                v-model="valid"
-                lazy-validation
-            >
-              <v-textarea
-                  v-model="damage"
-                  color="teal"
-                  required
-              >
-                <template v-slot:label>
-                  <div>
-                    อาการชำรุจ <small>(optional)</small>
-                  </div>
-                </template>
-              </v-textarea>
-            </v-form>
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.tbEmployee.empId || '' "
+                                  label="รหัสพนักงาน"
+                              ></v-text-field>
+                            </v-col>
 
-          </v-card>
-          <v-btn color="primary" @click="e6 = 3">Continue</v-btn>
-          <v-btn text>Cancel</v-btn>
-        </v-stepper-content>
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.tbEmployee.empName || '' "
+                                  label="ผู้ครอบครอง"
+                              ></v-text-field>
+                            </v-col>
 
-        <v-stepper-step :complete="e6 > 3" step="3">
-          ผู้ติดต่อ
-        </v-stepper-step>
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.tbCostCenter.ccShortName || '' "
+                                  label="สังกัด"
+                              ></v-text-field>
+                            </v-col>
 
-        <v-stepper-content step="3">
-          <v-card color="pink lighten-5" class="mb-12" height="200px"></v-card>
-          <v-btn color="primary" @click="e6 = 4">Continue</v-btn>
-          <v-btn text>Cancel</v-btn>
-        </v-stepper-content>
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devReceivedDate || '' "
+                                  label="วันที่รับเข้าเป็นทุน"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-card>
+                      <v-divider></v-divider>
+                      <v-card>
+                        <v-card-title>
+                          กรอกรายละเอียด
+                        </v-card-title>
+                        <v-card-text>
+                          <v-form v-model="valid" ref="form">
+                            <v-row>
+                              <v-col cols="12" sm="6" md="12">
+                                <v-text-field
+                                    v-model="inputDetailForm.defectDetail"
+                                    label="อาการเสีย"
+                                    required
+                                ></v-text-field>
+                              </v-col>
 
-        <v-stepper-step step="4">ตรวจสอบข้อมูล</v-stepper-step>
-        <v-stepper-content step="4">
-          <v-card color="pink lighten-5" class="mb-12" height="200px"></v-card>
-          <v-btn color="primary" @click="e6 = 1">Continue</v-btn>
-          <v-btn text>Cancel</v-btn>
-        </v-stepper-content>
-      </v-stepper>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field
+                                    v-model="inputDetailForm.empSend"
+                                    label="ผู้ส่งเครื่อง"
+                                    required
+                                ></v-text-field>
+                              </v-col>
 
+                              <v-col cols="12" sm="3" md="4">
+                                <v-text-field
+                                    v-model="inputDetailForm.sendPhoneNum"
+                                    label="เบอร์ติดต่อ"
+                                    required
+                                ></v-text-field>
+                              </v-col>
 
+                              <v-col cols="12" sm="6" md="4">
+                                <v-select
+                                    v-model="inputDetailForm.adminReceive"
+                                    :items="adminReceiveItems"
+                                    item-text="adminRecName"
+                                    item-value="adminRecId"
+                                    label="ผู้รับเครื่อง"
+                                    data-vv-name="select"
+                                    single-line
+                                    required
+                                ></v-select>
+                              </v-col>
+                            </v-row>
+                          </v-form>
+                        </v-card-text>
+                      </v-card>
+                    </v-card-text>
+                  </v-card>
+                </v-row>
+              </v-container>
+              <v-card-actions class="justify-center">
+                <v-container>
+                  <v-row no-gutters dense align="center"
+                         justify="space-around">
+                    <v-col cols="12" sm="3" md="3">
+                      <v-btn
+                          color="red lighten-3"
+                          block
+                          large
+                          @click="step = 1"
+                      >
+                        กลับ
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-btn
+                          :disabled="(inputDetailForm.sendPhoneNum?.length === 0 || inputDetailForm.empSend === 0 || inputDetailForm.defectDetail === 0 || inputDetailForm.adminReceive < 1)"
+                          color="green lighten-2"
+                          block
+                          large
+                          @click="step = 3 "
+                      >
+                        ต่อไป
+                      </v-btn>
+                    </v-col>
 
+                  </v-row>
+                </v-container>
 
+              </v-card-actions>
+            </v-stepper-content>
 
+            <v-stepper-content step="3">
+              <v-container fluid style="max-width:100%">
+                <v-row no-gutters dense>
+                  <v-card min-width="80%" max-width="100%" min-height="600px" max-height="400px" color="pink lighten-4"
+                          v-scroll.self="onScroll" class="overflow-y-auto">
+                    <v-card-text>
+                      <v-card disabled>
+                        <v-card-title>
+                          ตรวจสอบรายละเอียด
+                        </v-card-title>
+                        <v-card-text>
+                          <v-row>
+                            <v-col cols="12" sm="3" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devPeaNo || '' "
+                                  label="รหัสทรัพย์สิน"
+                              ></v-text-field>
+                            </v-col>
 
+                            <v-col cols="12" sm="6" md="6">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devDescription || '' "
+                                  label="คำอธิบาย"
+                              ></v-text-field>
+                            </v-col>
 
+                            <v-col cols="12" sm="3" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devSerialNo || '' "
+                                  label="หมายเลขผลิตภัณฑ์"
+                              ></v-text-field>
+                            </v-col>
 
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.tbEmployee.empId || '' "
+                                  label="รหัสพนักงาน"
+                              ></v-text-field>
+                            </v-col>
 
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.tbEmployee.empName || '' "
+                                  label="ผู้ครอบครอง"
+                              ></v-text-field>
+                            </v-col>
 
-<!--  <div>-->
-<!--    <v-card class="outside-card" color="purple  lighten-5">-->
-<!--      <v-toolbar flat color="purple" dark>-->
-<!--        <v-icon>mdi-database-search</v-icon>-->
-<!--        <v-toolbar-title class="font-weight-light"> แจ้งซ่อมX</v-toolbar-title>-->
-<!--        <v-spacer></v-spacer>-->
-<!--      </v-toolbar>-->
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.tbCostCenter.ccShortName || '' "
+                                  label="สังกัด"
+                              ></v-text-field>
+                            </v-col>
 
-<!--      <v-card-text>-->
-<!--        <v-form>-->
-<!--          <v-row>-->
-<!--            <v-col col="12" md="12">-->
-<!--              <v-autocomplete v-model="ccNameSeclected" :items="itemCC" item-text="ccFullName" item-value="ccLongCode"-->
-<!--                color="black" label="การไฟฟ้า" @change="-->
-<!--                  $v.ccNameSeclected.$touch();-->
-<!--                toggleBranch2(ccNameSeclected);-->
-<!--                " :error-messages="ccNameSeclectedErrors">-->
-<!--              </v-autocomplete>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
-<!--          <v-row>-->
-<!--            <v-col col="12" md="6">-->
-<!--              <v-autocomplete v-model="devPeaNoSelceted" :items="itemDevice" item-text="devPeaNo" color="black"-->
-<!--                label="เลขทรัพย์สิน" @change="-->
-<!--                  $v.devPeaNoSelceted.$touch();-->
-<!--                findDiscDevice(devPeaNoSelceted);-->
-<!--                " :error-messages="devPeaNoSelcetedErrors">-->
-<!--              </v-autocomplete>-->
-<!--            </v-col>-->
-<!--            <v-col col="12" md="6">-->
-<!--              <v-text-field v-model="devDesc.devDescription" color="black" label="รายละเอียด" disabled></v-text-field>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
-<!--          <v-text-field v-model="damage" color="black" label="อาการเสียเบื้องต้น" :counter="100"-->
-<!--            :error-messages="damageErrors">-->
-<!--          </v-text-field>-->
-<!--          <v-row>-->
-<!--            <v-col col="12" md="3">-->
-<!--              <v-text-field v-model="empSend" color="black" label="รหัสพนักงานผู้ส่ง" @keyup.enter="-->
-<!--                $v.empSend.$touch();-->
-<!--              findEmp(empSend);-->
-<!--              " :error-messages="empSendErrors">-->
-<!--              </v-text-field>-->
-<!--            </v-col>-->
-<!--            <v-col col="12" md="3">-->
-<!--              <v-text-field v-model="empData.empName" color="black" label="ชื่อพนักงานผู้ส่ง" disabled>-->
-<!--              </v-text-field>-->
-<!--            </v-col>-->
-<!--            <v-col col="12" md="3">-->
-<!--              <v-text-field v-model="empPhoneNumb" :error-messages="empPhoneNumbErrors" color="black"-->
-<!--                label="เบอร์ติดต่อกลับ"></v-text-field>-->
-<!--            </v-col>-->
-<!--            <v-col col="12" md="3">-->
-<!--              <v-btn color="success" block @click="-->
-<!--                $v.empSend.$touch();-->
-<!--              findEmp(empSend);-->
-<!--              ">-->
-<!--                ค้นหา-->
-<!--              </v-btn>-->
-<!--            </v-col>-->
-<!--          </v-row>-->
-<!--        </v-form>-->
-<!--      </v-card-text>-->
-<!--      <v-divider></v-divider>-->
-<!--      <v-card-actions>-->
-<!--        <a @click="dialogNote = true" target="_blank">*หมายเหตุ : บันทึก ฉ.2 กรท.(ก) 97/2564 ลว.27 ม.ค. 2564</a>-->
+                            <v-col cols="12" sm="6" md="3">
+                              <v-text-field
+                                  :value="pickOneDeviceItem[0]?.devReceivedDate || '' "
+                                  label="วันที่รับเข้าเป็นทุน"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+                        </v-card-text>
+                        <v-card-text>
+                          <v-form v-model="valid" ref="form">
+                            <v-divider></v-divider>
+                            <v-row>
+                              <v-col cols="12" sm="6" md="12">
+                                <v-text-field
+                                    v-model="inputDetailForm.defectDetail"
+                                    label="อาการเสีย"
+                                    required
+                                ></v-text-field>
+                              </v-col>
 
-<!--        <v-spacer></v-spacer>-->
-<!--        <v-btn color="error" @click="clear()"> ล้างค่า </v-btn>-->
-<!--        <v-btn color="success" @click="continues()"> ต่อไป </v-btn>-->
-<!--      </v-card-actions>-->
-<!--    </v-card>-->
-<!--    <div class="text-center">-->
-<!--      <v-dialog v-model="dialogNote" width="700">-->
-<!--        <v-card>-->
-<!--          <v-card-text>-->
-<!--            <img src="@/assets/resume.jpg" width="650" />-->
-<!--          </v-card-text>-->
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field
+                                    v-model="inputDetailForm.empSend"
+                                    label="ผู้ส่งเครื่อง"
+                                    required
+                                ></v-text-field>
+                              </v-col>
 
-<!--          <v-divider></v-divider>-->
+                              <v-col cols="12" sm="3" md="4">
+                                <v-text-field
+                                    v-model="inputDetailForm.sendPhoneNum"
+                                    label="เบอร์ติดต่อ"
+                                    required
+                                ></v-text-field>
+                              </v-col>
 
-<!--          <v-card-actions>-->
-<!--            <v-spacer></v-spacer>-->
-<!--            <v-btn color="primary" text @click="dialogNote = false">-->
-<!--              ปิด-->
-<!--            </v-btn>-->
-<!--          </v-card-actions>-->
-<!--        </v-card>-->
-<!--      </v-dialog>-->
-<!--    </div>-->
-<!--    <div class="text">-->
-<!--      <v-dialog v-model="dialogRechk" width="80%" height="70%">-->
-<!--        <v-card>-->
-<!--          <v-toolbar color="primary" dark>-->
-<!--            <span class="text-h5">รายละเอียด</span>-->
-<!--            <v-spacer></v-spacer>-->
-<!--          </v-toolbar>-->
-<!--          <v-card-text>-->
-<!--            -->
-<!--            <hr />-->
-<!--            <v-row>-->
-<!--              <v-col cols="12" sm="2">-->
-<!--                <b>ข้อมูลเครื่อง</b>-->
-<!--              </v-col>-->
-<!--            </v-row>-->
-<!--            <v-row >-->
-<!--              <v-col cols="12" sm="3">-->
-<!--                <p>การไฟฟ้า : {{ fBody.location.ccFullName }}</p>-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="2">-->
-<!--                ศูนย์ต้นทุน : {{ fBody.location.ccLongCode }}-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="2">-->
-<!--                ผู้ครอบครอง : <b>{{ fBody.empOwner.empName }}</b>-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="2">-->
-<!--                รหัสพนักงาน : {{ fBody.empOwner.empId }}-->
-<!--              </v-col>-->
-<!--            </v-row>-->
-<!--            <v-row no-gutters>-->
-<!--              <v-col cols="12" sm="2">-->
-<!--                <p>เลขทรัพย์สิน : {{ fBody.device.devPeaNo }}</p>-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="3">-->
-<!--                <p>ประเภททรัพย์สิน : {{ fBody.deviceType.deviceTypeName }}</p>-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="3">-->
-<!--                <p>อาการเสีย : {{ fBody.damage }}</p>-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="3">-->
-<!--                <p>สถานที่ติดตั้ง : {{ fBody.location.ccShortName }}</p>-->
-<!--              </v-col>-->
-<!--            </v-row>-->
-<!--            <hr />-->
-<!--            <v-row>-->
-<!--              <v-col cols="12" sm="2">-->
-<!--                <b>ผู้ส่งซ่อม</b>-->
-<!--              </v-col>-->
-<!--            </v-row>-->
-<!--            <v-row>-->
-<!--              <v-col cols="12" sm="2">-->
-<!--                <p>ชื่อ : {{ fBody.empSends.empName }}</p>-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="3">-->
-<!--                <p>รหัสพนักงาน : {{ fBody.empSends.empId }}</p>-->
-<!--              </v-col>-->
-<!--              <v-col cols="12" sm="3">-->
-<!--                <p>เบอร์ติดต่อ : {{ fBody.empPhoneNumb }}</p>-->
-<!--              </v-col>-->
-<!--            </v-row>-->
-<!--          </v-card-text>-->
+                              <v-col cols="12" sm="6" md="4">
+                                <v-select
+                                    v-model="inputDetailForm.adminReceive"
+                                    :items="adminReceiveItems"
+                                    item-text="adminRecName"
+                                    item-value="adminRecId"
+                                    label="ผู้รับเครื่อง"
+                                    data-vv-name="select"
+                                    single-line
+                                    required
+                                ></v-select>
+                              </v-col>
+                            </v-row>
+                          </v-form>
+                        </v-card-text>
+                      </v-card>
+                    </v-card-text>
+                  </v-card>
+                </v-row>
+              </v-container>
+              <v-card-actions class="justify-center">
+                <v-container vert>
+                  <v-row>
+                    <v-col cols="12" sm="12" md="12">
 
-<!--          <v-divider></v-divider>-->
+                    </v-col>
+                  </v-row>
+                  <v-row no-gutters dense align="center"
+                         justify="space-around">
+                    <v-col cols="12" sm="3" md="3">
+                      <v-checkbox
+                          v-model="checkRepair"
+                          :label="`ตรวจสอบข้อมูลแล้ว`"
+                      ></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-btn
+                          :disabled="!checkRepair"
+                          color="green lighten-2"
+                          large
+                          block
+                          @click="createRepair() "
+                      >
+                        บันทึก
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="12" sm="3" md="3">
+                      <v-btn
+                          large
+                          block
+                          color="red"
+                          @click="step = 1 "
+                      >
+                        แก้ไข
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-actions>
+            </v-stepper-content>
+          </v-stepper-items>
+        </v-stepper>
+      </v-col>
+    </v-row>
 
-<!--          <v-card-actions>-->
-<!--            <v-spacer></v-spacer>-->
-<!--            <v-btn color="error" text @click="dialogRechk = false">-->
-<!--              แก้ไข-->
-<!--            </v-btn>-->
-<!--            <v-btn color="primary" variant="tonal" text @click="(dialogRechk = false), save()">-->
-<!--              บันทึก-->
-<!--            </v-btn>-->
-<!--          </v-card-actions>-->
-<!--        </v-card>-->
-<!--      </v-dialog>-->
-<!--    </div>-->
-<!--  </div>-->
+  </v-container>
+
 </template>
 
 <script src="./repair.js"></script>

@@ -16,12 +16,12 @@ module.exports = {
         changeOrigin: true,
         secure: false
       },
-      "/idm": {
-        target: "https://idm.pea.co.th/webservices",
-        ws: true,
-        changeOrigin: true,
-        // pathRewrite: {'^/idm' : '/'}
-      }
+      // "/idm": {
+      //   target: "https://idm.pea.co.th/webservices",
+      //   ws: true,
+      //   changeOrigin: true,
+      //   // pathRewrite: {'^/idm' : '/'}
+      // }
     },
     //proxy:"https://idm.pea.co.th/webservices/IdmServices.asmx",
   },

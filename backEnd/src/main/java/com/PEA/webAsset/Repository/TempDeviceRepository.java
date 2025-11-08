@@ -1,20 +1,12 @@
 package com.PEA.webAsset.Repository;
 
-import com.PEA.webAsset.Entity.tbDevice;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import com.PEA.webAsset.Entity.tbRepair;
-import com.PEA.webAsset.Interface.TempDeviceInterface;
+import com.PEA.webAsset.DTO.TempDeviceInterface;
 import com.PEA.webAsset.Entity.TempDevice;
 
 import org.springframework.data.domain.Page;
@@ -22,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource

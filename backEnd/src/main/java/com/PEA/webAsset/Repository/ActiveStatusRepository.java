@@ -1,11 +1,11 @@
 package com.PEA.webAsset.Repository;
 
-import com.PEA.webAsset.Entity.tbRepairStatus;
+import com.PEA.webAsset.Entity.tbActiveStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
-public interface RepairStatusRepository extends JpaRepository<tbRepairStatus, Long> {
-    tbRepairStatus findRepairStatusById(Long id);
+public interface ActiveStatusRepository extends JpaRepository<tbActiveStatus, Long> {
+    tbActiveStatus findActiveStatusByActiveId(Long activeId);
 
 }

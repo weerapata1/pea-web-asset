@@ -1,8 +1,10 @@
-package com.PEA.webAsset.Interface;
+package com.PEA.webAsset.DTO;
+
+import lombok.Data;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
+@Data
 public class TempDeviceInterface {
 
     public interface TempDeviceSummary {

@@ -1,7 +1,6 @@
 package com.PEA.webAsset.Controller;
 
 import com.PEA.webAsset.Entity.tbDevice;
-import com.PEA.webAsset.Entity.TempDevice;
 import com.PEA.webAsset.Exeption.InvalidDataException;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
@@ -687,4 +686,13 @@ public class DeviceController {
       super(message, cause);
     }
   }
+
+  @GetMapping("/getDeviceLast4Digit")
+  public ResponseEntity<Collection<tbDevice>> getDeviceLast4Digit(@RequestParam String textSearch){
+    Collection<tbDevice> deviceTemp = (deviceRepository.findByDevPeaNoOrDevSerialNoLike(textSearch));
+    System.out.println("deviceFind_dto.getTextSearch() : " + textSearch);
+    System.out.println("deviceTemp : " + deviceTemp);
+    return ResponseEntity.ok(deviceTemp);
+  }
+
 }

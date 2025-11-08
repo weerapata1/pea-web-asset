@@ -1,5 +1,8 @@
-package com.PEA.webAsset.Interface;
+package com.PEA.webAsset.DTO;
 
+import lombok.Data;
+
+@Data
 public class SyncResultDTO {
 
     private int insertedCount;

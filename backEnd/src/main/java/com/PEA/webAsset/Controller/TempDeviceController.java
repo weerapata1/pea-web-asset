@@ -1,10 +1,8 @@
 package com.PEA.webAsset.Controller;
 
-import com.PEA.webAsset.Entity.tbDevice;
 import com.PEA.webAsset.Entity.TempDevice;
-import com.PEA.webAsset.Exeption.InvalidDataException;
-import com.PEA.webAsset.Interface.SyncResultDTO;
-import com.PEA.webAsset.Interface.TempDeviceInterface;
+import com.PEA.webAsset.DTO.SyncResultDTO;
+import com.PEA.webAsset.DTO.TempDeviceInterface;
 // import com.PEA.webAsset.Repository.CommitmentRepository;
 import com.PEA.webAsset.Repository.ContractRepository;
 import com.PEA.webAsset.Repository.CostCenterRepository;
@@ -12,37 +10,18 @@ import com.PEA.webAsset.Repository.DeviceRepository;
 import com.PEA.webAsset.Repository.DeviceTypeRepository;
 import com.PEA.webAsset.Repository.TempDeviceRepository;
 import com.PEA.webAsset.Share.DeviceService.DeviceService;
-import com.PEA.webAsset.Share.ExcelService.ExcelHelper;
 import com.PEA.webAsset.Share.ExcelService.ExcelService;
 import com.PEA.webAsset.Share.ResponseMessage;
 import com.PEA.webAsset.Service.TempDeviceService;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-import lombok.SneakyThrows;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 // @CrossOrigin("*")
 @RestController

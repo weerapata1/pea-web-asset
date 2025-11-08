@@ -3,7 +3,7 @@ package com.PEA.webAsset.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.PEA.webAsset.Interface.SyncResultDTO;
+import com.PEA.webAsset.DTO.SyncResultDTO;
 import com.PEA.webAsset.Repository.TempDeviceRepository;
 
 import jakarta.transaction.Transactional;

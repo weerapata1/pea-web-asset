@@ -2,19 +2,12 @@ package com.PEA.webAsset.Repository;
 
 import com.PEA.webAsset.Entity.tbDevice;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.PEA.webAsset.Entity.tbRepair;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -22,11 +15,20 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomDeviceRepository {
 
+        Collection<tbDevice> findDeviceByDevPeaNoContaining(String devPeaNo);
+
         public interface CustomDeviceRepository {
                 void bulkInsertDevices(List<Object[]> devices);
         }
 
-        Collection<tbDevice> findByDevPeaNo(String peaNo);
+        @Query(value = "select * from tb_device d " +
+                "where " +
+                "d.dev_pea_no LIKE \"53%\"  "
+                + "AND (d.dev_pea_no like CONCAT('%',:textSearch,'%') "
+//                + "OR (d.)"
+                +"OR d.dev_serial_no like CONCAT('%',:textSearch,'%')) "
+                , nativeQuery = true)
+        Collection<tbDevice> findByDevPeaNoOrDevSerialNoLike(String textSearch);
 
         @Query(value = "SELECT * from tb_device d " +
         // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
@@ -223,7 +225,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
 
         // tbDevice findDeviceById(Long tbDeviceId);
 
-        tbDevice findDeviceByDevPeaNo(String devPeaNo);
+        Collection<tbDevice> findDeviceByDevPeaNoLike(String devPeaNo);
 
         @Query(value = "SELECT d.dev_pea_no, d.dev_description, e.emp_name, d.dev_received_date from tb_device d " +
                         "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +

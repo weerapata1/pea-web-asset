@@ -7,7 +7,6 @@ import com.PEA.webAsset.Repository.EquipmentLocationRepository;
 import com.PEA.webAsset.Repository.EquipmentRepository;
 import com.PEA.webAsset.Share.DateService.DateService;
 import com.PEA.webAsset.Service.EquipmentService;
-import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
 import java.util.*;
 
 @RestController
@@ -79,23 +77,22 @@ public class EquipmentController {
         }
     }
 
-    @PutMapping("/requisition") // เบิกอุปกรณ์
-    public ResponseEntity createRequisition(@RequestParam("serialNo") String serialNo,
-            @RequestParam("usedFor") String usedFor) {
-        try {
-            tbEquipment newCreateRequisition = equipmentRepository.findEquipmentBySerialNumber(serialNo)
-                    .orElseThrow(() -> new ResourceNotFoundException("Not Found id"));
-            System.out.println(newCreateRequisition);
-
-            newCreateRequisition.setIsActivated(false);
-            newCreateRequisition.setInstalledFor(deviceRepository.findDeviceByDevPeaNo(usedFor));
-            newCreateRequisition.setUsedDate(DateService.localDateNow());
-
-            return ResponseEntity.status(HttpStatus.OK).body(equipmentRepository.save(newCreateRequisition));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error : " + e.getMessage());
-        }
-
-    }
+//    @PutMapping("/requisition") // เบิกอุปกรณ์
+//    public ResponseEntity createRequisition(@RequestParam("serialNo") String serialNo,
+//            @RequestParam("usedFor") String usedFor) {
+//        try {
+//            tbEquipment newCreateRequisition = equipmentRepository.findEquipmentBySerialNumber(serialNo)
+//                    .orElseThrow(() -> new ResourceNotFoundException("Not Found id"));
+//            System.out.println(newCreateRequisition);
+//
+//            newCreateRequisition.setIsActivated(false);
+//            newCreateRequisition.setInstalledFor(deviceRepository.findDeviceByDevPeaNoLike(usedFor));
+//            newCreateRequisition.setUsedDate(DateService.localDateNow());
+//
+//            return ResponseEntity.status(HttpStatus.OK).body(equipmentRepository.save(newCreateRequisition));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error : " + e.getMessage());
+//        }
+//    }
 
 }
