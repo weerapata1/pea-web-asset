@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Collection;
 
 @RepositoryRestResource
-public interface RepairRepository extends JpaRepository<tbRepair ,Long> {
+public interface RepairRepository extends JpaRepository<tbRepair ,String> {
 
 //    @Query(value = "SELECT * FROM tbRepair t" +
 //            "WHERE r.emp_id = :empId",nativeQuery = true)

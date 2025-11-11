@@ -155,7 +155,7 @@ export default {
         const response = await axios.get(
           `${process.env.VUE_APP_BASE_URL}/emp/getEmpAll2`
         );
-        // this.itemsEmp = response.data.data1;
+        
         this.itemsEmp = response.data.data1.map((item) => ({
           empId: item[0],
           empName: item[1],

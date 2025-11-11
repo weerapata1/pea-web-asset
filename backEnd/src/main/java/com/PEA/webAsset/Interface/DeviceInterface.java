@@ -16,6 +16,8 @@ public class DeviceInterface {
 
         String getEmpRank();
 
+        String getEmpId();
+
         String getCcShortName();
 
         String getCcLongCode();

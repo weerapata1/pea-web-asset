@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @RepositoryRestResource
-public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
+public interface EmployeeRepository extends JpaRepository<tbEmployee, String> {
 
     // tbEmployee findByEmpId(String empId);
 

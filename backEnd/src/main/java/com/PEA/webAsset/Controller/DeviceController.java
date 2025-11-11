@@ -701,6 +701,7 @@ public class DeviceController {
               p.getDevReceivedDate(),
               p.getEmpName(),
               p.getEmpRank(),
+              p.getEmpId(),
               p.getCcShortName(),
               p.getCcLongCode(),
               p.getDivisionCode(),

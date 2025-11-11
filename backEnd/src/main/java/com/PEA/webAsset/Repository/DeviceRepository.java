@@ -421,6 +421,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "          d.dev_received_date, " +
                         "          e.emp_name, " +
                         "          e.emp_rank, " +
+                        "          e.emp_id, " +
                         "          c.cc_short_name, " +
                         "          d.cc_long_code, " +
                         "          CONCAT(SUBSTRING(d.cc_long_code, 1, CHAR_LENGTH(d.cc_long_code) - 3), '000') AS division_code "
@@ -436,6 +437,7 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
                         "       b.dev_received_date, " +
                         "       b.emp_name, " +
                         "       b.emp_rank, " +
+                        "       b.emp_id, " +
                         "       b.cc_short_name, " +
                         "       b.cc_long_code, " +
                         "       b.division_code, " +

@@ -14,6 +14,8 @@ public class CountDeviceByDepDTO {
 
     private String empRank;
 
+    private String empId;
+
     private String ccShortName;
 
     private String ccLongCode;
@@ -25,7 +27,7 @@ public class CountDeviceByDepDTO {
     private java.math.BigDecimal departmentCount;
 
     public CountDeviceByDepDTO(String deviceId, String devPeaNo, String devDescription, String devReceivedDate, String empName, String empRank,
-            String ccShortName, String ccLongCode, String divisionCode, java.math.BigDecimal divisionCount,
+            String empId, String ccShortName, String ccLongCode, String divisionCode, java.math.BigDecimal divisionCount,
             java.math.BigDecimal departmentCount) {
         this.deviceId = deviceId;
         this.devPeaNo = devPeaNo;
@@ -33,6 +35,7 @@ public class CountDeviceByDepDTO {
         this.devReceivedDate = devReceivedDate;
         this.empName = empName;
         this.empRank = empRank;
+        this.empId = empId;
         this.ccShortName = ccShortName;
         this.ccLongCode = ccLongCode;
         this.divisionCode = divisionCode;
@@ -46,6 +49,7 @@ public class CountDeviceByDepDTO {
     public String getDevReceivedDate() { return devReceivedDate; }
     public String getEmpName() { return empName; }
     public String getEmpRank() { return empRank; }
+    public String getempId() { return empId; }
     public String getCcShortName() { return ccShortName; }
     public String getCcLongCode() { return ccLongCode; }
     public String getDivisionCode() { return divisionCode; }
