@@ -18,9 +18,10 @@ import java.util.Optional;
 @RepositoryRestResource
 public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
 
-    // tbEmployee findByEmpId(String empId);
+     tbEmployee findByEmpId(String empId);
 
     Optional<tbEmployee> findEmpByEmpId(String empId);
+
 
     @Query(value = "SELECT e.emp_id, e.emp_name, e.emp_dep_full, e.emp_rank, e.cc_long_code from tb_employee e " +
     // "LEFT JOIN tb_employee e ON d.emp_id = e.emp_id " +
@@ -53,6 +54,7 @@ public interface EmployeeRepository extends JpaRepository<tbEmployee, Long> {
                     "from tb_employee e LEFT JOIN tb_cost_center cc ON e.cc_long_code = cc.cc_long_code " +
                     "WHERE e.cc_long_code LIKE 'E301023060' OR e.cc_long_code LIKE 'E301023070'", nativeQuery = true)
     Page<Object[]> getInspectorList(Pageable pageable);
+
 
 
 }

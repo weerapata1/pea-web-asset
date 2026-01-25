@@ -3,6 +3,9 @@ package com.PEA.webAsset.Entity;
 import lombok.*;
 
 import  jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 //import javax.validation.constraints.NotNull;
 
 @Data
@@ -39,18 +42,26 @@ public class tbEmployee {
     @Transient
     private String costCenterCode;
 
-    @ManyToOne(targetEntity = tbEmpRole.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "emp_role_id", insertable = true, nullable = true )
-    private tbEmpRole empRole;
+//    @ManyToMany(targetEntity = tbRole.class, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "emp_role_id", insertable = true, nullable = true )
+//    private tbRole empRole;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "emp_role",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<tbRole> roles = new HashSet<>();
 
     // private String empCcShortName; //
 
 
-    public tbEmployee(String empId, String empName, tbEmpRole empRole, String empDepFull, tbCostCenter costCenter , String empRank) {
+    public tbEmployee(String empId, String empName, String empDepFull, tbCostCenter costCenter , String empRank) {
         this.empId = empId;
         this.empName = empName;
         this.empDepFull = empDepFull;
-        this.empRole = empRole;
+//        this.empRole = empRole;
         this.costCenter = costCenter;
         this.empRank = empRank;
 

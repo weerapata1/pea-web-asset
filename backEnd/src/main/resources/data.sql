@@ -1476,10 +1476,11 @@ INSERT INTO `tb_device_type`(`device_type_id`, `dt_name`) VALUES (7, 'Software')
 INSERT INTO `tb_device_type`(`device_type_id`, `dt_name`) VALUES (8, 'Tablet');
 INSERT INTO `tb_device_type`(`device_type_id`, `dt_name`) VALUES (9, 'Other');
 -- tb_repair_status
-INSERT INTO `tb_repair_status`(`id`, `status_name`) VALUES (1, 'กำลังดำเนินการ');
-INSERT INTO `tb_repair_status`(`id`, `status_name`) VALUES (2, 'พร้อมส่งมอบ');
-INSERT INTO `tb_repair_status`(`id`, `status_name`) VALUES (3, 'ส่งคืนเครื่องแล้ว');
-INSERT INTO `tb_repair_status`(`id`, `status_name`) VALUES (4, 'เสร็จแล้ว');
+INSERT INTO `tb_repair_status`(`id`, `repair_status_code`, `status_name`) VALUES (1, 'rep_cod_01', 'เข้าใหม่');
+INSERT INTO `tb_repair_status`(`id`, `repair_status_code`, `status_name`) VALUES (2, 'rep_cod_02', 'กำลังดำเนินการ');
+INSERT INTO `tb_repair_status`(`id`, `repair_status_code`, `status_name`) VALUES (3, 'rep_cod_03', 'พร้อมส่งมอบ');
+INSERT INTO `tb_repair_status`(`id`, `repair_status_code`, `status_name`) VALUES (4, 'rep_cod_04', 'ส่งคืนเครื่องแล้ว');
+INSERT INTO `tb_repair_status`(`id`, `repair_status_code`, `status_name`) VALUES (5, 'rep_cod_05', 'เสร็จแล้ว');
 -- tb_device_compare
 INSERT INTO `tb_device_compare`(`device_compare_id`, `dev_concat_price_date`, `dev_description`, `dev_received_date`, `dev_received_price`, `device_type_id`) VALUES (0, '26500-2565.9.12', 'เครื่อง POS - CPU รุ่น D700MCES บ.36/2565', '2565.9.12', 26500, 1);
 INSERT INTO `tb_device_compare`(`device_compare_id`, `dev_concat_price_date`, `dev_description`, `dev_received_date`, `dev_received_price`, `device_type_id`) VALUES (1, '10165-2539.1.26', 'อุปกรณ์สื่อสาร MODEM MODEM ZYXEL', '2539.1.26', 10165, 5);
@@ -2509,8 +2510,8 @@ INSERT INTO `tb_equipment_location`(`id`, `Loc_name`) VALUES (1, 'ในแผ�
 INSERT INTO `tb_equipment_location`(`id`, `Loc_name`) VALUES (2, 'ห้องให้บันได');
 INSERT INTO `tb_equipment_location`(`id`, `Loc_name`) VALUES (3, 'ห้องเก็บของอาคาร 4');
 -- tb_emp_role
-INSERT INTO `tb_emp_role`(`id`, `role_name`) VALUES (1, 'admin');
-INSERT INTO `tb_emp_role`(`id`, `role_name`) VALUES (2, 'user');
+INSERT INTO `tb_role`(`id`, `role_code`, `role_name`) VALUES (1, 'rol_01', 'admin');
+INSERT INTO `tb_role`(`id`, `role_code`, `role_name`) VALUES (2, 'rol_02', 'user');
 -- tb_active_status
 INSERT INTO `tb_active_status`(`active_id`, `active_status_name`) VALUES (1, 'isActive');
 INSERT INTO `tb_active_status`(`active_id`, `active_status_name`) VALUES (2, 'isNotActive');

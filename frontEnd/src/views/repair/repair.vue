@@ -200,18 +200,18 @@
                                 ></v-text-field>
                               </v-col>
 
-                              <v-col cols="12" sm="6" md="4">
-                                <v-select
-                                    v-model="inputDetailForm.adminReceive"
-                                    :items="adminReceiveItems"
-                                    item-text="adminRecName"
-                                    item-value="adminRecId"
-                                    label="ผู้รับเครื่อง"
-                                    data-vv-name="select"
-                                    single-line
-                                    required
-                                ></v-select>
-                              </v-col>
+<!--                              <v-col cols="12" sm="6" md="4">-->
+<!--                                <v-select-->
+<!--                                    v-model="inputDetailForm.adminReceive"-->
+<!--                                    :items="adminReceiveItems"-->
+<!--                                    item-text="adminRecName"-->
+<!--                                    item-value="adminRecId"-->
+<!--                                    label="ผู้รับเครื่อง"-->
+<!--                                    data-vv-name="select"-->
+<!--                                    single-line-->
+<!--                                    required-->
+<!--                                ></v-select>-->
+<!--                              </v-col>-->
                             </v-row>
                           </v-form>
                         </v-card-text>

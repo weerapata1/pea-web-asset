@@ -23,7 +23,8 @@ public interface DeviceRepository extends JpaRepository<tbDevice, Long>, CustomD
 
         @Query(value = "select * from tb_device d " +
                 "where " +
-                "d.dev_pea_no LIKE \"53%\"  "
+                "(d.dev_pea_no LIKE \"53%\"  "
+                +"OR d.dev_pea_no LIKE \"501%\") "
                 + "AND (d.dev_pea_no like CONCAT('%',:textSearch,'%') "
 //                + "OR (d.)"
                 +"OR d.dev_serial_no like CONCAT('%',:textSearch,'%')) "

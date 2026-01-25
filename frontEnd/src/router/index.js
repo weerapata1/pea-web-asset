@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 import About from '../views/about/About.vue'
 import Repair from '../views/repair/repair.vue'
+import TrackingRepair from "../views/TrackingRepair/TrackingRepair.vue";
 
 import checkQuota from '../views/checkQuota/checkQuota.vue'
 import Upload from '../views/upload/upload.vue'
@@ -33,11 +34,11 @@ const routes = [
   //   name: 'login',
   //   component: login
   // },
-  // {
-  //   path: '/preRepair',
-  //   name: 'preRepair',
-  //   component: preRepairComponent
-  // },
+  {
+    path: '/trackingRepair',
+    name: 'TrackingRepairComponent',
+    component: TrackingRepair
+  },
   {
     path: '/repair',
     name: 'Repair',

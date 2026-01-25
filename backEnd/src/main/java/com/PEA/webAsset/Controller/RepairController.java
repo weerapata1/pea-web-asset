@@ -17,8 +17,8 @@ import java.util.Optional;
 import static com.PEA.webAsset.Service.RepairService.GeneratePrefixAndRepairCode;
 
 @RestController
-@RequestMapping("/repair" )
-@CrossOrigin(origins = "*" )
+@RequestMapping("/repair")
+@CrossOrigin(origins = "*")
 public class RepairController {
     @Autowired
     private final RepairRepository repairRepository;
@@ -46,51 +46,65 @@ public class RepairController {
         this.activeStatusRepository = activeStatusRepository;
     }
 
-    @GetMapping("/getAllRepair" )
+    @GetMapping("/getAllRepair")
     public Collection<tbRepair> getAllCC() {
         return repairRepository.findAll();
     }
 
-    @GetMapping("/getRepairByRepairCode" )
+    @GetMapping("/getRepairAct")
+    public Collection<tbRepair> getAllRepairIsActive() {
+        return repairRepository.findAllByIsActive(1L);
+    }
+
+
+    @GetMapping("/getRepairByRepairCode")
     public ResponseEntity<Collection<tbRepair>> getRepairById(@RequestBody RepairFindWithRepairCodeOrDevPeaNoDTO findRepairDTO) {
         Collection<tbRepair> repairs = repairRepository.findRepairByRepairCodeContainingOrDevice_DevPeaNoContaining(findRepairDTO.getRepairCode(), findRepairDTO.getDevPeaNo());
         return new ResponseEntity<>(repairs, HttpStatus.OK);
     }
 
-    @GetMapping("/getByRepairCodeOrPeaNO" )
-    public ResponseEntity<Collection<tbRepair>> getRepairByRepairCode(@RequestBody RepairFindWithRepairCodeOrDevPeaNoDTO findRepairDTO) {
-        Collection<tbRepair> findRepair = repairRepository.findByRepairCodeOrPeaNoAndActStatus(findRepairDTO.getTextSearch());
-        System.out.println("findRepair = " + findRepair);
+    @GetMapping("/getByRepairCodeOrPeaNO")
+    public ResponseEntity<Collection<tbRepair>> getRepairByRepairCode(@RequestParam String textSearch) {
+        Collection<tbRepair> findRepair = repairRepository.findByRepairCodeOrPeaNoAndActStatus(textSearch);
+//        System.out.println("findRepair = " + findRepair);
         return new ResponseEntity<>(findRepair, HttpStatus.OK);
     }
 
     //    if find Device is found add value else return not found >> add detail  >> save
-    @PostMapping("/createRepair" )
+    @PostMapping("/createRepair")
     public ResponseEntity<tbRepair> createRepair(@RequestBody RepairRequestsDTO repair) {
 
         tbRepair newRepair = new tbRepair();
 
-        System.out.println("repair ::>>" + repair);
+//        System.out.println("repair ::>>" + repair);
 
         newRepair.setDefectDetail(repair.getDefectDetail()); // << set basic Defect
         newRepair.setEmpSend(repair.getEmpSend()); // << set phone number of sender
         newRepair.setSendPhoneNum(repair.getSendPhoneNum()); // << set Phone Number
         newRepair.setRepairCode(GeneratePrefixAndRepairCode()); // << set repairCode
-        newRepair.setRepairStatus(repairStatusRepository.findRepairStatusById(1L)); // << set status InProgress
-        newRepair.setAdmitDate(LocalDateTime.now()); // << set Date Admit
+        newRepair.setRepairStatus(repairStatusRepository.findRepairStatusById(1L)); // << set status new Repair
+        newRepair.setCreatedDate(LocalDateTime.now()); // << set Date Admit
         newRepair.setLastModifyDate(LocalDateTime.now()); // << set Date Last Modify
-        newRepair.setAdminReceive(repair.getAdminReceive()); // << in final findDctAdminByPositionRole *****
+//        newRepair.setAssignedTo(employeeRepository.findByEmpId(repair.getAssignedTo())); // << in final findDctAdminByPositionRole *****
         newRepair.setDevice(deviceRepository.findAllByDevPeaNo(repair.getPeaNo())); // findDeviceByPeaNo and set device
-        newRepair.setIsActive(activeStatusRepository.findActiveStatusByActiveId(1L));
-
+        newRepair.setIsActive(activeStatusRepository.findActiveStatusByActiveId(1L)); // set isActive
 
         repairRepository.save(newRepair);
-        System.out.println("repair : >> " + newRepair);
+//        System.out.println("repair : >> " + newRepair);
 
         return ResponseEntity.ok(newRepair);
     }
 
-    @PutMapping("/updateRepair" )
+    //    searchRepair with repair status
+    @GetMapping("/getRepairByStatus")
+    public ResponseEntity<Collection<tbRepair>> getRepairByStatus(@RequestParam(name = "status") String status) {
+        Collection<tbRepair> searchRepair = repairRepository.findByRepairStatus(status);
+
+
+        return new ResponseEntity<>(searchRepair, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateRepair")
     public ResponseEntity<Optional<tbRepair>> updateRepair(@RequestBody RepairUpdateRequestDTO updateDTO) {
 //        find repairCode or PeaNo. for update status and detail if found ,update status and detail ,else return not found
         Optional<tbRepair> repairTemp = Optional.ofNullable(repairRepository.findByRepairCode(updateDTO.getTextSearch()));
@@ -98,31 +112,45 @@ public class RepairController {
         if (repairTemp.isPresent()) {
 
             tbRepair updateRepair = repairRepository.findByRepairCode(updateDTO.getTextSearch());
-            updateRepair.setLastModifyDate(LocalDateTime.now()); // << set Date Last Modify
 
             switch (updateDTO.getRepairStatus()) {
-                case "2": // Ready4Delivery
-                    updateRepair.setAdminDefectReview(updateDTO.getAdminDefectReview());
-                    updateRepair.setFixMethod(updateDTO.getFixMethod());
-                    updateRepair.setCostOfRepair(updateDTO.getCostOfRepair());
-                    updateRepair.setRepairStatus((repairStatusRepository.findRepairStatusById(2L)));
-                    updateRepair.setIsActive(activeStatusRepository.findActiveStatusByActiveId(1L));
+                case "2": // in progress Repair
+                    updateRepair.setAdminDefectReview(updateDTO.getAdminDefectReview()); // << set admin defect review
+                    updateRepair.setRepairStatus((repairStatusRepository.findRepairStatusById(2L))); // << set status Ready for Delivery
+                    updateRepair.setLastModifyDate(LocalDateTime.now()); // << set Date Last Modify
+                    updateRepair.setAssignedTo(employeeRepository.findByEmpId(updateDTO.getAssignedTo())); // << set assignedTo name
+                    System.out.println("status 2");
                     break;
-                case "3": // The device has been returned.
-                    updateRepair.setRepairStatus((repairStatusRepository.findRepairStatusById(3L)));
-                    updateRepair.setIsActive(activeStatusRepository.findActiveStatusByActiveId(2L));
+                case "3": // ready for Delivery
+                    updateRepair.setRepairStatus((repairStatusRepository.findRepairStatusById(3L)));// << set status device has been returned
+                    updateRepair.setFixMethod(updateDTO.getFixMethod()); // << set method of repair
+                    updateRepair.setLastModifyDate(LocalDateTime.now()); // << set Date Last Modify
+                    updateRepair.setCostOfRepair(updateDTO.getCostOfRepair()); // << set cost of repair
+                    System.out.println("status 3");
+                    break;
+                case "4": // returned Device
+                    updateRepair.setRepairStatus((repairStatusRepository.findRepairStatusById(4L)));// << set status device has been returned
+                    updateRepair.setConsigneeName(employeeRepository.findByEmpId(updateDTO.getConsigneeName())); // << set name of consignee
+                    updateRepair.setLastModifyDate(LocalDateTime.now()); // << set Date Last Modify
+                    System.out.println("Consignee Name: " + updateDTO.getConsigneeName());
+                    System.out.println("status 4");
                     break;
 
+                case "5":
+                    updateRepair.setRepairStatus((repairStatusRepository.findRepairStatusById(5L)));// << set status done
+                    updateRepair.setClosedDate(LocalDateTime.now()); // << set Date Close Repair
+                    updateRepair.setIsActive(activeStatusRepository.findActiveStatusByActiveId(2L));// << hide form listRepair
+                    System.out.println("status 5");
+                    break;
             }
             final tbRepair repair = repairRepository.save(updateRepair);
-            return ResponseEntity.ok(Optional.of(repair));
+            System.out.println("repair ::>> " + repair);
+            return ResponseEntity.ok().build();
         } else {
-            System.out.println("not found" );
+            System.out.println("not found");
             return ResponseEntity.ok(repairTemp);
         }
     }
-
-
 
 
 //    @PutMapping("updateRepairDone/{RepairId}")

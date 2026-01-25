@@ -1,27 +1,30 @@
 package com.PEA.webAsset.Entity;
 
-import lombok.*;
+import com.PEA.webAsset.Service.EmpRoleId;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import  jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-@Data
-@Getter @Setter
 @Entity(name = "tbEmpRole")
-@Table(name = "tbEmpRole")
-@NoArgsConstructor
 @EqualsAndHashCode
-@ToString
+@NoArgsConstructor
+@Data
 public class tbEmpRole {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "rule_seq")
-    @SequenceGenerator(name = "rule_seq", sequenceName = "rule_seq")
-    @Column(name = "id" ,unique = true , nullable = false)
-    private Long id;
+    @EmbeddedId
+    private EmpRoleId id;
 
-    private String roleName;
+    @ManyToOne
+    @MapsId("employeeId")
+    @JoinColumn(name = "employee_id")
+    private tbEmployee employee;
 
+    @ManyToOne
+    @MapsId("roleId")
+    @JoinColumn(name = "role_id")
+    private tbRole role;
 
-    public tbEmpRole(String roleName){
-        this.roleName = roleName;
-    }
+    private LocalDateTime assignedAt;
 }

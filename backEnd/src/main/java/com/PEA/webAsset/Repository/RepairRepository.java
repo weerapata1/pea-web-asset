@@ -1,5 +1,6 @@
 package com.PEA.webAsset.Repository;
 
+import com.PEA.webAsset.Entity.tbActiveStatus;
 import com.PEA.webAsset.Entity.tbRepair;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -57,6 +58,15 @@ public interface RepairRepository extends JpaRepository<tbRepair ,Long> {
 //            "AND r.active_id = 1 "
 //            ,nativeQuery = true)
     tbRepair findByRepairCode(String textSearch);
+
+    @Query(value = "SELECT r.* FROM tb_repair r " +
+            "WHERE r.active_id = 1"
+            ,nativeQuery = true)
+    Collection<tbRepair> findAllByIsActive(Long isActive);
+
+    @Query(value = "SELECT * FROM tb_repair as r " +
+                   "WHERE r.status_id = :status",nativeQuery = true)
+    Collection<tbRepair> findByRepairStatus(String status);
 
 
 }

@@ -163,31 +163,31 @@ public class EmployeeController {
 
     }
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseMessage> uploadEmployees(@RequestParam("file") MultipartFile file) {
-        String message;
-        System.out.println("process /emp/upload");
-        // Validate file type (e.g., Excel)
-        if (!ExcelHelper.hasExcelFormat(file)) {
-            message = "Please upload a valid Excel file!";
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseMessage(false, message, null));
-        }
-        try {
-            // Process and save the uploaded file
-            List<tbEmployee> employees = employeeService.saveEmployeesFromFile(file);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new ResponseMessage(true, message + " (" + employees.size() + " records processed)", null));
-        } catch (RuntimeException e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage(false, message, null));
-        }
-    }
+//    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<ResponseMessage> uploadEmployees(@RequestParam("file") MultipartFile file) {
+//        String message;
+//        System.out.println("process /emp/upload");
+//        // Validate file type (e.g., Excel)
+//        if (!ExcelHelper.hasExcelFormat(file)) {
+//            message = "Please upload a valid Excel file!";
+//            return ResponseEntity
+//                    .status(HttpStatus.BAD_REQUEST)
+//                    .body(new ResponseMessage(false, message, null));
+//        }
+//        try {
+//            // Process and save the uploaded file
+//            List<tbEmployee> employees = employeeService.saveEmployeesFromFile(file);
+//            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+//            return ResponseEntity
+//                    .status(HttpStatus.OK)
+//                    .body(new ResponseMessage(true, message + " (" + employees.size() + " records processed)", null));
+//        } catch (RuntimeException e) {
+//            message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+//            return ResponseEntity
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ResponseMessage(false, message, null));
+//        }
+//    }
 
     @GetMapping("/test-cost-center")
     public ResponseEntity<?> testCostCenter(@RequestParam("code") String ccLongCode) {

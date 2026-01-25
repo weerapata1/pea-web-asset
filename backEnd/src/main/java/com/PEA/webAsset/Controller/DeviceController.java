@@ -691,7 +691,7 @@ public class DeviceController {
   public ResponseEntity<Collection<tbDevice>> getDeviceLast4Digit(@RequestParam String textSearch){
     Collection<tbDevice> deviceTemp = (deviceRepository.findByDevPeaNoOrDevSerialNoLike(textSearch));
     System.out.println("deviceFind_dto.getTextSearch() : " + textSearch);
-    System.out.println("deviceTemp : " + deviceTemp);
+
     return ResponseEntity.ok(deviceTemp);
   }
 

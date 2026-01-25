@@ -1,4 +1,5 @@
 import axios from "axios";
+import repairFristStepComponent from "./repairFristStep.vue"
 
 let url = "http://localhost:8080";
 // let urlRepair = "http://localhost:8080/repair";
@@ -7,6 +8,7 @@ let url = "http://localhost:8080";
 
 export default {
     name: "RepairComponent",
+    components: {repairFristStepComponent},
     data() {
 
         return {

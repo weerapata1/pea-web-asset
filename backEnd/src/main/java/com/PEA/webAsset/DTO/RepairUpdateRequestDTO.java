@@ -12,5 +12,6 @@ public class RepairUpdateRequestDTO {
     private String fixMethod;
     private BigDecimal costOfRepair;
     private String textSearch;
-
+    private String assignedTo;
+    private String ConsigneeName;
 }

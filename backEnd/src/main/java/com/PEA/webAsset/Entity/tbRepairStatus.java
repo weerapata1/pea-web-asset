@@ -18,5 +18,6 @@ public class tbRepairStatus {
     @Column(name = "id", unique = true,nullable = false)
     private Long id;
 
+    private String repairStatusCode;
     private String StatusName;
 }

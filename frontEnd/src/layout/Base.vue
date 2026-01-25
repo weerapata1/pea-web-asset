@@ -18,6 +18,10 @@
                 <i class="nc-icon nc-settings-90"></i>
                 <p>ระบบแจ้งซ่อม</p>
               </sidebar-link>
+              <sidebar-link to="/TrackingRepair">
+                <i class="nc-icon nc-settings-90"></i>
+                <p>ติดตามซ่อม</p>
+              </sidebar-link>
 
             </side-bar>
         </div>
