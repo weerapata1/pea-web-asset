@@ -31,7 +31,7 @@ public class ProxyController {
 
         // Static request body
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("templateProjectPath", "sample/ams/506027-fixform.dito");
+        requestBody.put("templateProjectPath", "sample/ams/506027-fixform-2025.dito");
         requestBody.put("templateName", "output");
         requestBody.put("pdfVersion", "1.7");
 

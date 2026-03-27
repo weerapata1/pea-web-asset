@@ -31,10 +31,10 @@ public class CostCenterController {
     @GetMapping("/getAllCCOnlyUse")
     public ResponseEntity<Map<String, Object>> getAllCCOnlyUse() {
         try {
-            List<tbCostCenter> costCenter = new ArrayList<tbCostCenter>();
+            List<Object[]> costCenter = new ArrayList<Object[]>();
             Pageable paging = Pageable.unpaged();
       
-            Page<tbCostCenter> pageTuts = costCenterRepository.onlyUse(paging);
+            Page<Object[]> pageTuts = costCenterRepository.onlyUse(paging);
             costCenter = pageTuts.getContent();
       
             Map<String, Object> response = new HashMap<>();

@@ -13,6 +13,8 @@ export default {
       itemsEmp: [],
       getDeviceResult: [],
       getEmployeeResult: [],
+      loadingEmp: false,
+      loadingCC: false,
       deviceheaders: [
         {
           text: "เลขทรัพย์สิน",
@@ -29,7 +31,7 @@ export default {
         },
         {
           text: "ชื่อผู้ครอบครอง",
-          value: "tbEmployee.empName",
+          value: "empName",
           class: "primary--text",
           // width: "25%"
         },
@@ -56,7 +58,7 @@ export default {
         },
         {
           text: "ตำแหน่ง",
-          value: "empRole",
+          value: "empRank",
           class: "primary--text",
           // width: "25%"
         },
@@ -108,7 +110,16 @@ export default {
       quotaCom: 0,
       countElectrician: 0,
       countAssistElectrician: 0,
+      loading: false,
+      ccLong: "",
+      ccShortName: "",
+      ccShortCode: "",
     };
+  },
+
+  created() {
+    this.loadItemsEmp();
+    this.loadItemsCC();
   },
 
   watch: {
@@ -118,19 +129,68 @@ export default {
         console.log("clear password");
       }
     },
+    // loadingEmp: 'updateOverallLoading',
+    // loadingCC: 'updateOverallLoading',
   },
 
   mounted() {
-    axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
-      this.itemsCC = response.data.costCenter;
-    });
+    // axios.get("http://localhost:8080/cc/getAllCCOnlyUse").then((response) => {
+    //   this.itemsCC = response.data.costCenter;
+    // });
 
-    axios.get("http://localhost:8080/emp/getEmp").then((response) => {
-      this.itemsEmp = response.data;
-    });
+    // axios.get("http://localhost:8080/emp/getEmpAll").then((response) => {
+    //   this.itemsEmp = response.data;
+    // });
+
+    // this.loadEmpData();
+    // this.loadCCData();
+    this.loadAllData();
   },
 
   methods: {
+    async loadEmpData() {
+      this.loadingEmp = true;
+      try {
+        // const response = await axios.get("http://localhost:8080/emp/getEmpAll");
+        const response = await axios.get(
+          `${process.env.VUE_APP_BASE_URL}/emp/getEmpAll2`
+        );
+        
+        this.itemsEmp = response.data.data1.map((item) => ({
+          empId: item[0],
+          empName: item[1],
+          empDep_full: item[2],
+          empRank: item[3],
+          ccLongCode: item[4],
+        }));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingEmp = false;
+      }
+      // console.log("itemsEmp ", this.itemsEmp);
+    },
+    async loadCCData() {
+      this.loadingCC = true;
+      try {
+        // const response = await axios.get("http://localhost:8080/cc/getAllCCOnlyUse");
+        const response = await axios.get(
+          `${process.env.VUE_APP_BASE_URL}/cc/getAllCCOnlyUse`
+        );
+        // this.itemsCC = response.data.costCenter;
+        console.log("itemsCC ", this.itemsCC);
+        this.itemsCC = response.data.costCenter.map((item) => ({
+          ccLongCode: item[0],
+          ccShortName: item[1],
+          ccFullName: item[2],
+        }));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loadingCC = false;
+      }
+    },
+
     getItemEmp(itemEmp) {
       return `${itemEmp.empId}` + " " + `${itemEmp.empName}`;
     },
@@ -146,25 +206,33 @@ export default {
     },
 
     updateCC(modelCC) {
-      console.log(modelCC.ccLongCode);
+      console.log("modelCC update " + modelCC.ccLongCode);
 
       this.modelCC = modelCC;
-      // how can I have here the index value?
+
       this.modelEmp = null;
     },
 
     updateCCFromEmp(modelEmp) {
-      console.log(">> " + modelEmp.costCenter.ccLongCode);
+      // console.log("modelCC update " + modelEmp.ccLongCode);
 
       var result = this.itemsCC.find(
-        (item) => item.ccLongCode === modelEmp.costCenter.ccLongCode
+        (item) => item.ccLongCode === modelEmp.ccLongCode
       );
-      console.log("result " + result.ccLongCode);
+      // console.log("result " + result.ccLongCode);
       this.modelCC = result;
       // how can I have here the index value?
+      console.log("modelCC update " + JSON.stringify(this.modelCC));
+    },
+
+    async loadAllData() {
+      this.loading = true;
+      await Promise.all([this.loadEmpData(), this.loadCCData()]);
+      this.loading = false;
     },
 
     async checkQuota() {
+      this.loading = true;
       if (this.modelCC == null) {
         this.alert = true;
         window.setInterval(() => {
@@ -172,29 +240,41 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        console.log("param dt_id - ", this.setAssetComType);
+        // console.log("param device_type_id - ", this.setAssetComType);
         let params = [];
 
         params = {
           region: this.modelCC["ccLongCode"],
-          dt_id: this.setAssetComType,
+          device_type_id: this.setAssetComType,
         };
-
+        console.log(
+          "param device_type_id - ",
+          params.device_type_id,
+          " region ",
+          params.region
+        );
         if (this.checked7 == false) {
           await axios
-            .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
-              params,
-            })
+            // .get("http://localhost:8080/api/dev/getDevice53unpageByccId", {
+            .get(
+              `${process.env.VUE_APP_BASE_URL}/api/dev/getDevice53unpageByccId`,
+              {
+                params,
+              }
+            )
             .then((resp2) => {
-              // this.getAllResult = resp.data;
-              // console.log(
-              //   "getAllByPattern2unpage",
-              //   JSON.stringify(this.getAllResult)
-              // );
+              // this.getDeviceResult = resp2.data.dataDevice;
+              
+              this.getDeviceResult = resp2.data.dataDevice.map((item) => ({
+                devPeaNo: item[0],
+                devDescription: item[1],
+                empName: item[2],
+                devReceivedDate: item[3],
+              }));
 
-              this.getDeviceResult = resp2.data.dataDevice;
+              console.log("getDeviceResult ", this.getDeviceResult);
+
               this.totalDeviceResult = resp2.data.totalItems;
-              // this.myloadingvariable = false;
             })
             .catch((error) => {
               console.log(error.resp);
@@ -202,7 +282,8 @@ export default {
         } else {
           await axios
             .get(
-              "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              // "http://localhost:8080/api/dev/getDevice53unpageByccIdOnly7Year",
+              `${process.env.VUE_APP_BASE_URL}/api/dev/getDevice53unpageByccIdOnly7Year`,
               {
                 params,
               }
@@ -216,33 +297,40 @@ export default {
 
               this.getDeviceResult = resp2.data.dataDevice;
               this.totalDeviceResult = resp2.data.totalItems;
-              // this.myloadingvariable = false;
             })
             .catch((error) => {
               console.log(error.resp);
             });
         }
         // let params = [];
-        let ccLong = this.modelCC["ccLongCode"];
+        this.ccLong = this.modelCC["ccLongCode"];
         //let ccFullName = this.modelCC["ccFullName"];
-        let ccShortName = this.modelCC["ccShortName"];
-        let ccShortCode = this.modelCC["ccShortCode"];
-        console.log("ccLong- " + ccLong);
+        this.ccShortName = this.modelCC["ccShortName"];
+        this.ccShortCode = this.modelCC["ccLongCode"].slice(0,7);
+        console.log("ccShortCode- " + this.ccShortCode);
         params = {
-          region: ccLong,
+          region: this.ccLong,
         };
         await axios
-          .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
-          .then((resp2) => {
-            // this.getEmployeeResult = resp.data;
-            // console.log(
-            //   "getEmpByccLongCode",
-            //   JSON.stringify(this.getEmployeeResult)
-            // );
+          // .get("http://localhost:8080/emp/getEmpByccLongCode", { params })
+          .get(`${process.env.VUE_APP_BASE_URL}/emp/getEmpByccLongCode`, {
+            params,
+          })
+          .then((resp3) => {
+            // console.log("getEmployeeResult ", resp3.data.dataEmployee);
 
-            this.getEmployeeResult = resp2.data.dataEmployee;
-            this.totalEmployeeResult = resp2.data.totalItems;
-            // this.myloadingvariable = false;
+            this.getEmployeeResult = resp3.data.dataEmployee.map((item) => ({
+              empId: item[0],
+              empName: item[1],
+              empDepFull: item[2],
+              empRank: item[3],
+              ccLongCode: item[4],
+            }));
+
+            console.log("getEmployeeResult ", this.getEmployeeResult);
+
+            this.totalEmployeeResult = resp3.data.totalItems;
+            return;
           })
           .catch((error) => {
             console.log(error.resp);
@@ -250,22 +338,22 @@ export default {
 
         //เช็คเงื่อนไขแผนก quota 2:3
         if (
-          !ccLong.startsWith("E3010") &&
-          (ccShortName.includes("ผปบ") ||
-            ccShortName.includes("ผกส") ||
-            ccShortName.includes("ผกป") ||
-            !ccShortCode.slice(-1)=="1")
+          !this.ccLong?.startsWith("E3010") &&
+          (this.ccShortName?.includes("ผปบ") ||
+            this.ccShortName?.includes("ผกส") ||
+            this.ccShortName?.includes("ผกป") ||
+            !this.ccShortCode?.slice(-1) == "1")
         ) {
           console.log(
             "Check พชง. 3:2 " +
-              ccShortName.includes("ผปบ") +
+              this.ccShortName?.includes('ผปบ') +
               " " +
-              ccShortName.includes("ผกส") +
+              this.ccShortName?.includes('ผกส') +
               " " +
-              ccShortName.includes("ผกป") +
+              this.ccShortName?.includes('ผกป') +
               " " +
-              ccShortCode +
-              !ccShortCode.endsWith("1")
+              this.ccShortCode +
+              !this.ccShortCode?.endsWith('1')
           );
           this.countElectrician = 0;
           let electrician = "";
@@ -276,7 +364,7 @@ export default {
           for (let i = 0; i < this.totalEmployeeResult; i++) {
             electrician = JSON.stringify(this.getEmployeeResult[i].empRole);
             if (
-              electrician.includes("พชง")
+              electrician?.includes("พชง")
               // || electrician.includes("ชชง")
             ) {
               this.countElectrician++;
@@ -284,7 +372,7 @@ export default {
               // if(this.countElectrician % 3 == 0){
               //   this.quotaCom--;
               // }
-            } else if (electrician.includes("ชชง")) {
+            } else if (electrician?.includes("ชชง")) {
               this.countAssistElectrician++;
             }
           }
@@ -348,8 +436,8 @@ export default {
               " เครื่อง";
           }
         }
-
         this.showVRow = true;
+        this.loading = false;
       }
     },
 
@@ -399,6 +487,12 @@ export default {
     // itemRowBackground: function (item) {
     //   return item.includes("พชง") || item.includes("ชชง")  ? 'style-1' : 'style-2'
     //   //return 'style-1';
+    // },
+  },
+
+  computed: {
+    // loading() {
+    //   return this.loadingEmp || this.loadingCC;
     // },
   },
 };

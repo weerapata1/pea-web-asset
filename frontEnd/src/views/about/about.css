@@ -92,3 +92,13 @@ i.v-icon.v-white {
 .vue-treeselect.treeselect-invalid .vue-treeselect__single-value {
   font-size:18px !important;
 }
+
+.error-box {
+  margin-top: 8px;
+  color: red;
+  font-weight: bold;
+  background: #ffe5e5;
+  padding: 8px;
+  border: 1px solid red;
+  border-radius: 4px;
+}

@@ -3,6 +3,7 @@ package com.PEA.webAsset.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.PEA.webAsset.Repository.EmpRoleRepository;
 import org.apache.poi.ss.usermodel.CellType;
@@ -50,7 +51,9 @@ public class EmployeeService {
                 tbEmployee employee = new tbEmployee();
 
                 // Map specific columns to fields
-                employee.setId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column A: ID
+                // employee.setEmpId(Long.parseLong(ExcelHelper.extractCellValue(formatter, row.getCell(0)))); // Column
+                                                                                                                   // A:
+                                                                                                                   // ID
                 employee.setEmpId(ExcelHelper.extractCellValue(formatter, row.getCell(1))); // Column B: Employee ID
                 employee.setEmpName(ExcelHelper.extractCellValue(formatter, row.getCell(2))); // Column C: Employee Name
                 employee.setEmpRank(ExcelHelper.extractCellValue(formatter, row.getCell(3))); // Column D: Employee Rank
@@ -58,17 +61,29 @@ public class EmployeeService {
 
 
                 // Handle Cost Center (Column F)
-                String costCenterCode = ExcelHelper.extractCellValue(formatter, row.getCell(5)); // Column F: Cost Center Code
+                String costCenterCode = ExcelHelper.extractCellValue(formatter, row.getCell(5)); // Column F: Cost
+                                                                                                 // Center Code
                 if (costCenterCode != null && !costCenterCode.isEmpty()) {
                     // Use the costCenterCode to fetch the associated tbCostCenter
                     tbCostCenter costCenter = costCenterRepository.findByCcLongCode(costCenterCode)
                             .orElseThrow(
                                     () -> new RuntimeException("Cost center not found for code: " + costCenterCode));
-                    employee.setCostCenter(costCenter); // Associate the Cost Center
+                    employee.setCostCenter(costCenter);
                 }
                 employee.setEmpRole(empRoleRepository.findEmpRuleById(ChkDepartment(costCenterCode)));
 
-                employees.add(employee);
+                // employees.add(employee);
+                Optional<tbEmployee> existingEmployee = employeeRepository.findEmpByEmpId(employee.getEmpId());
+                if (existingEmployee.isPresent()) {
+                    // Optionally update the existing record instead of throwing an error
+                    tbEmployee existing = existingEmployee.get();
+                    existing.setEmpName(employee.getEmpName());
+                    existing.setEmpRole(employee.getEmpRole());
+                    existing.setEmpDepFull(employee.getEmpDepFull());
+                    employeeRepository.save(existing);
+                } else {
+                    employeeRepository.save(employee);
+                }
             }
 
             // Save employees to the database

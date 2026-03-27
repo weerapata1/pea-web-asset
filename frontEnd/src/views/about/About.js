@@ -28,7 +28,7 @@ Vue.component("treeselect", Treeselect);
 // import the styles
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
-// import router from "../../router";
+import dateService from "../../services/dateService";
 
 export default {
   name: "EventsList",
@@ -37,12 +37,6 @@ export default {
       event: {},
       events: [],
       headers: [
-        // {
-        //   align: "start",
-        //   value: "",
-        //   width: "1%",
-        //   text:"select-all"
-        // },
         {
           text: "เลขทรัพย์สิน",
           align: "start",
@@ -64,6 +58,7 @@ export default {
         },
         {
           text: "วันที่โอนเข้าเป็นทุน",
+          // value: "devReceivedDate",
           value: "devReceivedDate",
           class: "primary--text",
           // width: "7%"
@@ -82,25 +77,29 @@ export default {
         },
         {
           text: "ชื่อผู้ครอบครอง",
-          value: "tbEmployee.empName",
+          // value: "tbEmployee.empName",
+          value: "empName",
           class: "primary--text",
           // width: "20%",
         },
         {
           text: "รหัสพนักงาน",
-          value: "tbEmployee.empId",
+          // value: "tbEmployee.empId",
+          value: "empId",
           class: "primary--text",
           // width: "3%"
         },
         {
           text: "สังกัด",
-          value: "tbCostCenterTest.ccShortName",
+          // value: "tbCostCenter.ccShortName",
+          value: "ccShortName",
           class: "primary--text",
           // width: "5%",
         },
         {
           text: "ศูนย์ต้นทุน",
-          value: "tbCostCenterTest.ccLongCode",
+          // value: "tbCostCenter.ccLongCode",
+          value: "ccLongCode",
           class: "primary--text",
           // width: "5%",
         },
@@ -121,25 +120,25 @@ export default {
         มูลค่าการได้มา: "devReceivedPrice",
         มูลค่าตามบัญชี: "devLeftPrice",
         ชื่อผู้ครอบครอง: {
-          field: "tbEmployee.empName",
+          field: "empName",
           callback: (value) => {
             return `${value}`;
           },
         },
         รหัสพนักงาน: {
-          field: "tbEmployee.empId",
+          field: "empId",
           callback: (value) => {
             return `${value}`;
           },
         },
         ศูนย์ต้นทุน: {
-          field: "tbCostCenterTest.ccLongCode",
+          field: "ccLongCode",
           callback: (value) => {
             return `${value}`;
           },
         },
         สังกัด: {
-          field: "tbCostCenterTest.ccShortName",
+          field: "ccShortName",
           callback: (value) => {
             return `${value}`;
           },
@@ -257,44 +256,67 @@ export default {
 
       editedIndex: -1,
       editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        ccLongCodeString: "",
+        devConcatPriceDate: "",
+        devDescription: "",
+        devLeftPrice: 0,
+        devNote: "",
+        devPeaNo: "",
+        devReceivedDate: null, // Use a proper date format if needed
+        devReceivedPrice: 0,
+        devSerialNo: "",
+        devUpdate: "",
+        deviceId: null,
+        equipment: "",
+        model: "",
+        contract: "",
+        problem: "",
+        isDeleted: false,
+        tbCostCenter: {
+          costCenter: "",
+          costCenterCode: "",
+        },
+        tbDeviceType: {
+          deviceTypeId: "",
+          deviceTypeName: "",
+        },
+        tbEmployee: {
+          empDepFull: "",
+          empId: "",
+          empName: "",
+          empRank: "",
+          empRole: "",
+        },
+        date: new Date().toISOString().split("T")[0],
       },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+
+      formData: {
+        ccShortName: "-",
+        date: "-",
+        type_other: "-",
+        brand: "-",
+        devDescription: "-",
+        contract: "-",
+        serial: "-",
+        pea_no: "-",
+        problem: "-",
+        emp_name: "-",
+        emp_role: "-",
+        emp_id: "-",
+        tel: "-",
+        inspector_name: "",
+        inspector_role: "",
+        inspector_date: "-",
+        dep_head_name: "",
+        dep_head_role: "",
+        dep_head_date: "-",
+        inspect_dep_name:"",
       },
+
       groupSelected: [],
       qrcode_value2: [],
       result: [],
       selected: [],
-
-      fruits: [
-        { header: "เขต" },
-        { id: "1", name: "เฉพาะในเขต กฟฉ.2", value: "E3010" },
-        // { divider: true },
-        { header: "หน้างาน" },
-        { id: "2", name: "กฟจ.อบ.", value: "E3011" },
-        { id: "3", name: "กฟจ.ศก.", value: "E302" },
-        { id: "4", name: "กฟจ.ยส.", value: "E303" },
-        { id: "5", name: "กฟจ.มค.", value: "E304" },
-        { id: "6", name: "กฟจ.กส.", value: "E305" },
-        { id: "7", name: "กฟจ.รอ.", value: "E306" },
-        { id: "8", name: "กฟจ.มห.", value: "E307" },
-        { id: "9", name: "กฟจ.อจ.", value: "E308" },
-        { id: "10", name: "กฟอ.สล.", value: "E309" },
-        { id: "11", name: "กฟอ.สดจ.", value: "E310" },
-        { id: "12", name: "กฟอ.กล.", value: "E311" },
-        { id: "13", name: "กฟอ.ดอ.", value: "E312" },
-        { id: "14", name: "กฟอ.วรช.", value: "E313" },
-        { id: "15", name: "กฟอ.ตผ.", value: "E314" },
-      ],
 
       optionBranches: [
         {
@@ -317,7 +339,8 @@ export default {
           children: [
             {
               id: "reg1",
-              label: "กอก.",
+              // label: "กอก.",
+              label: "กสข.",
               value: "E30100",
               icon: "mdi-home-assistant",
               // isNew: true,
@@ -342,31 +365,37 @@ export default {
             },
             {
               id: "reg5",
-              label: "กกค.",
+              // label: "กกค.",
+              label: "กรย.",
               value: "E301013",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg6",
-              label: "ฝบพ.",
+              // label: "ฝบพ.",
+              label: "ฝสบ.",
               value: "E30102",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg7",
-              label: "กบญ.",
+              // label: "กบญ.",
+              label: "กบฟ.",
               value: "E301021",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg8",
-              label: "กซข.",
-              value: "E301022",
+              // label: "กซข.",
+              // value: "E301022",
+              label: "กบพ.",
+              value: "E301024",
               icon: "mdi-home-assistant",
             },
             {
               id: "reg9",
-              label: "กรท.",
+              // label: "กรท.",
+              label: "กดส.",
               value: "E301023",
               icon: "mdi-home-assistant",
             },
@@ -390,22 +419,23 @@ export default {
             },
             {
               id: "reg13",
-              label: "กรส.",
-              value: "E301033",
+              label: "กสฟ.",
+              // value: "E301033",E301034
+              value: "E301034",
               icon: "mdi-home-assistant",
             },
           ],
         },
         {
           id: "ubn",
-          label: "จุดรวมงาน กฟจ.อบ.",
+          label: "กฟส.อบ. (L)",
           value: "E3011",
           icon: "mdi-home-circle",
           children: [
             {
               id: "ub1",
               label: "กฟจ.อบ.",
-              value: "E3011",
+              value: "E301101",
               icon: "mdi-home-assistant",
             },
             {
@@ -424,7 +454,7 @@ export default {
         },
         {
           id: "ssk",
-          label: "จุดรวมงาน กฟจ.ศก.",
+          label: "กฟส.ศก. (L)",
           value: "E302",
           icon: "mdi-home-circle",
           children: [
@@ -452,17 +482,17 @@ export default {
               value: "E3024",
               icon: "mdi-home-assistant",
             },
-            {
-              id: "ssk5",
-              label: "กฟส.กร.",
-              value: "E3025",
-              icon: "mdi-home-assistant",
-            },
+            // {
+            //   id: "ssk5",
+            //   label: "กฟส.กร.",
+            //   value: "E3025",
+            //   icon: "mdi-home-assistant",
+            // },
           ],
         },
         {
           id: "yst",
-          label: "จุดรวมงาน กฟจ.ยส.",
+          label: "กฟส.ยส. (M)",
           value: "E303",
           icon: "mdi-home-circle",
           children: [
@@ -488,7 +518,7 @@ export default {
         },
         {
           id: "mhk",
-          label: "จุดรวมงาน กฟจ.มค.",
+          label: "กฟส.มค. (L)",
           value: "E304",
           icon: "mdi-home-circle",
           children: [
@@ -528,17 +558,17 @@ export default {
               value: "E3046",
               icon: "mdi-home-assistant",
             },
-            {
-              id: "mhk7",
-              label: "กฟส.กวช.",
-              value: "E3047",
-              icon: "mdi-home-assistant",
-            },
+            // {
+            //   id: "mhk7",
+            //   label: "กฟส.กวช.",
+            //   value: "E3047",
+            //   icon: "mdi-home-assistant",
+            // },
           ],
         },
         {
           id: "kls",
-          label: "จุดรวมงาน กฟจ.กส.",
+          label: "กฟส.กส. (L)",
           value: "E305",
           icon: "mdi-home-circle",
           children: [
@@ -564,7 +594,7 @@ export default {
         },
         {
           id: "roe",
-          label: "จุดรวมงาน กฟจ.รอ.",
+          label: "กฟส.รอ. (L)",
           value: "E306",
           icon: "mdi-home-circle",
           children: [
@@ -596,7 +626,7 @@ export default {
         },
         {
           id: "mdh",
-          label: "จุดรวมงาน กฟจ.มห.",
+          label: "กฟส.มดห. (M)",
           value: "E307",
           icon: "mdi-home-circle",
           children: [
@@ -616,7 +646,7 @@ export default {
         },
         {
           id: "anc",
-          label: "จุดรวมงาน กฟจ.อจ.",
+          label: "กฟส.อจ. (M)",
           value: "E308",
           icon: "mdi-home-circle",
           children: [
@@ -636,7 +666,7 @@ export default {
         },
         {
           id: "slp",
-          label: "จุดรวมงาน กฟอ.สล.",
+          label: "กฟส.สล. (M)",
           value: "E309",
           icon: "mdi-home-circle",
           children: [
@@ -656,7 +686,7 @@ export default {
         },
         {
           id: "sdj",
-          label: "จุดรวมงาน กฟอ.สดจ.",
+          label: "กฟส.สดจ. (M)",
           value: "E310",
           icon: "mdi-home-circle",
           children: [
@@ -676,7 +706,7 @@ export default {
         },
         {
           id: "ktl",
-          label: "จุดรวมงาน กฟอ.กล.",
+          label: "กฟส.กทล. (L)",
           value: "E311",
           icon: "mdi-home-circle",
           children: [
@@ -696,7 +726,7 @@ export default {
         },
         {
           id: "dud",
-          label: "จุดรวมงาน กฟอ.ดอ.",
+          label: "กฟส.ดอ. (L)",
           value: "E312",
           icon: "mdi-home-circle",
           children: [
@@ -722,7 +752,7 @@ export default {
         },
         {
           id: "wch",
-          label: "จุดรวมงาน กฟอ.วรช.",
+          label: "กฟส.วรช. (M)",
           value: "E313",
           icon: "mdi-home-circle",
           children: [
@@ -742,7 +772,7 @@ export default {
         },
         {
           id: "tpp",
-          label: "จุดรวมงาน กฟอ.ตผ.",
+          label: "กฟส.ตผ. (M)",
           value: "E314",
           icon: "mdi-home-circle",
           children: [
@@ -760,31 +790,39 @@ export default {
             },
           ],
         },
+        {
+          id: "ktm",
+          label: "กฟส.กร. (M)",
+          value: "E315",
+          icon: "mdi-home-circle",
+        },
+        {
+          id: "kan",
+          label: "กฟส.กวช. (M) ",
+          value: "E316",
+          icon: "mdi-home-circle",
+        },
       ],
 
       value: ["reg"],
       fieldValid: false,
-      formData: {
-        cost_center_name: "กฟส.กทล.",
-        date: "19 มิ.ย. 2567",
-        type_other: "",
-        brand: "HP",
-        model: "ProDesk 600 G5",
-        contract: "บ.75/2563",
-        serial: "4CE03526C6",
-        pea_no: "5330404643",
-        problem: "ฮาร์ดิสชำรุด",
-        emp_name: "นายอนุสรณ์ อมรรัตนศักดิ์",
-        emp_role: "พบค.7",
-        emp_id: "499857",
-        tel: "(22)14890",
-        inspector_name: "นายภาณุวิชญ์ ธานีวัฒน์",
-        inspector_role: "นรค.7",
-        inspector_date: "19 มิ.ย. 2567",
-        dep_head_name: "นายสุเธียรพงศ์ ธนาอภิสิทธิ์โสภณ",
-        dep_head_role: "หผ.คข.กดส.ฉ.2",
-        dep_head_date: "19 มิ.ย. 2567",
-      },
+
+      selectedInspector: null,
+      inspectorList: [],
+      // selectedDepHead: {
+      //   id: "",
+      //   label: "",
+      //   role: "",
+      //   icon: "mdi-account",
+      //   depId: "",
+      // },
+      selectedDepHead: null,
+      depHeadList: [],
+      depHeadItem: null,
+      depHead: null,
+      showErrorProblem: false,
+      showErrorInspector: false,
+      showErrorDepHead: false,
     };
   },
 
@@ -800,21 +838,45 @@ export default {
   mounted() {
     this.myloadingvariable = true;
 
+    this.appendBranch = JSON.stringify({ branch: "E3010" });
+    console.log("appendBranch-mount, " + this.appendBranch);
+
     let params = {
       region: "E301000000",
       setAssetType: 53,
     };
 
     axios
-      .get("http://localhost:8080/api/dev/searchNoWordUnpage/", { params })
+      // .get("http://localhost:8080/api/dev/searchNoWordUnpage", { params })
+      .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, {
+        params,
+      })
       .then((resp) => {
         this.getAllResult = resp;
-
-        this.data1 = resp.data.dataExcel;
-
-        this.itemsPerPage = resp.data.itemsPerPage;
+        console.log("data mounted ", this.getAllResult);
+        // this.data1 = resp.data.dataExcel;
+        this.data1 = Array.isArray(resp.data.dataExcel)
+          ? resp.data.dataExcel
+          : [];
+        this.data1 = this.data1.map((item) => ({
+          id: item[0],
+          devDescription: item[1],
+          devPeaNo: item[2],
+          devSerialNo: item[3],
+          empId: item[4],
+          devReceivedDate: item[5], // Convert Thai date format
+          devReceivedPrice: item[6],
+          devLeftPrice: item[7],
+          ccLongCode: item[8],
+          ccFullName: item[9],
+          ccShortName: item[10],
+          empName: item[11],
+          empRank: item[12],
+        }));
+        // this.itemsPerPage = resp.data.itemsPerPage;
         this.totalItems = resp.data.totalItems;
         console.log("at mounted ", this.getAllResult.data.totalItems);
+        console.log("at mounted data ", this.data1);
         this.myloadingvariable = false;
       })
 
@@ -822,91 +884,19 @@ export default {
         console.log(error.resp);
       });
 
-    // axios.get('http://localhost:8080/api/dev/test')
-    // .then(response => {
-    //     console.log(response.data);
-    // })
-    // .catch(error => {
-    //     console.error("There was an error with the test request!", error);
-    // });
+    this.getInspectorList();
   },
 
-  created() {
-    //this.myloadingvariable = true;
-    // console.log("at created");
-    // this.getEventsData(); // NEW - call getEventData() when the instance is created
-    //this.myloadingvariable = false;
-  },
+  created() {},
   // NEW
 
   methods: {
-    // async getEventsData() {
-    //   // NEW - Use the eventService to call the getEvents() method
-    //   DataService.getEvents().then(
-    //     ((events) => {
-    //       console.log("inside method dataservice", JSON.stringify(events));
-    //       this.$set(this, "events", events);
-    //     }).bind(this)
-
-    //   );
-    // },
     getItemPerPage(val) {
       this.itemsPerPage = val;
       console.log("setItemPerPage ", this.itemsPerPage);
       this.searchFunction();
     },
-    // hide_alert: function() {
-    //   console.log("at hide_alert");
-    //   // `event` is the native DOM event
-    // },
-    toggleBranch() {
-      this.$nextTick(() => {
-        if (this.likesAllFruit) {
-          this.selectedFruits = [];
-          this.appendBranch = [];
-          console.log("b-");
-        } else {
-          this.selectedFruits = this.fruits.slice();
-          this.jsonObj = JSON.parse(this.jsonStrBranch);
-          this.jsonObj["branch"] = "E3";
-          // this.jsonObj["branch"].push("E3");
-          this.appendBranch = JSON.stringify(this.jsonObj);
-          console.log("b- " + this.appendBranch);
-          // console.log("fruits" + this.fruits[0]["name"]);
-        }
-      });
-    },
-    toggleBranch2(Fruits) {
-      this.jsonObj = JSON.parse(this.jsonStrBranch);
-      this.jsonObj["branch"] = [];
-      this.jsonObj["branch"] = Fruits;
-      this.appendBranch = JSON.stringify(this.jsonObj);
-      console.log("b-" + this.appendBranch);
-    },
-    // toggleType() {
-    //   this.$nextTick(() => {
-    //     if (this.likesAllTypeSearch) {
-    //       this.selectedTypeSearch = [];
-    //       this.appendType = [];
-    //       console.log("t-");
-    //     } else {
-    //       this.selectedTypeSearch = this.typeSearch.slice();
-    //       this.jsonObj = JSON.parse(this.jsonStrType);
-    //       this.jsonObj["type"] = [];
-    //       this.jsonObj["type"].push("*");
-    //       this.appendType = JSON.stringify(this.jsonObj);
-    //       console.log("t-" + this.appendType);
-    //       // console.log("fruits" + this.fruits[0]["name"]);
-    //     }
-    //   });
-    // },
-    // toggleType2(TypeSearch) {
-    //   this.jsonObj = JSON.parse(this.jsonStrType);
-    //   this.jsonObj["type"] = [];
-    //   this.jsonObj["type"] = TypeSearch;
-    //   this.appendType = JSON.stringify(this.jsonObj);
-    //   console.log("t-" + this.appendType);
-    // },
+
     treeselectChange: function (node) {
       // alert("changed ", value);
       console.log(node.value);
@@ -915,6 +905,51 @@ export default {
       this.jsonObj["branch"] = node.value;
       this.appendBranch = JSON.stringify(this.jsonObj);
       console.log("b-" + this.appendBranch);
+    },
+
+    handleInspectorSelect(node) {
+      console.log(node);
+      this.formData.inspector_name = node.label;
+      this.formData.inspector_role = node.role || "-";
+      this.formData.inspect_dep_name = node.depName;
+      // this.autoSetDepHeadSelect(node.depId);
+    },
+
+    handleDepHeadSelect(selectedNode) {
+      // console.log(selectedNode);
+
+      this.depHeadItem = this.depHeadList.find(
+        (item) => item.depId === selectedNode.depId
+      );
+      console.log("depHeadItem ", this.depHeadItem);
+
+      if (this.depHeadItem) {
+        this.selectedDepHead = this.depHeadItem;
+        console.log("selectedDepHead ", this.selectedDepHead);
+        const role_full = this.depHeadItem.role + " " + this.depHeadItem.depName; 
+
+        this.formData.dep_head_name = this.depHeadItem.label;
+        this.formData.dep_head_role = role_full || "-";
+      } else {
+        this.selectedDepHead = null;
+        this.formData.dep_head_name = "-";
+        this.formData.dep_head_role = "-";
+      }
+    },
+
+    autoSetDepHeadSelect(depId) {
+      this.depHead = this.depHeadList.find((item) => item.depId === depId);
+      console.log("depHead-auto ", this.depHead);
+      if (this.depHead) {
+        this.selectedDepHead = this.depHead; // ✅ match by object reference
+        // this.formData.dep_head_name = this.selectedDepHead.label;
+        this.formData.dep_head_role = this.selectedDepHead.role || "-";
+      }
+      // else {
+      //   this.selectedDepHead = null;
+      //   this.formData.dep_head_name = "-";
+      //   this.formData.dep_head_role = "-";
+      // }
     },
 
     toggleAssetType(assetType) {
@@ -940,9 +975,6 @@ export default {
         if (this.setAssetType.length == 0) {
           this.setAssetType = JSON.stringify({ assetType: 53 });
         }
-        // this.setAssetType.length === 0
-        //   ? (this.setAssetType2 = JSON.stringify({ assetType: 53 }))
-        //   : (this.setAssetType2 = JSON.parse(this.setAssetType));
 
         this.myloadingvariable = true;
         let selectedBranch = JSON.parse(this.appendBranch);
@@ -953,52 +985,43 @@ export default {
         console.log("itemsPerPage", this.itemsPerPage);
         //ถ้าไม่ใส่คำค้น
         if (this.textSearch.length == 0) {
-          // if (this.itemsPerPage > 0) {
-          //   params = {
-          //     page: 0,
-          //     size: this.itemsPerPage,
-          //     region: selectedBranch.branch,
-          //     setAssetType: setAssetType2.assetType,
-          //   };
-          //   // console.log("Pattern2 ", params);
-          //   axios
-          //     .get("http://localhost:8080/api/dev/getAllByPattern2", { params })
-          //     .then((resp) => {
-          //       this.getAllResult = resp.data;
-          //       console.log(
-          //         "getAllByPattern2",
-          //         JSON.stringify(this.getAllResult),
-          //         " resp.data.itemsPerPage ",
-          //         resp.data.itemsPerPage
-          //       );
-
-          //       this.data1 = resp.data.data1;
-          //       this.itemsPerPage = resp.data.itemsPerPage;
-          //       this.totalItems = resp.data.totalItems;
-          //       this.myloadingvariable = false;
-          //     })
-          //     .catch((error) => {
-          //       console.log(error.resp);
-          //     });
-          // }
-          // else if (this.itemsPerPage == -1) {
           params = {
             region: selectedBranch.branch,
             setAssetType: setAssetType2.assetType,
           };
           console.log("searchNoWordUnpage-", params);
           axios
-            .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
+            // .get("http://localhost:8080/api/dev/searchNoWordUnpage", {
+            .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchNoWordUnpage`, {
               params,
             })
             .then((resp) => {
               this.getAllResult = resp.data;
               console.log(
                 "searchNoWordUnpage-" + params["region"],
-                JSON.stringify(this.getAllResult)
+                // JSON.stringify(this.getAllResult)
+                this.getAllResult
               );
 
-              this.data1 = resp.data.dataExcel;
+              // this.data1 = resp.data.dataExcel;
+              this.data1 = Array.isArray(resp.data.dataExcel)
+                ? resp.data.dataExcel
+                : [];
+              this.data1 = this.data1.map((item) => ({
+                id: item[0],
+                devDescription: item[1],
+                devPeaNo: item[2],
+                devSerialNo: item[3],
+                empId: item[4],
+                devReceivedDate: item[5], // Convert Thai date format
+                devReceivedPrice: item[6],
+                devLeftPrice: item[7],
+                ccLongCode: item[8],
+                ccFullName: item[9],
+                ccShortName: item[10],
+                empName: item[11],
+                empRank: item[12],
+              }));
               // this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
               this.myloadingvariable = false;
@@ -1020,13 +1043,39 @@ export default {
           console.log("searchFunction ", params);
 
           axios
-            .get("http://localhost:8080/api/dev/searchWithWord", { params })
+            // .get("http://localhost:8080/api/dev/searchWithWord", { params })
+            .get(`${process.env.VUE_APP_BASE_URL}/api/dev/searchWithWord`, {
+              params,
+            })
             .then((resp) => {
               this.getAllResult = resp.data;
-              console.log("searchWithWord", JSON.stringify(this.getAllResult));
+              console.log(
+                "searchWithWord-AllResult ",
+                // JSON.stringify(this.getAllResult)
+                this.getAllResult
+              );
 
-              this.data1 = resp.data.data1;
-              this.itemsPerPage = resp.data.itemsPerPage;
+              // this.data1 = resp.data.data1;
+              this.data1 = Array.isArray(resp.data.data1)
+                ? resp.data.data1
+                : [];
+              this.data1 = this.data1.map((item) => ({
+                id: item[0],
+                devDescription: item[1],
+                devPeaNo: item[2],
+                devSerialNo: item[3],
+                empId: item[4],
+                devReceivedDate: item[5], // Convert Thai date format
+                devReceivedPrice: item[6],
+                devLeftPrice: item[7],
+                ccLongCode: item[8],
+                ccFullName: item[9],
+                ccShortName: item[10],
+                empName: item[11],
+                empRank: item[12],
+              }));
+              // console.log("searchWithWord-AllResult ", this.data1);
+              // this.itemsPerPage = resp.data.itemsPerPage;
               this.totalItems = resp.data.totalItems;
               this.myloadingvariable = false;
             })
@@ -1045,39 +1094,6 @@ export default {
           // console.log("hide alert after 3 seconds");
         }, 3000);
       } else {
-        // if (this.setAssetType.length == 0) {
-        //   this.setAssetType = JSON.stringify({ assetType: 53 });
-        // }
-        // this.myloadingvariable = true;
-        // let selectedBranch = JSON.parse(this.appendBranch);
-        // let setAssetType = JSON.parse(this.setAssetType);
-        // // console.log("setAssetType ",this.setAssetType);
-        // let params = [];
-        // params = {
-        //   region: selectedBranch.branch,
-        //   setAssetType: setAssetType.assetType,
-        // };
-        // let response = await axios
-        //   .get("http://localhost:8080/api/dev/getAllByPattern2unpage", {
-        //     params,
-        //   })
-        //   .then((resp) => {
-        //     this.getAllResult = resp.data;
-        //     console.log(
-        //       "getAllByPattern2unpage",
-        //       JSON.stringify(this.getAllResult)
-        //     );
-
-        //     this.dataExcel = resp.data.dataExcel;
-        //     this.itemsPerPage = resp.data.itemsPerPage;
-        //     this.totalItems = resp.data.totalItems;
-        //     this.myloadingvariable = false;
-        //     return this.dataExcel;
-        //   })
-        //   .catch((error) => {
-        //     console.log(error.resp);
-        //   });
-
         this.dataExcel = this.data1;
         this.myloadingvariable = false;
         console.log("dataExcel : ", this.dataExcel);
@@ -1095,27 +1111,107 @@ export default {
     editItem(item) {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      console.log(this.editedItem);
+      console.log("editedItem-qr ", this.editedItem);
       (this.qrcode_value =
         // JSON.parse([
         JSON.stringify({
           pea_no: this.editedItem["devPeaNo"],
           description: this.editedItem["devDescription"],
           serial: this.editedItem["devSerialNo"],
-          user_id: this.editedItem["tbEmployee"]["empId"],
-          user_name: this.editedItem["tbEmployee"]["empName"],
+          user_id: this.editedItem["empId"],
+          user_name: this.editedItem["empName"],
           received_date: this.editedItem["devReceivedDate"],
           price_recieve: this.editedItem["devReceivedPrice"],
           price_left: this.editedItem["devLeftPrice"],
-          cc_short_name: this.editedItem["tbCostCenterTest"]["ccShortName"],
-          cost_center: this.editedItem["tbCostCenterTest"]["ccLongCode"],
+          cc_short_name: this.editedItem["ccShortName"],
+          cost_center: this.editedItem["ccLongCode"],
+          empRank: this.editedItem["empRank"],
         })),
         (this.dialog = true);
+    },
+
+    getInspectorList() {
+      this.myloadingvariable = true;
+      axios
+        .get(`${process.env.VUE_APP_BASE_URL}/emp/getInspectorList`)
+        .then((resp) => {
+          this.getAllResult = resp.data;
+          console.log("inspectorList ", this.getAllResult);
+
+          this.inspectorList = Array.isArray(resp.data.data)
+            ? resp.data.data
+            : [];
+          console.log("inspectorList ", this.inspectorList);
+
+          this.inspectorList = this.inspectorList
+            .filter((item) => item[2] !== "หผ.")
+            .map((item) => ({
+              id: item[0],
+              label: item[1],
+              role: item[2],
+              depId: item[3],
+              depName: item[4],
+              icon: "mdi-account",
+            }));
+
+          this.depHeadList = Array.isArray(resp.data.data)
+            ? resp.data.data
+            : [];
+          console.log("depHeadList ", this.depHeadList);
+
+          this.depHeadList = this.depHeadList
+            .filter((item) => item[2] == "หผ.")
+            .map((item) => ({
+              id: item[0],
+              label: item[1],
+              role: item[2],
+              depId: item[3],
+              depName: item[4],
+              icon: "mdi-account",
+            }));
+
+          this.totalItems = resp.data.totalItems;
+          this.myloadingvariable = false;
+        })
+        .catch((error) => {
+          console.log(error.resp);
+        });
     },
 
     showFixForm(item) {
       this.editedIndex = this.data1.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      // console.log("editedItem in dialogFixForm ", this.editedItem);
+      this.editedItem.date = dateService.formatDateToThai(new Date())
+      this.editedItem.type_other = "-";
+      this.editedItem.brand = "-";
+      this.editedItem.contract = "-";
+
+      // this.formData = this.editedItem;
+
+      this.formData = {
+        ccShortName: item.ccShortName || "-",
+        date: this.editedItem.date,
+        type_other: "-",
+        brand: "-",
+        devDescription: item.devDescription || "-",
+        contract: "-",
+        devSerialNo: item.devSerialNo || "-",
+        devPeaNo: item.devPeaNo || "-",
+        empName: item.empName || "-",
+        empRank: item.empRank || "-",
+        empId: item.empId || "-",
+        tel: item.tel || "-",
+        inspector_name: "",
+        inspector_role: "",
+        inspector_date: "-",
+        dep_head_name: "",
+        dep_head_role: "",
+        dep_head_date: "-",
+        inspect_dep_name:"",
+      };
+
+      console.log("formData dialogFixForm ", this.formData);
       this.dialogFixForm = true;
     },
 
@@ -1129,7 +1225,8 @@ export default {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:8080/api/proxy-pdf-producer",
+        // url: "http://localhost:8080/api/proxy-pdf-producer",
+        url: `${process.env.VUE_APP_BASE_URL}/api/proxy-pdf-producer`,
         headers: {
           Accept: "application/pdf",
           "Content-Type": "application/json",
@@ -1145,37 +1242,6 @@ export default {
         .catch((error) => {
           console.error("Error occurred while generating PDF:", error);
         });
-
-      // axios
-      //   .post("http://localhost:8080/api/dev/redirectPdfProducer", data, {
-      //     responseType: "blob", // Important
-      //   })
-      //   .then((response) => {
-      //     const blob = new Blob([response.data], { type: "application/pdf" });
-      //     const link = document.createElement("a");
-      //     link.href = window.URL.createObjectURL(blob);
-      //     link.download = "generated.pdf";
-      //     link.click();
-      //   })
-      //   .catch((error) => {
-      //     console.error("There was an error redirecting!", error);
-      //   });
-
-      // axios
-      //   .get("http://localhost:8080/api/dev/redirectgoogle")
-      //   .then((response) => {
-      //     // Assuming the API returns an object with a key 'redirectUrl'
-      //     const redirectUrl = response.data.redirectUrl;
-      //     if (redirectUrl) {
-      //       // Redirect the browser to the URL
-      //       window.location.href = redirectUrl;
-      //     } else {
-      //       console.error("Redirect URL not found in the response.");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error("There was an error with the test request!", error);
-      //   });
     },
 
     sendpostmanecho() {
@@ -1185,7 +1251,8 @@ export default {
       };
 
       axios
-        .post("http://localhost:8080/api/postmanecho", data, {
+        // .post("http://localhost:8080/api/postmanecho", data, {
+        .post(`${process.env.VUE_APP_BASE_URL}/api/postmanecho`, data, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -1211,6 +1278,11 @@ export default {
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
+        this.selectedInspector = null;
+        this.selectedDepHead = null;
+        this.showErrorProblem = false;
+        this.showErrorInspector = null;
+        this.showErrorDepHead = null;
       });
     },
 
@@ -1229,9 +1301,7 @@ export default {
       this.detail_value = [];
       this.groupSelected = e;
       console.log(this.groupSelected.length);
-      // this.qrcode_value2 = JSON.stringify(this.groupSelected);
-      // user_id: this.editedItem["tbEmployee"]["empId"],
-      // user_name: this.editedItem["tbEmployee"]["empName"],
+
       let i = 0;
       this.result = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
       this.result2 = this.groupSelected.map(({ devPeaNo }) => ({ devPeaNo }));
@@ -1242,13 +1312,9 @@ export default {
         if (this.groupSelected[i].tbEmployee !== null) {
           this.result[i].empId = this.groupSelected[i].tbEmployee.empId;
           this.result[i].empName = this.groupSelected[i].tbEmployee.empName;
-          // this.result2[i].empId = this.groupSelected[i].tbEmployee.empId;
-          // this.result2[i].empName = this.groupSelected[i].tbEmployee.empName;
         } else {
           this.result[i].empId = "ไม่ระบุ";
           this.result[i].empName = "ไม่ระบุ";
-          // this.result2[i].empId = "ไม่ระบุ";
-          // this.result2[i].empName = "ไม่ระบุ";
         }
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
         // result[i].empId = this.groupSelected[i].tbEmployee.empId;
@@ -1264,12 +1330,12 @@ export default {
         this.result[i].devLeftPrice = this.groupSelected[i].devLeftPrice;
 
         this.result[i].ccLongCode =
-          this.groupSelected[i].tbCostCenterTest.ccLongCode;
+          this.groupSelected[i].tbCostCenter.ccLongCode;
 
         this.result[i].ccShortName =
-          this.groupSelected[i].tbCostCenterTest.ccShortName;
+          this.groupSelected[i].tbCostCenter.ccShortName;
         this.result2[i].ccShortName =
-          this.groupSelected[i].tbCostCenterTest.ccShortName;
+          this.groupSelected[i].tbCostCenter.ccShortName;
 
         this.result[i].devDescription = this.groupSelected[i].devDescription;
       }
@@ -1289,17 +1355,7 @@ export default {
       }
     },
 
-    // genQR_Code() {},
-
     generateReport() {
-      // var opt = {
-      //   margin:       [30, 0, 30, 0], //top, left, buttom, right
-      //   // filename:    name + '.pdf',
-      //   // image:        { type: 'jpeg', quality: 0.98 },
-      //   // html2canvas:  { dpi: 192, scale: 2, letterRendering: true},
-      //   // jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait'},
-      //   // pageBreak: { mode: 'css', after:'.break-page'}
-      //   };
       if (this.groupSelected.length == 0) {
         this.alert2 = true;
         window.setInterval(() => {
@@ -1312,37 +1368,41 @@ export default {
     },
 
     genFixFormReport() {
-     console.log("this.editedItem",this.editedItem);
-      if (this.editedItem == null) {
+      this.showErrorProblem = false,
+      this.showErrorInspector = false,
+      this.showErrorDepHead = false,
+      console.log("genFixFormReport", this.formData);
+      console.log("formData.inspector_name", this.formData.inspector_name);
+      if (this.formData == null) {
         this.alert = true;
         window.setInterval(() => {
           this.alert = false;
-          // console.log("hide alert after 3 seconds");
         }, 3000);
-      } else {
-        // Make a POST request to the Spring Boot endpoint
+      } else if (this.formData.problem == "" || this.formData.problem == undefined) {
+        this.showErrorProblem = true;
+      } else if (this.formData.inspector_name == "" || this.formData.inspector_name == undefined) {
+        this.showErrorInspector = true;
+      }else if (this.formData.dep_head_name == "" || this.formData.dep_head_name == undefined) {
+        this.showErrorDepHead = true;
+      }else {
         axios
-          .post("http://localhost:8080/api/dev/redirectPdfProducer", this.editedItem, {
-            responseType: "blob", // Important: To handle the response as a binary blob (PDF)
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/pdf",
-            },
-          })
+          .post(
+            // "http://localhost:8080/api/dev/redirectPdfProducer",
+            `${process.env.VUE_APP_BASE_URL}/api/dev/redirectPdfProducer`,
+            this.formData,
+            {
+              responseType: "blob",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/pdf",
+              },
+            }
+          )
           .then((response) => {
-            // Create a blob from the response
-            const fileBlob = new Blob([response.data], {
-              type: "application/pdf",
-            });
-            const fileURL = URL.createObjectURL(fileBlob);
-
-            // Create a temporary anchor element to download the PDF
-            const link = document.createElement("a");
-            link.href = fileURL;
-            link.setAttribute("download", "generated.pdf"); // Filename for the download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const blob = new Blob([response.data], { type: "application/pdf" });
+            const url = URL.createObjectURL(blob);
+            window.open(url, "_blank");
+            this.closeFixForm();
           })
           .catch((error) => {
             console.error("Error generating PDF:", error);
@@ -1353,7 +1413,9 @@ export default {
           });
       }
     },
+
   },
+
   computed: {
     likesAllFruit() {
       return this.selectedFruits.length === this.fruits.length;
